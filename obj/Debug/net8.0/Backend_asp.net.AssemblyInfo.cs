@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DockerProjectBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5d9ab6672a9b1022bef35c42f5c8e0061bb6bcce")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+88195fb7c16f217b9c53e8d67882745429ec35af")]
 [assembly: System.Reflection.AssemblyProductAttribute("DockerProjectBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DockerProjectBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
