@@ -1,1 +1,48 @@
+﻿#  Папки сборки
+bin/
+obj/
+out/
+
+#  Visual Studio
 .vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+#  Rider / JetBrains
+.idea/
+*.sln.iml
+
+#  Кэш и временные файлы
+*.log
+*.tlog
+*.cache
+*.pdb
+*.dbmdl
+*.bak
+*.tmp
+
+#  Конфигурации и локальные настройки
+*.launchSettings.json
+*.vscode/
+*.env
+
+#  Git
+*.orig
+*.rej
+
+#  OS-специфичные файлы
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+#  Node.js (если есть фронтенд)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+#  Docker (если используешь)
+**/docker-compose.override.yml
+**/docker-compose.*.yml

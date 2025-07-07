@@ -1,7 +1,15 @@
+using Backend_asp.net.DataBase;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// получение строки подключения для Bd;
+var connectionstring = builder.Configuration.GetConnectionString("Defaultconnection");
+// регистрирую DbContext в DB;
+builder.Services.AddDbContext<AplicationContext>(options=>options.UseSqlServer(connectionstring));
+
 
 // Add services to the container.
 // Расширить более директорию для того чоб можно было искать приедставления в других папках;
