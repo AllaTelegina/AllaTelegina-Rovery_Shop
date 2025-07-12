@@ -15,8 +15,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        //return PhysicalFile(Path.Combine(Directory.GetCurrentDirectory(),"dist/index.html"), "text/html");
-        return View("index");
+        return View();
     }
 
     public IActionResult Privacy()
