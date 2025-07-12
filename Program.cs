@@ -15,7 +15,6 @@ builder.Services.AddDbContext<AplicationContext>(options=>options.UseSqlServer(c
 // Расширить более директорию для того чоб можно было искать приедставления в других папках;
 builder.Services.AddControllersWithViews().AddRazorOptions(option =>
 {
-    option.ViewLocationFormats.Clear();
     option.ViewLocationFormats.Add("/dist/{0}.cshtml");
 });
 
