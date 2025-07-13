@@ -15,7 +15,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        return View("forgot_password");
     }
 
     public IActionResult Privacy()
