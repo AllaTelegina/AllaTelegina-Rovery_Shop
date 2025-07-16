@@ -1,15 +1,25 @@
 using Backend_asp.net.DataBase;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // получение строки подключени€ дл€ Bd;
 var connectionstring = builder.Configuration.GetConnectionString("Defaultconnection");
 // регистрирую DbContext в DB;
 builder.Services.AddDbContext<AplicationContext>(options=>options.UseSqlServer(connectionstring));
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).
+    AddCookie(opt =>
+    {
+        opt.ExpireTimeSpan = TimeSpan.FromMinutes(60);      // врем€ через которое будут удалены cookies с зимней рыбалки;
+        opt.Cookie.HttpOnly = true;                         // Kookies доступны только дл€ сервера;
+        opt.Cookie.SecurePolicy=CookieSecurePolicy.Always;  // Kookies передаютс€ только по протоколу https;
+    });
+builder.Services.AddAuthorization();
 
 // Add services to the container.
 // –асширить более директорию дл€ того чоб можно было искать приедставлени€ в других папках;
@@ -20,6 +30,9 @@ builder.Services.AddControllersWithViews().AddRazorOptions(option =>
 
 var app = builder.Build();
 app.MapControllers(); // –азрешает использовать API-контроллеры;
+app.UseAuthentication(); // ƒл€ аутентификации;
+app.UseAuthorization();  // ƒл€ авторизации;
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -29,20 +42,19 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-//app.UseStaticFiles();
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "assets","images")),
-    RequestPath = "/assets/images"
-}) ;
+    app.UseHttpsRedirection();
+    //app.UseStaticFiles();
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "assets", "images")),
+        RequestPath = "/assets/images"
+    });
 
-app.UseRouting();
+    app.UseRouting();
 
-app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    app.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
+    app.Run();

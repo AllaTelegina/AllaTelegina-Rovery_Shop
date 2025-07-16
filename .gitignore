@@ -46,3 +46,4 @@ yarn-error.log
 #  Docker (если используешь)
 **/docker-compose.override.yml
 **/docker-compose.*.yml
+Dockerfile
