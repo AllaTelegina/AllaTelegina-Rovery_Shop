@@ -1,0 +1,40 @@
+root = true
+
+# Общие правила
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# C# файлы (.cs)
+[*.cs]
+indent_style = space
+indent_size = 4
+dotnet_sort_system_directives_first = true
+csharp_new_line_before_open_brace = all
+csharp_preserve_single_line_statements = false
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+
+# Razor страницы
+[*.cshtml]
+indent_style = space
+indent_size = 4
+
+# HTML файлы
+[*.html]
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+
+# JavaScript и Alpine.js
+[*.js]
+indent_style = space
+indent_size = 2
+
+# JSON файлы
+[*.json]
+indent_style = space
+indent_size = 2
+
