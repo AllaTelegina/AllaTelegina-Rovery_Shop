@@ -6,23 +6,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Backend_asp.net.Migrations
 {
     /// <inheritdoc />
-    public partial class AddUserRoveryDateCreate : Migration
+    public partial class AddTokenExpiryrepeat : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<DateTime>(
-                name: "TimeCreateUserRovery",
+                name: "TokenExpiry",
                 table: "userRoverys",
                 type: "datetime2",
-                nullable: true);
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "TimeCreateUserRovery",
+                name: "TokenExpiry",
                 table: "userRoverys");
         }
     }

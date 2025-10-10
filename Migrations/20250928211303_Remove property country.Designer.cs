@@ -4,6 +4,7 @@ using Backend_asp.net.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend_asp.net.Migrations
 {
     [DbContext(typeof(AplicationContext))]
-    partial class AplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20250928211303_Remove property country")]
+    partial class Removepropertycountry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,9 +34,6 @@ namespace Backend_asp.net.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Bilding")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DateOfBirth")
@@ -76,9 +76,6 @@ namespace Backend_asp.net.Migrations
 
                     b.Property<string>("Token")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("TokenExpiry")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

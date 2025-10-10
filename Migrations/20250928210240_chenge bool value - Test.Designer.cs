@@ -4,6 +4,7 @@ using Backend_asp.net.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend_asp.net.Migrations
 {
     [DbContext(typeof(AplicationContext))]
-    partial class AplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20250928210240_chenge bool value - Test")]
+    partial class chengeboolvalueTest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,10 +43,9 @@ namespace Backend_asp.net.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAdmin")
+                    b.Property<bool?>("IsAdmin")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("IsConfirm")
@@ -56,7 +58,6 @@ namespace Backend_asp.net.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumer")
@@ -76,9 +77,6 @@ namespace Backend_asp.net.Migrations
 
                     b.Property<string>("Token")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("TokenExpiry")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

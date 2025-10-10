@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend_asp.net.Migrations
 {
     [DbContext(typeof(AplicationContext))]
-    [Migration("20250824152235_AddUserRoveryDateCreate")]
-    partial class AddUserRoveryDateCreate
+    [Migration("20250928212012_Add Country in User Database")]
+    partial class AddCountryinUserDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,9 +43,13 @@ namespace Backend_asp.net.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsAdmin")
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsConfirm")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
@@ -55,6 +59,7 @@ namespace Backend_asp.net.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumer")
@@ -71,6 +76,9 @@ namespace Backend_asp.net.Migrations
 
                     b.Property<DateTime?>("TimeCreateUserRovery")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

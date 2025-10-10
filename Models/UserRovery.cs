@@ -5,11 +5,11 @@ namespace Backend_asp.net.Models
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? LastName {  get; set; }
-        public string? Email { get; set; }
+        public string Email { get; set; }
         public string? PhoneNumer { get; set; }  // номер телефона;
         public DateTime? DateOfBirth {  get; set; }
-        public string? Password { get; set; }
-        public bool? IsAdmin { get; private set; } = false;
+        public string Password { get; set; }
+        public bool IsAdmin { get; private set; } = false;
 
         // Дополнительные парамеетры для заказа;
         public string? Country { get; set; }
@@ -19,7 +19,15 @@ namespace Backend_asp.net.Models
         public string? Bilding { get; set; }
         public DateTime? TimeCreateUserRovery {  get; set; }
 
-        public UserRovery() { }
+        // Параметры для подтверждения email пользователя;
+        public string? Token { get; set; }
+        public bool? IsConfirm { get; set; }=false;
+        public DateTime? TokenExpiry { get; set; }
+
+        public UserRovery()
+        {
+            Password = "default";
+        }
         public UserRovery(int id, string name, string email, string password)
         {
             Id = id;
