@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Backend_asp.net.Migrations
 {
     /// <inheritdoc />
-    public partial class Users1 : Migration
+    public partial class CreateUserDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,7 +28,10 @@ namespace Backend_asp.net.Migrations
                     PostCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Sity = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Bilding = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Bilding = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TimeCreateUserRovery = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsConfirm = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {

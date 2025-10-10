@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend_asp.net.Migrations
 {
     [DbContext(typeof(AplicationContext))]
-    [Migration("20250824130806_Users1")]
-    partial class Users1
+    [Migration("20250928205351_Create User Database")]
+    partial class CreateUserDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,6 +48,9 @@ namespace Backend_asp.net.Migrations
                     b.Property<bool?>("IsAdmin")
                         .HasColumnType("bit");
 
+                    b.Property<bool?>("IsConfirm")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -69,8 +72,11 @@ namespace Backend_asp.net.Migrations
                     b.Property<string>("Street")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("TimeCreateUserRovery")
+                    b.Property<DateTime?>("TimeCreateUserRovery")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

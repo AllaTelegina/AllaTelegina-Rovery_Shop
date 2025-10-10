@@ -1,5 +1,7 @@
+using Azure.Core;
 using Backend_asp.net.DataBase;
 using Backend_asp.net.Models;
+using Backend_asp.net.SendMessage;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -149,9 +151,78 @@ namespace Backend_asp.net.Controllers
         }
 
         // Отправка письма на почту с временным поролем;
-        public async Task<ActionResult> SendMessagePost(String email)
+        [HttpPost]
+        public async Task<ActionResult> If_FogotPassword(UserRovery user)
         {
-            return View();
+            var temporaryEmail=await _context.userRoverys.FirstOrDefaultAsync(x=>x.Email==user.Email);
+            if (temporaryEmail == null)
+            {
+                ViewBag.Error = "Email is not exist";
+                return View("forgot_password");
+            }
+            //Добовляем в модель Token и время действие этого токена;
+            temporaryEmail.Token=Guid.NewGuid().ToString();
+            temporaryEmail.TokenExpiry=DateTime.Now.AddMinutes(10);
+            _context.SaveChanges();
+            var link = Url.Action("BackToken", "RegisterUser", new {token = temporaryEmail.Token }, Request.Scheme);
+            var body = $"Нажми сюда, для того чтоб сменить пороль: <a href='{link}'> смена пороля</a>";
+            var subject = "Chenge password Rovery Shop";
+            // Отправка письма на электронную почту
+            await EmailSendService.SendAsynk(temporaryEmail.Email, subject, body);
+            return View("index"); // можно сюда вставить страницу, где будет указано, что отправлено сообщение на почту и нужно подтвердить;
+        }
+
+        // Метод при котором будет проверяться Token, который возвратился обратно с письма;
+        [HttpGet]
+        public async Task<ActionResult> BackToken(string token)
+        {
+            var user=await _context.userRoverys.FirstOrDefaultAsync(x=>x.Token== token);
+            if (user.TokenExpiry == null || user.TokenExpiry <= DateTime.Now)
+            {
+                user.TokenExpiry = null;
+                return View("index");
+            }
+
+            // Создаю модель, которая будет передана в представление "new_password";
+            var sendUser = new UserRovery()
+            {
+                Id=user.Id,
+                Email=user.Email,
+                Token=user.Token
+            };
+            return View("new_password", sendUser);
+        }
+
+        // Метод для замены пороля;
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChengePassword(UserRovery user)
+        {
+            if (user == null)
+            {
+                return View("index");
+            }
+            // хэшер для пороля;
+            var forgotpasswordhashee = new PasswordHasher<UserRovery>();
+            var userDB = await _context.userRoverys.FirstOrDefaultAsync(x => x.Id == user.Id);
+            var pas = forgotpasswordhashee.HashPassword(user, user.Password);
+            userDB.Password = pas;
+            _context.SaveChanges();
+
+            //Cookies которые живут, только один сеанс;
+            Response.Cookies.Append("name", userDB.Name, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Lax
+            });
+            Response.Cookies.Append("gmailcookie", userDB.Email, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Lax
+            });
+            return Redirect("Index");
         }
 
     }
