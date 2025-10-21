@@ -84,7 +84,7 @@ namespace Backend_asp.net.Controllers
         // Метод для проверки пользователя при входе;
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EntranceForUser(DotnetModel model, bool RememberMe = false)
+        public async Task <ActionResult> EntranceForUser(DotnetModel model, bool RememberMe = false)
         {
             var hashpassword = new PasswordHasher<UserRovery>();
             var imail = model.UserRovery.Email;
@@ -93,53 +93,61 @@ namespace Backend_asp.net.Controllers
                 return View("ErrorViewModel");
 
             // Цыкл проверки, пока пользователь введет правильные данные;
-            var userDB= _context.userRoverys.FirstOrDefault(x=> x.Email == imail);
-            var gethashpass = hashpassword.VerifyHashedPassword(userDB, userDB.Password, password);
-            if (gethashpass == PasswordVerificationResult.Failed)    // тут ошибка, которую нужно завтра отредактировать;
+            var userDB= await _context.userRoverys.FirstOrDefaultAsync(x=> x.Email == imail);
+            if (userDB.Password != null && userDB.Password!= "default")
             {
-                ViewBag.ValidPassword = "Nieprawidłowy login lub hasło!";
-                return View("index");
-            }
-            // Если нажата кнопка запомнить
-            if (RememberMe)
-            {
-                if (gethashpass == PasswordVerificationResult.Success)
+                var gethashpass = hashpassword.VerifyHashedPassword(userDB, userDB.Password, password);
+                if (gethashpass == PasswordVerificationResult.Failed)    // тут ошибка, которую нужно завтра отредактировать;
                 {
-                    Response.Cookies.Append("name", userDB.Name ?? "", new CookieOptions
+                    ViewBag.ValidPassword = "Nieprawidłowy login lub hasło!";
+                    return View("index");
+                }
+                // Если нажата кнопка запомнить
+                if (RememberMe)
+                {
+                    if (gethashpass == PasswordVerificationResult.Success)
                     {
-                        HttpOnly = true,
-                        Secure = true,
-                        SameSite = SameSiteMode.Lax,
-                        Expires = DateTime.Now.AddDays(7)
-                    });
-                    Response.Cookies.Append("gmailcookie", userDB.Email ?? "", new CookieOptions
+                        Response.Cookies.Append("name", userDB.Name ?? "", new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Lax,
+                            Expires = DateTime.Now.AddDays(7)
+                        });
+                        Response.Cookies.Append("gmailcookie", userDB.Email ?? "", new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Lax,
+                            Expires = DateTime.Now.AddDays(7)
+                        });
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    if (gethashpass == PasswordVerificationResult.Success)
                     {
-                        HttpOnly = true,
-                        Secure = true,
-                        SameSite = SameSiteMode.Lax,
-                        Expires = DateTime.Now.AddDays(7)
-                    });
-                    return RedirectToAction("Index");
+                        Response.Cookies.Append("name", userDB.Name ?? "", new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Lax,
+                        });
+                        Response.Cookies.Append("gmailcookie", userDB.Email ?? "", new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Lax,
+                        });
+                        return RedirectToAction("Index");
+                    }
                 }
             }
             else
             {
-                if (gethashpass == PasswordVerificationResult.Success)
-                {
-                    Response.Cookies.Append("name", userDB.Name ?? "", new CookieOptions
-                    {
-                        HttpOnly = true,
-                        Secure = true,
-                        SameSite = SameSiteMode.Lax,
-                    });
-                    Response.Cookies.Append("gmailcookie", userDB.Email ?? "", new CookieOptions
-                    {
-                        HttpOnly = true,
-                        Secure = true,
-                        SameSite = SameSiteMode.Lax,
-                    });
-                    return RedirectToAction("Index");
-                }
+                ViewBag.ValidPassword = "Nieprawidłowy login lub hasło!";
+                return View("index");
             }
             return RedirectToAction("Index");
         }
