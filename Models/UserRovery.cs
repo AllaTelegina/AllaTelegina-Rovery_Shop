@@ -8,7 +8,7 @@ namespace Backend_asp.net.Models
         public string Email { get; set; }
         public string? PhoneNumer { get; set; }  // номер телефона;
         public DateTime? DateOfBirth {  get; set; }
-        public string Password { get; set; }
+        public string? Password { get; set; }
         public bool IsAdmin { get; private set; } = false;
 
         // Дополнительные парамеетры для заказа;

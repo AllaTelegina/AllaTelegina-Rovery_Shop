@@ -1,5 +1,6 @@
 using Backend_asp.net.DataBase;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -10,13 +11,28 @@ var connectionstring = builder.Configuration.GetConnectionString("Defaultconnect
 // регистрирую DbContext в DB;
 builder.Services.AddDbContext<AplicationContext>(options=>options.UseSqlServer(connectionstring));
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).
+builder.Services.AddAuthentication(option =>
+{
+    option.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    option.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+}).
     AddCookie(opt =>
     {
         opt.ExpireTimeSpan = TimeSpan.FromMinutes(60);      // время через которое будут удалены cookies с зимней рыбалки;
         opt.Cookie.HttpOnly = true;                         // Kookies доступны только для сервера;
         opt.Cookie.SecurePolicy=CookieSecurePolicy.Always;  // Kookies передаются только по протоколу https;
+    }).AddGoogle(optiongoogle =>
+    {
+        optiongoogle.ClientId = "281783729719-4vnbl39en26sgc79mckpv8dt5fan8tqo.apps.googleusercontent.com";
+        optiongoogle.ClientSecret = "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";
+        optiongoogle.CallbackPath = "/signin-google";
+        optiongoogle.Events.OnRedirectToAuthorizationEndpoint = context =>
+        {
+            context.Response.Redirect(context.RedirectUri + "&prompt=consent");
+            return Task.CompletedTask;
+        };
     });
+
 builder.Services.AddAuthorization();
 builder.Services.AddRazorPages();   //Добовляем Razor в конвеер сервисов;
 
