@@ -4,6 +4,7 @@ using Backend_asp.net.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend_asp.net.Migrations
 {
     [DbContext(typeof(AplicationContext))]
-    partial class AplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20251023221032_Edit_Relationship_RoverMech")]
+    partial class Edit_Relationship_RoverMech
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +36,6 @@ namespace Backend_asp.net.Migrations
                     b.Property<string>("BrandRoverMech")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateRoverMechTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("ModelRoverMech")
                         .HasColumnType("nvarchar(max)");
 
@@ -49,12 +49,20 @@ namespace Backend_asp.net.Migrations
                     b.Property<string>("RoverGender")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ShoppingCartId")
+                    b.Property<DateTime>("RoverMechTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ShoppingCartId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserRoveryId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ShoppingCartId");
+
+                    b.HasIndex("UserRoveryId");
 
                     b.ToTable("roverMechs");
                 });
@@ -147,19 +155,23 @@ namespace Backend_asp.net.Migrations
 
             modelBuilder.Entity("Backend_asp.net.Models.RoverMech", b =>
                 {
-                    b.HasOne("Backend_asp.net.Models.ShoppingCart", "ShoppingCart")
+                    b.HasOne("Backend_asp.net.Models.ShoppingCart", null)
                         .WithMany("RoverMeches")
-                        .HasForeignKey("ShoppingCartId")
+                        .HasForeignKey("ShoppingCartId");
+
+                    b.HasOne("Backend_asp.net.Models.UserRovery", "UserRovery")
+                        .WithMany("Mech")
+                        .HasForeignKey("UserRoveryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ShoppingCart");
+                    b.Navigation("UserRovery");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.ShoppingCart", b =>
                 {
                     b.HasOne("Backend_asp.net.Models.UserRovery", "UserRovery")
-                        .WithMany("ShoppingCart")
+                        .WithMany("ShoppingCarts")
                         .HasForeignKey("UserRoveryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -174,7 +186,9 @@ namespace Backend_asp.net.Migrations
 
             modelBuilder.Entity("Backend_asp.net.Models.UserRovery", b =>
                 {
-                    b.Navigation("ShoppingCart");
+                    b.Navigation("Mech");
+
+                    b.Navigation("ShoppingCarts");
                 });
 #pragma warning restore 612, 618
         }

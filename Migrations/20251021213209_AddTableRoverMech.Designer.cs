@@ -4,6 +4,7 @@ using Backend_asp.net.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend_asp.net.Migrations
 {
     [DbContext(typeof(AplicationContext))]
-    partial class AplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20251021213209_AddTableRoverMech")]
+    partial class AddTableRoverMech
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +36,6 @@ namespace Backend_asp.net.Migrations
                     b.Property<string>("BrandRoverMech")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateRoverMechTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("ModelRoverMech")
                         .HasColumnType("nvarchar(max)");
 
@@ -49,29 +49,8 @@ namespace Backend_asp.net.Migrations
                     b.Property<string>("RoverGender")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ShoppingCartId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ShoppingCartId");
-
-                    b.ToTable("roverMechs");
-                });
-
-            modelBuilder.Entity("Backend_asp.net.Models.ShoppingCart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime>("RoverMechTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<int>("UserRoveryId")
                         .HasColumnType("int");
@@ -80,7 +59,7 @@ namespace Backend_asp.net.Migrations
 
                     b.HasIndex("UserRoveryId");
 
-                    b.ToTable("shoppingCarts");
+                    b.ToTable("roverMechs");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.UserRovery", b =>
@@ -147,19 +126,8 @@ namespace Backend_asp.net.Migrations
 
             modelBuilder.Entity("Backend_asp.net.Models.RoverMech", b =>
                 {
-                    b.HasOne("Backend_asp.net.Models.ShoppingCart", "ShoppingCart")
-                        .WithMany("RoverMeches")
-                        .HasForeignKey("ShoppingCartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ShoppingCart");
-                });
-
-            modelBuilder.Entity("Backend_asp.net.Models.ShoppingCart", b =>
-                {
                     b.HasOne("Backend_asp.net.Models.UserRovery", "UserRovery")
-                        .WithMany("ShoppingCart")
+                        .WithMany("Mech")
                         .HasForeignKey("UserRoveryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -167,14 +135,9 @@ namespace Backend_asp.net.Migrations
                     b.Navigation("UserRovery");
                 });
 
-            modelBuilder.Entity("Backend_asp.net.Models.ShoppingCart", b =>
-                {
-                    b.Navigation("RoverMeches");
-                });
-
             modelBuilder.Entity("Backend_asp.net.Models.UserRovery", b =>
                 {
-                    b.Navigation("ShoppingCart");
+                    b.Navigation("Mech");
                 });
 #pragma warning restore 612, 618
         }
