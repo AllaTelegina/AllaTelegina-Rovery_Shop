@@ -1,4 +1,5 @@
 using Backend_asp.net.Models;
+using Backend_asp.net.Models.DataBaseModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend_asp.net.DataBase
@@ -10,7 +11,12 @@ namespace Backend_asp.net.DataBase
         // создание в Db таблицу товаров механические велосипеды
         public DbSet<RoverMech> roverMechs { get; set; }
         // создание в Db таблицу карточку товаров
-        public DbSet<ShoppingCart> shoppingCarts { get; set; } 
+        public DbSet<ShoppingCart> shoppingCarts { get; set; }
+
+        // Добовление таблицы свойств для велосипедов и промежуточной таблицы;
+        public DbSet<PropertyBicycle> propertyBicecles { get; set; }
+        public DbSet<ResultPropertyBicycle> resultPropertyBicycles { get; set; }
+
         public  AplicationContext(DbContextOptions<AplicationContext> option) : base(option)
         {
         }
