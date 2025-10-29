@@ -1,3 +1,5 @@
+using Backend_asp.net.Models.DataBaseModel;
+
 namespace Backend_asp.net.Models
 {
     // Это класс механических велосипедов
@@ -14,5 +16,8 @@ namespace Backend_asp.net.Models
         // Связь с карточкой товара;
         public int ShoppingCartId { get; set; }
         public ShoppingCart ShoppingCart {  get; set; }
+
+        // Связь с свойствами велосипеда;
+        public ICollection <ResultPropertyBicycle>PropertyValues { get; set; }
     }
 }
