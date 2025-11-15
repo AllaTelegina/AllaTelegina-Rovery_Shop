@@ -9,8 +9,8 @@
 <!-- Модальное окно вход -->
 <title>index.cshtml</title>
 <div id="authentication-modal" tabindex="-1" aria-hidden="true" 
-    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 flex 
-        inset-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0  
+        inset-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"> <!--flex-->
     <div class="relative p-4 w-full max-w-md max-h-full">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
@@ -222,11 +222,12 @@
                     also known as placeholder text. It shares some characteristics of a real written text.
                 </p>
             </div>
-             <a href="#"
+             <!-- <a href="#"
                 class="inline-block border-2 border-red-600 text-red-600 hover:bg-teal-400 hover:border-teal-400 hover:text-white 
                 rounded-lg px-8 py-2 text-sm uppercase transition-colors">
                 More
             </a>
+            -->
         </div>
 
         <section class="bg-white">
@@ -516,6 +517,1158 @@
 
 
 <!-- Блог -->
+<section>
+      <div class="bg-white dark:bg-gray-800 py-6 sm:py-8 lg:py-12">
+            <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+                  <!-- Title Section -->
+
+                  <div class="mb-6 flex items-center justify-between gap-8 sm:mb-8 md:mb-12">
+                        <div class="flex items-center gap-12">
+                              <h2 class="text-2xl font-bold text-teal-800 lg:text-3xl dark:text-white">Bloga</h2>
+
+                              <p class="hidden max-w-screen-sm text-gray-500 dark:text-gray-300 md:block">
+                                    This is a section of some simple filler text,
+                                    also known as placeholder text. It shares some characteristics of a real written
+                                    text.
+                              </p>
+                        </div>
+
+                        <a href="/dist/blog.html"
+                           class="inline-block border-2 border-red-600 text-red-600 hover:bg-teal-400 hover:border-teal-400 hover:text-white
+                rounded-lg px-8 py-2 text-sm uppercase transition-colors">
+                              Więcej
+                        </a>
+                  </div>
+
+                  <!-- Content Section -->
+
+                  <div class="grid gap-x-8 gap-y-12 sm:gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+
+                        <div class="relative">
+                              <a href="#_" class="block overflow-hidden group rounded-xl shadow-lg">
+                                    <img src="/assets/images/cycling-hat-bottle-bench.jpg"
+                                         class="object-cover w-full h-56 transition-all duration-300 ease-out sm:h-64 group-hover:scale-110"
+                                         alt="Desert Adventure">
+                              </a>
+                              <div class="relative mt-5">
+                                    <p class="uppercase font-semibold text-xs mb-2.5 text-teal-700">October 5 2023</p>
+                                    <a href="#" class="block mb-3 hover:underline">
+                                          <h2 class="text-2xl font-bold leading-5 line-clamp-2 min-h-[2.5rem] text-black dark:text-white transition-colors duration-200 hover:text-red-700 dark:hover:text-purple-400">
+                                                Desert Safari
+                                          </h2>
+                                    </a>
+                                    <div x-data="{ expanded: false }" class="mt-4">
+                                          <p
+                                                :class="expanded ? '' : 'line-clamp-3'"
+                                                class="text-gray-700 text-md text-justify transition-all duration-300"
+                                          >
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                Sed sodales tincidunt nunc, sed aliquet turpis fermentum vitae.
+                                                Morbi id justo viverra, egestas magna nec, blandit nisi.
+                                                Aenean nec leo ac nisi pulvinar pretium.
+                                                Donec tincidunt, nunc a dignissim eleifend, ligula purus luctus magna,
+                                                nec lacinia turpis justo non augue. Pellentesque habitant morbi
+                                                tristique senectus...
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                Sed sodales tincidunt nunc, sed aliquet turpis fermentum vitae.
+                                                Morbi id justo viverra, egestas magna nec, blandit nisi.
+                                                Aenean nec leo ac nisi pulvinar pretium.
+                                                Donec tincidunt, nunc a dignissim eleifend, ligula purus luctus magna,
+                                                nec lacinia turpis justo non augue. Pellentesque habitant morbi
+                                                tristique senectus...
+                                          </p>
+
+                                          <div class="flex items-center justify-between flex-wrap gap-2">
+                                                <!-- Кнопка "Więcej / Ukrywać" -->
+                                                <button
+                                                      @@clic="expanded = !expanded"
+                                                      class="flex items-center mt-2 underline text-sm text-teal-700 hover:text-red-700 transition"
+                                                >
+                                                      <svg
+                                                            :class="expanded ? 'rotate-180' : ''"
+                                                            class="w-4 h-4 mr-1 transform transition-transform duration-300"
+                                                            fill="none" stroke="currentColor" stroke-width="2"
+                                                            viewBox="0 0 24 24"
+                                                      >
+                                                            <path d="M19 9l-7 7-7-7"/>
+                                                      </svg>
+                                                      <span x-text="expanded ? 'Ukrywać' : 'Więcej'"></span>
+                                                </button>
+
+                                                <!-- Блок с лайками, просмотрами и комментариями -->
+                                                <div class="flex items-center gap-6 text-sm text-gray-600 mt-2">
+                                                      <!-- Лайк -->
+                                                      <div x-data="{ liked: false }">
+                                                            <button @@click="liked = !liked"
+                                                                    class="flex items-center text-gray-600">
+                                                                  <svg
+                                                                        :class="liked ? 'text-red-700' : 'text-teal-700'"
+                                                                        class="w-3 h-3 fill-current transition-colors duration-200"
+                                                                        viewBox="0 0 20 20"
+                                                                  >
+                                                                        <path d="M11 0h1v3l3 7v8a2 2 0 0 1-2 2H5c-1.1 0-2.31-.84-2.7-1.88L0 12v-2a2 2 0 0 1 2-2h7V2a2 2 0 0 1 2-2zm6 10h3v10h-3V10z"/>
+                                                                  </svg>
+                                                                  <span class="ml-2">56</span>
+                                                            </button>
+                                                      </div>
+
+                                                      <!-- Просмотры -->
+                                                      <div class="flex items-center text-gray-400">
+                                                            <svg class="w-4 h-4 mr-1" stroke="currentColor"
+                                                                 stroke-width="2" fill="none"
+                                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                                 viewBox="0 0 24 24">
+                                                                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                                  <circle cx="12" cy="12" r="3"></circle>
+                                                            </svg>
+                                                            <span>1.2K</span>
+                                                      </div>
+
+                                                      <!-- Обёртка с Alpine -->
+                                                      <div x-data="{ showComments: false }">
+
+                                                            <!-- Кнопка "Комментарии" -->
+                                                            <div @@click="showComments = true"
+                                                                 class="cursor-pointer flex items-center text-teal-700 hover:text-red-700">
+                                                                  <svg class="w-4 h-4 mr-1" stroke="currentColor"
+                                                                       stroke-width="2" fill="none"
+                                                                       stroke-linecap="round" stroke-linejoin="round"
+                                                                       viewBox="0 0 24 24">
+                                                                        <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8
+               8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
+                                                                  </svg>
+                                                                  <span>6</span>
+                                                            </div>
+
+                                                            <!-- Модальное окно -->
+                                                            <div
+                                                                  x-show="showComments"
+                                                                  x-transition
+                                                                  @@click.away="showComments = false"
+                                                                  class="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center"
+                                                            >
+                                                                  <div class="bg-white rounded-lg border-2 border-teal-500 p-4 w-full max-w-xl relative">
+                                                                        <!-- Кнопка закрытия -->
+                                                                        <button @@click="showComments = false"
+                                                                                class="absolute top-2 right-2 text-gray-700 hover:text-red-700 text-xl font-bold">
+                                                                              &times;
+                                                                        </button>
+
+                                                                        <h3 class="font-os text-lg font-bold">
+                                                                              Comments</h3>
+
+                                                                        <!-- Комментарий 1 -->
+                                                                        <div class="flex mt-2">
+                                                                              <blockquote
+                                                                                    class="max-w-2xl mx-auto mb-4 text-gray-500 dark:text-gray-400">
+                                                                                    <div class="flex items-center gap-6">
+                                                                                          <figure class="flex flex-col items-start justify-start p-2 text-start
+     transition-transform duration-200  hover:shadow-sm
+      dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-teal-500
+      bg-white border border-gray-100 shadow-md aspect-auto rounded-lg shadow-gray-00/10">
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                                     fill="currentColor"
+                                                                                                     class="block w-5 h-5 text-teal-500 mb-4"
+                                                                                                     viewBox="0 0 975.036 975.036">
+                                                                                                      <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
+                                                                                                </svg>
+                                                                                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                                                                                      Roberta Casas</h3>
+                                                                                                <span class="mt-1 text-gray-500 text-sm">12 Jun 2025</span>
+
+                                                                                                <div x-data="{ expanded: false }"
+                                                                                                     class="mt-2">
+                                                                                                      <p
+                                                                                                            :class="expanded ? '' : 'line-clamp-2'"
+                                                                                                            class="text-gray-700 text-justify text-md transition-all duration-300"
+                                                                                                      >
+                                                                                                            Lorem ipsum
+                                                                                                            dolor sit
+                                                                                                            amet,
+                                                                                                            consectetur
+                                                                                                            adipiscing
+                                                                                                            elit.
+                                                                                                            Sed sodales
+                                                                                                            tincidunt
+                                                                                                            nunc, sed
+                                                                                                            aliquet
+                                                                                                            turpis
+                                                                                                            fermentum
+                                                                                                            vitae.
+                                                                                                            Morbi id
+                                                                                                            justo
+                                                                                                            viverra,
+                                                                                                            egestas
+                                                                                                            magna nec,
+                                                                                                            blandit
+                                                                                                            nisi.
+                                                                                                            Aenean nec
+                                                                                                            leo ac nisi
+                                                                                                            pulvinar
+                                                                                                            pretium.
+                                                                                                            Donec
+                                                                                                            tincidunt,
+                                                                                                            nunc a
+                                                                                                            dignissim
+                                                                                                            eleifend,
+                                                                                                            ligula purus
+                                                                                                            luctus
+                                                                                                            magna,
+                                                                                                            nec lacinia
+                                                                                                            turpis justo
+                                                                                                            non augue.
+                                                                                                            Pellentesque
+                                                                                                            habitant
+                                                                                                            morbi
+                                                                                                            tristique
+                                                                                                            senectus...
+                                                                                                      </p>
+                                                                                                      <div class="flex justify-end mt-1">
+                                                                                                            <button
+                                                                                                                  @@click="expanded = !expanded"
+                                                                                                                  class="flex items-center mt-2  text-sm text-teal-700 hover:text-red-700 transition"
+                                                                                                            >
+                                                                                                                  <span x-text="expanded ? 'Ukrywać' : 'Więcej'"></span>
+                                                                                                                  <svg
+                                                                                                                        :class="expanded ? 'rotate-180' : ''"
+                                                                                                                        class="w-4 h-4 mr-1 transform transition-transform duration-300"
+                                                                                                                        fill="none"
+                                                                                                                        stroke="currentColor"
+                                                                                                                        stroke-width="2"
+                                                                                                                        viewBox="0 0 24 24"
+                                                                                                                  >
+                                                                                                                        <path d="M19 9l-7 7-7-7"/>
+                                                                                                                  </svg>
+                                                                                                            </button>
+                                                                                                            <!-- Лайки -->
+                                                                                                            <div
+                                                                                                                  x-data="{ liked: false }"
+                                                                                                                  class="flex mt-2 text-sm text-gray-600 "
+                                                                                                            >
+                                                                                                                  <div class="flex items-center justify-center">
+                                                                                                                        <button
+                                                                                                                              @@click="liked = !liked"
+                                                                                                                              class="flex items-center ml-6 text-gray-600"
+                                                                                                                        >
+                                                                                                                              <svg
+                                                                                                                                    :class="liked ? 'text-red-700' : 'text-gray-600' "
+                                                                                                                                    class="w-4 h-4 fill-current transition-colors duration-200 hover:text-teal-400"
+                                                                                                                                    viewBox="0 0 20 20"
+                                                                                                                              >
+                                                                                                                                    <path d="M11 0h1v3l3 7v8a2 2 0 0 1-2 2H5c-1.1 0-2.31-.84-2.7-1.88L0 12v-2a2 2 0 0 1 2-2h7V2a2 2 0 0 1 2-2zm6 10h3v10h-3V10z"/>
+                                                                                                                              </svg>
+                                                                                                                              <span class="ml-2">56</span>
+                                                                                                                        </button>
+                                                                                                                  </div>
+                                                                                                            </div>
+                                                                                                      </div>
+                                                                                                </div>
+                                                                                          </figure>
+                                                                                    </div>
+                                                                              </blockquote>
+                                                                        </div>
+
+                                                                        <!-- Комментарий 2 -->
+                                                                        <div class="flex mt-2">
+                                                                              <blockquote
+                                                                                    class="max-w-2xl mx-auto mb-4 text-gray-500 dark:text-gray-400">
+                                                                                    <div class="flex items-center gap-6">
+                                                                                          <figure class="flex flex-col items-start justify-start p-2 text-start
+     transition-transform duration-200  hover:shadow-sm
+      dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-teal-500
+      bg-white border border-gray-100 shadow-md aspect-auto rounded-lg shadow-gray-00/10">
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                                     fill="currentColor"
+                                                                                                     class="block w-5 h-5 text-teal-500 mb-4"
+                                                                                                     viewBox="0 0 975.036 975.036">
+                                                                                                      <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
+                                                                                                </svg>
+                                                                                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                                                                                      Roberta Casas</h3>
+                                                                                                <span class="mt-1 text-gray-500 text-sm">12 Jun 2025</span>
+
+                                                                                                <div x-data="{ expanded: false }"
+                                                                                                     class="mt-2">
+                                                                                                      <p
+                                                                                                            :class="expanded ? '' : 'line-clamp-2'"
+                                                                                                            class="text-gray-700 text-justify text-md transition-all duration-300"
+                                                                                                      >
+                                                                                                            Lorem ipsum
+                                                                                                            dolor sit
+                                                                                                            amet,
+                                                                                                            consectetur
+                                                                                                            adipiscing
+                                                                                                            elit.
+                                                                                                            Sed sodales
+                                                                                                            tincidunt
+                                                                                                            nunc, sed
+                                                                                                            aliquet
+                                                                                                            turpis
+                                                                                                            fermentum
+                                                                                                            vitae.
+                                                                                                            Morbi id
+                                                                                                            justo
+                                                                                                            viverra,
+                                                                                                            egestas
+                                                                                                            magna nec,
+                                                                                                            blandit
+                                                                                                            nisi.
+                                                                                                            Aenean nec
+                                                                                                            leo ac nisi
+                                                                                                            pulvinar
+                                                                                                            pretium.
+                                                                                                            Donec
+                                                                                                            tincidunt,
+                                                                                                            nunc a
+                                                                                                            dignissim
+                                                                                                            eleifend,
+                                                                                                            ligula purus
+                                                                                                            luctus
+                                                                                                            magna,
+                                                                                                            nec lacinia
+                                                                                                            turpis justo
+                                                                                                            non augue.
+                                                                                                            Pellentesque
+                                                                                                            habitant
+                                                                                                            morbi
+                                                                                                            tristique
+                                                                                                            senectus...
+                                                                                                      </p>
+                                                                                                      <div class="flex justify-end mt-1">
+                                                                                                            <button
+                                                                                                                  @@click="expanded = !expanded"
+                                                                                                                  class="flex items-center mt-2  text-sm text-teal-700 hover:text-red-700 transition"
+                                                                                                            >
+                                                                                                                  <span x-text="expanded ? 'Ukrywać' : 'Więcej'"></span>
+                                                                                                                  <svg
+                                                                                                                        :class="expanded ? 'rotate-180' : ''"
+                                                                                                                        class="w-4 h-4 mr-1 transform transition-transform duration-300"
+                                                                                                                        fill="none"
+                                                                                                                        stroke="currentColor"
+                                                                                                                        stroke-width="2"
+                                                                                                                        viewBox="0 0 24 24"
+                                                                                                                  >
+                                                                                                                        <path d="M19 9l-7 7-7-7"/>
+                                                                                                                  </svg>
+                                                                                                            </button>
+                                                                                                            <!-- Лайки -->
+                                                                                                            <div
+                                                                                                                  x-data="{ liked: false }"
+                                                                                                                  class="flex mt-2 text-sm text-gray-600 "
+                                                                                                            >
+                                                                                                                  <div class="flex items-center justify-center">
+                                                                                                                        <button
+                                                                                                                              @@click="liked = !liked"
+                                                                                                                              class="flex items-center ml-6 text-gray-600"
+                                                                                                                        >
+                                                                                                                              <svg
+                                                                                                                                    :class="liked ? 'text-red-700' : 'text-gray-600' "
+                                                                                                                                    class="w-4 h-4 fill-current transition-colors duration-200 hover:text-teal-400"
+                                                                                                                                    viewBox="0 0 20 20"
+                                                                                                                              >
+                                                                                                                                    <path d="M11 0h1v3l3 7v8a2 2 0 0 1-2 2H5c-1.1 0-2.31-.84-2.7-1.88L0 12v-2a2 2 0 0 1 2-2h7V2a2 2 0 0 1 2-2zm6 10h3v10h-3V10z"/>
+                                                                                                                              </svg>
+                                                                                                                              <span class="ml-2">56</span>
+                                                                                                                        </button>
+                                                                                                                  </div>
+                                                                                                            </div>
+                                                                                                      </div>
+                                                                                                </div>
+                                                                                          </figure>
+                                                                                    </div>
+                                                                              </blockquote>
+                                                                        </div>
+
+                                                                        <!-- Форма комментария -->
+                                                                        <form class="mt-4">
+                                                                              <div class="mb-4">
+                                                                                    <label for="name"
+                                                                                           class="block text-gray-800 font-medium">Name</label>
+                                                                                    <input type="text" id="name"
+                                                                                           name="name"
+                                                                                           class="border-2 border-teal-500 p-2 w-full rounded"
+                                                                                           required>
+                                                                              </div>
+
+                                                                              <div class="mb-4">
+                                                                                    <label for="comment"
+                                                                                           class="block text-text-gray-800 font-medium">Comment</label>
+                                                                                    <textarea id="comment"
+                                                                                              name="comment"
+                                                                                              class="border-2 border-teal-500 p-2 w-full rounded-lg"
+                                                                                              required></textarea>
+                                                                              </div>
+                                                                              <div class="flex justify-center">
+                                                                                    <button type="submit"
+                                                                                            class="bg-teal-500 text-white font-medium py-2.5 px-8 rounded-lg hover:bg-red-600">
+                                                                                          Post Comment
+                                                                                    </button>
+                                                                              </div>
+                                                                        </form>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+
+
+                                                </div>
+                                          </div>
+
+                                    </div>
+                              </div>
+                        </div>
+
+                        <div class="relative">
+                              <a href="#_" class="block overflow-hidden group rounded-xl shadow-lg">
+                                    <img src="/assets/images/cycling-hat-bottle-bench.jpg"
+                                         class="object-cover w-full h-56 transition-all duration-300 ease-out sm:h-64 group-hover:scale-110"
+                                         alt="Desert Adventure">
+                              </a>
+                              <div class="relative mt-5">
+                                    <p class="uppercase font-semibold text-xs mb-2.5 text-teal-700">October 5 2023</p>
+                                    <a href="#" class="block mb-3 hover:underline">
+                                          <h2 class="text-2xl font-bold leading-5 line-clamp-2 min-h-[2.5rem] text-black dark:text-white transition-colors duration-200 hover:text-red-700 dark:hover:text-purple-400">
+                                                Desert Safari
+                                          </h2>
+                                    </a>
+                                    <div x-data="{ expanded: false }" class="mt-4">
+                                          <p
+                                                :class="expanded ? '' : 'line-clamp-3'"
+                                                class="text-gray-700 text-md text-justify transition-all duration-300"
+                                          >
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                Sed sodales tincidunt nunc, sed aliquet turpis fermentum vitae.
+                                                Morbi id justo viverra, egestas magna nec, blandit nisi.
+                                                Aenean nec leo ac nisi pulvinar pretium.
+                                                Donec tincidunt, nunc a dignissim eleifend, ligula purus luctus magna,
+                                                nec lacinia turpis justo non augue. Pellentesque habitant morbi
+                                                tristique senectus...
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                Sed sodales tincidunt nunc, sed aliquet turpis fermentum vitae.
+                                                Morbi id justo viverra, egestas magna nec, blandit nisi.
+                                                Aenean nec leo ac nisi pulvinar pretium.
+                                                Donec tincidunt, nunc a dignissim eleifend, ligula purus luctus magna,
+                                                nec lacinia turpis justo non augue. Pellentesque habitant morbi
+                                                tristique senectus...
+                                          </p>
+
+                                          <div class="flex items-center justify-between flex-wrap gap-2">
+                                                <!-- Кнопка "Więcej / Ukrywać" -->
+                                                <button
+                                                      @@click="expanded = !expanded"
+                                                      class="flex items-center mt-2 underline text-sm text-teal-700 hover:text-red-700 transition"
+                                                >
+                                                      <svg
+                                                            :class="expanded ? 'rotate-180' : ''"
+                                                            class="w-4 h-4 mr-1 transform transition-transform duration-300"
+                                                            fill="none" stroke="currentColor" stroke-width="2"
+                                                            viewBox="0 0 24 24"
+                                                      >
+                                                            <path d="M19 9l-7 7-7-7"/>
+                                                      </svg>
+                                                      <span x-text="expanded ? 'Ukrywać' : 'Więcej'"></span>
+                                                </button>
+
+                                                <!-- Блок с лайками, просмотрами и комментариями -->
+                                                <div class="flex items-center gap-6 text-sm text-gray-600 mt-2">
+                                                      <!-- Лайк -->
+                                                      <div x-data="{ liked: false }">
+                                                            <button @@click="liked = !liked"
+                                                                    class="flex items-center text-gray-600">
+                                                                  <svg
+                                                                        :class="liked ? 'text-red-700' : 'text-teal-700'"
+                                                                        class="w-3 h-3 fill-current transition-colors duration-200"
+                                                                        viewBox="0 0 20 20"
+                                                                  >
+                                                                        <path d="M11 0h1v3l3 7v8a2 2 0 0 1-2 2H5c-1.1 0-2.31-.84-2.7-1.88L0 12v-2a2 2 0 0 1 2-2h7V2a2 2 0 0 1 2-2zm6 10h3v10h-3V10z"/>
+                                                                  </svg>
+                                                                  <span class="ml-2">56</span>
+                                                            </button>
+                                                      </div>
+
+                                                      <!-- Просмотры -->
+                                                      <div class="flex items-center text-gray-400">
+                                                            <svg class="w-4 h-4 mr-1" stroke="currentColor"
+                                                                 stroke-width="2" fill="none"
+                                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                                 viewBox="0 0 24 24">
+                                                                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                                  <circle cx="12" cy="12" r="3"></circle>
+                                                            </svg>
+                                                            <span>1.2K</span>
+                                                      </div>
+
+                                                      <!-- Обёртка с Alpine -->
+                                                      <div x-data="{ showComments: false }">
+
+                                                            <!-- Кнопка "Комментарии" -->
+                                                            <div @@click="showComments = true"
+                                                                 class="cursor-pointer flex items-center text-teal-700 hover:text-red-700">
+                                                                  <svg class="w-4 h-4 mr-1" stroke="currentColor"
+                                                                       stroke-width="2" fill="none"
+                                                                       stroke-linecap="round" stroke-linejoin="round"
+                                                                       viewBox="0 0 24 24">
+                                                                        <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8
+               8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
+                                                                  </svg>
+                                                                  <span>6</span>
+                                                            </div>
+
+                                                            <!-- Модальное окно -->
+                                                            <div
+                                                                  x-show="showComments"
+                                                                  x-transition
+                                                                  @@click.away="showComments = false"
+                                                                  class="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center"
+                                                            >
+                                                                  <div class="bg-white rounded-lg border-2 border-teal-500 p-4 w-full max-w-xl relative">
+                                                                        <!-- Кнопка закрытия -->
+                                                                        <button @@click="showComments = false"
+                                                                                class="absolute top-2 right-2 text-gray-700 hover:text-red-700 text-xl font-bold">
+                                                                              &times;
+                                                                        </button>
+
+                                                                        <h3 class="font-os text-lg font-bold">
+                                                                              Comments</h3>
+
+                                                                        <!-- Комментарий 1 -->
+                                                                        <div class="flex mt-2">
+                                                                              <blockquote
+                                                                                    class="max-w-2xl mx-auto mb-4 text-gray-500 dark:text-gray-400">
+                                                                                    <div class="flex items-center gap-6">
+                                                                                          <figure class="flex flex-col items-start justify-start p-2 text-start
+     transition-transform duration-200  hover:shadow-sm
+      dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-teal-500
+      bg-white border border-gray-100 shadow-md aspect-auto rounded-lg shadow-gray-00/10">
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                                     fill="currentColor"
+                                                                                                     class="block w-5 h-5 text-teal-500 mb-4"
+                                                                                                     viewBox="0 0 975.036 975.036">
+                                                                                                      <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
+                                                                                                </svg>
+                                                                                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                                                                                      Roberta Casas</h3>
+                                                                                                <span class="mt-1 text-gray-500 text-sm">12 Jun 2025</span>
+
+                                                                                                <div x-data="{ expanded: false }"
+                                                                                                     class="mt-2">
+                                                                                                      <p
+                                                                                                            :class="expanded ? '' : 'line-clamp-2'"
+                                                                                                            class="text-gray-700 text-justify text-md transition-all duration-300"
+                                                                                                      >
+                                                                                                            Lorem ipsum
+                                                                                                            dolor sit
+                                                                                                            amet,
+                                                                                                            consectetur
+                                                                                                            adipiscing
+                                                                                                            elit.
+                                                                                                            Sed sodales
+                                                                                                            tincidunt
+                                                                                                            nunc, sed
+                                                                                                            aliquet
+                                                                                                            turpis
+                                                                                                            fermentum
+                                                                                                            vitae.
+                                                                                                            Morbi id
+                                                                                                            justo
+                                                                                                            viverra,
+                                                                                                            egestas
+                                                                                                            magna nec,
+                                                                                                            blandit
+                                                                                                            nisi.
+                                                                                                            Aenean nec
+                                                                                                            leo ac nisi
+                                                                                                            pulvinar
+                                                                                                            pretium.
+                                                                                                            Donec
+                                                                                                            tincidunt,
+                                                                                                            nunc a
+                                                                                                            dignissim
+                                                                                                            eleifend,
+                                                                                                            ligula purus
+                                                                                                            luctus
+                                                                                                            magna,
+                                                                                                            nec lacinia
+                                                                                                            turpis justo
+                                                                                                            non augue.
+                                                                                                            Pellentesque
+                                                                                                            habitant
+                                                                                                            morbi
+                                                                                                            tristique
+                                                                                                            senectus...
+                                                                                                      </p>
+                                                                                                      <div class="flex justify-end mt-1">
+                                                                                                            <button
+                                                                                                                  @@click="expanded = !expanded"
+                                                                                                                  class="flex items-center mt-2  text-sm text-teal-700 hover:text-red-700 transition"
+                                                                                                            >
+                                                                                                                  <span x-text="expanded ? 'Ukrywać' : 'Więcej'"></span>
+                                                                                                                  <svg
+                                                                                                                        :class="expanded ? 'rotate-180' : ''"
+                                                                                                                        class="w-4 h-4 mr-1 transform transition-transform duration-300"
+                                                                                                                        fill="none"
+                                                                                                                        stroke="currentColor"
+                                                                                                                        stroke-width="2"
+                                                                                                                        viewBox="0 0 24 24"
+                                                                                                                  >
+                                                                                                                        <path d="M19 9l-7 7-7-7"/>
+                                                                                                                  </svg>
+                                                                                                            </button>
+                                                                                                            <!-- Лайки -->
+                                                                                                            <div
+                                                                                                                  x-data="{ liked: false }"
+                                                                                                                  class="flex mt-2 text-sm text-gray-600 "
+                                                                                                            >
+                                                                                                                  <div class="flex items-center justify-center">
+                                                                                                                        <button
+                                                                                                                              @@click="liked = !liked"
+                                                                                                                              class="flex items-center ml-6 text-gray-600"
+                                                                                                                        >
+                                                                                                                              <svg
+                                                                                                                                    :class="liked ? 'text-red-700' : 'text-gray-600' "
+                                                                                                                                    class="w-4 h-4 fill-current transition-colors duration-200 hover:text-teal-400"
+                                                                                                                                    viewBox="0 0 20 20"
+                                                                                                                              >
+                                                                                                                                    <path d="M11 0h1v3l3 7v8a2 2 0 0 1-2 2H5c-1.1 0-2.31-.84-2.7-1.88L0 12v-2a2 2 0 0 1 2-2h7V2a2 2 0 0 1 2-2zm6 10h3v10h-3V10z"/>
+                                                                                                                              </svg>
+                                                                                                                              <span class="ml-2">56</span>
+                                                                                                                        </button>
+                                                                                                                  </div>
+                                                                                                            </div>
+                                                                                                      </div>
+                                                                                                </div>
+                                                                                          </figure>
+                                                                                    </div>
+                                                                              </blockquote>
+                                                                        </div>
+
+                                                                        <!-- Комментарий 2 -->
+                                                                        <div class="flex mt-2">
+                                                                              <blockquote
+                                                                                    class="max-w-2xl mx-auto mb-4 text-gray-500 dark:text-gray-400">
+                                                                                    <div class="flex items-center gap-6">
+                                                                                          <figure class="flex flex-col items-start justify-start p-2 text-start
+     transition-transform duration-200  hover:shadow-sm
+      dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-teal-500
+      bg-white border border-gray-100 shadow-md aspect-auto rounded-lg shadow-gray-00/10">
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                                     fill="currentColor"
+                                                                                                     class="block w-5 h-5 text-teal-500 mb-4"
+                                                                                                     viewBox="0 0 975.036 975.036">
+                                                                                                      <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
+                                                                                                </svg>
+                                                                                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                                                                                      Roberta Casas</h3>
+                                                                                                <span class="mt-1 text-gray-500 text-sm">12 Jun 2025</span>
+
+                                                                                                <div x-data="{ expanded: false }"
+                                                                                                     class="mt-2">
+                                                                                                      <p
+                                                                                                            :class="expanded ? '' : 'line-clamp-2'"
+                                                                                                            class="text-gray-700 text-justify text-md transition-all duration-300"
+                                                                                                      >
+                                                                                                            Lorem ipsum
+                                                                                                            dolor sit
+                                                                                                            amet,
+                                                                                                            consectetur
+                                                                                                            adipiscing
+                                                                                                            elit.
+                                                                                                            Sed sodales
+                                                                                                            tincidunt
+                                                                                                            nunc, sed
+                                                                                                            aliquet
+                                                                                                            turpis
+                                                                                                            fermentum
+                                                                                                            vitae.
+                                                                                                            Morbi id
+                                                                                                            justo
+                                                                                                            viverra,
+                                                                                                            egestas
+                                                                                                            magna nec,
+                                                                                                            blandit
+                                                                                                            nisi.
+                                                                                                            Aenean nec
+                                                                                                            leo ac nisi
+                                                                                                            pulvinar
+                                                                                                            pretium.
+                                                                                                            Donec
+                                                                                                            tincidunt,
+                                                                                                            nunc a
+                                                                                                            dignissim
+                                                                                                            eleifend,
+                                                                                                            ligula purus
+                                                                                                            luctus
+                                                                                                            magna,
+                                                                                                            nec lacinia
+                                                                                                            turpis justo
+                                                                                                            non augue.
+                                                                                                            Pellentesque
+                                                                                                            habitant
+                                                                                                            morbi
+                                                                                                            tristique
+                                                                                                            senectus...
+                                                                                                      </p>
+                                                                                                      <div class="flex justify-end mt-1">
+                                                                                                            <button
+                                                                                                                  @@click="expanded = !expanded"
+                                                                                                                  class="flex items-center mt-2  text-sm text-teal-700 hover:text-red-700 transition"
+                                                                                                            >
+                                                                                                                  <span x-text="expanded ? 'Ukrywać' : 'Więcej'"></span>
+                                                                                                                  <svg
+                                                                                                                        :class="expanded ? 'rotate-180' : ''"
+                                                                                                                        class="w-4 h-4 mr-1 transform transition-transform duration-300"
+                                                                                                                        fill="none"
+                                                                                                                        stroke="currentColor"
+                                                                                                                        stroke-width="2"
+                                                                                                                        viewBox="0 0 24 24"
+                                                                                                                  >
+                                                                                                                        <path d="M19 9l-7 7-7-7"/>
+                                                                                                                  </svg>
+                                                                                                            </button>
+                                                                                                            <!-- Лайки -->
+                                                                                                            <div
+                                                                                                                  x-data="{ liked: false }"
+                                                                                                                  class="flex mt-2 text-sm text-gray-600 "
+                                                                                                            >
+                                                                                                                  <div class="flex items-center justify-center">
+                                                                                                                        <button
+                                                                                                                              @@click="liked = !liked"
+                                                                                                                              class="flex items-center ml-6 text-gray-600"
+                                                                                                                        >
+                                                                                                                              <svg
+                                                                                                                                    :class="liked ? 'text-red-700' : 'text-gray-600' "
+                                                                                                                                    class="w-4 h-4 fill-current transition-colors duration-200 hover:text-teal-400"
+                                                                                                                                    viewBox="0 0 20 20"
+                                                                                                                              >
+                                                                                                                                    <path d="M11 0h1v3l3 7v8a2 2 0 0 1-2 2H5c-1.1 0-2.31-.84-2.7-1.88L0 12v-2a2 2 0 0 1 2-2h7V2a2 2 0 0 1 2-2zm6 10h3v10h-3V10z"/>
+                                                                                                                              </svg>
+                                                                                                                              <span class="ml-2">56</span>
+                                                                                                                        </button>
+                                                                                                                  </div>
+                                                                                                            </div>
+                                                                                                      </div>
+                                                                                                </div>
+                                                                                          </figure>
+                                                                                    </div>
+                                                                              </blockquote>
+                                                                        </div>
+
+                                                                        <!-- Форма комментария -->
+                                                                        <form class="mt-4">
+                                                                              <div class="mb-4">
+                                                                                    <label for="name"
+                                                                                           class="block text-gray-800 font-medium">Name</label>
+                                                                                    <input type="text" id="name"
+                                                                                           name="name"
+                                                                                           class="border-2 border-teal-500 p-2 w-full rounded"
+                                                                                           required>
+                                                                              </div>
+
+                                                                              <div class="mb-4">
+                                                                                    <label for="comment"
+                                                                                           class="block text-text-gray-800 font-medium">Comment</label>
+                                                                                    <textarea id="comment"
+                                                                                              name="comment"
+                                                                                              class="border-2 border-teal-500 p-2 w-full rounded-lg"
+                                                                                              required></textarea>
+                                                                              </div>
+                                                                              <div class="flex justify-center">
+                                                                                    <button type="submit"
+                                                                                            class="bg-teal-500 text-white font-medium py-2.5 px-8 rounded-lg hover:bg-red-600">
+                                                                                          Post Comment
+                                                                                    </button>
+                                                                              </div>
+                                                                        </form>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+
+
+                                                </div>
+                                          </div>
+
+                                    </div>
+                              </div>
+                        </div>
+
+                        <div class="relative">
+                              <a href="#_" class="block overflow-hidden group rounded-xl shadow-lg">
+                                    <img src="/assets/images/cycling-hat-bottle-bench.jpg"
+                                         class="object-cover w-full h-56 transition-all duration-300 ease-out sm:h-64 group-hover:scale-110"
+                                         alt="Desert Adventure">
+                              </a>
+                              <div class="relative mt-5">
+                                    <p class="uppercase font-semibold text-xs mb-2.5 text-teal-700">October 5 2023</p>
+                                    <a href="#" class="block mb-3 hover:underline">
+                                          <h2 class="text-2xl font-bold leading-5 line-clamp-2 min-h-[2.5rem] text-black dark:text-white transition-colors duration-200 hover:text-red-700 dark:hover:text-purple-400">
+                                                Desert Safari
+                                          </h2>
+                                    </a>
+                                    <div x-data="{ expanded: false }" class="mt-4">
+                                          <p
+                                                :class="expanded ? '' : 'line-clamp-3'"
+                                                class="text-gray-700 text-md text-justify transition-all duration-300"
+                                          >
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                Sed sodales tincidunt nunc, sed aliquet turpis fermentum vitae.
+                                                Morbi id justo viverra, egestas magna nec, blandit nisi.
+                                                Aenean nec leo ac nisi pulvinar pretium.
+                                                Donec tincidunt, nunc a dignissim eleifend, ligula purus luctus magna,
+                                                nec lacinia turpis justo non augue. Pellentesque habitant morbi
+                                                tristique senectus...
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                Sed sodales tincidunt nunc, sed aliquet turpis fermentum vitae.
+                                                Morbi id justo viverra, egestas magna nec, blandit nisi.
+                                                Aenean nec leo ac nisi pulvinar pretium.
+                                                Donec tincidunt, nunc a dignissim eleifend, ligula purus luctus magna,
+                                                nec lacinia turpis justo non augue. Pellentesque habitant morbi
+                                                tristique senectus...
+                                          </p>
+
+                                          <div class="flex items-center justify-between flex-wrap gap-2">
+                                                <!-- Кнопка "Więcej / Ukrywać" -->
+                                                <button
+                                                      @@click="expanded = !expanded"
+                                                      class="flex items-center mt-2 underline text-sm text-teal-700 hover:text-red-700 transition"
+                                                >
+                                                      <svg
+                                                            :class="expanded ? 'rotate-180' : ''"
+                                                            class="w-4 h-4 mr-1 transform transition-transform duration-300"
+                                                            fill="none" stroke="currentColor" stroke-width="2"
+                                                            viewBox="0 0 24 24"
+                                                      >
+                                                            <path d="M19 9l-7 7-7-7"/>
+                                                      </svg>
+                                                      <span x-text="expanded ? 'Ukrywać' : 'Więcej'"></span>
+                                                </button>
+
+                                                <!-- Блок с лайками, просмотрами и комментариями -->
+                                                <div class="flex items-center gap-6 text-sm text-gray-600 mt-2">
+                                                      <!-- Лайк -->
+                                                      <div x-data="{ liked: false }">
+                                                            <button @@click="liked = !liked"
+                                                                    class="flex items-center text-gray-600">
+                                                                  <svg
+                                                                        :class="liked ? 'text-red-700' : 'text-teal-700'"
+                                                                        class="w-3 h-3 fill-current transition-colors duration-200"
+                                                                        viewBox="0 0 20 20"
+                                                                  >
+                                                                        <path d="M11 0h1v3l3 7v8a2 2 0 0 1-2 2H5c-1.1 0-2.31-.84-2.7-1.88L0 12v-2a2 2 0 0 1 2-2h7V2a2 2 0 0 1 2-2zm6 10h3v10h-3V10z"/>
+                                                                  </svg>
+                                                                  <span class="ml-2">56</span>
+                                                            </button>
+                                                      </div>
+
+                                                      <!-- Просмотры -->
+                                                      <div class="flex items-center text-gray-400">
+                                                            <svg class="w-4 h-4 mr-1" stroke="currentColor"
+                                                                 stroke-width="2" fill="none"
+                                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                                 viewBox="0 0 24 24">
+                                                                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                                  <circle cx="12" cy="12" r="3"></circle>
+                                                            </svg>
+                                                            <span>1.2K</span>
+                                                      </div>
+
+                                                      <!-- Обёртка с Alpine -->
+                                                      <div x-data="{ showComments: false }">
+
+                                                            <!-- Кнопка "Комментарии" -->
+                                                            <div @@click="showComments = true"
+                                                                 class="cursor-pointer flex items-center text-teal-700 hover:text-red-700">
+                                                                  <svg class="w-4 h-4 mr-1" stroke="currentColor"
+                                                                       stroke-width="2" fill="none"
+                                                                       stroke-linecap="round" stroke-linejoin="round"
+                                                                       viewBox="0 0 24 24">
+                                                                        <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8
+               8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
+                                                                  </svg>
+                                                                  <span>6</span>
+                                                            </div>
+
+                                                            <!-- Модальное окно -->
+                                                            <div
+                                                                  x-show="showComments"
+                                                                  x-transition
+                                                                  @@click.away="showComments = false"
+                                                                  class="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center"
+                                                            >
+                                                                  <div class="bg-white rounded-lg border-2 border-teal-500 p-4 w-full max-w-xl relative">
+                                                                        <!-- Кнопка закрытия -->
+                                                                        <button @@click="showComments = false"
+                                                                                class="absolute top-2 right-2 text-gray-700 hover:text-red-700 text-xl font-bold">
+                                                                              &times;
+                                                                        </button>
+
+                                                                        <h3 class="font-os text-lg font-bold">
+                                                                              Comments</h3>
+
+                                                                        <!-- Комментарий 1 -->
+                                                                        <div class="flex mt-2">
+                                                                              <blockquote
+                                                                                    class="max-w-2xl mx-auto mb-4 text-gray-500 dark:text-gray-400">
+                                                                                    <div class="flex items-center gap-6">
+                                                                                          <figure class="flex flex-col items-start justify-start p-2 text-start
+     transition-transform duration-200  hover:shadow-sm
+      dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-teal-500
+      bg-white border border-gray-100 shadow-md aspect-auto rounded-lg shadow-gray-00/10">
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                                     fill="currentColor"
+                                                                                                     class="block w-5 h-5 text-teal-500 mb-4"
+                                                                                                     viewBox="0 0 975.036 975.036">
+                                                                                                      <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
+                                                                                                </svg>
+                                                                                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                                                                                      Roberta Casas</h3>
+                                                                                                <span class="mt-1 text-gray-500 text-sm">12 Jun 2025</span>
+
+                                                                                                <div x-data="{ expanded: false }"
+                                                                                                     class="mt-2">
+                                                                                                      <p
+                                                                                                            :class="expanded ? '' : 'line-clamp-2'"
+                                                                                                            class="text-gray-700 text-justify text-md transition-all duration-300"
+                                                                                                      >
+                                                                                                            Lorem ipsum
+                                                                                                            dolor sit
+                                                                                                            amet,
+                                                                                                            consectetur
+                                                                                                            adipiscing
+                                                                                                            elit.
+                                                                                                            Sed sodales
+                                                                                                            tincidunt
+                                                                                                            nunc, sed
+                                                                                                            aliquet
+                                                                                                            turpis
+                                                                                                            fermentum
+                                                                                                            vitae.
+                                                                                                            Morbi id
+                                                                                                            justo
+                                                                                                            viverra,
+                                                                                                            egestas
+                                                                                                            magna nec,
+                                                                                                            blandit
+                                                                                                            nisi.
+                                                                                                            Aenean nec
+                                                                                                            leo ac nisi
+                                                                                                            pulvinar
+                                                                                                            pretium.
+                                                                                                            Donec
+                                                                                                            tincidunt,
+                                                                                                            nunc a
+                                                                                                            dignissim
+                                                                                                            eleifend,
+                                                                                                            ligula purus
+                                                                                                            luctus
+                                                                                                            magna,
+                                                                                                            nec lacinia
+                                                                                                            turpis justo
+                                                                                                            non augue.
+                                                                                                            Pellentesque
+                                                                                                            habitant
+                                                                                                            morbi
+                                                                                                            tristique
+                                                                                                            senectus...
+                                                                                                      </p>
+                                                                                                      <div class="flex justify-end mt-1">
+                                                                                                            <button
+                                                                                                                  @@click="expanded = !expanded"
+                                                                                                                  class="flex items-center mt-2  text-sm text-teal-700 hover:text-red-700 transition"
+                                                                                                            >
+                                                                                                                  <span x-text="expanded ? 'Ukrywać' : 'Więcej'"></span>
+                                                                                                                  <svg
+                                                                                                                        :class="expanded ? 'rotate-180' : ''"
+                                                                                                                        class="w-4 h-4 mr-1 transform transition-transform duration-300"
+                                                                                                                        fill="none"
+                                                                                                                        stroke="currentColor"
+                                                                                                                        stroke-width="2"
+                                                                                                                        viewBox="0 0 24 24"
+                                                                                                                  >
+                                                                                                                        <path d="M19 9l-7 7-7-7"/>
+                                                                                                                  </svg>
+                                                                                                            </button>
+                                                                                                            <!-- Лайки -->
+                                                                                                            <div
+                                                                                                                  x-data="{ liked: false }"
+                                                                                                                  class="flex mt-2 text-sm text-gray-600 "
+                                                                                                            >
+                                                                                                                  <div class="flex items-center justify-center">
+                                                                                                                        <button
+                                                                                                                              @@click="liked = !liked"
+                                                                                                                              class="flex items-center ml-6 text-gray-600"
+                                                                                                                        >
+                                                                                                                              <svg
+                                                                                                                                    :class="liked ? 'text-red-700' : 'text-gray-600' "
+                                                                                                                                    class="w-4 h-4 fill-current transition-colors duration-200 hover:text-teal-400"
+                                                                                                                                    viewBox="0 0 20 20"
+                                                                                                                              >
+                                                                                                                                    <path d="M11 0h1v3l3 7v8a2 2 0 0 1-2 2H5c-1.1 0-2.31-.84-2.7-1.88L0 12v-2a2 2 0 0 1 2-2h7V2a2 2 0 0 1 2-2zm6 10h3v10h-3V10z"/>
+                                                                                                                              </svg>
+                                                                                                                              <span class="ml-2">56</span>
+                                                                                                                        </button>
+                                                                                                                  </div>
+                                                                                                            </div>
+                                                                                                      </div>
+                                                                                                </div>
+                                                                                          </figure>
+                                                                                    </div>
+                                                                              </blockquote>
+                                                                        </div>
+
+                                                                        <!-- Комментарий 2 -->
+                                                                        <div class="flex mt-2">
+                                                                              <blockquote
+                                                                                    class="max-w-2xl mx-auto mb-4 text-gray-500 dark:text-gray-400">
+                                                                                    <div class="flex items-center gap-6">
+                                                                                          <figure class="flex flex-col items-start justify-start p-2 text-start
+     transition-transform duration-200  hover:shadow-sm
+      dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-teal-500
+      bg-white border border-gray-100 shadow-md aspect-auto rounded-lg shadow-gray-00/10">
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                                     fill="currentColor"
+                                                                                                     class="block w-5 h-5 text-teal-500 mb-4"
+                                                                                                     viewBox="0 0 975.036 975.036">
+                                                                                                      <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
+                                                                                                </svg>
+                                                                                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                                                                                      Roberta Casas</h3>
+                                                                                                <span class="mt-1 text-gray-500 text-sm">12 Jun 2025</span>
+
+                                                                                                <div x-data="{ expanded: false }"
+                                                                                                     class="mt-2">
+                                                                                                      <p
+                                                                                                            :class="expanded ? '' : 'line-clamp-2'"
+                                                                                                            class="text-gray-700 text-justify text-md transition-all duration-300"
+                                                                                                      >
+                                                                                                            Lorem ipsum
+                                                                                                            dolor sit
+                                                                                                            amet,
+                                                                                                            consectetur
+                                                                                                            adipiscing
+                                                                                                            elit.
+                                                                                                            Sed sodales
+                                                                                                            tincidunt
+                                                                                                            nunc, sed
+                                                                                                            aliquet
+                                                                                                            turpis
+                                                                                                            fermentum
+                                                                                                            vitae.
+                                                                                                            Morbi id
+                                                                                                            justo
+                                                                                                            viverra,
+                                                                                                            egestas
+                                                                                                            magna nec,
+                                                                                                            blandit
+                                                                                                            nisi.
+                                                                                                            Aenean nec
+                                                                                                            leo ac nisi
+                                                                                                            pulvinar
+                                                                                                            pretium.
+                                                                                                            Donec
+                                                                                                            tincidunt,
+                                                                                                            nunc a
+                                                                                                            dignissim
+                                                                                                            eleifend,
+                                                                                                            ligula purus
+                                                                                                            luctus
+                                                                                                            magna,
+                                                                                                            nec lacinia
+                                                                                                            turpis justo
+                                                                                                            non augue.
+                                                                                                            Pellentesque
+                                                                                                            habitant
+                                                                                                            morbi
+                                                                                                            tristique
+                                                                                                            senectus...
+                                                                                                      </p>
+                                                                                                      <div class="flex justify-end mt-1">
+                                                                                                            <button
+                                                                                                                  @@click="expanded = !expanded"
+                                                                                                                  class="flex items-center mt-2  text-sm text-teal-700 hover:text-red-700 transition"
+                                                                                                            >
+                                                                                                                  <span x-text="expanded ? 'Ukrywać' : 'Więcej'"></span>
+                                                                                                                  <svg
+                                                                                                                        :class="expanded ? 'rotate-180' : ''"
+                                                                                                                        class="w-4 h-4 mr-1 transform transition-transform duration-300"
+                                                                                                                        fill="none"
+                                                                                                                        stroke="currentColor"
+                                                                                                                        stroke-width="2"
+                                                                                                                        viewBox="0 0 24 24"
+                                                                                                                  >
+                                                                                                                        <path d="M19 9l-7 7-7-7"/>
+                                                                                                                  </svg>
+                                                                                                            </button>
+                                                                                                            <!-- Лайки -->
+                                                                                                            <div
+                                                                                                                  x-data="{ liked: false }"
+                                                                                                                  class="flex mt-2 text-sm text-gray-600 "
+                                                                                                            >
+                                                                                                                  <div class="flex items-center justify-center">
+                                                                                                                        <button
+                                                                                                                              @@click="liked = !liked"
+                                                                                                                              class="flex items-center ml-6 text-gray-600"
+                                                                                                                        >
+                                                                                                                              <svg
+                                                                                                                                    :class="liked ? 'text-red-700' : 'text-gray-600' "
+                                                                                                                                    class="w-4 h-4 fill-current transition-colors duration-200 hover:text-teal-400"
+                                                                                                                                    viewBox="0 0 20 20"
+                                                                                                                              >
+                                                                                                                                    <path d="M11 0h1v3l3 7v8a2 2 0 0 1-2 2H5c-1.1 0-2.31-.84-2.7-1.88L0 12v-2a2 2 0 0 1 2-2h7V2a2 2 0 0 1 2-2zm6 10h3v10h-3V10z"/>
+                                                                                                                              </svg>
+                                                                                                                              <span class="ml-2">56</span>
+                                                                                                                        </button>
+                                                                                                                  </div>
+                                                                                                            </div>
+                                                                                                      </div>
+                                                                                                </div>
+                                                                                          </figure>
+                                                                                    </div>
+                                                                              </blockquote>
+                                                                        </div>
+
+                                                                        <!-- Форма комментария -->
+                                                                        <form class="mt-4">
+                                                                              <div class="mb-4">
+                                                                                    <label for="name"
+                                                                                           class="block text-gray-800 font-medium">Name</label>
+                                                                                    <input type="text" id="name"
+                                                                                           name="name"
+                                                                                           class="border-2 border-teal-500 p-2 w-full rounded"
+                                                                                           required>
+                                                                              </div>
+
+                                                                              <div class="mb-4">
+                                                                                    <label for="comment"
+                                                                                           class="block text-text-gray-800 font-medium">Comment</label>
+                                                                                    <textarea id="comment"
+                                                                                              name="comment"
+                                                                                              class="border-2 border-teal-500 p-2 w-full rounded-lg"
+                                                                                              required></textarea>
+                                                                              </div>
+                                                                              <div class="flex justify-center">
+                                                                                    <button type="submit"
+                                                                                            class="bg-teal-500 text-white font-medium py-2.5 px-8 rounded-lg hover:bg-red-600">
+                                                                                          Post Comment
+                                                                                    </button>
+                                                                              </div>
+                                                                        </form>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+
+
+                                                </div>
+                                          </div>
+
+                                    </div>
+                              </div>
+                        </div>
+
+                  </div>
+
+
+            </div>
+      </div>
+</section>
 
 
 
@@ -612,12 +1765,13 @@
                         Wybierz odpowiednie produkty dla siebie w obniżonej cenie.
                     </p>
                 </div>
-
+                <!-- 
                 <a href="/dist/blog.html"
                     class="inline-block border-2 border-red-600 text-red-600 hover:bg-teal-400 hover:border-teal-400 hover:text-white 
                     rounded-lg px-8 py-2 text-sm uppercase transition-colors">
                     Więcej
                 </a>
+                -->
             </div>
 
             <div id="default-carousel" class="relative w-full" data-carousel="slide">
