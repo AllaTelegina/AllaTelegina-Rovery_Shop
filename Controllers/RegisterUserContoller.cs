@@ -34,10 +34,10 @@ namespace Backend_asp.net.Controllers
             {
 
                 // проверка модели на валидность;
-                if (!ModelState.IsValid)
-                {
-                    return View("Error");
-                }
+                //if (!ModelState.IsValid)
+                //{
+                //    return View("Error");
+                //}
                 hashModel.Email = user.Email;   // подал в модель для записи в BD email;
                 hashModel.Password = hashpassword.HashPassword(hashModel, user.Password);
                 hashModel.DateOfBirth = user.DateOfBirth;
@@ -94,7 +94,7 @@ namespace Backend_asp.net.Controllers
 
             // Цыкл проверки, пока пользователь введет правильные данные;
             var userDB= await _context.userRoverys.FirstOrDefaultAsync(x=> x.Email == imail);
-            if (userDB.Password != null && userDB.Password!= "default")
+            if (userDB!=null)   //userDB.Password != null || userDB.Password!= "default"
             {
                 var gethashpass = hashpassword.VerifyHashedPassword(userDB, userDB.Password, password);
                 if (gethashpass == PasswordVerificationResult.Failed)    // тут ошибка, которую нужно завтра отредактировать;

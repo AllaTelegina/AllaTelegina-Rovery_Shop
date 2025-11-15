@@ -4,6 +4,7 @@ using Backend_asp.net.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend_asp.net.Migrations
 {
     [DbContext(typeof(AplicationContext))]
-    partial class AplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20251029182118_Create_dataBase_Property_for_RoveryMech")]
+    partial class Create_dataBase_Property_for_RoveryMech
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,50 +24,6 @@ namespace Backend_asp.net.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Backend_asp.net.Models.DataBaseModel.PropertyBicycle", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("propertyBicecles");
-                });
-
-            modelBuilder.Entity("Backend_asp.net.Models.DataBaseModel.ResultPropertyBicycle", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("PropertyBicycleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoverMechId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PropertyBicycleId");
-
-                    b.HasIndex("RoverMechId");
-
-                    b.ToTable("resultPropertyBicycles");
-                });
 
             modelBuilder.Entity("Backend_asp.net.Models.RoverMech", b =>
                 {
@@ -189,25 +148,6 @@ namespace Backend_asp.net.Migrations
                     b.ToTable("userRoverys");
                 });
 
-            modelBuilder.Entity("Backend_asp.net.Models.DataBaseModel.ResultPropertyBicycle", b =>
-                {
-                    b.HasOne("Backend_asp.net.Models.DataBaseModel.PropertyBicycle", "PropertyBicycle")
-                        .WithMany("BicycleValues")
-                        .HasForeignKey("PropertyBicycleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Backend_asp.net.Models.RoverMech", "RoverMech")
-                        .WithMany("PropertyValues")
-                        .HasForeignKey("RoverMechId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PropertyBicycle");
-
-                    b.Navigation("RoverMech");
-                });
-
             modelBuilder.Entity("Backend_asp.net.Models.RoverMech", b =>
                 {
                     b.HasOne("Backend_asp.net.Models.ShoppingCart", "ShoppingCart")
@@ -228,16 +168,6 @@ namespace Backend_asp.net.Migrations
                         .IsRequired();
 
                     b.Navigation("UserRovery");
-                });
-
-            modelBuilder.Entity("Backend_asp.net.Models.DataBaseModel.PropertyBicycle", b =>
-                {
-                    b.Navigation("BicycleValues");
-                });
-
-            modelBuilder.Entity("Backend_asp.net.Models.RoverMech", b =>
-                {
-                    b.Navigation("PropertyValues");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.ShoppingCart", b =>
