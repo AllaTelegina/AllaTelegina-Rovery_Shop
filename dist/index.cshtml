@@ -35,11 +35,13 @@
                     :class="mode === 'login' ? 'ring-2 ring-teal-200' : ''"
                     class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow transition-all">
        
-                    <form class="space-y-4" action="#" method="post">
+                    <form class="space-y-4 validate-form" method="post">
                         @Html.AntiForgeryToken()
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Twój e-mail</label>
-                            <input type="email" asp-for="UserRovery.Email" class="border border-teal-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required />
+                            <input type="email" asp-for="UserRovery.Email" class="validate-email border border-teal-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" />
+                            
+                            <!--Вызывает ошибку при входе если email не верный-->
                             @if (ViewBag.ValidPassword != null)
                             {
                                 <div role="alert" class="flex items-center p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
@@ -52,7 +54,9 @@
                         </div>
                         <div>
                             <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Twoje hasło</label>
-                            <input type="password" asp-for="UserRovery.Password" id="password" placeholder="••••••••" class="border border-teal-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                            <input type="password" asp-for="UserRovery.Password" id="password" placeholder="••••••••" class="validate-password border border-teal-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
+                            
+                            <!--Вызывает ошибку при входе если пароль не верный-->
                             @if (ViewBag.ValidPassword != null)
                             {
                                 <div role="alert" class="flex items-center p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
@@ -85,31 +89,35 @@
                                     <span class="bg-white dark:bg-teal-700 px-2 text-gray-500 dark:text-white">Login using</span>
                                 </div>
                             </div>
-                            <button asp-controller="SendGoogle" asp-action="SingGoogleServer"
-                                class="inline-flex w-full items-center justify-center rounded-md border border-teal-700 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-teal-700 hover:text-white dark:text-white shadow-sm hover:bg-teal-400 dark:hover:bg-gray-600 disabled:cursor-wait disabled:opacity-50">
-                                <span class="sr-only">Sign in with Google</span>
-                                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <clipPath id="p.0">
-                                        <path d="m0 0l20.0 0l0 20.0l-20.0 0l0 -20.0z" clip-rule="nonzero"></path>
-                                    </clipPath>
-                                    <g clip-path="url(#p.0)">
-                                        <path fill="currentColor" fill-opacity="0.0" d="m0 0l20.0 0l0 20.0l-20.0 0z"
-                                            fill-rule="evenodd"></path>
-                                        <path fill="currentColor"
-                                            d="m19.850197 8.270351c0.8574047 4.880001 -1.987587 9.65214 -6.6881847 11.218641c-4.700598 1.5665016 -9.83958 -0.5449295 -12.08104 -4.963685c-2.2414603 -4.4187555 -0.909603 -9.81259 3.1310139 -12.6801605c4.040616 -2.867571 9.571754 -2.3443127 13.002944 1.2301085l-2.8127813 2.7000687l0 0c-2.0935059 -2.1808972 -5.468274 -2.500158 -7.933616 -0.75053835c-2.4653416 1.74962 -3.277961 5.040613 -1.9103565 7.7366734c1.3676047 2.6960592 4.5031037 3.9843292 7.3711267 3.0285425c2.868022 -0.95578575 4.6038647 -3.8674583 4.0807285 -6.844941z"
-                                            fill-rule="evenodd"></path>
-                                        <path fill="currentColor" d="m10.000263 8.268785l9.847767 0l0 3.496233l-9.847767 0z"
-                                            fill-rule="evenodd"></path>
-                                    </g>
-                                </svg>
-                            </button>
-                        </div>
-                        <button asp-controller="RegisterUser" asp-action="EntranceForUser" type="submit" class="w-full uppercase text-white hover:bg-red-600 bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-500 font-medium rounded-lg text-sm px-5 py-3.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">wejście</button>
-                        <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-                            Nie jesteś zarejestrowany?
-                                <a asp-controller="SimplePageTransition" asp-action="Registration" class="hover:text-teal-800 text-red-700 hover:underline dark:text-blue-500">Utwórz konto</a>
+                        <!-- Кнопка отправки формы -->
+                        <button asp-controller="RegisterUser" asp-action="EntranceForUser" type="submit" class="submit-buttonValidate w-full uppercase text-white hover:bg-red-600 bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-500 font-medium rounded-lg text-sm px-5 py-3.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">wejście</button>
                         </div>
                     </form>
+
+                    <!-- -->
+                    <a type="button" asp-controller="SendGoogle" asp-action="SingGoogleServer"
+                        class="mt-6 inline-flex w-full items-center justify-center rounded-md border border-teal-700 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-teal-700 hover:text-white dark:text-white shadow-sm hover:bg-teal-400 dark:hover:bg-gray-600 disabled:cursor-wait disabled:opacity-50">
+                        <span class="sr-only">Sign in with Google</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <clipPath id="p.0">
+                                <path d="m0 0l20.0 0l0 20.0l-20.0 0l0 -20.0z" clip-rule="nonzero"></path>
+                            </clipPath>
+                            <g clip-path="url(#p.0)">
+                                <path fill="currentColor" fill-opacity="0.0" d="m0 0l20.0 0l0 20.0l-20.0 0z"
+                                    fill-rule="evenodd"></path>
+                                <path fill="currentColor"
+                                    d="m19.850197 8.270351c0.8574047 4.880001 -1.987587 9.65214 -6.6881847 11.218641c-4.700598 1.5665016 -9.83958 -0.5449295 -12.08104 -4.963685c-2.2414603 -4.4187555 -0.909603 -9.81259 3.1310139 -12.6801605c4.040616 -2.867571 9.571754 -2.3443127 13.002944 1.2301085l-2.8127813 2.7000687l0 0c-2.0935059 -2.1808972 -5.468274 -2.500158 -7.933616 -0.75053835c-2.4653416 1.74962 -3.277961 5.040613 -1.9103565 7.7366734c1.3676047 2.6960592 4.5031037 3.9843292 7.3711267 3.0285425c2.868022 -0.95578575 4.6038647 -3.8674583 4.0807285 -6.844941z"
+                                    fill-rule="evenodd"></path>
+                                <path fill="currentColor" d="m10.000263 8.268785l9.847767 0l0 3.496233l-9.847767 0z"
+                                    fill-rule="evenodd"></path>
+                            </g>
+                        </svg>
+                    </a>
+                                            
+                    <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+                        Nie jesteś zarejestrowany?
+                            <a asp-controller="SimplePageTransition" asp-action="Registration" class="hover:text-teal-800 text-red-700 hover:underline dark:text-blue-500">Utwórz konto</a>
+                    </div>
         
                 </div>
             </div>
@@ -130,9 +138,6 @@
         })
     </script>
 }
-
-
-
 <!-- Главная -->
 <section class="relative h-screen">
   <!-- Фото на фоне -->
@@ -644,12 +649,12 @@
                                                             <div
                                                                   x-show="showComments"
                                                                   x-transition
-                                                                  @@click.away="showComments = false"
+                                                                  data-click.away="showComments = false"
                                                                   class="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center"
                                                             >
                                                                   <div class="bg-white rounded-lg border-2 border-teal-500 p-4 w-full max-w-xl relative">
                                                                         <!-- Кнопка закрытия -->
-                                                                        <button @@click="showComments = false"
+                                                                        <button data-click="showComments = false"
                                                                                 class="absolute top-2 right-2 text-gray-700 hover:text-red-700 text-xl font-bold">
                                                                               &times;
                                                                         </button>
@@ -725,7 +730,7 @@
                                                                                                       </p>
                                                                                                       <div class="flex justify-end mt-1">
                                                                                                             <button
-                                                                                                                  @@click="expanded = !expanded"
+                                                                                                                  data-click="expanded = !expanded"
                                                                                                                   class="flex items-center mt-2  text-sm text-teal-700 hover:text-red-700 transition"
                                                                                                             >
                                                                                                                   <span x-text="expanded ? 'Ukrywać' : 'Więcej'"></span>
@@ -747,7 +752,7 @@
                                                                                                             >
                                                                                                                   <div class="flex items-center justify-center">
                                                                                                                         <button
-                                                                                                                              @@click="liked = !liked"
+                                                                                                                              data-click="liked = !liked"
                                                                                                                               class="flex items-center ml-6 text-gray-600"
                                                                                                                         >
                                                                                                                               <svg
@@ -836,7 +841,7 @@
                                                                                                       </p>
                                                                                                       <div class="flex justify-end mt-1">
                                                                                                             <button
-                                                                                                                  @@click="expanded = !expanded"
+                                                                                                                  data-click="expanded = !expanded"
                                                                                                                   class="flex items-center mt-2  text-sm text-teal-700 hover:text-red-700 transition"
                                                                                                             >
                                                                                                                   <span x-text="expanded ? 'Ukrywać' : 'Więcej'"></span>
@@ -858,7 +863,7 @@
                                                                                                             >
                                                                                                                   <div class="flex items-center justify-center">
                                                                                                                         <button
-                                                                                                                              @@click="liked = !liked"
+                                                                                                                              data-click="liked = !liked"
                                                                                                                               class="flex items-center ml-6 text-gray-600"
                                                                                                                         >
                                                                                                                               <svg
@@ -954,7 +959,7 @@
                                           <div class="flex items-center justify-between flex-wrap gap-2">
                                                 <!-- Кнопка "Więcej / Ukrywać" -->
                                                 <button
-                                                      @@click="expanded = !expanded"
+                                                      data-click="expanded = !expanded"
                                                       class="flex items-center mt-2 underline text-sm text-teal-700 hover:text-red-700 transition"
                                                 >
                                                       <svg
@@ -972,7 +977,7 @@
                                                 <div class="flex items-center gap-6 text-sm text-gray-600 mt-2">
                                                       <!-- Лайк -->
                                                       <div x-data="{ liked: false }">
-                                                            <button @@click="liked = !liked"
+                                                            <button data-click="liked = !liked"
                                                                     class="flex items-center text-gray-600">
                                                                   <svg
                                                                         :class="liked ? 'text-red-700' : 'text-teal-700'"
@@ -1001,7 +1006,7 @@
                                                       <div x-data="{ showComments: false }">
 
                                                             <!-- Кнопка "Комментарии" -->
-                                                            <div @@click="showComments = true"
+                                                            <div data-click="showComments = true"
                                                                  class="cursor-pointer flex items-center text-teal-700 hover:text-red-700">
                                                                   <svg class="w-4 h-4 mr-1" stroke="currentColor"
                                                                        stroke-width="2" fill="none"
@@ -1017,12 +1022,12 @@
                                                             <div
                                                                   x-show="showComments"
                                                                   x-transition
-                                                                  @@click.away="showComments = false"
+                                                                  data-click.away="showComments = false"
                                                                   class="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center"
                                                             >
                                                                   <div class="bg-white rounded-lg border-2 border-teal-500 p-4 w-full max-w-xl relative">
                                                                         <!-- Кнопка закрытия -->
-                                                                        <button @@click="showComments = false"
+                                                                        <button data-click="showComments = false"
                                                                                 class="absolute top-2 right-2 text-gray-700 hover:text-red-700 text-xl font-bold">
                                                                               &times;
                                                                         </button>
@@ -1098,7 +1103,7 @@
                                                                                                       </p>
                                                                                                       <div class="flex justify-end mt-1">
                                                                                                             <button
-                                                                                                                  @@click="expanded = !expanded"
+                                                                                                                  data-click="expanded = !expanded"
                                                                                                                   class="flex items-center mt-2  text-sm text-teal-700 hover:text-red-700 transition"
                                                                                                             >
                                                                                                                   <span x-text="expanded ? 'Ukrywać' : 'Więcej'"></span>
@@ -1120,7 +1125,7 @@
                                                                                                             >
                                                                                                                   <div class="flex items-center justify-center">
                                                                                                                         <button
-                                                                                                                              @@click="liked = !liked"
+                                                                                                                              data-click="liked = !liked"
                                                                                                                               class="flex items-center ml-6 text-gray-600"
                                                                                                                         >
                                                                                                                               <svg
@@ -1157,7 +1162,7 @@
                                                                                                       <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
                                                                                                 </svg>
                                                                                                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                                                                                      Roberta Casas</h3>
+                                                                                                     Roberta Casas</h3>
                                                                                                 <span class="mt-1 text-gray-500 text-sm">12 Jun 2025</span>
 
                                                                                                 <div x-data="{ expanded: false }"
@@ -1209,7 +1214,7 @@
                                                                                                       </p>
                                                                                                       <div class="flex justify-end mt-1">
                                                                                                             <button
-                                                                                                                  @@click="expanded = !expanded"
+                                                                                                                  data-click="expanded = !expanded"
                                                                                                                   class="flex items-center mt-2  text-sm text-teal-700 hover:text-red-700 transition"
                                                                                                             >
                                                                                                                   <span x-text="expanded ? 'Ukrywać' : 'Więcej'"></span>

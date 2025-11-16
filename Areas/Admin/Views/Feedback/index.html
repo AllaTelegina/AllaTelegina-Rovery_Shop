@@ -1,0 +1,195 @@
+<!--@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Обратная связь";
+}
+-->
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdminPanel — Обратная связь</title>
+   <link href="output.css" rel="stylesheet">
+      <script src="https://cdn.tailwindcss.com"></script>
+
+      <!-- Alpine.js (defer - скрипт ждёт загрузки DOM) -->
+      <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+      <!-- Flowbite JS (версия 2.3.0) -->
+      <script defer src="https://unpkg.com/flowbite@2.3.0/dist/flowbite.min.js"></script>
+
+      <!-- основной JS -->
+
+      <script type="module" defer src="/dist/main.js"></script>
+</head>
+
+<body class="bg-gray-100 flex">
+
+  <!-- Боковое меню -->
+  <aside class="w-64 bg-gray-900 text-white flex flex-col min-h-screen">
+    <div class="p-4 text-2xl font-bold border-b border-teal-600">AdminPanel</div>
+    <nav class="flex-1 mt-4">
+      <ul>
+        <li><a href="/Admin/Dashboard" class="block p-3 hover:bg-teal-600">📊 Dashboard</a></li>
+        <li><a href="/Admin/Products" class="block p-3 bg-teal-600">🛍️ Товары</a></li>
+        <li><a href="/Admin/Orders" class="block p-3 hover:bg-teal-600">📦 Заказы</a></li>
+        <li><a href="/Admin/Blog" class="block p-3 hover:bg-teal-600">📝 Блог</a></li>
+        <li><a href="/Admin/Comments" class="block p-3 hover:bg-teal-600">💬 Комментарии</a></li>
+        <li><a href="/Admin/Reviews" class="block p-3 hover:bg-teal-600">⭐ Отзывы</a></li>
+        <li><a href="/Admin/Feedback" class="block p-3 hover:bg-teal-600">✉️ Feedback</a></li>
+        <li><a href="/Admin/Users" class="block p-3 hover:bg-teal-600">👥 Пользователи</a></li>
+        <li><a href="/Admin/Reports" class="block p-3 hover:bg-teal-600">📈 Отчёты</a></li>
+      </ul>
+    </nav>
+    <div class="p-4 border-t border-teal-600">
+      <a href="/Account/Logout" class="block text-sm text-gray-300 hover:text-red-600">🚪 Выйти</a>
+    </div>
+  </aside>
+
+<main class="flex-1 p-6 sm:p-8 bg-gray-100 min-h-screen" x-data="feedbackAdmin()">
+
+  <!-- Заголовок и поиск -->
+  <div class="max-w-10xl mx-auto mb-6">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 space-y-2 sm:space-y-0">
+      <div class="flex items-center space-x-3">
+        <!-- Иконка письма -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+             stroke-width="1.5" stroke="currentColor"
+             class="w-8 h-8 text-teal-600">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5A2.25 2.25 0 012.25 17.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5H4.5A2.25 2.25 0 002.25 6.75m19.5 0l-9.75 6.75L2.25 6.75" />
+        </svg>
+        <h1 class="text-3xl font-bold text-gray-800">Обратная связь</h1>
+      </div>
+    </div>
+
+    <input type="text" placeholder="🔍 Поиск по имени или email..."
+           x-model="searchQuery"
+           class="w-full sm:w-1/3 border border-gray-300 rounded-lg px-4 py-2 focus:border-teal-500 focus:ring focus:ring-teal-200 outline-none">
+  </div>
+
+  <!-- Таблица -->
+  <div class="max-w-10xl mx-auto bg-white shadow rounded-lg p-4 sm:p-6">
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-sm text-left border-collapse">
+        <thead class="bg-gray-50 border-b">
+          <tr>
+            <th class="px-3 py-2 text-left cursor-pointer" @click="sort('id')">ID</th>
+            <th class="px-3 py-2 text-left">Имя</th>
+            <th class="px-3 py-2 text-left">Email</th>
+            <th class="px-3 py-2 text-left">Тема</th>
+            <th class="px-3 py-2 text-left">Сообщение</th>
+            <th class="px-3 py-2 text-left">Ответ администратора</th>
+            <th class="px-3 py-2 text-left">Дата</th>
+            <th class="px-3 py-2 text-left">Статус</th>
+            <th class="px-3 py-2 text-right">Действия</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <template x-for="msg in filteredMessages" :key="msg.id">
+            <tr>
+              <td class="px-3 py-2" x-text="msg.id"></td>
+              <td class="px-3 py-2 font-medium text-gray-800" x-text="msg.name"></td>
+              <td class="px-3 py-2 text-gray-600" x-text="msg.email"></td>
+              <td class="px-3 py-2 text-gray-700" x-text="msg.subject"></td>
+              <td class="px-3 py-2 max-w-xs truncate" x-text="msg.message"></td>
+              <td class="px-3 py-2 italic text-gray-600" x-text="msg.reply ? msg.reply : '—'"></td>
+              <td class="px-3 py-2 text-gray-600" x-text="msg.date"></td>
+              <td class="px-3 py-2">
+                <span :class="{
+                    'text-yellow-600': msg.status === 'Новое',
+                    'text-green-600': msg.status === 'Ответ отправлен'
+                  }" x-text="msg.status"></span>
+              </td>
+              <td class="px-3 py-2 text-right space-x-2">
+                <button @click="openReplyModal(msg)" class="text-blue-600 hover:underline">💬</button>
+                <button @click="deleteMessage(msg.id)" class="text-red-600 hover:underline">🗑️</button>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Модальное окно ответа -->
+  <div x-show="showModal" x-transition class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50" x-cloak>
+    <div class="bg-white w-full max-w-md rounded-lg shadow-lg p-6 relative">
+      <!-- Крестик -->
+      <button @click="closeModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl font-bold">×</button>
+
+      <h2 class="text-lg font-semibold mb-4 text-gray-800">Ответ пользователю</h2>
+
+      <div class="mb-4 text-sm text-gray-700">
+        <p><span class="font-semibold">Сообщение:</span> <span x-text="replyTo?.message"></span></p>
+        <p class="mt-1"><span class="font-semibold">От пользователя:</span> <span x-text="replyTo?.name"></span> (<span x-text="replyTo?.email"></span>)</p>
+      </div>
+
+      <textarea x-model="replyText" placeholder="Введите ответ..." class="w-full border border-gray-300 rounded-md p-2 mb-4 focus:ring-2 focus:ring-blue-500"></textarea>
+
+      <div class="flex justify-end space-x-3">
+        <button @click="closeModal()" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 text-gray-800">Отмена</button>
+        <button @click="sendReply()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Отправить</button>
+      </div>
+    </div>
+  </div>
+
+
+</main>
+
+
+<script>
+function feedbackAdmin() {
+  return {
+    messages: [
+      { id: 1, name: 'Анна', email: 'anna@mail.com', subject: 'Спасибо за сайт', message: 'Очень удобный и красивый сайт!', date: '2025-11-03', status: 'Новое', reply: '' },
+      { id: 2, name: 'Павел', email: 'pavel@mail.com', subject: 'Вопрос по заказу', message: 'Когда приедет доставка?', date: '2025-11-02', status: 'Ответ отправлен', reply: 'Здравствуйте! Доставка ожидается завтра.' },
+    ],
+    searchQuery: '',
+    sortField: 'id',
+    sortAsc: true,
+    showModal: false,
+    replyText: '',
+    replyTo: null,
+
+    get filteredMessages() {
+      return this.messages
+        .filter(m =>
+          (m.subject + m.name).toLowerCase().includes(this.searchQuery.toLowerCase())
+        )
+        .sort((a, b) => (this.sortAsc ? a[this.sortField] > b[this.sortField] : a[this.sortField] < b[this.sortField]) ? 1 : -1);
+    },
+
+    sort(field) {
+      this.sortAsc = this.sortField === field ? !this.sortAsc : true;
+      this.sortField = field;
+    },
+
+    openReplyModal(msg) {
+      this.replyTo = msg;
+      this.replyText = msg.reply || '';
+      this.showModal = true;
+    },
+
+    closeModal() {
+      this.showModal = false;
+    },
+
+    sendReply() {
+      if (this.replyTo) {
+        this.replyTo.reply = this.replyText.trim() || '—';
+        this.replyTo.status = 'Ответ отправлен';
+        alert(`Ответ отправлен пользователю ${this.replyTo.email}: "${this.replyText}"`);
+      }
+      this.closeModal();
+    },
+
+    deleteMessage(id) {
+      this.messages = this.messages.filter(m => m.id !== id);
+    }
+  };
+}
+</script>
+</body>
+</html>

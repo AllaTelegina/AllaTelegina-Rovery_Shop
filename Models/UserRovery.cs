@@ -24,6 +24,9 @@ namespace Backend_asp.net.Models
         public bool? IsConfirm { get; set; }=false;
         public DateTime? TokenExpiry { get; set; }
 
+        // связь один ко многим с карточкой товаров
+        public ICollection<ShoppingCart> ShoppingCart { get; set; }
+
         public UserRovery()
         {
             Password = "default";

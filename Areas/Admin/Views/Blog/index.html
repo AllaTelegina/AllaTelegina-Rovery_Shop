@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+      <meta charset="UTF-8">
+      <title>AdminPanel — Blog</title>
+      <link href="output.css" rel="stylesheet">
+      <script src="https://cdn.tailwindcss.com"></script>
+
+      <!-- Alpine.js (defer - скрипт ждёт загрузки DOM) -->
+      <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+      <!-- Flowbite JS (версия 2.3.0) -->
+      <script defer src="https://unpkg.com/flowbite@2.3.0/dist/flowbite.min.js"></script>
+
+      <!-- основной JS -->
+
+      <script type="module" defer src="/dist/main.js"></script>
+</head>
+<body class="bg-gray-100 flex">
+
+    <!-- Боковое меню -->
+    <aside class="w-64 bg-gray-900 text-white flex flex-col border-r border-teal-600">
+        <div class="p-4 text-2xl font-bold border-b border-teal-600">AdminPanel</div>
+        <nav class="flex-1 mt-4">
+            <ul>
+                <li><a href="/Admin/Dashboard" class="block p-3 bg-teal-600">📊 Dashboard</a></li>
+                <li><a href="/Admin/Products" class="block p-3 hover:bg-teal-600">🛍️ Товары</a></li>
+                <li><a href="/Admin/Orders" class="block p-3 hover:bg-teal-600">📦 Заказы</a></li>
+                <li><a href="/Admin/Blog" class="block p-3 hover:bg-teal-600">📝 Блог</a></li>
+                <li><a href="/Admin/Comments" class="block p-3 hover:bg-teal-600">💬 Комментарии</a></li>
+                <li><a href="/Admin/Reviews" class="block p-3 hover:bg-teal-600">⭐ Отзывы</a></li>
+                <li><a href="/Admin/Feedback" class="block p-3 hover:bg-teal-600">✉️ Feedback</a></li>
+                <li><a href="/Admin/Users" class="block p-3 hover:bg-teal-600">👥 Пользователи</a></li>
+                <li><a href="/Admin/Reports" class="block p-3 hover:bg-teal-600">📈 Отчёты</a></li>
+            </ul>
+        </nav>
+        <div class="p-4 border-t border-teal-600">
+            <a href="/Account/Logout" class="block text-sm text-gray-300 hover:text-red-600">🚪 Выйти</a>
+        </div>
+    </aside>
+
+
+<main class="flex-1 p-8 bg-gray-100 min-h-screen" x-data="blogAdmin()">
+
+  <!-- Заголовок -->
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">📝 Управление блогом</h1>
+    <button @click="openModal"
+            class="bg-teal-600 text-white px-5 py-2 rounded-lg hover:bg-teal-500 transition">
+      ➕ Добавить статью
+    </button>
+  </div>
+
+  <!-- Поиск -->
+  <div class="flex items-center mb-6">
+    <input type="text" placeholder="🔍 Поиск по названию..."
+           x-model="searchQuery"
+           class="w-full md:w-1/3 border border-gray-300 rounded-lg px-4 py-2 focus:border-teal-500 focus:ring focus:ring-teal-200 outline-none">
+  </div>
+
+  <!-- Таблица статей -->
+  <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+    <table class="min-w-full text-sm text-left">
+      <thead class="bg-gray-200 text-gray-700 uppercase text-xs">
+        <tr>
+          <th class="px-4 py-3 cursor-pointer" @click="sort('id')">ID</th>
+          <th class="px-4 py-3">Фото</th>
+          <th class="px-4 py-3 cursor-pointer" @click="sort('title')">Название</th>
+          <th class="px-4 py-3">Дата публикации</th>
+          <th class="px-4 py-3 text-right">Действия</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <template x-for="post in filteredPosts" :key="post.id">
+          <tr>
+            <td class="px-4 py-3 text-gray-500" x-text="post.id"></td>
+            <td class="px-4 py-3">
+              <img :src="post.image" class="w-16 h-10 rounded-lg object-cover">
+            </td>
+            <td class="px-4 py-3 font-medium text-gray-800" x-text="post.title"></td>
+            <td class="px-4 py-3 text-gray-600" x-text="post.publish_date"></td>
+            <td class="px-4 py-3 text-right space-x-2">
+              <button @click="editPost(post)" class="text-blue-600 hover:text-blue-800">✏️</button>
+              <button @click="deletePost(post.id)" class="text-red-600 hover:text-red-800">🗑️</button>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Пагинация -->
+  <div class="flex justify-between items-center mt-6 text-sm text-gray-600">
+    <p x-text="`Показано ${paginatedPosts.length} из ${posts.length} статей`"></p>
+    <div class="flex items-center space-x-2">
+      <button @click="prevPage" class="px-3 py-1 border rounded-lg hover:bg-gray-200 transition">«</button>
+      <template x-for="page in totalPages" :key="page">
+        <button @click="currentPage = page"
+                :class="{'bg-teal-600 text-white': currentPage === page, 'border px-3 py-1 rounded-lg hover:bg-gray-200 transition': true}"
+                x-text="page"></button>
+      </template>
+      <button @click="nextPage" class="px-3 py-1 border rounded-lg hover:bg-gray-200 transition">»</button>
+    </div>
+  </div>
+
+  <!-- Модальное окно -->
+  <div x-show="showModal" x-transition
+       class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+       @click.self="closeModal">
+    <div class="bg-white rounded-xl shadow-lg w-full max-w-2xl p-6 overflow-y-auto max-h-[90vh]">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-6"
+          x-text="editId ? 'Редактировать статью' : 'Добавить статью'"></h2>
+
+      <form class="space-y-4" @submit.prevent="savePost">
+
+        <!-- Фото -->
+        <div>
+          <label class="block text-sm text-gray-600 mb-1">Фото</label>
+          <input type="file" @change="handleFile($event)" accept="image/*"
+                 class="w-full border border-gray-300 rounded-lg px-4 py-2">
+          <div x-show="form.image" class="mt-3">
+            <img :src="form.image" class="w-24 h-16 rounded-lg object-cover shadow">
+          </div>
+        </div>
+
+        <!-- Название -->
+        <div>
+          <label class="block text-sm text-gray-600 mb-1">Название статьи</label>
+          <input type="text" x-model="form.title"
+                 class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:border-teal-500 focus:ring focus:ring-teal-200 outline-none">
+        </div>
+
+        <!-- Контент -->
+        <div>
+          <label class="block text-sm text-gray-600 mb-1">Контент</label>
+          <textarea rows="4" x-model="form.content"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2 resize-none focus:border-teal-500 focus:ring focus:ring-teal-200 outline-none"></textarea>
+        </div>
+
+        <!-- Дата публикации -->
+        <div>
+          <label class="block text-sm text-gray-600 mb-1">Дата публикации</label>
+          <input type="date" x-model="form.publish_date"
+                 class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:border-teal-500 focus:ring focus:ring-teal-200 outline-none">
+        </div>
+
+        <!-- Кнопки -->
+        <div class="flex justify-end gap-4 pt-4 border-t border-gray-200 mt-6">
+          <button type="button" @click="closeModal"
+                  class="px-5 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition">
+            Отмена
+          </button>
+          <button type="submit"
+                  class="px-5 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-500 transition">
+            💾 Сохранить
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</main>
+
+
+
+
+<script>
+function blogAdmin() {
+  return {
+    posts: [
+      { id: 1, title: 'Первая статья', content: 'Контент 1', image: 'https://via.placeholder.com/150', publish_date: '2025-11-01' },
+      { id: 2, title: 'Вторая статья', content: 'Контент 2', image: 'https://via.placeholder.com/150', publish_date: '2025-10-28' },
+      { id: 3, title: 'Третья статья', content: 'Контент 3', image: 'https://via.placeholder.com/150', publish_date: '2025-10-25' },
+    ],
+    form: { title: '', content: '', image: '', publish_date: '' },
+    showModal: false,
+    editId: null,
+    searchQuery: '',
+    sortField: 'id',
+    sortAsc: true,
+    currentPage: 1,
+    perPage: 5,
+
+    get filteredPosts() {
+      const search = this.searchQuery.toLowerCase();
+      return this.paginatedPosts.filter(p => p.title.toLowerCase().includes(search));
+    },
+
+    get sortedPosts() {
+      return [...this.posts].sort((a, b) => {
+        const fa = a[this.sortField];
+        const fb = b[this.sortField];
+        if (fa < fb) return this.sortAsc ? -1 : 1;
+        if (fa > fb) return this.sortAsc ? 1 : -1;
+        return 0;
+      });
+    },
+
+    get paginatedPosts() {
+      const start = (this.currentPage - 1) * this.perPage;
+      return this.sortedPosts.slice(start, start + this.perPage);
+    },
+
+    get totalPages() {
+      return Math.ceil(this.posts.length / this.perPage);
+    },
+
+    sort(field) {
+      if (this.sortField === field) this.sortAsc = !this.sortAsc;
+      else this.sortField = field;
+    },
+
+    openModal() {
+      this.showModal = true;
+      this.editId = null;
+      this.form = { title: '', content: '', image: '', publish_date: '' };
+    },
+
+    closeModal() {
+      this.showModal = false;
+    },
+
+    handleFile(event) {
+      const file = event.target.files[0];
+      if (file) this.form.image = URL.createObjectURL(file);
+    },
+
+    savePost() {
+      if (this.editId) {
+        const index = this.posts.findIndex(p => p.id === this.editId);
+        this.posts[index] = { ...this.form, id: this.editId };
+      } else {
+        const newId = this.posts.length ? Math.max(...this.posts.map(p => p.id)) + 1 : 1;
+        this.posts.push({ ...this.form, id: newId });
+      }
+      this.closeModal();
+    },
+
+    editPost(post) {
+      // ВАЖНО: сначала записываем форму, потом открываем модалку
+      this.editId = post.id;
+      this.form = JSON.parse(JSON.stringify(post)); // гарантированно копируем объект
+      this.showModal = true;
+    },
+
+    deletePost(id) {
+      this.posts = this.posts.filter(p => p.id !== id);
+    },
+
+    prevPage() {
+      if (this.currentPage > 1) this.currentPage--;
+    },
+
+    nextPage() {
+      if (this.currentPage < this.totalPages) this.currentPage++;
+    }
+  };
+}
+
+</script>
+
+
+
+</body>
+</html>

@@ -58,7 +58,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
     app.UseHttpsRedirection();
-    //app.UseStaticFiles();
+    app.UseStaticFiles();
     app.UseStaticFiles(new StaticFileOptions
     {
         FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "assets", "images")),
