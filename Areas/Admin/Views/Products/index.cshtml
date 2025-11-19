@@ -1,0 +1,680 @@
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdminPanel — Товары</title>
+   <link href="output.css" rel="stylesheet">
+
+   <style>[x-cloak]{display:none !important;}</style>
+
+      <script src="https://cdn.tailwindcss.com"></script>
+
+      <!-- Alpine.js (defer - скрипт ждёт загрузки DOM) -->
+      <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+      <!-- Flowbite JS (версия 2.3.0) -->
+      <script defer src="https://unpkg.com/flowbite@2.3.0/dist/flowbite.min.js"></script>
+
+      <!-- основной JS -->
+
+      <script type="module" defer src="/dist/main.js"></script>
+</head>
+
+<body class="bg-gray-100 flex">
+
+  <!-- Боковое меню -->
+  @* <aside class="w-64 bg-gray-900 text-white flex flex-col min-h-screen">
+    <div class="p-4 text-2xl font-bold border-b border-teal-600">AdminPanel</div>
+    <nav class="flex-1 mt-4">
+      <ul>
+        <li><a href="/Admin/Dashboard" class="block p-3 hover:bg-teal-600">📊 Dashboard</a></li>
+        <li><a href="/Admin/Products" class="block p-3 bg-teal-600">🛍️ Товары</a></li>
+        <li><a href="/Admin/Orders" class="block p-3 hover:bg-teal-600">📦 Заказы</a></li>
+        <li><a href="/Admin/Blog" class="block p-3 hover:bg-teal-600">📝 Блог</a></li>
+        <li><a href="/Admin/Comments" class="block p-3 hover:bg-teal-600">💬 Комментарии</a></li>
+        <li><a href="/Admin/Reviews" class="block p-3 hover:bg-teal-600">⭐ Отзывы</a></li>
+        <li><a href="/Admin/Feedback" class="block p-3 hover:bg-teal-600">✉️ Feedback</a></li>
+        <li><a href="/Admin/Users" class="block p-3 hover:bg-teal-600">👥 Пользователи</a></li>
+        <li><a href="/Admin/Reports" class="block p-3 hover:bg-teal-600">📈 Отчёты</a></li>
+      </ul>
+    </nav>
+    <div class="p-4 border-t border-teal-600">
+      <a href="/Account/Logout" class="block text-sm text-gray-300 hover:text-red-600">🚪 Выйти</a>
+    </div>
+  </aside> *@
+
+
+  
+
+    <!-- Main -->
+    <main class="flex-1 p-8 bg-gray-100 min-h-screen" x-data="productsAdmin()" x-init="init()" x-cloak>
+
+      <div class="max-w-10xl mx-auto">
+
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+          <h1 class="text-3xl font-bold text-gray-800">🛍 Управление товарами</h1>
+
+          <div class="flex gap-2 w-full md:w-auto">
+            <input x-model="search" @@input="page = 1"
+                   placeholder="🔎 Поиск по названию или SKU..."
+                   class="w-full md:w-72 border border-gray-300 rounded-lg px-3 py-2 focus:ring-teal-200 focus:border-teal-500 outline-none" />
+
+            <select x-model="filterCategory" class="border border-gray-300 rounded-lg px-3 py-2">
+              <option value="">Все категории</option>
+              <template x-for="c in categories" :key="c"><option x-text="c"></option></template>
+            </select>
+
+            <select x-model="filterStatus" class="border border-gray-300 rounded-lg px-3 py-2">
+              <option value="">Все статусы</option>
+              <option>В наличии</option>
+              <option>Нет в наличии</option>
+              <option>Ожидается</option>
+              <option>Скрыт</option>
+            </select>
+
+            <button @@click="openAdd()" class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-500 transition">
+              <span>＋</span> Добавить товар
+            </button>
+          </div>
+        </div>
+
+        <!-- Controls: sort -->
+        <div class="flex items-center justify-between mb-4 gap-3">
+          <div class="text-sm text-gray-600">Найдено: <span class="font-medium text-gray-800" x-text="filtered.length"></span></div>
+          <div class="flex items-center gap-2">
+            <label class="text-sm text-gray-600">Сортировать:</label>
+            <button @@click="toggleSort('price')" :class="sortField==='price' ? 'bg-teal-600 text-white' : 'bg-gray-100'" class="px-3 py-1 rounded">Цена</button>
+                    <button @@click="toggleSort('createdAt')" :class="sortField==='createdAt' ? 'bg-teal-600 text-white' : 'bg-gray-100'" class="px-3 py-1 rounded">Дата</button>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white rounded-lg shadow overflow-x-auto mb-4">
+          <table class="min-w-full text-sm text-left">
+            <thead class="bg-gray-50 text-gray-600 text-xs uppercase">
+              <tr>
+                <th class="px-4 py-3">ID</th>
+                <th class="px-4 py-3">Категория</th>
+                <th class="px-4 py-3">Название</th>
+                <th class="px-4 py-3">SKU</th>
+                <th class="px-4 py-3">Цена</th>
+                <th class="px-4 py-3">Старая</th>
+                <th class="px-4 py-3">Рейтинг</th>
+                <th class="px-4 py-3">Key Features</th>
+                <th class="px-4 py-3">Фото</th>
+                <th class="px-4 py-3">Статус</th>
+                <th class="px-4 py-3">Добавлен / Обновлён</th>
+                <th class="px-4 py-3 text-right">Действия</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <template x-for="p in paginatedFiltered" :key="p.id">
+                <tr class="hover:bg-gray-50">
+                  <td class="px-4 py-3 text-gray-600" x-text="p.id"></td>
+                  <td class="px-4 py-3 text-gray-700" x-text="p.category || '—'"></td>
+                  <td class="px-4 py-3 font-medium text-gray-800" x-text="p.title"></td>
+                  <td class="px-4 py-3 text-gray-500" x-text="p.sku || '—'"></td>
+                  <td class="px-4 py-3 text-gray-800 font-semibold" x-text="formatPrice(p.price)"></td>
+                  <td class="px-4 py-3 text-gray-400 line-through" x-text="p.oldPrice ? formatPrice(p.oldPrice) : ''"></td>
+                  <td class="px-4 py-3 text-yellow-600">
+                    <span x-text="('★'.repeat(Math.round(p.rating || 0)))"></span>
+                    <span class="text-xs text-gray-500 ml-1" x-text="p.rating ? '('+p.rating+')' : ''"></span>
+                  </td>
+                  <td class="px-4 py-3">
+                    <div class="text-xs text-gray-600" x-text="p.keyFeatures ? p.keyFeatures.join(', ') : ''"></div>
+                  </td>
+                  <td class="px-4 py-3">
+                    <img :src="p.images && p.images[0] ? p.images[0] : placeholder" class="w-16 h-10 rounded object-cover" alt="">
+                  </td>
+                  <td class="px-4 py-3">
+                    <span :class="statusClass(p.status)" x-text="p.status"></span>
+                  </td>
+                  <td class="px-4 py-3 text-gray-500 text-xs">
+                    <div x-text="p.createdAt"></div>
+                    <div x-text="p.updatedAt"></div>
+                  </td>
+                  <td class="px-4 py-3 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                        <button @@click="editProduct(p)" class="text-blue-600 hover:text-blue-800">✏️</button>
+                        <button @@click="deleteProduct(p.id)" class="text-red-600 hover:text-red-800">🗑️</button>
+                    </div>
+                  </td>
+                </tr>
+              </template>
+
+              <template x-if="paginatedFiltered.length === 0">
+                <tr><td colspan="12" class="px-4 py-6 text-center text-gray-500">Товары не найдены</td></tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex items-center justify-between mt-2 text-sm text-gray-600">
+          <div>Страница <span class="font-medium text-gray-800" x-text="page"></span> из <span x-text="pages"></span></div>
+          <div class="flex items-center gap-2">
+                <button @@click="prevPage()" :disabled="page===1" class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200">←</button>
+            <template x-for="p in pagesArray" :key="p">
+                    <button @@click="page = p" :class="page === p ? 'bg-teal-600 text-white' : 'bg-gray-100'" class="px-3 py-1 rounded">
+                <span x-text="p"></span>
+              </button>
+            </template>
+                <button @@click="nextPage()" :disabled="page===pages" class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200">→</button>
+          </div>
+        </div>
+
+        <!-- Modal: Add/Edit -->
+        <div x-show="showModal" x-transition.opacity class="fixed inset-0 z-50 flex items-start justify-center pt-8">
+                <div class="absolute inset-0 bg-black/50" @@click="closeModal()"></div>
+
+          <div class="relative w-full max-w-5xl bg-white rounded-lg shadow-lg max-h-[90vh] overflow-y-auto">
+            <div class="p-4 border-b flex items-center justify-between">
+              <div>
+                <h2 class="text-lg font-semibold text-gray-800" x-text="editingId ? 'Редактировать товар' : 'Добавить товар'"></h2>
+                <div class="text-xs text-gray-500 mt-1" x-text="editingId ? ('ID: ' + editingId) : ''"></div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button @@click="duplicate()" class="px-3 py-1 text-sm bg-gray-100 rounded hover:bg-gray-200">Дублировать</button>
+                <button @@click="closeModal()" class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200">Закрыть ✕</button>
+              </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="p-4">
+              <div class="flex flex-wrap gap-2 border-b pb-2 mb-4">
+                    <button @@click="tab='main'" :class="tab==='main' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-600'" class="pb-2 px-3">Основное</button>
+                    <button @@click="tab='images'" :class="tab==='images' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-600'" class="pb-2 px-3">Фото</button>
+                    <button @@click="tab='description'" :class="tab==='description' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-600'" class="pb-2 px-3">Описание</button>
+                    <button @@click="tab='specs'" :class="tab==='specs' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-600'" class="pb-2 px-3">Спецификация</button>
+              </div>
+
+              <!-- Tab: MAIN -->
+              <div x-show="tab==='main'">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm text-gray-600 mb-1">ID</label>
+                    <input type="text" x-model="form.id" disabled class="w-full border rounded px-3 py-2 bg-gray-50" />
+                  </div>
+
+                  <div>
+                    <label class="block text-sm text-gray-600 mb-1">Категория</label>
+                    <select x-model="form.category" class="w-full border rounded px-3 py-2">
+                      <option value="">— Выбрать —</option>
+                      <template x-for="c in categories" :key="c"><option x-text="c"></option></template>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label class="block text-sm text-gray-600 mb-1">Название</label>
+                    <input type="text" x-model="form.title" class="w-full border rounded px-3 py-2" placeholder="Название товара" />
+                  </div>
+
+                  <div>
+                    <label class="block text-sm text-gray-600 mb-1">SKU</label>
+                    <input type="text" x-model="form.sku" class="w-full border rounded px-3 py-2" placeholder="Артикул / SKU" />
+                  </div>
+
+                  <div>
+                    <label class="block text-sm text-gray-600 mb-1">Цена</label>
+                    <input type="number" step="0.01" x-model.number="form.price" class="w-full border rounded px-3 py-2" />
+                  </div>
+
+                  <div>
+                    <label class="block text-sm text-gray-600 mb-1">Старая цена</label>
+                    <input type="number" step="0.01" x-model.number="form.oldPrice" class="w-full border rounded px-3 py-2" />
+                  </div>
+
+                  <div>
+                    <label class="block text-sm text-gray-600 mb-1">Рейтинг (1–5)</label>
+                    <input type="number" min="0" max="5" step="0.1" x-model.number="form.rating" class="w-full border rounded px-3 py-2" />
+                  </div>
+
+                  <div>
+                    <label class="block text-sm text-gray-600 mb-1">Статус</label>
+                    <select x-model="form.status" class="w-full border rounded px-3 py-2">
+                      <option>В наличии</option>
+                      <option>Нет в наличии</option>
+                      <option>Ожидается</option>
+                      <option>Скрыт</option>
+                    </select>
+                  </div>
+
+                  <!-- Key Features -->
+                  <div class="md:col-span-2">
+                    <label class="block text-sm text-gray-600 mb-2">Key Features</label>
+                    <template x-for="(f, i) in form.keyFeatures" :key="i">
+                      <div class="flex items-center gap-2 mb-2">
+                        <input type="text" x-model="form.keyFeatures[i]" class="w-full border rounded px-3 py-2" placeholder="Преимущество (например, Лёгкая рама)" />
+                            <button @@click="form.keyFeatures.splice(i,1)" class="px-2 py-1 bg-red-100 text-red-600 rounded">✕</button>
+                      </div>
+                    </template>
+                    <div class="flex gap-2">
+                      <input x-model="newFeature" type="text" placeholder="Новая фича" class="border rounded px-3 py-2 w-full" />
+                            <button @@click="addFeature()" class="px-3 py-2 bg-teal-600 text-white rounded">Добавить</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tab: IMAGES -->
+              <div x-show="tab==='images'">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm text-gray-600 mb-1">Главное фото (первое в галерее)</label>
+                    <div class="w-48 h-32 bg-gray-50 rounded border flex items-center justify-center overflow-hidden mb-2">
+                      <template x-if="form.images && form.images[0]">
+                        <img :src="form.images[0]" class="w-full h-full object-cover" alt="">
+                      </template>
+                      <template x-if="!form.images[0]">
+                        <div class="text-gray-400 text-sm">Нет фото</div>
+                      </template>
+                    </div>
+                    <div class="text-xs text-gray-500 mb-2">Загрузите изображения — первое будет главным</div>
+                                    <input type="file" accept="image/*" @@change="uploadImage($event, true)" class="block w-full text-sm text-gray-900 border rounded cursor-pointer p-2" />
+                  </div>
+
+                  <div>
+                    <label class="block text-sm text-gray-600 mb-1">Галерея (макс 6)</label>
+                    <div class="grid grid-cols-3 gap-2 mb-2">
+                      <template x-for="(img, idx) in form.images" :key="idx">
+                        <div class="relative border rounded overflow-hidden">
+                          <img :src="img" class="w-full h-20 object-cover">
+                            <button @@click="removeImage(idx)" class="absolute top-1 right-1 bg-white bg-opacity-80 rounded-full text-xs px-1">✕</button>
+                            <button @@click="setMain(idx)" class="absolute left-1 bottom-1 bg-white bg-opacity-80 rounded-full text-xs px-1">Set</button>
+                        </div>
+                      </template>
+
+                      <label class="flex items-center justify-center border rounded cursor-pointer text-sm text-gray-500 p-2">
+                            <input type="file" accept="image/*" @@change="uploadImage($event)" multiple class="hidden" />
+                        + фото
+                      </label>
+                    </div>
+                    <div class="text-xs text-gray-500">Фото, загруженные здесь, нужны также для галереи полного описания (отдельная секция ниже).</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tab: DESCRIPTION -->
+              <div x-show="tab==='description'">
+                <label class="block text-sm text-gray-600 mb-1">Короткое описание (анонс)</label>
+                <textarea x-model="form.shortDesc" rows="2" class="w-full border rounded px-3 py-2 mb-4"></textarea>
+
+                <label class="block text-sm text-gray-600 mb-1">Полное описание — основной текст (на всю ширину)</label>
+                <textarea x-model="form.fullDesc" rows="4" class="w-full border rounded px-3 py-2 mb-4"></textarea>
+
+                <div class="mb-2 flex items-center justify-between">
+                  <div class="text-sm font-medium text-gray-700">Блоки описания (заголовок + текст) — до 6</div>
+                        <button @@click="addDescBlock()" class="text-teal-600 text-sm" :disabled="form.descriptionBlocks.length >= 6">+ Добавить блок</button>
+                </div>
+
+                <template x-for="(b, i) in form.descriptionBlocks" :key="i">
+                  <div class="border rounded p-3 mb-3 bg-gray-50">
+                    <div class="flex items-center justify-between mb-2">
+                        <input x-model="b.title" placeholder="Заголовок блока" class="w-3/4 border rounded px-2 py-1" />
+                        <button @@click="form.descriptionBlocks.splice(i,1)" class="text-red-600 text-sm">Удалить</button>
+                    </div>
+                    <textarea x-model="b.text" rows="2" class="w-full border rounded px-2 py-1 mb-2" placeholder="Текст блока"></textarea>
+                  </div>
+                </template>
+
+                <div class="mt-4">
+                  <div class="flex items-center justify-between mb-2">
+                    <div class="text-sm font-medium text-gray-700">Фото для полного описания (показываются ПОСЛЕ блоков)</div>
+                    <div class="text-xs text-gray-500">Макс 6</div>
+                  </div>
+                  <div class="grid grid-cols-3 gap-2 mb-2">
+                    <template x-for="(img, idx) in form.descImages" :key="'d'+idx">
+                      <div class="relative border rounded overflow-hidden">
+                        <img :src="img" class="w-full h-20 object-cover">
+                            <button @@click="removeDescImage(idx)" class="absolute top-1 right-1 bg-white bg-opacity-80 rounded-full text-xs px-1">✕</button>
+                      </div>
+                    </template>
+
+                    <label class="flex items-center justify-center border rounded cursor-pointer text-sm text-gray-500 p-2">
+                            <input type="file" accept="image/*" @@change="uploadDescImage($event)" multiple class="hidden" />
+                      + фото
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tab: SPECS -->
+              <div x-show="tab==='specs'">
+                <div class="mb-2 flex items-center justify-between">
+                  <div class="text-sm font-medium text-gray-700">Спецификации (группы → параметр → значение)</div>
+                        <button @@click="addSpecGroup()" class="text-teal-600 text-sm">+ Добавить группу</button>
+                </div>
+
+                <template x-for="(g, gi) in form.specs" :key="gi">
+                  <div class="border rounded p-3 mb-3 bg-white">
+                    <div class="flex items-center justify-between mb-2">
+                      <input x-model="g.name" placeholder="Название группы" class="w-3/4 border rounded px-2 py-1" />
+                      <div class="flex gap-2">
+                            <button @@click="g.features.push({key:'',value:''})" class="px-2 py-1 bg-gray-100 rounded">+ строка</button>
+                            <button @@click="form.specs.splice(gi,1)" class="px-2 py-1 bg-red-100 text-red-600 rounded">Удалить группу</button>
+                      </div>
+                    </div>
+
+                    <template x-for="(f, fi) in g.features" :key="fi">
+                      <div class="flex gap-2 items-center mb-2">
+                        <input x-model="f.key" placeholder="Параметр" class="border rounded px-2 py-1 w-1/3" />
+                        <input x-model="f.value" placeholder="Значение" class="border rounded px-2 py-1 w-2/3" />
+                            <button @@click="g.features.splice(fi,1)" class="px-2 py-1 bg-red-100 text-red-600 rounded">✕</button>
+                      </div>
+                    </template>
+                  </div>
+                </template>
+              </div>
+
+              <!-- Modal actions -->
+              <div class="flex justify-end gap-3 mt-3">
+                    <button @@click="closeModal()" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Отмена</button>
+                    <button @@click="saveProduct()" class="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-500">💾 Сохранить</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Toast -->
+        <div class="fixed right-6 bottom-6 z-50">
+          <div x-show="toast.show" x-transition class="px-4 py-2 rounded shadow" :class="toast.type==='success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'">
+            <div x-text="toast.text"></div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  
+
+<script>
+function productsAdmin(){
+  return {
+    placeholder: 'https://via.placeholder.com/400x300?text=No+image',
+    perPage: 6,
+    page: 1,
+    search: '',
+    filterCategory: '',
+    filterStatus: '',
+    sortField: 'createdAt',
+    sortAsc: false,
+    categories: ['Велосипеды','Электровелосипеды','Самокаты','Аксессуары'],
+    showModal: false,
+    tab: 'main',
+    editingId: null,
+    newFeature: '',
+    toast: { show:false, text:'', type:'success' },
+
+    // form template
+    form: {
+      id: null,
+      category: '',
+      title: '',
+      sku: '',
+      price: null,
+      oldPrice: null,
+      rating: 0,
+      status: 'В наличии',
+      colors: [],
+      keyFeatures: [],
+      images: [],
+      shortDesc: '',
+      fullDesc: '',
+      descriptionBlocks: [], // {title,text}
+      descImages: [], // images for full description (after blocks)
+      specs: [], // {name, features:[{key,value}]}
+      createdAt: '',
+      updatedAt: ''
+    },
+
+    products: [],
+
+    init(){
+      const raw = localStorage.getItem('admin_products_full_v1');
+      if(raw) this.products = JSON.parse(raw);
+      else {
+        this.products = [
+          {
+            id: 1,
+            category: 'Велосипеды',
+            title: 'Rovery X1',
+            sku: 'RVX1',
+            price: 52000,
+            oldPrice: 58000,
+            rating: 4.5,
+            status: 'В наличии',
+            colors: ['#000000','#ffffff'],
+            keyFeatures: ['Лёгкая рама','Гидравл. тормоза'],
+            images: ['https://images.unsplash.com/photo-1508975550034-c3b5cc6f4a53?w=800&q=60'],
+            shortDesc: 'Городской электровелосипед Rovery X1',
+            fullDesc: 'Это основной текст полного описания продукта — длинный, на всю ширину.',
+            descriptionBlocks: [
+              {title:'Особенности', text:'Короткий текст о особенностях.'},
+              {title:'Комплектация', text:'Что идёт в коробке.'}
+            ],
+            descImages: ['https://images.unsplash.com/photo-1525104698733-6a7a4d15f3f4?w=800&q=60'],
+            specs: [{name:'Двигатель', features:[{key:'Мощность',value:'250 Вт'}]}],
+            createdAt: (new Date()).toLocaleString(),
+            updatedAt: (new Date()).toLocaleString()
+          }
+        ];
+        this.saveToStorage();
+      }
+    },
+
+    // computed
+    get filtered(){
+      const s = this.search.toLowerCase().trim();
+      let arr = this.products.slice();
+
+      if(this.filterCategory) arr = arr.filter(p => p.category === this.filterCategory);
+      if(this.filterStatus) arr = arr.filter(p => p.status === this.filterStatus);
+
+      if(s){
+        arr = arr.filter(p => {
+          const title = (p.title || '').toLowerCase();
+          const sku = (p.sku || '').toLowerCase();
+          return title.includes(s) || sku.includes(s);
+        });
+      }
+
+      // sorting
+      arr.sort((a,b)=>{
+        const f = this.sortField;
+        let va = a[f] || '', vb = b[f] || '';
+        // if dates, convert
+        if(f === 'createdAt' || f === 'updatedAt'){
+          va = new Date(va).getTime() || 0;
+          vb = new Date(vb).getTime() || 0;
+        } else if(f === 'price'){
+          va = Number(va) || 0; vb = Number(vb) || 0;
+        } else {
+          va = String(va).toLowerCase();
+          vb = String(vb).toLowerCase();
+        }
+        if(va < vb) return this.sortAsc ? -1 : 1;
+        if(va > vb) return this.sortAsc ? 1 : -1;
+        return 0;
+      });
+
+      return arr;
+    },
+
+    get pages(){
+      return Math.max(1, Math.ceil(this.filtered.length / this.perPage));
+    },
+
+    get pagesArray(){
+      const arr = [];
+      for(let i=1;i<=this.pages;i++) arr.push(i);
+      return arr;
+    },
+
+    get paginatedFiltered(){
+      const start = (this.page - 1) * this.perPage;
+      return this.filtered.slice(start, start + this.perPage);
+    },
+
+    prevPage(){ if(this.page>1) this.page--; },
+    nextPage(){ if(this.page < this.pages) this.page++; },
+
+    toggleSort(field){
+      if(this.sortField === field) this.sortAsc = !this.sortAsc;
+      else { this.sortField = field; this.sortAsc = true; }
+    },
+
+    openAdd(){
+      this.resetForm();
+      this.showModal = true;
+      this.tab = 'main';
+      this.editingId = null;
+      this.$nextTick(()=> window.scrollTo({top:0, behavior:'smooth'}));
+    },
+
+    editProduct(p){
+      this.form = JSON.parse(JSON.stringify(p));
+      this.editingId = p.id;
+      this.showModal = true;
+      this.tab = 'main';
+    },
+
+    duplicate(){
+      if(!this.showModal) return;
+      this.form.id = null;
+      this.editingId = null;
+      this.form.title += ' (копия)';
+      this.showToast('Дубликат создан (не сохранён)', 'success');
+    },
+
+    deleteProduct(id){
+      if(!confirm('Удалить товар?')) return;
+      this.products = this.products.filter(p => p.id !== id);
+      this.saveToStorage();
+      this.showToast('Товар удалён', 'success');
+    },
+
+    closeModal(){
+      this.showModal = false;
+    },
+
+    resetForm(){
+      this.form = {
+        id: null,
+        category: '',
+        title: '',
+        sku: '',
+        price: null,
+        oldPrice: null,
+        rating: 0,
+        status: 'В наличии',
+        colors: [],
+        keyFeatures: [],
+        images: [],
+        shortDesc: '',
+        fullDesc: '',
+        descriptionBlocks: [],
+        descImages: [],
+        specs: [],
+        createdAt: '',
+        updatedAt: ''
+      };
+      this.newFeature = '';
+    },
+
+    saveProduct(){
+      if(!this.form.title) return this.showToast('Введите название', 'error');
+      const now = (new Date()).toLocaleString();
+      if(this.editingId){
+        const idx = this.products.findIndex(p => p.id === this.editingId);
+        if(idx === -1) return this.showToast('Товар не найден', 'error');
+        this.form.updatedAt = now;
+        this.products[idx] = JSON.parse(JSON.stringify(this.form));
+        this.showToast('Товар обновлён', 'success');
+      } else {
+        const max = this.products.length ? Math.max(...this.products.map(p => p.id)) : 0;
+        this.form.id = max + 1;
+        this.form.createdAt = now;
+        this.form.updatedAt = now;
+        this.products.push(JSON.parse(JSON.stringify(this.form)));
+        this.showToast('Товар добавлен', 'success');
+        this.page = this.pages;
+      }
+      this.saveToStorage();
+      this.closeModal();
+    },
+
+    saveToStorage(){ localStorage.setItem('admin_products_full_v1', JSON.stringify(this.products)); },
+
+    showToast(text, type='success'){
+      this.toast = { show:true, text, type };
+      setTimeout(()=> this.toast.show = false, 2200);
+    },
+
+    // features
+    addFeature(){
+      const v = (this.newFeature || '').trim();
+      if(!v) return;
+      this.form.keyFeatures.push(v);
+      this.newFeature = '';
+    },
+
+    // images for gallery
+    uploadImage(e, setMain=false){
+      const files = Array.from(e.target.files || []);
+      for(const f of files){
+        if(this.form.images.length >= 6){ this.showToast('Максимум 6 фото в галерее', 'error'); break; }
+        const url = URL.createObjectURL(f);
+        this.form.images.push(url);
+        if(setMain){
+          const i = this.form.images.indexOf(url);
+          if(i>0) this.form.images.unshift(this.form.images.splice(i,1)[0]);
+        }
+      }
+      e.target.value = '';
+    },
+
+    removeImage(idx){ this.form.images.splice(idx,1); },
+    setMain(idx){
+      if(idx === 0) return;
+      const img = this.form.images.splice(idx,1)[0];
+      this.form.images.unshift(img);
+    },
+
+    // desc images (after blocks)
+    uploadDescImage(e){
+      const files = Array.from(e.target.files || []);
+      for(const f of files){
+        if(this.form.descImages.length >= 6){ this.showToast('Максимум 6 фото в описании', 'error'); break; }
+        const url = URL.createObjectURL(f);
+        this.form.descImages.push(url);
+      }
+      e.target.value = '';
+    },
+    removeDescImage(idx){ this.form.descImages.splice(idx,1); },
+
+    addDescBlock(){
+      if(this.form.descriptionBlocks.length >= 6) return this.showToast('Максимум 6 блоков', 'error');
+      this.form.descriptionBlocks.push({title:'', text:''});
+    },
+
+    // specs
+    addSpecGroup(){ this.form.specs.push({name:'', features:[]}); },
+
+    // helpers
+    formatPrice(v){ if(v===null||v===undefined||v==='') return '—'; return new Intl.NumberFormat('ru-RU').format(Number(v)) + ' ₽'; },
+    statusClass(s){
+      if(!s) return 'text-gray-500';
+      if(s === 'В наличии') return 'text-green-600';
+      if(s === 'Нет в наличии') return 'text-red-500';
+      return 'text-gray-600';
+    }
+  }
+}
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,314 @@
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdminPanel — Отчеты</title>
+   <link href="output.css" rel="stylesheet">
+      <script src="https://cdn.tailwindcss.com"></script>
+
+      <!-- Alpine.js (defer - скрипт ждёт загрузки DOM) -->
+      <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+      <!-- Flowbite JS (версия 2.3.0) -->
+      <script defer src="https://unpkg.com/flowbite@2.3.0/dist/flowbite.min.js"></script>
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+      <!-- основной JS -->
+
+      <script type="module" defer src="/dist/main.js"></script>
+</head>
+
+<body class="bg-gray-100 flex">
+
+<main x-data="{ tab: 'sales' }" class="p-6 bg-gray-100 min-h-screen">
+  <h1 class="text-2xl font-semibold text-gray-800 mb-6">Отчёты</h1>
+
+  <!-- Вкладки -->
+  <div class="flex flex-wrap gap-3 mb-6">
+    <button @@click="tab = 'sales'" :class="tab === 'sales' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'"
+      class="px-4 py-2 rounded-lg shadow transition">Продажи</button>
+    <button @@click="tab = 'users'" :class="tab === 'users' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'"
+      class="px-4 py-2 rounded-lg shadow transition">Пользователи</button>
+    <button @@click="tab = 'finance'" :class="tab === 'finance' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'"
+      class="px-4 py-2 rounded-lg shadow transition">Финансы</button>
+    <button @@click="tab = 'reviews'" :class="tab === 'reviews' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'"
+      class="px-4 py-2 rounded-lg shadow transition">Отзывы</button>
+  </div>
+
+  <!-- === Продажи === -->
+  <section x-show="tab === 'sales'" x-transition>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div class="bg-white p-4 rounded-xl shadow">
+        <p class="text-gray-500">Выручка</p>
+        <h3 class="text-xl font-semibold">₽ 124,580</h3>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow">
+        <p class="text-gray-500">Заказы</p>
+        <h3 class="text-xl font-semibold">312</h3>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow">
+        <p class="text-gray-500">Средний чек</p>
+        <h3 class="text-xl font-semibold">₽ 398</h3>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow">
+        <p class="text-gray-500">Популярный товар</p>
+        <h3 class="text-xl font-semibold">Самокат X5</h3>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="bg-white p-4 rounded-xl shadow">
+        <h2 class="text-gray-700 mb-2 font-semibold">Динамика продаж</h2>
+        <div class="w-full h-64">
+          <canvas id="salesChart"></canvas>
+        </div>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow">
+        <h2 class="text-gray-700 mb-2 font-semibold">Продажи по категориям</h2>
+        <div class="w-full h-64">
+          <canvas id="categoryChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- === Пользователи === -->
+  <section x-show="tab === 'users'" x-transition>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div class="bg-white p-4 rounded-xl shadow">
+        <p class="text-gray-500">Новые пользователи</p>
+        <h3 class="text-xl font-semibold">124</h3>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow">
+        <p class="text-gray-500">Всего</p>
+        <h3 class="text-xl font-semibold">2,315</h3>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow">
+        <p class="text-gray-500">Активные</p>
+        <h3 class="text-xl font-semibold">1,782</h3>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow">
+        <p class="text-gray-500">Подписка</p>
+        <h3 class="text-xl font-semibold">358</h3>
+      </div>
+    </div>
+
+    <div class="bg-white p-4 rounded-xl shadow mb-6">
+      <h2 class="text-gray-700 mb-2 font-semibold">Регистрации по дням</h2>
+      <div class="w-full h-64">
+        <canvas id="usersChart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- === Финансы === -->
+  <section x-show="tab === 'finance'" x-transition>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div class="bg-white p-4 rounded-xl shadow">
+        <p class="text-gray-500">Выручка за период</p>
+        <h3 class="text-xl font-semibold">₽ 220,940</h3>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow">
+        <p class="text-gray-500">Средний чек</p>
+        <h3 class="text-xl font-semibold">₽ 430</h3>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow">
+        <p class="text-gray-500">Количество заказов</p>
+        <h3 class="text-xl font-semibold">514</h3>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow">
+        <p class="text-gray-500">Период</p>
+        <h3 class="text-xl font-semibold">01.11–05.11</h3>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="bg-white p-4 rounded-xl shadow">
+        <h2 class="text-gray-700 mb-2 font-semibold">Выручка по дням</h2>
+        <div class="w-full h-64">
+          <canvas id="financeChart"></canvas>
+        </div>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow">
+        <h2 class="text-gray-700 mb-2 font-semibold">По категориям</h2>
+        <div class="w-full h-64">
+          <canvas id="financeCategoryChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- === Отзывы === -->
+  <section x-show="tab === 'reviews'" x-transition>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div class="bg-white p-4 rounded-xl shadow">
+        <p class="text-gray-500">Новые отзывы</p>
+        <h3 class="text-xl font-semibold">28</h3>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow">
+        <p class="text-gray-500">Средний рейтинг</p>
+        <h3 class="text-xl font-semibold">4.6 ★</h3>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow">
+        <p class="text-gray-500">Всего отзывов</p>
+        <h3 class="text-xl font-semibold">1,124</h3>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow">
+        <p class="text-gray-500">Период</p>
+        <h3 class="text-xl font-semibold">01.11–05.11</h3>
+      </div>
+    </div>
+
+    <div class="bg-white p-4 rounded-xl shadow mb-6">
+      <h2 class="text-gray-700 mb-2 font-semibold">Распределение по звёздам</h2>
+      <div class="w-full h-64">
+        <canvas id="reviewsChart"></canvas>
+      </div>
+    </div>
+
+<div class="bg-white p-4 rounded-xl shadow">
+  <h2 class="text-gray-700 mb-3 font-semibold">Последние отзывы</h2>
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200 text-sm">
+      <thead class="bg-gray-50">
+        <tr class="text-gray-600 text-left">
+          <th class="px-4 py-2">Пользователь</th>
+          <th class="px-4 py-2">Товар</th>
+          <th class="px-4 py-2">Оценка</th>
+          <th class="px-4 py-2">Комментарий</th>
+          <th class="px-4 py-2">Дата</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <tr>
+          <td class="px-4 py-2 font-medium">Алексей К.</td>
+          <td class="px-4 py-2">Самокат X5</td>
+          <td class="px-4 py-2 text-yellow-500">★★★★★</td>
+          <td class="px-4 py-2 text-gray-600">Очень доволен покупкой!</td>
+          <td class="px-4 py-2 text-gray-500">05.11.2025</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 font-medium">Мария Л.</td>
+          <td class="px-4 py-2">Велосипед Rovery 700</td>
+          <td class="px-4 py-2 text-yellow-500">★★★★☆</td>
+          <td class="px-4 py-2 text-gray-600">Хорошее качество, но долго доставляли.</td>
+          <td class="px-4 py-2 text-gray-500">04.11.2025</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 font-medium">Иван П.</td>
+          <td class="px-4 py-2">Шлем SafeRide</td>
+          <td class="px-4 py-2 text-yellow-500">★★★★★</td>
+          <td class="px-4 py-2 text-gray-600">Лёгкий и удобный, рекомендую.</td>
+          <td class="px-4 py-2 text-gray-500">03.11.2025</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 font-medium">Ольга С.</td>
+          <td class="px-4 py-2">Фонарь BikeLight</td>
+          <td class="px-4 py-2 text-yellow-500">★★★☆☆</td>
+          <td class="px-4 py-2 text-gray-600">Светит нормально, но слабое крепление.</td>
+          <td class="px-4 py-2 text-gray-500">02.11.2025</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 font-medium">Денис В.</td>
+          <td class="px-4 py-2">Самокат UrbanPro</td>
+          <td class="px-4 py-2 text-yellow-500">★★★★★</td>
+          <td class="px-4 py-2 text-gray-600">Лучший самокат, лёгкий и быстрый!</td>
+          <td class="px-4 py-2 text-gray-500">01.11.2025</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+  </section>
+
+
+
+</main>
+
+
+<script>
+  const createChart = (id, type, data, options = {}) => {
+    const ctx = document.getElementById(id);
+    if (ctx) {
+      new Chart(ctx, {
+        type: type,
+        data: data,
+        options: { responsive: true, maintainAspectRatio: false, ...options }
+      });
+    }
+  };
+
+  // Продажи
+  createChart('salesChart', 'line', {
+    labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+    datasets: [{
+      label: '₽',
+      data: [12000, 15000, 10000, 18000, 16000, 22000, 19000],
+      borderColor: '#0d9488',
+      backgroundColor: 'rgba(13,148,136,0.1)',
+      fill: true,
+      tension: 0.4
+    }]
+  });
+
+  createChart('categoryChart', 'doughnut', {
+    labels: ['Велосипеды', 'Самокаты', 'Аксессуары'],
+    datasets: [{
+      data: [45, 30, 25],
+      backgroundColor: ['#0d9488', '#14b8a6', '#99f6e4']
+    }]
+  });
+
+  // Пользователи
+  createChart('usersChart', 'bar', {
+    labels: ['01.11', '02.11', '03.11', '04.11', '05.11'],
+    datasets: [{
+      label: 'Регистрации',
+      data: [22, 30, 18, 25, 29],
+      backgroundColor: '#0d9488'
+    }]
+  });
+
+  // Финансы
+  createChart('financeChart', 'line', {
+    labels: ['01', '02', '03', '04', '05'],
+    datasets: [{
+      label: '₽',
+      data: [32000, 28000, 35000, 30000, 42000],
+      borderColor: '#0d9488',
+      backgroundColor: 'rgba(13,148,136,0.1)',
+      fill: true,
+      tension: 0.4
+    }]
+  });
+
+  createChart('financeCategoryChart', 'bar', {
+    labels: ['Велосипеды', 'Самокаты', 'Аксессуары'],
+    datasets: [{
+      label: '₽',
+      data: [65000, 48000, 32000],
+      backgroundColor: ['#0d9488', '#14b8a6', '#99f6e4']
+    }]
+  });
+
+  // Отзывы
+  createChart('reviewsChart', 'bar', {
+    labels: ['★1', '★2', '★3', '★4', '★5'],
+    datasets: [{
+      label: 'Количество',
+      data: [5, 8, 15, 32, 64],
+      backgroundColor: ['#dc2626', '#f97316', '#facc15', '#84cc16', '#0d9488']
+    }]
+  });
+</script>
+
+
+</body>
+</html>
+

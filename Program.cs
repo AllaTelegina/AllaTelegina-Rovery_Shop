@@ -72,4 +72,9 @@ if (!app.Environment.IsDevelopment())
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
 
+    app.MapAreaControllerRoute(
+        name: "Areas",
+        areaName: "Admin",
+        pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
+
     app.Run();

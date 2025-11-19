@@ -25,4 +25,8 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ApplicationDefinition Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
+  </ItemGroup>
+
 </Project>
