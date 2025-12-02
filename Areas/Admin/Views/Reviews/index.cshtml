@@ -1,11 +1,7 @@
-<!-- @{
-    Layout = "_AdminLayout";
-    ViewData["Title"] = "Отзывы";
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
--->
 
-<!DOCTYPE html>
-<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +22,7 @@
 
 <body class="bg-gray-100 flex">
 
-  <!-- Боковое меню -->
+  @* <!-- Боковое меню -->
   <aside class="w-64 bg-gray-900 text-white flex flex-col min-h-screen">
     <div class="p-4 text-2xl font-bold border-b border-teal-600">AdminPanel</div>
     <nav class="flex-1 mt-4">
@@ -45,14 +41,14 @@
     <div class="p-4 border-t border-teal-600">
       <a href="/Account/Logout" class="block text-sm text-gray-300 hover:text-red-600">🚪 Выйти</a>
     </div>
-  </aside>
+  </aside> *@
 
 <main class="flex-1 p-8 bg-gray-100 min-h-screen" x-data="reviewsAdmin()">
 
   <!-- Заголовок -->
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-3xl font-bold text-gray-800">⭐ Управление отзывами</h1>
-    <button @click="openModal"
+    <button @@click="openModal"
             class="bg-teal-600 text-white px-5 py-2 rounded-lg hover:bg-teal-500 transition">
      <span>＋</span> Добавить отзыв
     </button>
@@ -70,13 +66,13 @@
     <table class="min-w-full text-sm text-left">
       <thead class="bg-gray-200 text-gray-700 uppercase text-xs">
         <tr>
-          <th class="px-4 py-3 cursor-pointer" @click="sort('id')">ID</th>
-          <th class="px-4 py-3 cursor-pointer" @click="sort('name')">Имя</th>
+          <th class="px-4 py-3 cursor-pointer" @@click="sort('id')">ID</th>
+          <th class="px-4 py-3 cursor-pointer" @@click="sort('name')">Имя</th>
           <th class="px-4 py-3">Email</th>
           <th class="px-4 py-3">Статус пользователя</th>
           <th class="px-4 py-3">Рейтинг</th>
           <th class="px-4 py-3">Отзыв</th>
-          <th class="px-4 py-3 cursor-pointer" @click="sort('status')">Статус</th>
+          <th class="px-4 py-3 cursor-pointer" @@click="sort('status')">Статус</th>
           <th class="px-4 py-3 text-right">Действия</th>
         </tr>
       </thead>
@@ -98,9 +94,9 @@
                 x-text="review.status"></span>
             </td>
             <td class="px-4 py-3 text-right space-x-2">
-              <button @click="editReview(review)" class="text-blue-600 hover:text-blue-800">✏️</button>
-              <button @click="deleteReview(review.id)" class="text-red-600 hover:text-red-800">🗑️</button>
-              <button @click="toggleStatus(review.id)" class="text-green-600 hover:text-green-800">✅</button>
+              <button @@click="editReview(review)" class="text-blue-600 hover:text-blue-800">✏️</button>
+              <button @@click="deleteReview(review.id)" class="text-red-600 hover:text-red-800">🗑️</button>
+              <button @@click="toggleStatus(review.id)" class="text-green-600 hover:text-green-800">✅</button>
             </td>
           </tr>
         </template>
@@ -112,25 +108,25 @@
   <div class="flex justify-between items-center mt-6 text-sm text-gray-600">
     <p x-text="`Показано ${paginatedReviews.length} из ${reviews.length} отзывов`"></p>
     <div class="flex items-center space-x-2">
-      <button @click="prevPage" class="px-3 py-1 border rounded-lg hover:bg-gray-200 transition">«</button>
+      <button @@click="prevPage" class="px-3 py-1 border rounded-lg hover:bg-gray-200 transition">«</button>
       <template x-for="page in totalPages" :key="page">
-        <button @click="currentPage = page"
+        <button @@click="currentPage = page"
                 :class="{'bg-teal-600 text-white': currentPage === page, 'border px-3 py-1 rounded-lg hover:bg-gray-200 transition': true}"
                 x-text="page"></button>
       </template>
-      <button @click="nextPage" class="px-3 py-1 border rounded-lg hover:bg-gray-200 transition">»</button>
+      <button @@click="nextPage" class="px-3 py-1 border rounded-lg hover:bg-gray-200 transition">»</button>
     </div>
   </div>
 
   <!-- Модальное окно -->
   <div x-show="showModal" x-transition
        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-       @click.self="closeModal">
+       @@click.self="closeModal">
     <div class="bg-white rounded-xl shadow-lg w-full max-w-2xl p-6 overflow-y-auto max-h-[90vh]">
       <h2 class="text-2xl font-semibold text-gray-800 mb-6"
           x-text="editId ? 'Редактировать отзыв' : 'Добавить отзыв'"></h2>
 
-      <form class="space-y-4" @submit.prevent="saveReview">
+      <form class="space-y-4" submit.prevent="saveReview">
 
         <!-- Имя -->
         <div>
@@ -183,7 +179,7 @@
 
         <!-- Кнопки -->
         <div class="flex justify-end gap-4 pt-4 border-t border-gray-200 mt-6">
-          <button type="button" @click="closeModal"
+          <button type="button" @@click="closeModal"
                   class="px-5 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition">
             Отмена
           </button>

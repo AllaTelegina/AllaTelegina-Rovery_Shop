@@ -1,10 +1,7 @@
-<!--@{
-    Layout = "_AdminLayout";
-    ViewData["Title"] = "Отчёты";
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
--->
-<!DOCTYPE html>
-<html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,39 +24,18 @@
 
 <body class="bg-gray-100 flex">
 
-  <!-- Боковое меню -->
-  <aside class="w-64 bg-gray-900 text-white flex flex-col min-h-screen">
-    <div class="p-4 text-2xl font-bold border-b border-teal-600">AdminPanel</div>
-    <nav class="flex-1 mt-4">
-      <ul>
-        <li><a href="/Admin/Dashboard" class="block p-3 hover:bg-teal-600">📊 Dashboard</a></li>
-        <li><a href="/Admin/Products" class="block p-3 bg-teal-600">🛍️ Товары</a></li>
-        <li><a href="/Admin/Orders" class="block p-3 hover:bg-teal-600">📦 Заказы</a></li>
-        <li><a href="/Admin/Blog" class="block p-3 hover:bg-teal-600">📝 Блог</a></li>
-        <li><a href="/Admin/Comments" class="block p-3 hover:bg-teal-600">💬 Комментарии</a></li>
-        <li><a href="/Admin/Reviews" class="block p-3 hover:bg-teal-600">⭐ Отзывы</a></li>
-        <li><a href="/Admin/Feedback" class="block p-3 hover:bg-teal-600">✉️ Feedback</a></li>
-        <li><a href="/Admin/Users" class="block p-3 hover:bg-teal-600">👥 Пользователи</a></li>
-        <li><a href="/Admin/Reports" class="block p-3 hover:bg-teal-600">📈 Отчёты</a></li>
-      </ul>
-    </nav>
-    <div class="p-4 border-t border-teal-600">
-      <a href="/Account/Logout" class="block text-sm text-gray-300 hover:text-red-600">🚪 Выйти</a>
-    </div>
-  </aside>
-
 <main x-data="{ tab: 'sales' }" class="p-6 bg-gray-100 min-h-screen">
   <h1 class="text-2xl font-semibold text-gray-800 mb-6">Отчёты</h1>
 
   <!-- Вкладки -->
   <div class="flex flex-wrap gap-3 mb-6">
-    <button @click="tab = 'sales'" :class="tab === 'sales' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'"
+    <button @@click="tab = 'sales'" :class="tab === 'sales' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'"
       class="px-4 py-2 rounded-lg shadow transition">Продажи</button>
-    <button @click="tab = 'users'" :class="tab === 'users' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'"
+    <button @@click="tab = 'users'" :class="tab === 'users' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'"
       class="px-4 py-2 rounded-lg shadow transition">Пользователи</button>
-    <button @click="tab = 'finance'" :class="tab === 'finance' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'"
+    <button @@click="tab = 'finance'" :class="tab === 'finance' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'"
       class="px-4 py-2 rounded-lg shadow transition">Финансы</button>
-    <button @click="tab = 'reviews'" :class="tab === 'reviews' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'"
+    <button @@click="tab = 'reviews'" :class="tab === 'reviews' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'"
       class="px-4 py-2 rounded-lg shadow transition">Отзывы</button>
   </div>
 

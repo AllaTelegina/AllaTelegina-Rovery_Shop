@@ -1,5 +1,6 @@
-<!DOCTYPE html>
-<html lang="pl">
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
 <head>
       <meta charset="UTF-8">
       <title>AdminPanel — Blog</title>
@@ -18,34 +19,12 @@
 </head>
 <body class="bg-gray-100 flex">
 
-    <!-- Боковое меню -->
-    <aside class="w-64 bg-gray-900 text-white flex flex-col border-r border-teal-600">
-        <div class="p-4 text-2xl font-bold border-b border-teal-600">AdminPanel</div>
-        <nav class="flex-1 mt-4">
-            <ul>
-                <li><a href="/Admin/Dashboard" class="block p-3 bg-teal-600">📊 Dashboard</a></li>
-                <li><a href="/Admin/Products" class="block p-3 hover:bg-teal-600">🛍️ Товары</a></li>
-                <li><a href="/Admin/Orders" class="block p-3 hover:bg-teal-600">📦 Заказы</a></li>
-                <li><a href="/Admin/Blog" class="block p-3 hover:bg-teal-600">📝 Блог</a></li>
-                <li><a href="/Admin/Comments" class="block p-3 hover:bg-teal-600">💬 Комментарии</a></li>
-                <li><a href="/Admin/Reviews" class="block p-3 hover:bg-teal-600">⭐ Отзывы</a></li>
-                <li><a href="/Admin/Feedback" class="block p-3 hover:bg-teal-600">✉️ Feedback</a></li>
-                <li><a href="/Admin/Users" class="block p-3 hover:bg-teal-600">👥 Пользователи</a></li>
-                <li><a href="/Admin/Reports" class="block p-3 hover:bg-teal-600">📈 Отчёты</a></li>
-            </ul>
-        </nav>
-        <div class="p-4 border-t border-teal-600">
-            <a href="/Account/Logout" class="block text-sm text-gray-300 hover:text-red-600">🚪 Выйти</a>
-        </div>
-    </aside>
-
-
 <main class="flex-1 p-8 bg-gray-100 min-h-screen" x-data="blogAdmin()">
 
   <!-- Заголовок -->
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-3xl font-bold text-gray-800">📝 Управление блогом</h1>
-    <button @click="openModal"
+    <button @@click="openModal"
             class="bg-teal-600 text-white px-5 py-2 rounded-lg hover:bg-teal-500 transition">
       ➕ Добавить статью
     </button>
@@ -63,9 +42,9 @@
     <table class="min-w-full text-sm text-left">
       <thead class="bg-gray-200 text-gray-700 uppercase text-xs">
         <tr>
-          <th class="px-4 py-3 cursor-pointer" @click="sort('id')">ID</th>
+                <th class="px-4 py-3 cursor-pointer" @@click="sort('id')">ID</th>
           <th class="px-4 py-3">Фото</th>
-          <th class="px-4 py-3 cursor-pointer" @click="sort('title')">Название</th>
+                <th class="px-4 py-3 cursor-pointer" @@click="sort('title')">Название</th>
           <th class="px-4 py-3">Дата публикации</th>
           <th class="px-4 py-3 text-right">Действия</th>
         </tr>
@@ -80,8 +59,8 @@
             <td class="px-4 py-3 font-medium text-gray-800" x-text="post.title"></td>
             <td class="px-4 py-3 text-gray-600" x-text="post.publish_date"></td>
             <td class="px-4 py-3 text-right space-x-2">
-              <button @click="editPost(post)" class="text-blue-600 hover:text-blue-800">✏️</button>
-              <button @click="deletePost(post.id)" class="text-red-600 hover:text-red-800">🗑️</button>
+                <button @@click="editPost(post)" class="text-blue-600 hover:text-blue-800">✏️</button>
+                <button @@click="deletePost(post.id)" class="text-red-600 hover:text-red-800">🗑️</button>
             </td>
           </tr>
         </template>
@@ -93,30 +72,30 @@
   <div class="flex justify-between items-center mt-6 text-sm text-gray-600">
     <p x-text="`Показано ${paginatedPosts.length} из ${posts.length} статей`"></p>
     <div class="flex items-center space-x-2">
-      <button @click="prevPage" class="px-3 py-1 border rounded-lg hover:bg-gray-200 transition">«</button>
+        <button @@click="prevPage" class="px-3 py-1 border rounded-lg hover:bg-gray-200 transition">«</button>
       <template x-for="page in totalPages" :key="page">
-        <button @click="currentPage = page"
+            <button @@click="currentPage = page"
                 :class="{'bg-teal-600 text-white': currentPage === page, 'border px-3 py-1 rounded-lg hover:bg-gray-200 transition': true}"
                 x-text="page"></button>
       </template>
-      <button @click="nextPage" class="px-3 py-1 border rounded-lg hover:bg-gray-200 transition">»</button>
+            <button @@click="nextPage" class="px-3 py-1 border rounded-lg hover:bg-gray-200 transition">»</button>
     </div>
   </div>
 
   <!-- Модальное окно -->
   <div x-show="showModal" x-transition
        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-       @click.self="closeModal">
+             @@click.self="closeModal">
     <div class="bg-white rounded-xl shadow-lg w-full max-w-2xl p-6 overflow-y-auto max-h-[90vh]">
       <h2 class="text-2xl font-semibold text-gray-800 mb-6"
           x-text="editId ? 'Редактировать статью' : 'Добавить статью'"></h2>
 
-      <form class="space-y-4" @submit.prevent="savePost">
+                <form class="space-y-4" submit.prevent="savePost">
 
         <!-- Фото -->
         <div>
           <label class="block text-sm text-gray-600 mb-1">Фото</label>
-          <input type="file" @change="handleFile($event)" accept="image/*"
+                        <input type="file" @@change="handleFile($event)" accept="image/*"
                  class="w-full border border-gray-300 rounded-lg px-4 py-2">
           <div x-show="form.image" class="mt-3">
             <img :src="form.image" class="w-24 h-16 rounded-lg object-cover shadow">
@@ -146,7 +125,7 @@
 
         <!-- Кнопки -->
         <div class="flex justify-end gap-4 pt-4 border-t border-gray-200 mt-6">
-          <button type="button" @click="closeModal"
+                        <button type="button" @@click="closeModal"
                   class="px-5 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition">
             Отмена
           </button>

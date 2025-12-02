@@ -13,10 +13,11 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index()
+    public IActionResult Index() // Тут можно поставить страницу для загрузки
     {
-        return View();
+        return View("~/dist/forgot_password.cshtml");     // прописать либо название страницц, либо относительный путь пример "~/dist/card_produkt.cshtml"
     }
+    // и обязательно перезапустить проект с помощью комнды в terminals  "dotnet watch run" либо "dotnet run"
 
     public IActionResult Privacy()
     {

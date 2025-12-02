@@ -29,7 +29,7 @@
             <!-- Modal body -->
             <div class="p-4 md:p-5">
                 <div 
-                    @@click="mode = 'login'" 
+                    data-click="mode = 'login'" 
                     x-show="mode === 'login' || window.innerWidth >= 640" 
                     x-cloak 
                     :class="mode === 'login' ? 'ring-2 ring-teal-200' : ''"

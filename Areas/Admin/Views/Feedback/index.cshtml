@@ -1,11 +1,7 @@
-<!--@{
-    Layout = "_AdminLayout";
-    ViewData["Title"] = "Обратная связь";
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
--->
 
-<!DOCTYPE html>
-<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +22,7 @@
 
 <body class="bg-gray-100 flex">
 
-  <!-- Боковое меню -->
+  @* <!-- Боковое меню -->
   <aside class="w-64 bg-gray-900 text-white flex flex-col min-h-screen">
     <div class="p-4 text-2xl font-bold border-b border-teal-600">AdminPanel</div>
     <nav class="flex-1 mt-4">
@@ -45,7 +41,7 @@
     <div class="p-4 border-t border-teal-600">
       <a href="/Account/Logout" class="block text-sm text-gray-300 hover:text-red-600">🚪 Выйти</a>
     </div>
-  </aside>
+  </aside> *@
 
 <main class="flex-1 p-6 sm:p-8 bg-gray-100 min-h-screen" x-data="feedbackAdmin()">
 
@@ -75,7 +71,7 @@
       <table class="min-w-full text-sm text-left border-collapse">
         <thead class="bg-gray-50 border-b">
           <tr>
-            <th class="px-3 py-2 text-left cursor-pointer" @click="sort('id')">ID</th>
+            <th class="px-3 py-2 text-left cursor-pointer" @@click="sort('id')">ID</th>
             <th class="px-3 py-2 text-left">Имя</th>
             <th class="px-3 py-2 text-left">Email</th>
             <th class="px-3 py-2 text-left">Тема</th>
@@ -103,8 +99,8 @@
                   }" x-text="msg.status"></span>
               </td>
               <td class="px-3 py-2 text-right space-x-2">
-                <button @click="openReplyModal(msg)" class="text-blue-600 hover:underline">💬</button>
-                <button @click="deleteMessage(msg.id)" class="text-red-600 hover:underline">🗑️</button>
+                <button @@click="openReplyModal(msg)" class="text-blue-600 hover:underline">💬</button>
+                <button @@click="deleteMessage(msg.id)" class="text-red-600 hover:underline">🗑️</button>
               </td>
             </tr>
           </template>
@@ -117,7 +113,7 @@
   <div x-show="showModal" x-transition class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50" x-cloak>
     <div class="bg-white w-full max-w-md rounded-lg shadow-lg p-6 relative">
       <!-- Крестик -->
-      <button @click="closeModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl font-bold">×</button>
+      <button @@click="closeModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl font-bold">×</button>
 
       <h2 class="text-lg font-semibold mb-4 text-gray-800">Ответ пользователю</h2>
 
@@ -129,8 +125,8 @@
       <textarea x-model="replyText" placeholder="Введите ответ..." class="w-full border border-gray-300 rounded-md p-2 mb-4 focus:ring-2 focus:ring-blue-500"></textarea>
 
       <div class="flex justify-end space-x-3">
-        <button @click="closeModal()" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 text-gray-800">Отмена</button>
-        <button @click="sendReply()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Отправить</button>
+        <button @@click="closeModal()" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 text-gray-800">Отмена</button>
+        <button @@click="sendReply()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Отправить</button>
       </div>
     </div>
   </div>

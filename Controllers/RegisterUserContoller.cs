@@ -84,7 +84,7 @@ namespace Backend_asp.net.Controllers
         // Метод для проверки пользователя при входе;
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task <ActionResult> EntranceForUser(DotnetModel model, bool RememberMe = false)
+        public async Task <IActionResult> EntranceForUser(DotnetModel model, bool RememberMe = false)
         {
             var hashpassword = new PasswordHasher<UserRovery>();
             var imail = model.UserRovery.Email;
@@ -92,15 +92,17 @@ namespace Backend_asp.net.Controllers
             if(imail==null || password == null)
                 return View("ErrorViewModel");
 
-            // Цыкл проверки, пока пользователь введет правильные данные;
+            // провверяю есть ли в базе данных;
             var userDB= await _context.userRoverys.FirstOrDefaultAsync(x=> x.Email == imail);
-            if (userDB!=null)   //userDB.Password != null || userDB.Password!= "default"
+            if (userDB != null)
             {
+                if (userDB.Password == "default" || userDB.Password == null)
+                    return ErrorValidation();
+
                 var gethashpass = hashpassword.VerifyHashedPassword(userDB, userDB.Password, password);
-                if (gethashpass == PasswordVerificationResult.Failed)    // тут ошибка, которую нужно завтра отредактировать;
+                if (gethashpass == 0)
                 {
-                    ViewBag.ValidPassword = "Nieprawidłowy login lub hasło!";
-                    return View("index");
+                    return ErrorValidation();
                 }
                 // Если нажата кнопка запомнить
                 if (RememberMe)
@@ -145,11 +147,16 @@ namespace Backend_asp.net.Controllers
                 }
             }
             else
-            {
-                ViewBag.ValidPassword = "Nieprawidłowy login lub hasło!";
-                return View("index");
-            }
+               return ErrorValidation();
+
             return RedirectToAction("Index");
+        }
+
+        // Метод который выводит в поля ошибки;
+        private IActionResult ErrorValidation()
+        {
+            ViewBag.ValidPassword = "Nieprawidłowy login lub hasło!";
+            return View("index");
         }
 
         // Открытие ссылки на востановление пороля;

@@ -1,11 +1,6 @@
-<!--
 @{
-    Layout = "_AdminLayout";
-    ViewData["Title"] = "Комментарии";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
--->
-<!DOCTYPE html>
-<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,68 +22,6 @@
   </head>
 
   <body class="bg-gray-100 flex">
-    <!-- Боковое меню -->
-    <aside class="w-64 bg-gray-900 text-white flex flex-col min-h-screen">
-      <div class="p-4 text-2xl font-bold border-b border-teal-600">
-        AdminPanel
-      </div>
-      <nav class="flex-1 mt-4">
-        <ul>
-          <li>
-            <a href="/Admin/Dashboard" class="block p-3 hover:bg-teal-600"
-              >📊 Dashboard</a
-            >
-          </li>
-          <li>
-            <a href="/Admin/Products" class="block p-3 hover:bg-teal-600"
-              >🛍️ Товары</a
-            >
-          </li>
-          <li>
-            <a href="/Admin/Orders" class="block p-3 hover:bg-teal-600"
-              >📦 Заказы</a
-            >
-          </li>
-          <li>
-            <a href="/Admin/Blog" class="block p-3 hover:bg-teal-600"
-              >📝 Блог</a
-            >
-          </li>
-          <li>
-            <a href="/Admin/Comments" class="block p-3 bg-teal-600"
-              >💬 Комментарии</a
-            >
-          </li>
-          <li>
-            <a href="/Admin/Reviews" class="block p-3 hover:bg-teal-600"
-              >⭐ Отзывы</a
-            >
-          </li>
-          <li>
-            <a href="/Admin/Feedback" class="block p-3 hover:bg-teal-600"
-              >✉️ Feedback</a
-            >
-          </li>
-          <li>
-            <a href="/Admin/Users" class="block p-3 hover:bg-teal-600"
-              >👥 Пользователи</a
-            >
-          </li>
-          <li>
-            <a href="/Admin/Reports" class="block p-3 hover:bg-teal-600"
-              >📈 Отчёты</a
-            >
-          </li>
-        </ul>
-      </nav>
-      <div class="p-4 border-t border-teal-600">
-        <a
-          href="/Account/Logout"
-          class="block text-sm text-gray-300 hover:text-red-600"
-          >🚪 Выйти</a
-        >
-      </div>
-    </aside>
 
     <!-- Основная часть -->
     <main class="flex-1 p-8 bg-gray-100 min-h-screen" x-data="commentsAdmin()">
@@ -155,7 +88,7 @@
                   </td>
                   <td class="px-4 py-3 text-right">
                     <button
-                      @click="selected = comment"
+                      @@click="selected = comment"
                       class="text-blue-600 hover:underline"
                     >
                       Просмотр
@@ -184,20 +117,20 @@
           ></p>
           <div class="flex items-center space-x-2">
             <button
-              @click="prevPage"
+              @@click="prevPage"
               class="px-3 py-1 border rounded-lg hover:bg-gray-200 transition"
             >
               «
             </button>
             <template x-for="pageNum in totalPages" :key="pageNum">
               <button
-                @click="currentPage = pageNum"
+                @@click="currentPage = pageNum"
                 :class="{'bg-teal-600 text-white': currentPage === pageNum, 'border px-3 py-1 rounded-lg hover:bg-gray-200 transition': true}"
                 x-text="pageNum"
               ></button>
             </template>
             <button
-              @click="nextPage"
+              @@click="nextPage"
               class="px-3 py-1 border rounded-lg hover:bg-gray-200 transition"
             >
               »
@@ -213,7 +146,7 @@
         >
           <div
             class="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg"
-            @click.away="selected = null"
+            @@click.away="selected = null"
           >
             <h3
               class="text-xl font-semibold mb-4"
@@ -232,19 +165,19 @@
 
             <div class="flex justify-end mt-4 gap-2">
               <button
-                @click="selected = null"
+                @@click="selected = null"
                 class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
               >
                 Закрыть
               </button>
               <button
-                @click="approve(selected)"
+                @@click="approve(selected)"
                 class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
               >
                 Одобрить
               </button>
               <button
-                @click="reject(selected)"
+                @@click="reject(selected)"
                 class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
               >
                 Отклонить
@@ -354,4 +287,4 @@
       }
     </script>
   </body>
-</html>
+</>
