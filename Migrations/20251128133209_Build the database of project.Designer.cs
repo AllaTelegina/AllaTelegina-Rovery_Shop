@@ -4,6 +4,7 @@ using Backend_asp.net.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend_asp.net.Migrations
 {
     [DbContext(typeof(AplicationContext))]
-    partial class AplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20251128133209_Build the database of project")]
+    partial class Buildthedatabaseofproject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,19 +57,11 @@ namespace Backend_asp.net.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("LevelCategory")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("categorys");
                 });
@@ -127,26 +122,20 @@ namespace Backend_asp.net.Migrations
                     b.Property<string>("BrandRoverMech")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.PrimitiveCollection<string>("Images")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("CreateRoverMechTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ModelRoverMech")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NomerRoveryShop")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoverGender")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SkuNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -175,16 +164,10 @@ namespace Backend_asp.net.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsAdmin")
+                    b.Property<bool>("IsAdmin")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("IsConfirm")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsSignature")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsStatus")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
@@ -211,9 +194,6 @@ namespace Backend_asp.net.Migrations
                     b.Property<DateTime?>("TimeCreateUserRovery")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("TimeIntrance")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Token")
                         .HasColumnType("nvarchar(max)");
 
@@ -234,13 +214,6 @@ namespace Backend_asp.net.Migrations
                         .IsRequired();
 
                     b.Navigation("UserRovery");
-                });
-
-            modelBuilder.Entity("Backend_asp.net.Models.Category", b =>
-                {
-                    b.HasOne("Backend_asp.net.Models.Product", null)
-                        .WithMany("IsCategory")
-                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.DataBaseModel.ProductCategory", b =>
@@ -294,8 +267,6 @@ namespace Backend_asp.net.Migrations
             modelBuilder.Entity("Backend_asp.net.Models.Product", b =>
                 {
                     b.Navigation("BasketProducts");
-
-                    b.Navigation("IsCategory");
 
                     b.Navigation("ProductCategory");
                 });

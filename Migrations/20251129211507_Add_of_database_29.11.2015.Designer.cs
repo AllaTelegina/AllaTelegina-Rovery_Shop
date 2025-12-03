@@ -4,6 +4,7 @@ using Backend_asp.net.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend_asp.net.Migrations
 {
     [DbContext(typeof(AplicationContext))]
-    partial class AplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20251129211507_Add_of_database_29.11.2015")]
+    partial class Add_of_database_29112015
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,9 +56,6 @@ namespace Backend_asp.net.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("LevelCategory")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -175,16 +175,10 @@ namespace Backend_asp.net.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsAdmin")
+                    b.Property<bool>("IsAdmin")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("IsConfirm")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsSignature")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsStatus")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
@@ -209,9 +203,6 @@ namespace Backend_asp.net.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("TimeCreateUserRovery")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("TimeIntrance")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Token")

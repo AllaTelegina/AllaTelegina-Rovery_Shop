@@ -9,7 +9,11 @@ namespace Backend_asp.net.Models
         public string? PhoneNumer { get; set; }  // номер телефона;
         public DateTime? DateOfBirth {  get; set; }
         public string? Password { get; set; }
-        public bool IsAdmin { get; private set; } = false;
+        public bool? IsAdmin { get; private set; } = false;         // Проверяет, является ли пользователь admin
+        public DateTime? TimeIntrance { get; set; }     // Это время когда пользователь входит в систему;
+        public bool? IsSignature { get; set; }=false;           // Имеется ли подписка у пользователя
+        public bool? IsStatus { get; set; } =false;                 // Статус пользователя на сейчас. Он активен либо заблокированный;
+
 
         // Дополнительные парамеетры для заказа;
         public string? Country { get; set; }
@@ -25,7 +29,7 @@ namespace Backend_asp.net.Models
         public DateTime? TokenExpiry { get; set; }
 
         // связь один ко многим с карточкой товаров
-        public ICollection<ShoppingCart> ShoppingCart { get; set; }
+        public ICollection<Basket> Baskets { get; set; }
 
         public UserRovery()
         {

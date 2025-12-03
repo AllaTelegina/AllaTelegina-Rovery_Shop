@@ -1,6 +1,9 @@
 @{
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    
 }
+<!--  Добовляем коллекцию пользователей    -->
+@model ICollection<UserRovery>
 
   <head>
     <meta charset="UTF-8" />
@@ -70,38 +73,43 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="border-t hover:bg-gray-50">
-              <td class="py-3 px-4">1</td>
-              <td class="py-3 px-4 font-medium">Иван Петров</td>
-              <td class="py-3 px-4">ivan@example.com</td>
-              <td class="py-3 px-4">+7 (999) 555-44-33</td>
-              <td class="py-3 px-4">Москва</td>
-              <td class="py-3 px-4 text-teal-600 font-medium">Да</td>
-              <td class="py-3 px-4">
-                <span class="bg-emerald-100 text-etal-600 px-2 py-1 rounded text-xs font-medium">Активен</span>
-              </td>
-              <td class="py-3 px-4 text-gray-500 text-sm">01.10.2025</td>
-              <td class="py-3 px-4 text-gray-500 text-sm">05.11.2025</td>
-              <td class="py-3 px-4 text-center">
-                <div class="flex justify-center gap-3">
-                  <button
-                    @@click="openModal = true; mode = 'view'"
-                    class="text-teal-600 hover:text-teal-500"
-                    title="Просмотр"
-                  >
-                    👁️
-                  </button>
-                  <button
-                    @@click="openModal = true; mode = 'edit'"
-                    class="text-etal-600 hover:text-etal-700"
-                    title="Редактировать"
-                  >
-                    ✏️
-                  </button>
-                  <button class="text-red-500 hover:text-red-700" title="Удалить">🗑️</button>
-                </div>
-              </td>
-            </tr>
+            @foreach(var user in Model)
+            {
+                <tr class="border-t hover:bg-gray-50">
+                    <td class="py-3 px-4">@user.Id</td>
+                    <td class="py-3 px-4 font-medium">@user.Name @user.LastName</td>
+                    <td class="py-3 px-4">@user.Email</td>
+                    <td class="py-3 px-4">@user.PhoneNumer</td>
+                    <td class="py-3 px-4">@user.Sity</td>
+                    <td class="py-3 px-4 text-teal-600 font-medium">Да</td>
+                    <td class="py-3 px-4">
+                        <span class="bg-emerald-100 text-etal-600 px-2 py-1 rounded text-xs font-medium">Активен</span>
+                    </td>
+                        <td class="py-3 px-4 text-gray-500 text-sm">
+                            @user.TimeCreateUserRovery?.ToString("dd.MM.yyyy HH:mm")
+                        </td>
+                    <td class="py-3 px-4 text-gray-500 text-sm">
+                        @user.TimeIntrance?.ToString("dd.MM.yyyy HH:mm")
+                        </td>
+                    <td class="py-3 px-4 text-center">
+                        <div class="flex justify-center gap-3">
+                            <button
+                                @@click="openModal = true; mode = 'view'"
+                                class="text-teal-600 hover:text-teal-500"
+                                title="Просмотр">
+                                👁️
+                            </button>
+                            <button
+                                @@click="openModal = true; mode = 'edit'"
+                                class="text-etal-600 hover:text-etal-700"
+                                title="Редактировать">
+                                ✏️
+                            </button>
+                            <button class="text-red-500 hover:text-red-700" title="Удалить">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+            }
           </tbody>
         </table>
       </div>

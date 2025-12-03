@@ -1,5 +1,6 @@
 using Backend_asp.net.Models;
 using Backend_asp.net.Models.DataBaseModel;
+using Backend_asp.net.Models.Intermediate_class;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend_asp.net.DataBase
@@ -9,16 +10,44 @@ namespace Backend_asp.net.DataBase
         // создание в Db таблицу пользователей
         public DbSet<UserRovery> userRoverys { get; set; }
         // создание в Db таблицу товаров механические велосипеды
-        public DbSet<RoverMech> roverMechs { get; set; }
+        public DbSet<Product> products { get; set; }
         // создание в Db таблицу карточку товаров
-        public DbSet<ShoppingCart> shoppingCarts { get; set; }
+        public DbSet<Basket> baskets { get; set; }
+        // Категория товаров;
+        public DbSet<Category> categorys{ get; set; }
 
         // Добовление таблицы свойств для велосипедов и промежуточной таблицы;
-        public DbSet<PropertyBicycle> propertyBicecles { get; set; }
-        public DbSet<ResultPropertyBicycle> resultPropertyBicycles { get; set; }
+        public DbSet<ProductCategory> resultPropertyBicycles { get; set; }
+        public DbSet<BasketProduct> basketProducts { get; set; }
 
         public  AplicationContext(DbContextOptions<AplicationContext> option) : base(option)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserRovery>()
+                .HasMany(a => a.Baskets)
+                .WithOne(c => c.UserRovery)
+                .HasForeignKey(c => c.UserRoveryId);
+
+            // Насройка связи корзина и продукт;
+            modelBuilder.Entity<BasketProduct>()
+                .HasKey(c => new{ c.BasketID, c.ProductID});
+            modelBuilder.Entity<BasketProduct>()
+                .HasOne(t=>t.Basket)
+                .WithMany(c=>c.BasketProducts)
+                .HasForeignKey(x=>x.BasketID);
+            modelBuilder.Entity<BasketProduct>()
+                .HasOne(a=>a.Product)
+                .WithMany(b=>b.BasketProducts)
+                .HasForeignKey(c=>c.ProductID);
+
+            // Настройка связи продукт и категория;
+
+
+        }
+
+
     }
 }
