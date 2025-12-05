@@ -10,9 +10,15 @@ namespace Backend_asp.net.Models
 
         // Свойства согласно магазина;
         public string Name { get; set; }
-        public ICollection <Category> IsCategory { get; set; }    // присвоение категории;
+        public ICollection<Category> IsCategory { get; set; }    // присвоение категории;
         public string SkuNumber { get; set; }                     // SKU номер магазина для этой серии
+        public double Prise { get; set; }                         // цена нашего магазина;
+        public double Lastprise { get; set; }                     // последняя установленная цена;
         private DateTime CreateRoverMechTime { get; set; } = DateTime.Now;
+        public StatusProductEnum Status {  get; set; }             //Перечесление;
+        public string BriefDiscription { get; set; }               // Короткое описание;
+        public string FullDiscription {  get; set; }                // Полное описание товара;
+
 
         // Свойства непосредственно для описания на странице;
         public string? RoverGender { get; set; }
