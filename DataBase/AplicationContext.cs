@@ -43,6 +43,14 @@ namespace Backend_asp.net.DataBase
                 .WithMany(b=>b.BasketProducts)
                 .HasForeignKey(c=>c.ProductID);
 
+            // настройка для product чтоб небыло путаницы в ключах;
+            modelBuilder.Entity<Product>()
+                .HasOne(t => t.MainCategory)
+                .WithMany()
+                .HasForeignKey(a=>a.IsCategory)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
             // Настройка связи продукт и категория;
 
 

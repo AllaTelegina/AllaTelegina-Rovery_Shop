@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", handlerforms);
 var flag_email=false;
 var flag_password=false;
 
+// методы для проверки валидации логина и пароля
 function handlerforms() {
     const email=document.getElementsByClassName("validate-email")[0];
     const password=document.getElementsByClassName("validate-password")[0];
@@ -106,3 +107,7 @@ function handlerforms() {
         }
     }
 }
+
+
+
+

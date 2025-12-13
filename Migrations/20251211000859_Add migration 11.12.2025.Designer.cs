@@ -4,6 +4,7 @@ using Backend_asp.net.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend_asp.net.Migrations
 {
     [DbContext(typeof(AplicationContext))]
-    partial class AplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20251211000859_Add migration 11.12.2025")]
+    partial class Addmigration11122025
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,7 +141,7 @@ namespace Backend_asp.net.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IsCategory")
+                    b.Property<int>("IsCategoryId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Lastprise")
@@ -169,7 +172,7 @@ namespace Backend_asp.net.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IsCategory");
+                    b.HasIndex("IsCategoryId");
 
                     b.ToTable("products");
                 });
@@ -296,13 +299,13 @@ namespace Backend_asp.net.Migrations
 
             modelBuilder.Entity("Backend_asp.net.Models.Product", b =>
                 {
-                    b.HasOne("Backend_asp.net.Models.Category", "MainCategory")
+                    b.HasOne("Backend_asp.net.Models.Category", "IsCategory")
                         .WithMany()
-                        .HasForeignKey("IsCategory")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("IsCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("MainCategory");
+                    b.Navigation("IsCategory");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.Basket", b =>
