@@ -18,7 +18,7 @@ namespace Backend_asp.net.Controllers
             _context=context;
         }
         // действие кнопки для отправки на Google для проверки imail, login пользователя;
-        public async Task <IActionResult> SingGoogleServer()
+        public ActionResult SingGoogleServer()
         {
             // Формирую ссылку для того чтоб можно было отправить на сервер Google;
             var sendGoogle = Url.Action("ResponceGoogle","SendGoogle");

@@ -68,29 +68,20 @@ namespace Backend_asp.net.Migrations
 
             modelBuilder.Entity("Backend_asp.net.Models.DataBaseModel.ProductCategory", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
+                    b.HasKey("ProductId", "CategoryId");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("resultPropertyBicycles");
+                    b.ToTable("productCategories");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.Intermediate_class.BasketProduct", b =>
@@ -138,9 +129,6 @@ namespace Backend_asp.net.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IsCategory")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Lastprise")
                         .HasColumnType("decimal(18,2)");
 
@@ -168,8 +156,6 @@ namespace Backend_asp.net.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IsCategory");
 
                     b.ToTable("products");
                 });
@@ -250,7 +236,7 @@ namespace Backend_asp.net.Migrations
                     b.HasOne("Backend_asp.net.Models.UserRovery", "UserRovery")
                         .WithMany("Baskets")
                         .HasForeignKey("UserRoveryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("UserRovery");
@@ -259,13 +245,13 @@ namespace Backend_asp.net.Migrations
             modelBuilder.Entity("Backend_asp.net.Models.DataBaseModel.ProductCategory", b =>
                 {
                     b.HasOne("Backend_asp.net.Models.Category", "Category")
-                        .WithMany("ProductCategory")
+                        .WithMany("ProductCategoryes")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Backend_asp.net.Models.Product", "Product")
-                        .WithMany("ProductCategory")
+                        .WithMany("ProductCategoryes")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -280,7 +266,7 @@ namespace Backend_asp.net.Migrations
                     b.HasOne("Backend_asp.net.Models.Basket", "Basket")
                         .WithMany("BasketProducts")
                         .HasForeignKey("BasketID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Backend_asp.net.Models.Product", "Product")
@@ -294,17 +280,6 @@ namespace Backend_asp.net.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Backend_asp.net.Models.Product", b =>
-                {
-                    b.HasOne("Backend_asp.net.Models.Category", "MainCategory")
-                        .WithMany()
-                        .HasForeignKey("IsCategory")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("MainCategory");
-                });
-
             modelBuilder.Entity("Backend_asp.net.Models.Basket", b =>
                 {
                     b.Navigation("BasketProducts");
@@ -312,14 +287,14 @@ namespace Backend_asp.net.Migrations
 
             modelBuilder.Entity("Backend_asp.net.Models.Category", b =>
                 {
-                    b.Navigation("ProductCategory");
+                    b.Navigation("ProductCategoryes");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.Product", b =>
                 {
                     b.Navigation("BasketProducts");
 
-                    b.Navigation("ProductCategory");
+                    b.Navigation("ProductCategoryes");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.UserRovery", b =>

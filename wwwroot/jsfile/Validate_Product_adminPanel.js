@@ -21,13 +21,21 @@ function Validate_AND_Create_SKU(){
             console.log("Result");
             console.log(category_element);
             GetIdCategory(category_element);
-            // Метод, который будет отправлять 
-            
+
+            // Метод, который будет отправлять в метод контроллера и получать результат
             async function GetIdCategory(category_element) {
                 let respons= await fetch ("/SendSKU/" + category_element);
                 console.log("запрос в BD");
                 let responsDB= await respons.json();
-                console.log(responsDB);
+
+                // тут я получаю ответ от сервера;
+                console.log("Ответ от сервера", responsDB);
+                input_element = document.getElementById("SkUinput");
+                if (input_element) {
+                  console.log("Получен InputElement", input_element);
+                  input_element.value = await responsDB.skuNumber;
+                }
+                else Console.log("Элемент input не получен")
             }
         })
     }

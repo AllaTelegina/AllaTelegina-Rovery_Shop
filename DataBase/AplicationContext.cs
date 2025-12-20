@@ -17,7 +17,7 @@ namespace Backend_asp.net.DataBase
         public DbSet<Category> categorys{ get; set; }
 
         // Добовление таблицы свойств для велосипедов и промежуточной таблицы;
-        public DbSet<ProductCategory> resultPropertyBicycles { get; set; }
+        public DbSet<ProductCategory> productCategories { get; set; }
         public DbSet<BasketProduct> basketProducts { get; set; }
 
         public  AplicationContext(DbContextOptions<AplicationContext> option) : base(option)
@@ -26,36 +26,36 @@ namespace Backend_asp.net.DataBase
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserRovery>()
-                .HasMany(a => a.Baskets)
-                .WithOne(c => c.UserRovery)
-                .HasForeignKey(c => c.UserRoveryId);
+            modelBuilder.Entity<Basket>()
+                .HasOne(a => a.UserRovery)
+                .WithMany(c => c.Baskets)
+                .HasForeignKey(c => c.UserRoveryId)
+                .OnDelete(DeleteBehavior.Restrict);         // не удаляет корзины при удалении
 
             // Насройка связи корзина и продукт;
             modelBuilder.Entity<BasketProduct>()
                 .HasKey(c => new{ c.BasketID, c.ProductID});
             modelBuilder.Entity<BasketProduct>()
-                .HasOne(t=>t.Basket)
-                .WithMany(c=>c.BasketProducts)
-                .HasForeignKey(x=>x.BasketID);
+                .HasOne(t => t.Basket)
+                .WithMany(c => c.BasketProducts)
+                .HasForeignKey(x => x.BasketID)
+                .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<BasketProduct>()
                 .HasOne(a=>a.Product)
                 .WithMany(b=>b.BasketProducts)
                 .HasForeignKey(c=>c.ProductID);
 
-            // настройка для product чтоб небыло путаницы в ключах;
-            modelBuilder.Entity<Product>()
-                .HasOne(t => t.MainCategory)
-                .WithMany()
-                .HasForeignKey(a=>a.IsCategory)
-                .OnDelete(DeleteBehavior.Restrict);
-
-
-            // Настройка связи продукт и категория;
-
-
+            // настройка связи продукт и категория;
+            modelBuilder.Entity<ProductCategory>()
+                .HasKey(c => new { c.ProductId, c.CategoryId });
+            modelBuilder.Entity<ProductCategory>()
+                .HasOne(a => a.Product)
+                .WithMany(b => b.ProductCategoryes)
+                .HasForeignKey(t => t.ProductId);
+            modelBuilder.Entity<ProductCategory>()
+                .HasOne(a => a.Category)
+                .WithMany(b => b.ProductCategoryes)
+                .HasForeignKey(c => c.CategoryId);
         }
-
-
     }
 }

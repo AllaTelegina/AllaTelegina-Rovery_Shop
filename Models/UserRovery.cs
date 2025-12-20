@@ -2,6 +2,8 @@ namespace Backend_asp.net.Models
 {
     public class UserRovery
     {
+        // Свойства класса;
+        #region
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? LastName {  get; set; }
@@ -27,10 +29,10 @@ namespace Backend_asp.net.Models
         public string? Token { get; set; }
         public bool? IsConfirm { get; set; }=false;
         public DateTime? TokenExpiry { get; set; }
+        #endregion
 
-        // связь один ко многим с карточкой товаров
-        public ICollection<Basket> Baskets { get; set; }
-
+        // Конструкторы класса;
+        #region
         public UserRovery()
         {
             Password = "default";
@@ -42,10 +44,18 @@ namespace Backend_asp.net.Models
             Email = email;
             Password = password;
         }
+        #endregion
 
+        // Метод для определения админ прав
+        #region
         public void IsAdminTrue()
         {
             IsAdmin = true;
         }
+        #endregion
+
+        // связь один ко многим с карточкой товаров
+        public ICollection<Basket> Baskets { get; set; }=new List<Basket>();
+
     }
 }

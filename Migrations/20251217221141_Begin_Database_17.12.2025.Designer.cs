@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend_asp.net.Migrations
 {
     [DbContext(typeof(AplicationContext))]
-    [Migration("20251201124911_Add property of UserRovery")]
-    partial class AddpropertyofUserRovery
+    [Migration("20251217221141_Begin_Database_17.12.2025")]
+    partial class Begin_Database_17122025
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,41 +64,27 @@ namespace Backend_asp.net.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("categorys");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.DataBaseModel.ProductCategory", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
+                    b.HasKey("ProductId", "CategoryId");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("resultPropertyBicycles");
+                    b.ToTable("productCategories");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.Intermediate_class.BasketProduct", b =>
@@ -130,13 +116,24 @@ namespace Backend_asp.net.Migrations
                     b.Property<string>("BrandRoverMech")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("BriefDiscription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullDiscription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.PrimitiveCollection<string>("Images")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Lastprise")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ModelRoverMech")
                         .HasColumnType("nvarchar(max)");
@@ -145,12 +142,21 @@ namespace Backend_asp.net.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("Prise")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Rating")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("RoverGender")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SkuNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -233,29 +239,22 @@ namespace Backend_asp.net.Migrations
                     b.HasOne("Backend_asp.net.Models.UserRovery", "UserRovery")
                         .WithMany("Baskets")
                         .HasForeignKey("UserRoveryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("UserRovery");
                 });
 
-            modelBuilder.Entity("Backend_asp.net.Models.Category", b =>
-                {
-                    b.HasOne("Backend_asp.net.Models.Product", null)
-                        .WithMany("IsCategory")
-                        .HasForeignKey("ProductId");
-                });
-
             modelBuilder.Entity("Backend_asp.net.Models.DataBaseModel.ProductCategory", b =>
                 {
                     b.HasOne("Backend_asp.net.Models.Category", "Category")
-                        .WithMany("ProductCategory")
+                        .WithMany("ProductCategoryes")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Backend_asp.net.Models.Product", "Product")
-                        .WithMany("ProductCategory")
+                        .WithMany("ProductCategoryes")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -270,7 +269,7 @@ namespace Backend_asp.net.Migrations
                     b.HasOne("Backend_asp.net.Models.Basket", "Basket")
                         .WithMany("BasketProducts")
                         .HasForeignKey("BasketID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Backend_asp.net.Models.Product", "Product")
@@ -291,16 +290,14 @@ namespace Backend_asp.net.Migrations
 
             modelBuilder.Entity("Backend_asp.net.Models.Category", b =>
                 {
-                    b.Navigation("ProductCategory");
+                    b.Navigation("ProductCategoryes");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.Product", b =>
                 {
                     b.Navigation("BasketProducts");
 
-                    b.Navigation("IsCategory");
-
-                    b.Navigation("ProductCategory");
+                    b.Navigation("ProductCategoryes");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.UserRovery", b =>

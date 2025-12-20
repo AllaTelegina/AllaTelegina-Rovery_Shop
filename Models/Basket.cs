@@ -7,16 +7,23 @@ namespace Backend_asp.net.Models
 {
     public class Basket
     {
+        // Свойства класса;
+        #region
         public int Id { get; set; }
         // Проверить удаленный либо нет, либо действующая корзина;
         public bool? IsDeleted { get; set; }=false;
         public DateTime Created { get; set; }=DateTime.Now;
-
-        // Связь с таблицей продукты, через промежуточный class BacketProduct;
-        public ICollection<BasketProduct>BasketProducts { get; set; }
+        #endregion
 
         // навигационные свойства для class UserRovery;
-        public int UserRoveryId { get; set; }
-        public UserRovery UserRovery { get; set; }
+        #region
+        public int UserRoveryId { get; set; }       // Внешний ключ;
+        public UserRovery? UserRovery { get; set; }
+        #endregion
+
+        // Связь с таблицей продукты, через промежуточный class BacketProduct;
+        #region
+        public ICollection<BasketProduct>BasketProducts { get; set; }= new List<BasketProduct>();
+        #endregion
     }
 }

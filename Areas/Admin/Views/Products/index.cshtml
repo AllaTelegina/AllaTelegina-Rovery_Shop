@@ -186,110 +186,111 @@
                                       <!-- Tab: MAIN -->
                                       <div x-show="tab==='main'">
                                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                  <div>
-                                                        <label class="block text-sm text-gray-600 mb-1">Категория</label>
-                                                        <select name="IsCategory" x-model="form.category" Id=categoryId class="w-full border rounded px-3 py-2">
-                                                              <option value="">— Выбрать —</option>
-                                                                @foreach (var a in Model.ListCategorys)
-                                                                {
-                                                                    if (a.LevelCategory == 0)
-                                                                    {
-                                                                        <option value="@a.Id">@a.Name</option>
-                                                                    }
-                                                                }
-                                                        </select>
-                                                  </div>
-
-                                              <div>
-                                                <label class="block text-sm text-gray-600 mb-1">Название</label>
-                                            <!-- Сейчас посмотрим как передаст #del-->
-                                            <input asp-for="ProductFromAdmin.Name" type="text" x-model="form.title" class="w-full border rounded px-3 py-2" placeholder="Название товара" />
-                                              </div>
-
-                                              <div>
-                                                <label class="block text-sm text-gray-600 mb-1">SKU</label>
-                                                <input type="text" x-model="form.sku" class="w-full border rounded px-3 py-2" placeholder="Артикул / SKU" />
-                                              </div>
-
-                                              <div>
-                                                <label class="block text-sm text-gray-600 mb-1">Цена</label>
-                                                <input asp-for ="ProductFromAdmin.Prise" type="number" step="0.01" x-model.number="form.price" class="w-full border rounded px-3 py-2" />
-                                              </div>
-
-                                              <div>
-                                                <label class="block text-sm text-gray-600 mb-1">Старая цена</label>
-                                                <input asp-for="ProductFromAdmin.Lastprise" type="number" step="0.01" x-model.number="form.oldPrice" class="w-full border rounded px-3 py-2" />
-                                              </div>
-
-                                              <div>
-                                                <label class="block text-sm text-gray-600 mb-1">Рейтинг (1–5)</label>
-                                                <input asp-for="ProductFromAdmin.Rating" type="number" min="0" max="5" step="0.1" x-model.number="form.rating" class="w-full border rounded px-3 py-2" />
-                                              </div>
-
-                                              <div>
-                                                <label class="block text-sm text-gray-600 mb-1">Статус</label>
-                                                <select x-model="form.status" class="w-full border rounded px-3 py-2">
-                                                    <option value="">--Все статусы--</option>
-                                                    @foreach (var a in StatusProduct.Name)
-                                                    {
-                                                        <option>@a.Value</option>
-                                                    }
-                                                </select>
-                                              </div>
-
-                                              <!-- Key Features -->
-                                              <div class="md:col-span-2">
-                                                <label class="block text-sm text-gray-600 mb-2">Key Features</label>
-                                                <template x-for="(f, i) in form.keyFeatures" :key="i">
-                                                  <div class="flex items-center gap-2 mb-2">
-                                                    <input type="text" x-model="form.keyFeatures[i]" class="w-full border rounded px-3 py-2" placeholder="Преимущество (например, Лёгкая рама)" />
-                                                        <button @@click="form.keyFeatures.splice(i,1)" class="px-2 py-1 bg-red-100 text-red-600 rounded">✕</button>
-                                                  </div>
-                                                </template>
-                                                <div class="flex gap-2">
-                                                  <input x-model="newFeature" type="text" placeholder="Новая фича" class="border rounded px-3 py-2 w-full" />
-                                                        <button type="button" @@click="addFeature()" class="px-3 py-2 bg-teal-600 text-white rounded">Добавить</button>
+                                                <!-- Отправляю ID категории для определения главной категории товара-->
+                                                <div>
+                                                    <label class="block text-sm text-gray-600 mb-1">Категория</label>
+                                                    <select name="IsCategory" x-model="form.category" Id=categoryId class="w-full border rounded px-3 py-2">
+                                                        <option value="">— Выбрать —</option>
+                                                        @foreach (var a in Model.ListCategorys)
+                                                        {
+                                                            if (a.LevelCategory == 0)
+                                                            {
+                                                                <option value="@a.Id">@a.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
                                                 </div>
-                                              </div>
+
+                                                <div>
+                                                    <label class="block text-sm text-gray-600 mb-1">Название</label>
+                                                    <!-- Сейчас посмотрим как передаст #del-->
+                                                    <input asp-for="ProductFromAdmin.Name" type="text" x-model="form.title" class="w-full border rounded px-3 py-2" placeholder="Название товара" />
+                                                </div>
+
+                                                <div>
+                                                    <label class="block text-sm text-gray-600 mb-1">SKU</label>
+                                                    <input asp-for="ProductFromAdmin.SkuNumber" type="text" id="SkUinput" x-model="form.sku" class="w-full border rounded px-3 py-2" placeholder="Артикул / SKU" />
+                                                </div>
+
+                                                <div>
+                                                    <label class="block text-sm text-gray-600 mb-1">Цена</label>
+                                                    <input asp-for ="ProductFromAdmin.Prise" type="number" step="0.01" x-model.number="form.price" class="w-full border rounded px-3 py-2" />
+                                                </div>
+
+                                                <div>
+                                                    <label class="block text-sm text-gray-600 mb-1">Старая цена</label>
+                                                    <input asp-for="ProductFromAdmin.Lastprise" type="number" step="0.01" x-model.number="form.oldPrice" class="w-full border rounded px-3 py-2" />
+                                                </div>
+
+                                                <div>
+                                                    <label class="block text-sm text-gray-600 mb-1">Рейтинг (1–5)</label>
+                                                    <input asp-for="ProductFromAdmin.Rating" type="number" min="0" max="5" step="0.1" x-model.number="form.rating" class="w-full border rounded px-3 py-2" />
+                                                </div>
+
+                                                <div>
+                                                    <label class="block text-sm text-gray-600 mb-1">Статус</label>
+                                                    <select asp-for="ProductFromAdmin.Status" x-model="form.status" class="w-full border rounded px-3 py-2">
+                                                        <option value="">--Все статусы--</option>
+                                                        @foreach (var a in StatusProduct.Name)
+                                                        {
+                                                            <option value="@a.Key">@a.Value</option>
+                                                        }
+                                                    </select>
+                                                </div>
+
+                                                <!-- Key Features -->
+                                                <div class="md:col-span-2">
+                                                    <label class="block text-sm text-gray-600 mb-2">Key Features</label>
+                                                    <template x-for="(f, i) in form.keyFeatures" :key="i">
+                                                        <div class="flex items-center gap-2 mb-2">
+                                                        <input type="text" x-model="form.keyFeatures[i]" class="w-full border rounded px-3 py-2" placeholder="Преимущество (например, Лёгкая рама)" />
+                                                            <button @@click="form.keyFeatures.splice(i,1)" class="px-2 py-1 bg-red-100 text-red-600 rounded">✕</button>
+                                                        </div>
+                                                    </template>
+                                                    <div class="flex gap-2">
+                                                        <input x-model="newFeature" type="text" placeholder="Новая фича" class="border rounded px-3 py-2 w-full" />
+                                                        <button type="button" @@click="addFeature()" class="px-3 py-2 bg-teal-600 text-white rounded">Добавить</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                       </div>
 
                                       <!-- Tab: IMAGES -->
                                       <div x-show="tab==='images'">
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                          <div>
-                                            <label class="block text-sm text-gray-600 mb-1">Главное фото (первое в галерее)</label>
-                                            <div class="w-48 h-32 bg-gray-50 rounded border flex items-center justify-center overflow-hidden mb-2">
-                                              <template x-if="form.images && form.images[0]">
-                                                <img :src="form.images[0]" class="w-full h-full object-cover" alt="">
-                                              </template>
-                                              <template x-if="!form.images[0]">
-                                                <div class="text-gray-400 text-sm">Нет фото</div>
-                                              </template>
-                                            </div>
-                                            <div class="text-xs text-gray-500 mb-2">Загрузите изображения — первое будет главным</div>
-                                                            <input type="file" accept="image/*" @@change="uploadImage($event, true)" class="block w-full text-sm text-gray-900 border rounded cursor-pointer p-2" />
-                                          </div>
+                                          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                              <div>
+                                                  <label class="block text-sm text-gray-600 mb-1">Главное фото (первое в галерее)</label>
+                                                  <div class="w-48 h-32 bg-gray-50 rounded border flex items-center justify-center overflow-hidden mb-2">
+                                                       <template x-if="form.images && form.images[0]">
+                                                           <img :src="form.images[0]" class="w-full h-full object-cover" alt="">
+                                                       </template>
+                                                       <template x-if="!form.images[0]">
+                                                           <div class="text-gray-400 text-sm">Нет фото</div>
+                                                       </template>
+                                                  </div>
+                                                  <div class="text-xs text-gray-500 mb-2">Загрузите изображения — первое будет главным</div>
+                                                  <input type="file" accept="image/*" @@change="uploadImage($event, true)" class="block w-full text-sm text-gray-900 border rounded cursor-pointer p-2" />
+                                              </div>
 
-                                          <div>
-                                            <label class="block text-sm text-gray-600 mb-1">Галерея (макс 6)</label>
-                                            <div class="grid grid-cols-3 gap-2 mb-2">
-                                              <template x-for="(img, idx) in form.images" :key="idx">
-                                                <div class="relative border rounded overflow-hidden">
-                                                  <img :src="img" class="w-full h-20 object-cover">
-                                                    <button @@click="removeImage(idx)" class="absolute top-1 right-1 bg-white bg-opacity-80 rounded-full text-xs px-1">✕</button>
-                                                    <button @@click="setMain(idx)" class="absolute left-1 bottom-1 bg-white bg-opacity-80 rounded-full text-xs px-1">Set</button>
-                                                </div>
-                                              </template>
+                                              <div>
+                                                <label class="block text-sm text-gray-600 mb-1">Галерея (макс 6)</label>
+                                                    <div class="grid grid-cols-3 gap-2 mb-2">
+                                                        <template x-for="(img, idx) in form.images" :key="idx">
+                                                        <div class="relative border rounded overflow-hidden">
+                                                            <img :src="img" class="w-full h-20 object-cover">
+                                                            <button @@click="removeImage(idx)" class="absolute top-1 right-1 bg-white bg-opacity-80 rounded-full text-xs px-1">✕</button>
+                                                            <button @@click="setMain(idx)" class="absolute left-1 bottom-1 bg-white bg-opacity-80 rounded-full text-xs px-1">Set</button>
+                                                        </div>
+                                                        </template>
 
-                                              <label class="flex items-center justify-center border rounded cursor-pointer text-sm text-gray-500 p-2">
-                                                    <input type="file" accept="image/*" @@change="uploadImage($event)" multiple class="hidden" />
-                                                + фото
-                                              </label>
-                                            </div>
-                                            <div class="text-xs text-gray-500">Фото, загруженные здесь, нужны также для галереи полного описания (отдельная секция ниже).</div>
+                                                        <label class="flex items-center justify-center border rounded cursor-pointer text-sm text-gray-500 p-2">
+                                                            <input type="file" accept="image/*" @@change="uploadImage($event)" multiple class="hidden" />
+                                                                + фото
+                                                        </label>
+                                                    </div>
+                                                    <div class="text-xs text-gray-500">Фото, загруженные здесь, нужны также для галереи полного описания (отдельная секция ниже).</div>
+                                              </div>
                                           </div>
-                                        </div>
                                       </div>
 
                                       <!-- Tab: DESCRIPTION -->
