@@ -39,5 +39,10 @@ namespace Backend_asp.net.Models
         #region
         public ICollection<ProductCategory> ProductCategoryes { get; set; }=new List<ProductCategory>();
         #endregion
+
+        // Связь продукта с ProductPicture;
+        #region
+        public ICollection<ProductPicture> ProductPicturees { get; set; } = new List<ProductPicture>();
+        #endregion
     }
 }

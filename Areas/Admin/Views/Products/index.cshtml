@@ -33,7 +33,7 @@
 
 
     <!-- Main -->
-    <main class="flex-1 p-8 bg-gray-100 min-h-screen" x-data="productsAdmin()" x-init="init()" x-cloak>
+    <main class="flex-1 p-8 bg-gray-100 min-h-screen" x-data="productsAdmin()" x-cloak>
 
       <div class="max-w-10xl mx-auto">
 
@@ -46,13 +46,13 @@
                    placeholder="🔎 Поиск по названию или SKU..."
                    class="w-full md:w-72 border border-gray-300 rounded-lg px-3 py-2 focus:ring-teal-200 focus:border-teal-500 outline-none" />
             <div id="categorySelect">
-                <select x-model="filterStatus" class="border border-gray-300 rounded-lg px-3 py-2">
+                <select x-model="form.category" class="border border-gray-300 rounded-lg px-3 py-2">
                     <option value="">--Все категории--</option>
                     @foreach(var a in Model.ListCategorys)
                     {
                         if (a.LevelCategory == 0)
                         {
-                        <option>@a.Name</option>
+                            <option value="@a.Name">@a.Name</option>
                         }
                     }
                 </select>
@@ -174,8 +174,10 @@
 
             <!-- Tabs -->
             <div class="p-4">
-                <!-- Начало формы-->
-                        <form asp-area="Admin" asp-controller="Product" asp-action="SaveProductForAdmin" method="post">
+                <!-- Начало формы
+                            asp-area="Admin" asp-controller="Product" asp-action="SaveProductForAdmin" method="post"
+                -->
+                <form >
                                       <div class="flex flex-wrap gap-2 border-b pb-2 mb-4">
                                             <button type="button" @@click="tab='main'" :class="tab==='main' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-600'" class="pb-2 px-3">Основное</button>
                                             <button type="button" @@click="tab='images'" :class="tab==='images' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-600'" class="pb-2 px-3">Фото</button>
@@ -184,12 +186,15 @@
                                       </div>
 
                                       <!-- Tab: MAIN -->
+                                      <!-- Форма для первой вкладки "Основное"-->
+                                      #region
                                       <div x-show="tab==='main'">
                                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 <!-- Отправляю ID категории для определения главной категории товара-->
+                                                <!-- Выбор категории-->
                                                 <div>
                                                     <label class="block text-sm text-gray-600 mb-1">Категория</label>
-                                                    <select name="IsCategory" x-model="form.category" Id=categoryId class="w-full border rounded px-3 py-2">
+                                                    <select @@change="changeSKU" name="IsCategory" x-model="form.category" Id=categoryId class="w-full border rounded px-3 py-2">
                                                         <option value="">— Выбрать —</option>
                                                         @foreach (var a in Model.ListCategorys)
                                                         {
@@ -201,32 +206,38 @@
                                                     </select>
                                                 </div>
 
+                                                <!-- Название объекта -->
                                                 <div>
                                                     <label class="block text-sm text-gray-600 mb-1">Название</label>
                                                     <!-- Сейчас посмотрим как передаст #del-->
-                                                    <input asp-for="ProductFromAdmin.Name" type="text" x-model="form.title" class="w-full border rounded px-3 py-2" placeholder="Название товара" />
+                                                    <input type="text" x-model="form.title" class="w-full border rounded px-3 py-2" placeholder="Название товара" />
                                                 </div>
 
+                                                <!-- SKU для объекта -->
                                                 <div>
-                                                    <label class="block text-sm text-gray-600 mb-1">SKU</label>
-                                                    <input asp-for="ProductFromAdmin.SkuNumber" type="text" id="SkUinput" x-model="form.sku" class="w-full border rounded px-3 py-2" placeholder="Артикул / SKU" />
+                                                    <label class="block text-sm text-gray-600 mb-1">Название товара</label>
+                                                    <input type="text" id="SkUinput" x-model="form.sku" class="w-full border rounded px-3 py-2" placeholder="Артикул / SKU" />
                                                 </div>
 
+                                                <!-- Цена для объекта -->
                                                 <div>
                                                     <label class="block text-sm text-gray-600 mb-1">Цена</label>
                                                     <input asp-for ="ProductFromAdmin.Prise" type="number" step="0.01" x-model.number="form.price" class="w-full border rounded px-3 py-2" />
                                                 </div>
 
+                                                <!-- Старая цена для объекта -->
                                                 <div>
                                                     <label class="block text-sm text-gray-600 mb-1">Старая цена</label>
                                                     <input asp-for="ProductFromAdmin.Lastprise" type="number" step="0.01" x-model.number="form.oldPrice" class="w-full border rounded px-3 py-2" />
                                                 </div>
 
+                                                <!-- Рейтинг для объекта -->
                                                 <div>
                                                     <label class="block text-sm text-gray-600 mb-1">Рейтинг (1–5)</label>
                                                     <input asp-for="ProductFromAdmin.Rating" type="number" min="0" max="5" step="0.1" x-model.number="form.rating" class="w-full border rounded px-3 py-2" />
                                                 </div>
 
+                                                <!-- Статус для объекта -->
                                                 <div>
                                                     <label class="block text-sm text-gray-600 mb-1">Статус</label>
                                                     <select asp-for="ProductFromAdmin.Status" x-model="form.status" class="w-full border rounded px-3 py-2">
@@ -238,7 +249,7 @@
                                                     </select>
                                                 </div>
 
-                                                <!-- Key Features -->
+                                                <!-- TODO: Key Features -->
                                                 <div class="md:col-span-2">
                                                     <label class="block text-sm text-gray-600 mb-2">Key Features</label>
                                                     <template x-for="(f, i) in form.keyFeatures" :key="i">
@@ -254,6 +265,7 @@
                                                 </div>
                                             </div>
                                       </div>
+                                      #endregion
 
                                       <!-- Tab: IMAGES -->
                                       <div x-show="tab==='images'">
@@ -269,20 +281,17 @@
                                                        </template>
                                                   </div>
                                                   <div class="text-xs text-gray-500 mb-2">Загрузите изображения — первое будет главным</div>
-                                                  <input type="file" accept="image/*" @@change="uploadImage($event, true)" class="block w-full text-sm text-gray-900 border rounded cursor-pointer p-2" />
                                               </div>
-
                                               <div>
                                                 <label class="block text-sm text-gray-600 mb-1">Галерея (макс 6)</label>
                                                     <div class="grid grid-cols-3 gap-2 mb-2">
                                                         <template x-for="(img, idx) in form.images" :key="idx">
-                                                        <div class="relative border rounded overflow-hidden">
-                                                            <img :src="img" class="w-full h-20 object-cover">
-                                                            <button @@click="removeImage(idx)" class="absolute top-1 right-1 bg-white bg-opacity-80 rounded-full text-xs px-1">✕</button>
-                                                            <button @@click="setMain(idx)" class="absolute left-1 bottom-1 bg-white bg-opacity-80 rounded-full text-xs px-1">Set</button>
-                                                        </div>
+                                                          <div class="relative border rounded overflow-hidden">
+                                                              <img :src="img" class="w-full h-20 object-cover">
+                                                              <button type="button" @@click="removeImage(idx)" class="absolute top-1 right-1 bg-white bg-opacity-80 rounded-full text-xs px-1">✕</button>
+                                                              <button type="button" @@click="setMain(idx)" class="absolute left-1 bottom-1 bg-white bg-opacity-80 rounded-full text-xs px-1">Set</button>
+                                                          </div>
                                                         </template>
-
                                                         <label class="flex items-center justify-center border rounded cursor-pointer text-sm text-gray-500 p-2">
                                                             <input type="file" accept="image/*" @@change="uploadImage($event)" multiple class="hidden" />
                                                                 + фото
@@ -293,7 +302,7 @@
                                           </div>
                                       </div>
 
-                                      <!-- Tab: DESCRIPTION -->
+                                      <!-- TODO: Tab: DESCRIPTION -->
                                       <div x-show="tab==='description'">
                                         <label class="block text-sm text-gray-600 mb-1">Короткое описание (анонс)</label>
                                         <textarea x-model="form.shortDesc" rows="2" class="w-full border rounded px-3 py-2 mb-4"></textarea>
@@ -368,8 +377,7 @@
                                       <!-- Modal actions -->
                                       <div class="flex justify-end gap-3 mt-3">
                                             <button type="button" @@click="closeModal()" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Отмена</button>
-                                            <button class="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-500">💾 Сохранить</button>
-                                            @*  @@click="saveProduct()"    *@
+                                            <button type="button" @@click="saveProduct()" class="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-500">💾 Сохранить</button>
                                       </div>
                     <!-- Конец формы-->
                 </form>
@@ -383,296 +391,316 @@
             <div x-text="toast.text"></div>
           </div>
         </div>
-
       </div>
     </main>
   
 
-<script>
-function productsAdmin(){
-  return {
-    placeholder: 'https://via.placeholder.com/400x300?text=No+image',
-    perPage: 6,
-    page: 1,
-    search: '',
-    filterCategory: '',
-    filterStatus: '',
-    sortField: 'createdAt',
-    sortAsc: false,
-    categories: ['Велосипеды','Электровелосипеды','Самокаты','Аксессуары'],
-    showModal: false,
-    tab: 'main',
-    editingId: null,
-    newFeature: '',
-    toast: { show:false, text:'', type:'success' },
+    <script>
+        function productsAdmin(){
+            return {
+                placeholder: 'https://via.placeholder.com/400x300?text=No+image',
+                perPage: 6,
+                page: 1,
+                search: '',
+                filterCategory: '',
+                filterStatus: '',
+                sortField: 'createdAt',
+                sortAsc: false,
+                categories: ['Велосипеды','Электровелосипеды','Самокаты','Аксессуары'],
+                showModal: false,
+                tab: 'main',
+                editingId: null,
+                newFeature: '',
+                toast: { show:false, text:'', type:'success' },
 
-    // form template
-    form: {
-      id: null,
-      category: '',
-      title: '',
-      sku: '',
-      price: null,
-      oldPrice: null,
-      rating: 0,
-      status: 'В наличии',
-      colors: [],
-      keyFeatures: [],
-      images: [],
-      shortDesc: '',
-      fullDesc: '',
-      descriptionBlocks: [], // {title,text}
-      descImages: [], // images for full description (after blocks)
-      specs: [], // {name, features:[{key,value}]}
-      createdAt: '',
-      updatedAt: ''
-    },
+                // form template
+                form: {
+                  id: null,
+                  category: '',
+                  title: '',
+                  sku: '',
+                  price: null,
+                  oldPrice: null,
+                  rating: 0,
+                  status: 'В наличии',
+                  colors: [],
+                  keyFeatures: [],
+                  images: [],
+                  shortDesc: '',
+                  fullDesc: '',
+                  descriptionBlocks: [], // {title,text}
+                  descImages: [], // images for full description (after blocks)
+                  specs: [], // {name, features:[{key,value}]}
+                  createdAt: '',
+                  updatedAt: ''
+                },
 
-    products: [],
+                products: [],
 
-    init(){
-      const raw = localStorage.getItem('admin_products_full_v1');
-      if(raw) this.products = JSON.parse(raw);
-      else {
-        this.products = [
-          {
-            id: 1,
-            category: 'Велосипеды',
-            title: 'Rovery X1',
-            sku: 'RVX1',
-            price: 52000,
-            oldPrice: 58000,
-            rating: 4.5,
-            status: 'В наличии',
-            colors: ['#000000','#ffffff'],
-            keyFeatures: ['Лёгкая рама','Гидравл. тормоза'],
-            images: ['https://images.unsplash.com/photo-1508975550034-c3b5cc6f4a53?w=800&q=60'],
-            shortDesc: 'Городской электровелосипед Rovery X1',
-            fullDesc: 'Это основной текст полного описания продукта — длинный, на всю ширину.',
-            descriptionBlocks: [
-              {title:'Особенности', text:'Короткий текст о особенностях.'},
-              {title:'Комплектация', text:'Что идёт в коробке.'}
-            ],
-            descImages: ['https://images.unsplash.com/photo-1525104698733-6a7a4d15f3f4?w=800&q=60'],
-            specs: [{name:'Двигатель', features:[{key:'Мощность',value:'250 Вт'}]}],
-            createdAt: (new Date()).toLocaleString(),
-            updatedAt: (new Date()).toLocaleString()
-          }
-        ];
-        this.saveToStorage();
-      }
-    },
+                // init(){
+                //   const raw = localStorage.getItem('admin_products_full_v1');
+                //   if(raw) this.products = JSON.parse(raw);
+                //   else {
+                //     this.products = [
+                //       {
+                //         id: 1,
+                //         category: 'Велосипеды',
+                //         title: 'Rovery X1',
+                //         sku: 'RVX1',
+                //         price: 52000,
+                //         oldPrice: 58000,
+                //         rating: 4.5,
+                //         status: 'В наличии',
+                //         colors: ['#000000','#ffffff'],
+                //         keyFeatures: ['Лёгкая рама','Гидравл. тормоза'],
+                //         images: ['https://images.unsplash.com/photo-1508975550034-c3b5cc6f4a53?w=800&q=60'],
+                //         shortDesc: 'Городской электровелосипед Rovery X1',
+                //         fullDesc: 'Это основной текст полного описания продукта — длинный, на всю ширину.',
+                //         descriptionBlocks: [
+                //           {title:'Особенности', text:'Короткий текст о особенностях.'},
+                //           {title:'Комплектация', text:'Что идёт в коробке.'}
+                //         ],
+                //         descImages: ['https://images.unsplash.com/photo-1525104698733-6a7a4d15f3f4?w=800&q=60'],
+                //         specs: [{name:'Двигатель', features:[{key:'Мощность',value:'250 Вт'}]}],
+                //         createdAt: (new Date()).toLocaleString(),
+                //         updatedAt: (new Date()).toLocaleString()
+                //       }
+                //     ];
+                //     this.saveToStorage();
+                //   }
+                // },
 
-    // computed
-    get filtered(){
-      const s = this.search.toLowerCase().trim();
-      let arr = this.products.slice();
+                // computed
+                get filtered(){
+                    const s = this.search.toLowerCase().trim();
+                    let arr = this.products.slice();
 
-      if(this.filterCategory) arr = arr.filter(p => p.category === this.filterCategory);
-      if(this.filterStatus) arr = arr.filter(p => p.status === this.filterStatus);
+                    if(this.filterCategory) arr = arr.filter(p => p.category === this.filterCategory);
+                    if(this.filterStatus) arr = arr.filter(p => p.status === this.filterStatus);
 
-      if(s){
-        arr = arr.filter(p => {
-          const title = (p.title || '').toLowerCase();
-          const sku = (p.sku || '').toLowerCase();
-          return title.includes(s) || sku.includes(s);
-        });
-      }
+                    if(s){
+                        arr = arr.filter(p => {
+                          const title = (p.title || '').toLowerCase();
+                          const sku = (p.sku || '').toLowerCase();
+                          return title.includes(s) || sku.includes(s);
+                        });
+                    }
 
-      // sorting
-      arr.sort((a,b)=>{
-        const f = this.sortField;
-        let va = a[f] || '', vb = b[f] || '';
-        // if dates, convert
-        if(f === 'createdAt' || f === 'updatedAt'){
-          va = new Date(va).getTime() || 0;
-          vb = new Date(vb).getTime() || 0;
-        } else if(f === 'price'){
-          va = Number(va) || 0; vb = Number(vb) || 0;
-        } else {
-          va = String(va).toLowerCase();
-          vb = String(vb).toLowerCase();
+                    // sorting
+                    arr.sort((a,b)=>{
+                        const f = this.sortField;
+                        let va = a[f] || '', vb = b[f] || '';
+                        // if dates, convert
+                        if(f === 'createdAt' || f === 'updatedAt'){
+                            va = new Date(va).getTime() || 0;
+                            vb = new Date(vb).getTime() || 0;
+                        }
+                        else if(f === 'price'){
+                            va = Number(va) || 0; vb = Number(vb) || 0;
+                        }
+                        else {
+                            va = String(va).toLowerCase();
+                            vb = String(vb).toLowerCase();
+                        }
+                        if(va < vb)
+                            return this.sortAsc ? -1 : 1;
+                        if(va > vb)
+                            return this.sortAsc ? 1 : -1;
+                        return 0;
+                    });
+                    return arr;
+                },
+
+                get pages(){
+                    return Math.max(1, Math.ceil(this.filtered.length / this.perPage));
+                },
+
+                get pagesArray(){
+                    const arr = [];
+                    for(let i=1;i<=this.pages;i++) arr.push(i);
+                    return arr;
+                },
+
+                get paginatedFiltered(){
+                    const start = (this.page - 1) * this.perPage;
+                    return this.filtered.slice(start, start + this.perPage);
+                },
+
+                prevPage(){ if(this.page>1) this.page--; },
+                nextPage(){ if(this.page < this.pages) this.page++; },
+
+                toggleSort(field){
+                    if(this.sortField === field) this.sortAsc = !this.sortAsc;
+                    else { this.sortField = field; this.sortAsc = true; }
+                },
+
+                openAdd(){
+                    this.resetForm();
+                    this.showModal = true;
+                    this.tab = 'main';
+                    this.editingId = null;
+                    this.$nextTick(()=> window.scrollTo({top:0, behavior:'smooth'}));
+                },
+
+                editProduct(p){
+                    this.form = JSON.parse(JSON.stringify(p));
+                    this.editingId = p.id;
+                    this.showModal = true;
+                    this.tab = 'main';
+                },
+
+                duplicate(){
+                    if(!this.showModal) return;
+                    this.form.id = null;
+                    this.editingId = null;
+                    this.form.title += ' (копия)';
+                    this.showToast('Дубликат создан (не сохранён)', 'success');
+                },
+
+                deleteProduct(id){
+                    if(!confirm('Удалить товар?')) return;
+                    this.products = this.products.filter(p => p.id !== id);
+                    this.saveToStorage();
+                    this.showToast('Товар удалён', 'success');
+                },
+
+                closeModal(){
+                    this.showModal = false;
+                },
+
+                resetForm(){
+                    this.form = {
+                        id: null,
+                        category: '',
+                        title: '',
+                        sku: '',
+                        price: null,
+                        oldPrice: null,
+                        rating: 0,
+                        status: 'В наличии',
+                        colors: [],
+                        keyFeatures: [],
+                        images: [],
+                        files: [], 
+                        shortDesc: '',
+                        fullDesc: '',
+                        descriptionBlocks: [],
+                        descImages: [],
+                        specs: [],
+                        createdAt: '',
+                        updatedAt: ''
+                    };
+                    this.newFeature = '';
+                },
+
+                // Поиск на сервере номер SKU в зависимости от категории;
+                async changeSKU(){
+                    let response = await fetch("/SendSKU/" + this.form.category);
+                    let data = await response.json();
+                    this.form.sku = data.skuNumber;
+                },
+
+                // TODO: Этот метод будет работать и написан для отпавки формы заполнения и создания единицы товара с админки; стр 368
+                saveProduct(){
+                    console.log("сработал метод saveProduct()");
+                    console.log(this.form);
+                    if(!this.form.title)
+                        return this.showToast('Введите название', 'error');
+                    const now = (new Date()).toLocaleString();
+                    if(this.editingId){
+                        const idx = this.products.findIndex(p => p.id === this.editingId);
+                        if(idx === -1)
+                            return this.showToast('Товар не найден', 'error');
+                        this.form.updatedAt = now;
+                        this.products[idx] = JSON.parse(JSON.stringify(this.form));
+                        this.showToast('Товар обновлён', 'success');
+                    }
+                    else {
+                        const max = this.products.length ? Math.max(...this.products.map(p => p.id)) : 0;
+                        this.form.id = max + 1;
+                        this.form.createdAt = now;
+                        this.form.updatedAt = now;
+                        this.products.push(JSON.parse(JSON.stringify(this.form)));
+                        this.showToast('Товар добавлен', 'success');
+                        this.page = this.pages;
+                    }
+                    this.saveToStorage();
+                    this.closeModal();
+                },
+
+                saveToStorage(){ localStorage.setItem('admin_products_full_v1', JSON.stringify(this.products)); },
+
+                showToast(text, type='success'){
+                    this.toast = { show:true, text, type };
+                    setTimeout(()=> this.toast.show = false, 2200);
+                },
+
+                // features
+                addFeature(){
+                    const v = (this.newFeature || '').trim();
+                    if(!v) return;
+                    this.form.keyFeatures.push(v);
+                    this.newFeature = '';
+                },
+
+                // загрузка изображений в контроллер;
+                uploadImage(e, setMain=false){
+                  const files = Array.from(e.target.files || []);
+                  for(const f of files){
+                      if(this.form.images.length >= 6){
+                          this.showToast('Максимум 6 фото в галерее', 'error');
+                          break;
+                      }
+                      const url = URL.createObjectURL(f);
+                      this.form.images.push(url);
+                      this.form.files.push(f);    // добавлен для сохранения (именно) файла в методе;
+                      if(setMain){
+                          const i = this.form.images.indexOf(url);
+                          if(i>0) 
+                          this.form.images.unshift(this.form.images.splice(i,1)[0]);
+                      }
+                    }
+                  e.target.value = '';
+                },
+
+                removeImage(idx){ this.form.images.splice(idx,1); },
+                setMain(idx){
+                    if(idx === 0) return;
+                    const img = this.form.images.splice(idx,1)[0];
+                    this.form.images.unshift(img);
+                },
+
+                // desc images (after blocks)
+                uploadDescImage(e){
+                    const files = Array.from(e.target.files || []);
+                    for(const f of files){
+                        if(this.form.descImages.length >= 6){ this.showToast('Максимум 6 фото в описании', 'error'); break; }
+                        const url = URL.createObjectURL(f);
+                        this.form.descImages.push(url);
+                    }
+                    e.target.value = '';
+                },
+                removeDescImage(idx){ this.form.descImages.splice(idx,1); },
+
+                addDescBlock(){
+                    if(this.form.descriptionBlocks.length >= 6) return this.showToast('Максимум 6 блоков', 'error');
+                    this.form.descriptionBlocks.push({title:'', text:''});
+                },
+
+                // specs
+                addSpecGroup(){ this.form.specs.push({name:'', features:[]}); },
+
+                // helpers
+                formatPrice(v){ if(v===null||v===undefined||v==='') return '—'; return new Intl.NumberFormat('ru-RU').format(Number(v)) + ' ₽'; },
+                statusClass(s){
+                    if(!s) return 'text-gray-500';
+                    if(s === 'В наличии') return 'text-green-600';
+                    if(s === 'Нет в наличии') return 'text-red-500';
+                    return 'text-gray-600';
+                }
+            }
         }
-        if(va < vb) return this.sortAsc ? -1 : 1;
-        if(va > vb) return this.sortAsc ? 1 : -1;
-        return 0;
-      });
-
-      return arr;
-    },
-
-    get pages(){
-      return Math.max(1, Math.ceil(this.filtered.length / this.perPage));
-    },
-
-    get pagesArray(){
-      const arr = [];
-      for(let i=1;i<=this.pages;i++) arr.push(i);
-      return arr;
-    },
-
-    get paginatedFiltered(){
-      const start = (this.page - 1) * this.perPage;
-      return this.filtered.slice(start, start + this.perPage);
-    },
-
-    prevPage(){ if(this.page>1) this.page--; },
-    nextPage(){ if(this.page < this.pages) this.page++; },
-
-    toggleSort(field){
-      if(this.sortField === field) this.sortAsc = !this.sortAsc;
-      else { this.sortField = field; this.sortAsc = true; }
-    },
-
-    openAdd(){
-      this.resetForm();
-      this.showModal = true;
-      this.tab = 'main';
-      this.editingId = null;
-      this.$nextTick(()=> window.scrollTo({top:0, behavior:'smooth'}));
-    },
-
-    editProduct(p){
-      this.form = JSON.parse(JSON.stringify(p));
-      this.editingId = p.id;
-      this.showModal = true;
-      this.tab = 'main';
-    },
-
-    duplicate(){
-      if(!this.showModal) return;
-      this.form.id = null;
-      this.editingId = null;
-      this.form.title += ' (копия)';
-      this.showToast('Дубликат создан (не сохранён)', 'success');
-    },
-
-    deleteProduct(id){
-      if(!confirm('Удалить товар?')) return;
-      this.products = this.products.filter(p => p.id !== id);
-      this.saveToStorage();
-      this.showToast('Товар удалён', 'success');
-    },
-
-    closeModal(){
-      this.showModal = false;
-    },
-
-    resetForm(){
-      this.form = {
-        id: null,
-        category: '',
-        title: '',
-        sku: '',
-        price: null,
-        oldPrice: null,
-        rating: 0,
-        status: 'В наличии',
-        colors: [],
-        keyFeatures: [],
-        images: [],
-        shortDesc: '',
-        fullDesc: '',
-        descriptionBlocks: [],
-        descImages: [],
-        specs: [],
-        createdAt: '',
-        updatedAt: ''
-      };
-      this.newFeature = '';
-    },
-
-    // Этот метод будет работать и написан для отпавки формы заполнения и создания единицы товара с админки; стр 368
-    saveProduct(){
-      if(!this.form.title) return this.showToast('Введите название', 'error');
-      const now = (new Date()).toLocaleString();
-      if(this.editingId){
-        const idx = this.products.findIndex(p => p.id === this.editingId);
-        if(idx === -1) return this.showToast('Товар не найден', 'error');
-        this.form.updatedAt = now;
-        this.products[idx] = JSON.parse(JSON.stringify(this.form));
-        this.showToast('Товар обновлён', 'success');
-      } else {
-        const max = this.products.length ? Math.max(...this.products.map(p => p.id)) : 0;
-        this.form.id = max + 1;
-        this.form.createdAt = now;
-        this.form.updatedAt = now;
-        this.products.push(JSON.parse(JSON.stringify(this.form)));
-        this.showToast('Товар добавлен', 'success');
-        this.page = this.pages;
-      }
-      this.saveToStorage();
-      this.closeModal();
-    },
-
-    saveToStorage(){ localStorage.setItem('admin_products_full_v1', JSON.stringify(this.products)); },
-
-    showToast(text, type='success'){
-      this.toast = { show:true, text, type };
-      setTimeout(()=> this.toast.show = false, 2200);
-    },
-
-    // features
-    addFeature(){
-      const v = (this.newFeature || '').trim();
-      if(!v) return;
-      this.form.keyFeatures.push(v);
-      this.newFeature = '';
-    },
-
-    // images for gallery
-    uploadImage(e, setMain=false){
-      const files = Array.from(e.target.files || []);
-      for(const f of files){
-        if(this.form.images.length >= 6){ this.showToast('Максимум 6 фото в галерее', 'error'); break; }
-        const url = URL.createObjectURL(f);
-        this.form.images.push(url);
-        if(setMain){
-          const i = this.form.images.indexOf(url);
-          if(i>0) this.form.images.unshift(this.form.images.splice(i,1)[0]);
-        }
-      }
-      e.target.value = '';
-    },
-
-    removeImage(idx){ this.form.images.splice(idx,1); },
-    setMain(idx){
-      if(idx === 0) return;
-      const img = this.form.images.splice(idx,1)[0];
-      this.form.images.unshift(img);
-    },
-
-    // desc images (after blocks)
-    uploadDescImage(e){
-      const files = Array.from(e.target.files || []);
-      for(const f of files){
-        if(this.form.descImages.length >= 6){ this.showToast('Максимум 6 фото в описании', 'error'); break; }
-        const url = URL.createObjectURL(f);
-        this.form.descImages.push(url);
-      }
-      e.target.value = '';
-    },
-    removeDescImage(idx){ this.form.descImages.splice(idx,1); },
-
-    addDescBlock(){
-      if(this.form.descriptionBlocks.length >= 6) return this.showToast('Максимум 6 блоков', 'error');
-      this.form.descriptionBlocks.push({title:'', text:''});
-    },
-
-    // specs
-    addSpecGroup(){ this.form.specs.push({name:'', features:[]}); },
-
-    // helpers
-    formatPrice(v){ if(v===null||v===undefined||v==='') return '—'; return new Intl.NumberFormat('ru-RU').format(Number(v)) + ' ₽'; },
-    statusClass(s){
-      if(!s) return 'text-gray-500';
-      if(s === 'В наличии') return 'text-green-600';
-      if(s === 'Нет в наличии') return 'text-red-500';
-      return 'text-gray-600';
-    }
-  }
-}
-</script>
+    </script>
 
 
 </body>

@@ -1,6 +1,6 @@
 // js файл для проверки поля заполнения, а именно для проверки и для автоматического заполнения SKU;
 
-document.addEventListener("DOMContentLoaded", Validate_AND_Create_SKU)
+//document.addEventListener("DOMContentLoaded", Validate_AND_Create_SKU)
 
 function Validate_AND_Create_SKU(){
     // нужно получить значение, которое будет выбрано в поле категория;
@@ -32,8 +32,10 @@ function Validate_AND_Create_SKU(){
                 console.log("Ответ от сервера", responsDB);
                 input_element = document.getElementById("SkUinput");
                 if (input_element) {
-                  console.log("Получен InputElement", input_element);
-                  input_element.value = await responsDB.skuNumber;
+                    console.log("Получен InputElement", input_element);
+                    //input_element.value = await responsDB.skuNumber;
+                    const root = document.querySelector('[x-data]');
+
                 }
                 else Console.log("Элемент input не получен")
             }

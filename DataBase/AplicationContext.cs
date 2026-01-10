@@ -15,12 +15,16 @@ namespace Backend_asp.net.DataBase
         public DbSet<Basket> baskets { get; set; }
         // Категория товаров;
         public DbSet<Category> categorys{ get; set; }
+        // Фотографии для продукта;
+        public DbSet<ProductPicture> productsPicture { get; set; }
 
         // Добовление таблицы свойств для велосипедов и промежуточной таблицы;
+        #region
         public DbSet<ProductCategory> productCategories { get; set; }
         public DbSet<BasketProduct> basketProducts { get; set; }
+        #endregion
 
-        public  AplicationContext(DbContextOptions<AplicationContext> option) : base(option)
+        public AplicationContext(DbContextOptions<AplicationContext> option) : base(option)
         {
         }
 
@@ -56,6 +60,13 @@ namespace Backend_asp.net.DataBase
                 .HasOne(a => a.Category)
                 .WithMany(b => b.ProductCategoryes)
                 .HasForeignKey(c => c.CategoryId);
+
+            // настройка связи продукт и картинка;
+            modelBuilder.Entity<ProductPicture>()
+                .HasOne(a => a.Product)
+                .WithMany(b => b.ProductPicturees)
+                .HasForeignKey(c => c.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
