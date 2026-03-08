@@ -17,13 +17,17 @@ namespace Backend_asp.net.DataBase
         public DbSet<Category> categorys{ get; set; }
         // Фотографии для продукта;
         public DbSet<ProductPicture> productsPicture { get; set; }
+        // Добовление таблицы KeyFeatyre;
+        public DbSet<KeyFeature> keyFeatures { get; set; }
 
         // Добовление таблицы свойств для велосипедов и промежуточной таблицы;
         #region
         public DbSet<ProductCategory> productCategories { get; set; }
         public DbSet<BasketProduct> basketProducts { get; set; }
+        public DbSet<ProductKeyFeature> productKeyFeatures { get; set; }
         #endregion
 
+        // Это конструктор;
         public AplicationContext(DbContextOptions<AplicationContext> option) : base(option)
         {
         }
@@ -67,6 +71,26 @@ namespace Backend_asp.net.DataBase
                 .WithMany(b => b.ProductPicturees)
                 .HasForeignKey(c => c.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // настройка связи продукт и KeyFeature
+            modelBuilder.Entity<ProductKeyFeature>()
+                .HasKey(t => new { t.IdProduct, t.IdKeyFeature });
+            modelBuilder.Entity<ProductKeyFeature>()
+                .HasOne(c => c.Product)
+                .WithMany(a => a.ProductKeyFeatures)
+                .HasForeignKey(b => b.IdProduct);
+            modelBuilder.Entity<ProductKeyFeature>()
+                .HasOne(a => a.KeyFeature)
+                .WithMany(b => b.ProductKeyFeatures)
+                .HasForeignKey(c => c.IdKeyFeature);
+
+            // Чтоб EF увидел поля значением "null";
+            modelBuilder.Entity<Category>()
+                .Property(a => a.Description)
+                .IsRequired(false);
+            modelBuilder.Entity<Category>()
+                .Property(a => a.Title)
+                .IsRequired(false);
         }
     }
 }

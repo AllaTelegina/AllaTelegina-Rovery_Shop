@@ -210,7 +210,7 @@
 
 
                                           <div x-data="themeSwitcher()" x-init="init()" class="p-1">
-                                                <button @click="toggleTheme"
+                                                <button @@click="toggleTheme"
                                                         class="dropdown-toggle flex items-center justify-between w-full py-2 px-3 font-medium text-teal-50 border-b border-gray-100 md:w-auto
     hover:bg-teal-800 md:hover:bg-transparent md:border-0 md:hover:text-teal-800 md:p-0 dark:text-white
     md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent
@@ -467,7 +467,7 @@
                   <!-- Modal body -->
                   <div class="p-4 md:p-5">
                         <div
-                              @click="mode = 'login'"
+                              @@click="mode = 'login'"
                               x-show="mode === 'login' || window.innerWidth >= 640"
                               x-cloak
                               :class="mode === 'login' ? 'ring-2 ring-teal-200' : ''"
@@ -496,7 +496,7 @@
                                                 <div x-data="{ checked: false }"
                                                      class="flex items-center text-sm cursor-pointer space-x-2">
                                                       <!-- Кастомный чекбокс -->
-                                                      <div @click="checked = !checked"
+                                                      <div @@click="checked = !checked"
                                                            class="w-5 h-5 border border-gray-400 rounded flex items-center justify-center"
                                                            :class="{ 'bg-teal-500 border-teal-500': checked }">
                                                             <!-- Галочка -->
@@ -673,12 +673,12 @@
                               <div class="flex flex-wrap -mx-4">
                                     <!-- Product Images -->
                                     <div class="w-full md:w-1/2 px-4 mb-8">
-                                          <div x-data="imageModal()" x-init="init()" @keydown.escape.window="closeModal"
+                                          <div x-data="imageModal()" x-init="init()" @@keydown.escape.window="closeModal"
                                                class="relative">
 
                                                 <img :src="images[currentIndex]"
-                                                     @click="handleMainImageClick"
-                                                     @load="onImageLoad"
+                                                     @@click="handleMainImageClick"
+                                                     @@load="onImageLoad"
                                                      class="w-full h-auto rounded-lg shadow-md mb-4 transition-opacity duration-700 ease-in-out"
                                                      :class="{ 'opacity-0': isFading, 'opacity-100': !isFading }"
                                                      alt="Product"
@@ -687,7 +687,7 @@
                                                 <div class="flex gap-4 py-4 justify-center overflow-x-auto">
                                                       <template x-for="(img, index) in images" :key="index">
                                                             <img :src="img"
-                                                                 @click="setImage(index)"
+                                                                 @@click="setImage(index)"
                                                                  class="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"
                                                                  :alt="'Thumbnail ' + (index + 1)">
                                                       </template>
@@ -697,18 +697,18 @@
                                                 <div x-show="isOpen"
                                                      x-transition
                                                      class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
-                                                     @click.self="closeModal">
+                                                     @@click.self="closeModal">
                                                       <div class="relative w-full max-w-screen-xl px-4">
 
 
                                                             <!-- Закрыть (крестик) -->
-                                                            <button @click="closeModal"
+                                                            <button @@click="closeModal"
                                                                     class="fixed top-4 right-4 text-white text-3xl font-bold z-50">
                                                                   &times;
                                                             </button>
 
                                                             <!-- Левая стрелка -->
-                                                            <button @click="prevImage"
+                                                            <button @@click="prevImage"
                                                                     class="fixed left-4 top-1/2 -translate-y-1/2 bg-black/30 text-white p-2 rounded-full
                hover:bg-black/60 transition"
                                                                     x-show="images.length > 1">
@@ -726,7 +726,7 @@
 
 
                                                             <!-- Правая стрелка -->
-                                                            <button @click="nextImage"
+                                                            <button @@click="nextImage"
                                                                     class="fixed right-4 top-1/2 -translate-y-1/2 bg-black/30 text-white p-2 rounded-full
                hover:bg-black/60 transition"
                                                                     x-show="images.length > 1">
@@ -821,7 +821,7 @@
                                                 <div x-data="{ inCart: false }">
                                                       <button
                                                             type="button"
-                                                            @click="inCart = !inCart"
+                                                            @@click="inCart = !inCart"
                                                             :aria-pressed="inCart.toString()"
                                                             :class="[
       'inline-flex items-center border-2 border-red-600 gap-2 rounded-lg px-5 py-2 text-xs lg:px-6 lg:py-2.5 lg:text-sm uppercase transition-colors duration-200 focus:outline-none  active:scale-95',
@@ -852,7 +852,7 @@
                                                 <div x-data="{ liked: false }">
                                                       <button
                                                             type="button"
-                                                            @click="liked = !liked"
+                                                            @@click="liked = !liked"
                                                             :aria-pressed="liked.toString()"
                                                             :class="[
       'inline-flex items-center border-2 hover:border-teal-400  gap-2 rounded-lg px-5 py-2 text-xs lg:px-6 lg:py-2.5 lg:text-sm uppercase transition-colors duration-200 focus:outline-none active:scale-95',
@@ -1360,7 +1360,7 @@ border-b-2 border-teal-100 rounded-lg hover:shadow-lg
                                                                                                 </p>
                                                                                                 <div class="flex justify-end mt-1">
                                                                                                       <button
-                                                                                                            @click="expanded = !expanded"
+                                                                                                            @@click="expanded = !expanded"
                                                                                                             class="flex items-center mt-2  text-sm text-teal-700 hover:text-red-700 transition"
                                                                                                       >
                                                                                                             <span x-text="expanded ? 'Ukrywać' : 'Więcej'"></span>
@@ -1382,7 +1382,7 @@ border-b-2 border-teal-100 rounded-lg hover:shadow-lg
                                                                                                       >
                                                                                                             <div class="flex items-center justify-center">
                                                                                                                   <button
-                                                                                                                        @click="liked = !liked"
+                                                                                                                        @@click="liked = !liked"
                                                                                                                         class="flex items-center ml-6 text-gray-600"
                                                                                                                   >
                                                                                                                         <svg
@@ -1502,7 +1502,7 @@ border-b-2 border-teal-100 rounded-lg hover:shadow-lg
                                                                                                 </p>
                                                                                                 <div class="flex justify-end mt-1">
                                                                                                       <button
-                                                                                                            @click="expanded = !expanded"
+                                                                                                            @@click="expanded = !expanded"
                                                                                                             class="flex items-center mt-2  text-sm text-teal-700 hover:text-red-700 transition"
                                                                                                       >
                                                                                                             <span x-text="expanded ? 'Ukrywać' : 'Więcej'"></span>
@@ -1524,7 +1524,7 @@ border-b-2 border-teal-100 rounded-lg hover:shadow-lg
                                                                                                       >
                                                                                                             <div class="flex items-center justify-center">
                                                                                                                   <button
-                                                                                                                        @click="liked = !liked"
+                                                                                                                        @@click="liked = !liked"
                                                                                                                         class="flex items-center ml-6 text-gray-600"
                                                                                                                   >
                                                                                                                         <svg
@@ -1644,7 +1644,7 @@ border-b-2 border-teal-100 rounded-lg hover:shadow-lg
                                                                                                 </p>
                                                                                                 <div class="flex justify-end mt-1">
                                                                                                       <button
-                                                                                                            @click="expanded = !expanded"
+                                                                                                            @@click="expanded = !expanded"
                                                                                                             class="flex items-center mt-2  text-sm text-teal-700 hover:text-red-700 transition"
                                                                                                       >
                                                                                                             <span x-text="expanded ? 'Ukrywać' : 'Więcej'"></span>
@@ -1666,7 +1666,7 @@ border-b-2 border-teal-100 rounded-lg hover:shadow-lg
                                                                                                       >
                                                                                                             <div class="flex items-center justify-center">
                                                                                                                   <button
-                                                                                                                        @click="liked = !liked"
+                                                                                                                        @@click="liked = !liked"
                                                                                                                         class="flex items-center ml-6 text-gray-600"
                                                                                                                   >
                                                                                                                         <svg
@@ -1813,7 +1813,7 @@ border-b-2 border-teal-100 rounded-lg hover:shadow-lg
       x-init="window.addEventListener('scroll', () => show = window.scrollY > 900)"
       x-show="show"
       x-transition.opacity
-      @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+      @@click="window.scrollTo({ top: 0, behavior: 'smooth' })"
       class="fixed bottom-6 right-6 bg-gray-400/40 rounded-3xl p-2 cursor-pointer shadow-lg hover:bg-teal-700"
 >
       <svg class="w-[36px] h-[36px] text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

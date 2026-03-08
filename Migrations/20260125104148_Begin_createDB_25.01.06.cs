@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Backend_asp.net.Migrations
 {
     /// <inheritdoc />
-    public partial class Begin_Database_17122025 : Migration
+    public partial class Begin_createDB_250106 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,11 +18,27 @@ namespace Backend_asp.net.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LevelCategory = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_categorys", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "keyFeatures",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateKeyFeature = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_keyFeatures", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -35,14 +51,12 @@ namespace Backend_asp.net.Migrations
                     SkuNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Prise = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Lastprise = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CreateRoverMechTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     BriefDiscription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FullDiscription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rating = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    RoverGender = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModelRoverMech = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BrandRoverMech = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Images = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -107,6 +121,54 @@ namespace Backend_asp.net.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "productKeyFeatures",
+                columns: table => new
+                {
+                    IdProduct = table.Column<int>(type: "int", nullable: false),
+                    IdKeyFeature = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_productKeyFeatures", x => new { x.IdProduct, x.IdKeyFeature });
+                    table.ForeignKey(
+                        name: "FK_productKeyFeatures_keyFeatures_IdKeyFeature",
+                        column: x => x.IdKeyFeature,
+                        principalTable: "keyFeatures",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_productKeyFeatures_products_IdProduct",
+                        column: x => x.IdProduct,
+                        principalTable: "products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "productsPicture",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Putch = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NamePicture = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TimeEditFile = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_productsPicture", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_productsPicture_products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "baskets",
                 columns: table => new
                 {
@@ -166,6 +228,16 @@ namespace Backend_asp.net.Migrations
                 name: "IX_productCategories_CategoryId",
                 table: "productCategories",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_productKeyFeatures_IdKeyFeature",
+                table: "productKeyFeatures",
+                column: "IdKeyFeature");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_productsPicture_ProductId",
+                table: "productsPicture",
+                column: "ProductId");
         }
 
         /// <inheritdoc />
@@ -178,10 +250,19 @@ namespace Backend_asp.net.Migrations
                 name: "productCategories");
 
             migrationBuilder.DropTable(
+                name: "productKeyFeatures");
+
+            migrationBuilder.DropTable(
+                name: "productsPicture");
+
+            migrationBuilder.DropTable(
                 name: "baskets");
 
             migrationBuilder.DropTable(
                 name: "categorys");
+
+            migrationBuilder.DropTable(
+                name: "keyFeatures");
 
             migrationBuilder.DropTable(
                 name: "products");

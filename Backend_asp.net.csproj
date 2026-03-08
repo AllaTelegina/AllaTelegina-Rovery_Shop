@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\FotoProduct\" />
     <Folder Include="wwwroot\PictureforProduct\" />
   </ItemGroup>
 
