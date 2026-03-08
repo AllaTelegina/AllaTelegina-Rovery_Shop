@@ -71,8 +71,9 @@ if (!app.Environment.IsDevelopment())
     app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
+        // pattern: "{controller=Product}/{action=ProductsView}/{id?}");   // :DOTO для того, чтоб можно было загрузить нужный контроллер
 
-    app.MapAreaControllerRoute(
+app.MapAreaControllerRoute(
         name: "Areas",
         areaName: "Admin",
         pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");

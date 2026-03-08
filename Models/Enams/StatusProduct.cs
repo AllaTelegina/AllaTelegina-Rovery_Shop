@@ -9,6 +9,5 @@ namespace Backend_asp.net.Models.Enams
             {StatusProductEnum.OutOfStock, "Нет в наличие"},
             {StatusProductEnum.Pending, "Ожидается" }
         };
-
     }
 }

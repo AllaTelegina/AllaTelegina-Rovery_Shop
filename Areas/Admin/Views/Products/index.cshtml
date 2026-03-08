@@ -178,132 +178,132 @@
                             asp-area="Admin" asp-controller="Product" asp-action="SaveProductForAdmin" method="post"
                 -->
                 <form >
-                                      <div class="flex flex-wrap gap-2 border-b pb-2 mb-4">
-                                            <button type="button" @@click="tab='main'" :class="tab==='main' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-600'" class="pb-2 px-3">Основное</button>
-                                            <button type="button" @@click="tab='images'" :class="tab==='images' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-600'" class="pb-2 px-3">Фото</button>
-                                            <button type="button" @@click="tab='description'" :class="tab==='description' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-600'" class="pb-2 px-3">Описание</button>
-                                            <button type="button" @@click="tab='specs'" :class="tab==='specs' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-600'" class="pb-2 px-3">Спецификация</button>
-                                      </div>
+                                    <div class="flex flex-wrap gap-2 border-b pb-2 mb-4">
+                                        <button type="button" @@click="tab='main'" :class="tab==='main' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-600'" class="pb-2 px-3">Основное</button>
+                                        <button type="button" @@click="tab='images'" :class="tab==='images' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-600'" class="pb-2 px-3">Фото</button>
+                                        <button type="button" @@click="tab='description'" :class="tab==='description' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-600'" class="pb-2 px-3">Описание</button>
+                                        <button type="button" @@click="tab='specs'" :class="tab==='specs' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-600'" class="pb-2 px-3">Спецификация</button>
+                                    </div>
 
-                                      <!-- Tab: MAIN -->
-                                      <!-- Форма для первой вкладки "Основное"-->
-                                      #region
-                                      <div x-show="tab==='main'">
-                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                <!-- Отправляю ID категории для определения главной категории товара-->
-                                                <!-- Выбор категории-->
-                                                <div>
-                                                    <label class="block text-sm text-gray-600 mb-1">Категория</label>
-                                                    <select @@change="changeSKU" name="IsCategory" x-model="form.category" Id=categoryId class="w-full border rounded px-3 py-2">
-                                                        <option value="">— Выбрать —</option>
-                                                        @foreach (var a in Model.ListCategorys)
+                                    <!-- Tab: MAIN -->
+                                    <!-- Форма для первой вкладки "Основное"-->
+                                    <div x-show="tab==='main'">
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <!-- Отправляю ID категории для определения главной категории товара-->
+                                            <!-- Выбор категории-->
+                                            <div>
+                                                <label class="block text-sm text-gray-600 mb-1">Категория</label>
+                                                <select @@change="changeSKU" name="IsCategory" x-model="form.category" Id=categoryId class="w-full border rounded px-3 py-2">
+                                                    <option value="">— Выбрать —</option>
+                                                    @foreach (var a in Model.ListCategorys)
+                                                    {
+                                                        if (a.LevelCategory == 0)
                                                         {
-                                                            if (a.LevelCategory == 0)
-                                                            {
-                                                                <option value="@a.Id">@a.Name</option>
-                                                            }
+                                                            <option value="@a.Id">@a.Name</option>
                                                         }
-                                                    </select>
-                                                </div>
+                                                    }
+                                                </select>
+                                            </div>
 
-                                                <!-- Название объекта -->
-                                                <div>
-                                                    <label class="block text-sm text-gray-600 mb-1">Название</label>
-                                                    <!-- Сейчас посмотрим как передаст #del-->
-                                                    <input type="text" x-model="form.title" class="w-full border rounded px-3 py-2" placeholder="Название товара" />
-                                                </div>
+                                            <!-- Название объекта -->
+                                            <div>
+                                                <label class="block text-sm text-gray-600 mb-1">Название</label>
+                                                <!-- Сейчас посмотрим как передаст #del-->
+                                                <input type="text" x-model="form.title" x-init="form.title='Name example'" class="w-full border rounded px-3 py-2" placeholder="Название товара" />
+                                            </div>
 
-                                                <!-- SKU для объекта -->
-                                                <div>
-                                                    <label class="block text-sm text-gray-600 mb-1">Название товара</label>
-                                                    <input type="text" id="SkUinput" x-model="form.sku" class="w-full border rounded px-3 py-2" placeholder="Артикул / SKU" />
-                                                </div>
+                                            <!-- SKU для объекта -->
+                                            <div>
+                                                <label class="block text-sm text-gray-600 mb-1">Название товара</label>
+                                                <input type="text" id="SkUinput" x-model="form.sku" class="w-full border rounded px-3 py-2" placeholder="Артикул / SKU" />
+                                            </div>
 
-                                                <!-- Цена для объекта -->
-                                                <div>
-                                                    <label class="block text-sm text-gray-600 mb-1">Цена</label>
-                                                    <input asp-for ="ProductFromAdmin.Prise" type="number" step="0.01" x-model.number="form.price" class="w-full border rounded px-3 py-2" />
-                                                </div>
+                                            <!-- Цена для объекта -->
+                                            <div>
+                                                <label class="block text-sm text-gray-600 mb-1">Цена</label>
+                                                <input asp-for ="ProductFromAdmin.Prise" type="number" step="0.01" x-model.number="form.price" class="w-full border rounded px-3 py-2" />
+                                            </div>
 
-                                                <!-- Старая цена для объекта -->
-                                                <div>
-                                                    <label class="block text-sm text-gray-600 mb-1">Старая цена</label>
-                                                    <input asp-for="ProductFromAdmin.Lastprise" type="number" step="0.01" x-model.number="form.oldPrice" class="w-full border rounded px-3 py-2" />
-                                                </div>
+                                            <!-- Старая цена для объекта -->
+                                            <div>
+                                                <label class="block text-sm text-gray-600 mb-1">Старая цена</label>
+                                                <input asp-for="ProductFromAdmin.Lastprise" type="number" step="0.01" x-model.number="form.oldPrice" class="w-full border rounded px-3 py-2" />
+                                            </div>
 
-                                                <!-- Рейтинг для объекта -->
-                                                <div>
-                                                    <label class="block text-sm text-gray-600 mb-1">Рейтинг (1–5)</label>
-                                                    <input asp-for="ProductFromAdmin.Rating" type="number" min="0" max="5" step="0.1" x-model.number="form.rating" class="w-full border rounded px-3 py-2" />
-                                                </div>
+                                            <!-- Рейтинг для объекта -->
+                                            <div>
+                                                <label class="block text-sm text-gray-600 mb-1">Рейтинг (1–5)</label>
+                                                <input asp-for="ProductFromAdmin.Rating" type="number" min="0" max="5" step="0.1" x-model.number="form.rating" class="w-full border rounded px-3 py-2" />
+                                            </div>
 
-                                                <!-- Статус для объекта -->
-                                                <div>
-                                                    <label class="block text-sm text-gray-600 mb-1">Статус</label>
-                                                    <select asp-for="ProductFromAdmin.Status" x-model="form.status" class="w-full border rounded px-3 py-2">
-                                                        <option value="">--Все статусы--</option>
-                                                        @foreach (var a in StatusProduct.Name)
-                                                        {
-                                                            <option value="@a.Key">@a.Value</option>
-                                                        }
-                                                    </select>
-                                                </div>
+                                            <!-- Статус для объекта -->
+                                            <div>
+                                                <label class="block text-sm text-gray-600 mb-1">Статус</label>
+                                                <select asp-for="ProductFromAdmin.Status" x-model="form.status" class="w-full border rounded px-3 py-2">
+                                                    <option value="">--Все статусы--</option>
+                                                    @foreach (var a in StatusProduct.Name)
+                                                    {
+                                                        <option value="@a.Key">@a.Value</option>
+                                                    }
+                                                </select>
+                                            </div>
 
-                                                <!-- TODO: Key Features -->
-                                                <div class="md:col-span-2">
-                                                    <label class="block text-sm text-gray-600 mb-2">Key Features</label>
-                                                    <template x-for="(f, i) in form.keyFeatures" :key="i">
-                                                        <div class="flex items-center gap-2 mb-2">
-                                                        <input type="text" x-model="form.keyFeatures[i]" class="w-full border rounded px-3 py-2" placeholder="Преимущество (например, Лёгкая рама)" />
-                                                            <button @@click="form.keyFeatures.splice(i,1)" class="px-2 py-1 bg-red-100 text-red-600 rounded">✕</button>
-                                                        </div>
-                                                    </template>
-                                                    <div class="flex gap-2">
-                                                        <input x-model="newFeature" type="text" placeholder="Новая фича" class="border rounded px-3 py-2 w-full" />
-                                                        <button type="button" @@click="addFeature()" class="px-3 py-2 bg-teal-600 text-white rounded">Добавить</button>
+                                            <!-- Key Features -->
+                                            <div class="md:col-span-2">
+                                                <label class="block text-sm text-gray-600 mb-2">Key Features</label>
+                                                <template x-for="(f, i) in form.keyFeatures" :key="i">
+                                                    <div class="flex items-center gap-2 mb-2">
+                                                    <input type="text" x-model="form.keyFeatures[i]" class="w-full border rounded px-3 py-2" placeholder="Преимущество (например, Лёгкая рама)" />
+                                                        <button @@click="form.keyFeatures.splice(i,1)" class="px-2 py-1 bg-red-100 text-red-600 rounded">✕</button>
                                                     </div>
+                                                </template>
+                                                <div class="flex gap-2">
+                                                    <input x-model="newFeature" type="text" placeholder="Новая фича" class="border rounded px-3 py-2 w-full" />
+                                                    <button type="button" @@click="addFeature()" class="px-3 py-2 bg-teal-600 text-white rounded">Добавить</button>
                                                 </div>
                                             </div>
-                                      </div>
-                                      #endregion
+                                        </div>
+                                    </div>
 
-                                      <!-- Tab: IMAGES -->
-                                      <div x-show="tab==='images'">
-                                          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                              <div>
-                                                  <label class="block text-sm text-gray-600 mb-1">Главное фото (первое в галерее)</label>
-                                                  <div class="w-48 h-32 bg-gray-50 rounded border flex items-center justify-center overflow-hidden mb-2">
-                                                       <template x-if="form.images && form.images[0]">
-                                                           <img :src="form.images[0]" class="w-full h-full object-cover" alt="">
-                                                       </template>
-                                                       <template x-if="!form.images[0]">
-                                                           <div class="text-gray-400 text-sm">Нет фото</div>
-                                                       </template>
-                                                  </div>
-                                                  <div class="text-xs text-gray-500 mb-2">Загрузите изображения — первое будет главным</div>
-                                              </div>
-                                              <div>
+                                    <!-- Tab: IMAGES -->
+                                    <div x-show="tab==='images'">
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm text-gray-600 mb-1">Главное фото (первое в галерее)</label>
+                                            <div class="w-48 h-32 bg-gray-50 rounded border flex items-center justify-center overflow-hidden mb-2">
+                                                <template x-if="form.images && form.images[0]">
+                                                    <img :src="form.images[0]" class="w-full h-full object-cover" alt="">
+                                                </template>
+                                                <template x-if="!form.images[0]">
+                                                    <div class="text-gray-400 text-sm">Нет фото</div>
+                                                </template>
+                                            </div>
+                                            <div class="text-xs text-gray-500 mb-2">Загрузите изображения — первое будет главным</div>
+                                        </div>
+                                            <div>
                                                 <label class="block text-sm text-gray-600 mb-1">Галерея (макс 6)</label>
-                                                    <div class="grid grid-cols-3 gap-2 mb-2">
-                                                        <template x-for="(img, idx) in form.images" :key="idx">
-                                                          <div class="relative border rounded overflow-hidden">
-                                                              <img :src="img" class="w-full h-20 object-cover">
-                                                              <button type="button" @@click="removeImage(idx)" class="absolute top-1 right-1 bg-white bg-opacity-80 rounded-full text-xs px-1">✕</button>
-                                                              <button type="button" @@click="setMain(idx)" class="absolute left-1 bottom-1 bg-white bg-opacity-80 rounded-full text-xs px-1">Set</button>
-                                                          </div>
-                                                        </template>
-                                                        <label class="flex items-center justify-center border rounded cursor-pointer text-sm text-gray-500 p-2">
-                                                            <input type="file" accept="image/*" @@change="uploadImage($event)" multiple class="hidden" />
-                                                                + фото
-                                                        </label>
-                                                    </div>
-                                                    <div class="text-xs text-gray-500">Фото, загруженные здесь, нужны также для галереи полного описания (отдельная секция ниже).</div>
-                                              </div>
-                                          </div>
-                                      </div>
+                                                <div class="grid grid-cols-3 gap-2 mb-2">
+                                                    <template x-for="(img, idx) in form.images" :key="idx">
+                                                        <div class="relative border rounded overflow-hidden">
+                                                            <img :src="img" class="w-full h-20 object-cover">
+                                                            <button type="button" x-on:click="removeImage(idx)" class="absolute top-1 right-1 bg-white bg-opacity-80 rounded-full text-xs px-1">✕</button>
+                                                            <button type="button" x-on:click="setMain(idx)" class="absolute left-1 bottom-1 bg-white bg-opacity-80 rounded-full text-xs px-1">Set</button> 
 
-                                      <!-- TODO: Tab: DESCRIPTION -->
-                                      <div x-show="tab==='description'">
+
+                                                        </div>
+                                                    </template>
+                                                    <label class="flex items-center justify-center border rounded cursor-pointer text-sm text-gray-500 p-2">
+                                                        <input type="file" accept="image/*" @@change="uploadImage($event)" multiple class="hidden" />
+                                                            + фото
+                                                    </label>
+                                                </div>
+                                                <div class="text-xs text-gray-500">Фото, загруженные здесь, нужны также для галереи полного описания (отдельная секция ниже).</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tab: DESCRIPTION -->
+                                    <div x-show="tab==='description'">
                                         <label class="block text-sm text-gray-600 mb-1">Короткое описание (анонс)</label>
                                         <textarea x-model="form.shortDesc" rows="2" class="w-full border rounded px-3 py-2 mb-4"></textarea>
 
@@ -311,74 +311,76 @@
                                         <textarea x-model="form.fullDesc" rows="4" class="w-full border rounded px-3 py-2 mb-4"></textarea>
 
                                         <div class="mb-2 flex items-center justify-between">
-                                          <div class="text-sm font-medium text-gray-700">Блоки описания (заголовок + текст) — до 6</div>
-                                                <button @@click="addDescBlock()" class="text-teal-600 text-sm" :disabled="form.descriptionBlocks.length >= 6">+ Добавить блок</button>
+                                            <div class="text-sm font-medium text-gray-700">Блоки описания (заголовок + текст) — до 6</div>
+                                            <button type="button" @@click="addDescBlock()" class="text-teal-600 text-sm" :disabled="form.descriptionBlocks.length >= 6">+ Добавить блок</button>
                                         </div>
 
+                                        <!-- Блок описание во вкладке "Описание"-->
                                         <template x-for="(b, i) in form.descriptionBlocks" :key="i">
-                                          <div class="border rounded p-3 mb-3 bg-gray-50">
+                                            <div class="border rounded p-3 mb-3 bg-gray-50">
                                             <div class="flex items-center justify-between mb-2">
                                                 <input x-model="b.title" placeholder="Заголовок блока" class="w-3/4 border rounded px-2 py-1" />
                                                 <button @@click="form.descriptionBlocks.splice(i,1)" class="text-red-600 text-sm">Удалить</button>
                                             </div>
                                             <textarea x-model="b.text" rows="2" class="w-full border rounded px-2 py-1 mb-2" placeholder="Текст блока"></textarea>
-                                          </div>
+                                            </div>
                                         </template>
 
+                                        <!-- Блок дополнительное фото во вкладке "Описание"-->
                                         <div class="mt-4">
-                                          <div class="flex items-center justify-between mb-2">
-                                            <div class="text-sm font-medium text-gray-700">Фото для полного описания (показываются ПОСЛЕ блоков)</div>
-                                            <div class="text-xs text-gray-500">Макс 6</div>
-                                          </div>
-                                          <div class="grid grid-cols-3 gap-2 mb-2">
-                                            <template x-for="(img, idx) in form.descImages" :key="'d'+idx">
-                                              <div class="relative border rounded overflow-hidden">
-                                                <img :src="img" class="w-full h-20 object-cover">
-                                                    <button @@click="removeDescImage(idx)" class="absolute top-1 right-1 bg-white bg-opacity-80 rounded-full text-xs px-1">✕</button>
-                                              </div>
-                                            </template>
+                                            <div class="flex items-center justify-between mb-2">
+                                                <div class="text-sm font-medium text-gray-700">Фото для полного описания (показываются ПОСЛЕ блоков)</div>
+                                                <div class="text-xs text-gray-500">Макс 6</div>
+                                            </div>
+                                            <div class="grid grid-cols-3 gap-2 mb-2">
+                                                <template x-for="(img, idx) in form.descImages" :key="'d'+idx">
+                                                    <div class="relative border rounded overflow-hidden">
+                                                        <img :src="img" class="w-full h-20 object-cover">
+                                                        <button @@click="removeDescImage(idx)" class="absolute top-1 right-1 bg-white bg-opacity-80 rounded-full text-xs px-1">✕</button>
+                                                    </div>
+                                                </template>
 
-                                            <label class="flex items-center justify-center border rounded cursor-pointer text-sm text-gray-500 p-2">
-                                                    <input type="file" accept="image/*" @@change="uploadDescImage($event)" multiple class="hidden" />
-                                              + фото
-                                            </label>
-                                          </div>
+                                                <label class="flex items-center justify-center border rounded cursor-pointer text-sm text-gray-500 p-2">
+                                                        <input type="file" accept="image/*" @@change="uploadDescImage($event)" multiple class="hidden" />
+                                                    + фото
+                                                </label>
+                                            </div>
                                         </div>
-                                      </div>
+                                    </div>
 
-                                      <!-- Tab: SPECS -->
-                                      <div x-show="tab==='specs'">
+                                    <!-- Tab: SPECS -->
+                                    <div x-show="tab==='specs'">
                                         <div class="mb-2 flex items-center justify-between">
-                                          <div class="text-sm font-medium text-gray-700">Спецификации (группы → параметр → значение)</div>
-                                                <button @@click="addSpecGroup()" class="text-teal-600 text-sm">+ Добавить группу</button>
+                                            <div class="text-sm font-medium text-gray-700">Спецификации (группы → параметр → значение)</div>
+                                            <button type="button" @@click="addSpecGroup()" class="text-teal-600 text-sm">+ Добавить группу</button>
                                         </div>
 
                                         <template x-for="(g, gi) in form.specs" :key="gi">
-                                          <div class="border rounded p-3 mb-3 bg-white">
-                                            <div class="flex items-center justify-between mb-2">
-                                              <input x-model="g.name" placeholder="Название группы" class="w-3/4 border rounded px-2 py-1" />
-                                              <div class="flex gap-2">
-                                                    <button @@click="g.features.push({key:'',value:''})" class="px-2 py-1 bg-gray-100 rounded">+ строка</button>
-                                                    <button @@click="form.specs.splice(gi,1)" class="px-2 py-1 bg-red-100 text-red-600 rounded">Удалить группу</button>
-                                              </div>
+                                            <div class="border rounded p-3 mb-3 bg-white">
+                                                <div class="flex items-center justify-between mb-2">
+                                                    <input x-model="g.name" placeholder="Название группы" class="w-3/4 border rounded px-2 py-1" />
+                                                    <div class="flex gap-2">
+                                                        <button type="button" @@click="g.features.push({key:'',value:''})" class="px-2 py-1 bg-gray-100 rounded">+ строка</button>
+                                                        <button type="button" @@click="form.specs.splice(gi,1)" class="px-2 py-1 bg-red-100 text-red-600 rounded">Удалить группу</button>
+                                                    </div>
+                                                </div>
+
+                                                <template x-for="(f, fi) in g.features" :key="fi">
+                                                    <div class="flex gap-2 items-center mb-2">
+                                                        <input x-model="f.key" placeholder="Параметр" class="border rounded px-2 py-1 w-1/3" />
+                                                        <input x-model="f.value" placeholder="Значение" class="border rounded px-2 py-1 w-2/3" />
+                                                        <button type="button" @@click="g.features.splice(fi,1)" class="px-2 py-1 bg-red-100 text-red-600 rounded">✕</button>
+                                                    </div>
+                                                </template>
                                             </div>
-
-                                            <template x-for="(f, fi) in g.features" :key="fi">
-                                              <div class="flex gap-2 items-center mb-2">
-                                                <input x-model="f.key" placeholder="Параметр" class="border rounded px-2 py-1 w-1/3" />
-                                                <input x-model="f.value" placeholder="Значение" class="border rounded px-2 py-1 w-2/3" />
-                                                    <button @@click="g.features.splice(fi,1)" class="px-2 py-1 bg-red-100 text-red-600 rounded">✕</button>
-                                              </div>
-                                            </template>
-                                          </div>
                                         </template>
-                                      </div>
+                                    </div>
 
-                                      <!-- Modal actions -->
-                                      <div class="flex justify-end gap-3 mt-3">
-                                            <button type="button" @@click="closeModal()" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Отмена</button>
-                                            <button type="button" @@click="saveProduct()" class="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-500">💾 Сохранить</button>
-                                      </div>
+                                    <!-- Modal actions -->
+                                    <div class="flex justify-end gap-3 mt-3">
+                                        <button type="button" @@click="closeModal()" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Отмена</button>
+                                        <button type="button" @@click="saveProduct()" class="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-500">💾 Сохранить</button>
+                                    </div>
                     <!-- Конец формы-->
                 </form>
             </div>
@@ -415,60 +417,27 @@
 
                 // form template
                 form: {
-                  id: null,
-                  category: '',
-                  title: '',
-                  sku: '',
-                  price: null,
-                  oldPrice: null,
-                  rating: 0,
-                  status: 'В наличии',
-                  colors: [],
-                  keyFeatures: [],
-                  images: [],
-                  shortDesc: '',
-                  fullDesc: '',
-                  descriptionBlocks: [], // {title,text}
-                  descImages: [], // images for full description (after blocks)
-                  specs: [], // {name, features:[{key,value}]}
-                  createdAt: '',
-                  updatedAt: ''
+                    id: null,
+                    category: '',
+                    title: '',
+                    sku: '',
+                    price: null,
+                    oldPrice: null,
+                    rating: 0,
+                    files: [],
+                    status: '',
+                    colors: [],
+                    keyFeatures: [],
+                    images: [],
+                    shortDesc: '',
+                    fullDesc: '',
+                    descriptionBlocks: [], // {title,text}
+                    descImages: [], // images for full description (after blocks)
+                    specs: [], // {name, features:[{key,value}]}
+                    createdAt: '',
+                    updatedAt: ''
                 },
-
                 products: [],
-
-                // init(){
-                //   const raw = localStorage.getItem('admin_products_full_v1');
-                //   if(raw) this.products = JSON.parse(raw);
-                //   else {
-                //     this.products = [
-                //       {
-                //         id: 1,
-                //         category: 'Велосипеды',
-                //         title: 'Rovery X1',
-                //         sku: 'RVX1',
-                //         price: 52000,
-                //         oldPrice: 58000,
-                //         rating: 4.5,
-                //         status: 'В наличии',
-                //         colors: ['#000000','#ffffff'],
-                //         keyFeatures: ['Лёгкая рама','Гидравл. тормоза'],
-                //         images: ['https://images.unsplash.com/photo-1508975550034-c3b5cc6f4a53?w=800&q=60'],
-                //         shortDesc: 'Городской электровелосипед Rovery X1',
-                //         fullDesc: 'Это основной текст полного описания продукта — длинный, на всю ширину.',
-                //         descriptionBlocks: [
-                //           {title:'Особенности', text:'Короткий текст о особенностях.'},
-                //           {title:'Комплектация', text:'Что идёт в коробке.'}
-                //         ],
-                //         descImages: ['https://images.unsplash.com/photo-1525104698733-6a7a4d15f3f4?w=800&q=60'],
-                //         specs: [{name:'Двигатель', features:[{key:'Мощность',value:'250 Вт'}]}],
-                //         createdAt: (new Date()).toLocaleString(),
-                //         updatedAt: (new Date()).toLocaleString()
-                //       }
-                //     ];
-                //     this.saveToStorage();
-                //   }
-                // },
 
                 // computed
                 get filtered(){
@@ -600,35 +569,62 @@
                     this.form.sku = data.skuNumber;
                 },
 
-                // TODO: Этот метод будет работать и написан для отпавки формы заполнения и создания единицы товара с админки; стр 368
+                // TODO: Отправка формы заполнения и создания единицы товара с админки; стр 368
                 saveProduct(){
                     console.log("сработал метод saveProduct()");
-                    console.log(this.form);
+                    console.dir(this.form);
                     if(!this.form.title)
                         return this.showToast('Введите название', 'error');
-                    const now = (new Date()).toLocaleString();
-                    if(this.editingId){
-                        const idx = this.products.findIndex(p => p.id === this.editingId);
-                        if(idx === -1)
-                            return this.showToast('Товар не найден', 'error');
-                        this.form.updatedAt = now;
-                        this.products[idx] = JSON.parse(JSON.stringify(this.form));
-                        this.showToast('Товар обновлён', 'success');
+                    // if(this.editingId){
+                    //     const idx = this.products.findIndex(p => p.id === this.editingId);
+                    //     if(idx === -1)
+                    //         return this.showToast('Товар не найден', 'error');
+                    //     this.form.updatedAt = now;
+                    //     this.products[idx] = JSON.parse(JSON.stringify(this.form));
+                    //     this.showToast('Товар обновлён', 'success');
+                    // }
+                    // else {
+                    //     const max = this.products.length ? Math.max(...this.products.map(p => p.id)) : 0;
+                    //     this.form.id = max + 1;
+                    //     this.form.createdAt = now;
+                    //     this.form.updatedAt = now;
+                    //     this.products.push(JSON.parse(JSON.stringify(this.form)));
+                    //     this.showToast('Товар добавлен', 'success');
+                    //     this.page = this.pages;
+                    // }
+
+                    // TODO: отправка объекта формы на сервер;
+                    const objectForm=new FormData();
+                    objectForm.append("keyObjectProduct", JSON.stringify(this.form));
+                    // Передача файлов изображений в FormData для последующей отправки на сервер;
+                    for(const f of this.form.files){
+                        objectForm.append("imagesFiles", f);
                     }
-                    else {
-                        const max = this.products.length ? Math.max(...this.products.map(p => p.id)) : 0;
-                        this.form.id = max + 1;
-                        this.form.createdAt = now;
-                        this.form.updatedAt = now;
-                        this.products.push(JSON.parse(JSON.stringify(this.form)));
-                        this.showToast('Товар добавлен', 'success');
-                        this.page = this.pages;
-                    }
-                    this.saveToStorage();
+                    fetch("/Admin/Product/AddProductJS/", {
+                        method: "POST",
+                        body: objectForm
+                    });
+                    console.log("Объект отправлен на сервер");
+                    // .then(response => {
+                    //     if(response.ok){
+                    //         console.log("Данные успешно отправлены на сервер");
+                    //     } else {
+                    //         console.error("Ошибка при отправке данных на сервер");
+                    //     }
+                    // }).catch(error => {
+                    //     console.error("Ошибка сети:", error);
+                    // });
+
+                    //this.saveToStorage();         отключено, пока без надобности;
+
+
+
                     this.closeModal();
                 },
 
-                saveToStorage(){ localStorage.setItem('admin_products_full_v1', JSON.stringify(this.products)); },
+                saveToStorage(){
+                    localStorage.setItem('admin_products_full_v1', JSON.stringify(this.products));
+                },
 
                 showToast(text, type='success'){
                     this.toast = { show:true, text, type };
@@ -645,29 +641,34 @@
 
                 // загрузка изображений в контроллер;
                 uploadImage(e, setMain=false){
-                  const files = Array.from(e.target.files || []);
-                  for(const f of files){
-                      if(this.form.images.length >= 6){
-                          this.showToast('Максимум 6 фото в галерее', 'error');
-                          break;
-                      }
-                      const url = URL.createObjectURL(f);
-                      this.form.images.push(url);
-                      this.form.files.push(f);    // добавлен для сохранения (именно) файла в методе;
-                      if(setMain){
-                          const i = this.form.images.indexOf(url);
-                          if(i>0) 
-                          this.form.images.unshift(this.form.images.splice(i,1)[0]);
-                      }
+                    const files = Array.from(e.target.files || []);
+                    for (const f of files){
+                        if (this.form.images.length >= 6){
+                            this.showToast('Максимум 6 фото в галерее', 'error');
+                            break;
+                        }
+                        const url = URL.createObjectURL(f);
+                        this.form.images.push(url);
+                        this.form.files.push(f);    // добавлен для сохранения (именно) файла в методе;
+                        if(setMain){
+                        const i = this.form.images.indexOf(url);
+                        if(i>0) 
+                            this.form.images.unshift(this.form.images.splice(i,1)[0]);
+                            this.form.files.unshift(this.form.files.splice(i,1)[0]);
+                            // TODO: нужно удалить;
+                            console.log("Переброска выбраного файла на первое место");
+                        }
                     }
-                  e.target.value = '';
+                    e.target.value = '';
                 },
 
                 removeImage(idx){ this.form.images.splice(idx,1); },
                 setMain(idx){
                     if(idx === 0) return;
                     const img = this.form.images.splice(idx,1)[0];
+                    const fil = this.form.files.splice(idx, 1)[0];
                     this.form.images.unshift(img);
+                    this.form.files.unshift(fil);
                 },
 
                 // desc images (after blocks)

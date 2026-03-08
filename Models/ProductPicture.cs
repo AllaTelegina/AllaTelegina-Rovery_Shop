@@ -8,6 +8,7 @@ namespace Backend_asp.net.Models
         public string Putch { get; set; } = "notfund";
         public string NamePicture { get; set; } = "notfund";
         public DateTime TimeEditFile { get; set; }= DateTime.Now;
+        public bool MainPhoto { get; set; } = false;
         #endregion
 
         // Связь с продуктом;
