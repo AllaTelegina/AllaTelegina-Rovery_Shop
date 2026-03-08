@@ -22,11 +22,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ApplicationDefinition Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <ApplicationDefinition Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
+    <Folder Include="wwwroot\FotoProduct\" />
+    <Folder Include="wwwroot\PictureforProduct\" />
   </ItemGroup>
 
 </Project>

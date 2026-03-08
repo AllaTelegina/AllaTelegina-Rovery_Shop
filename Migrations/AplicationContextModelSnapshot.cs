@@ -22,88 +22,7 @@ namespace Backend_asp.net.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Backend_asp.net.Models.DataBaseModel.PropertyBicycle", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("propertyBicecles");
-                });
-
-            modelBuilder.Entity("Backend_asp.net.Models.DataBaseModel.ResultPropertyBicycle", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("PropertyBicycleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoverMechId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PropertyBicycleId");
-
-                    b.HasIndex("RoverMechId");
-
-                    b.ToTable("resultPropertyBicycles");
-                });
-
-            modelBuilder.Entity("Backend_asp.net.Models.RoverMech", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("BrandRoverMech")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreateRoverMechTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModelRoverMech")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NomerRoveryShop")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoverGender")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ShoppingCartId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ShoppingCartId");
-
-                    b.ToTable("roverMechs");
-                });
-
-            modelBuilder.Entity("Backend_asp.net.Models.ShoppingCart", b =>
+            modelBuilder.Entity("Backend_asp.net.Models.Basket", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -124,7 +43,197 @@ namespace Backend_asp.net.Migrations
 
                     b.HasIndex("UserRoveryId");
 
-                    b.ToTable("shoppingCarts");
+                    b.ToTable("baskets");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LevelCategory")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("categorys");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.DataBaseModel.ProductCategory", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("productCategories");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.Intermediate_class.BasketProduct", b =>
+                {
+                    b.Property<int>("BasketID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("BasketID", "ProductID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("basketProducts");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.Intermediate_class.ProductKeyFeature", b =>
+                {
+                    b.Property<int>("IdProduct")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdKeyFeature")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdProduct", "IdKeyFeature");
+
+                    b.HasIndex("IdKeyFeature");
+
+                    b.ToTable("productKeyFeatures");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.KeyFeature", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateKeyFeature")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("keyFeatures");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BriefDiscription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateRoverMechTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FullDiscription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.PrimitiveCollection<string>("Images")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IndicateCategory")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Lastprise")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Prise")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Rating")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("SkuNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("products");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.ProductPicture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("MainPhoto")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NamePicture")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Putch")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TimeEditFile")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("productsPicture");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.UserRovery", b =>
@@ -148,10 +257,16 @@ namespace Backend_asp.net.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAdmin")
+                    b.Property<bool?>("IsAdmin")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("IsConfirm")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsSignature")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsStatus")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
@@ -178,6 +293,9 @@ namespace Backend_asp.net.Migrations
                     b.Property<DateTime?>("TimeCreateUserRovery")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("TimeIntrance")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Token")
                         .HasColumnType("nvarchar(max)");
 
@@ -189,65 +307,114 @@ namespace Backend_asp.net.Migrations
                     b.ToTable("userRoverys");
                 });
 
-            modelBuilder.Entity("Backend_asp.net.Models.DataBaseModel.ResultPropertyBicycle", b =>
-                {
-                    b.HasOne("Backend_asp.net.Models.DataBaseModel.PropertyBicycle", "PropertyBicycle")
-                        .WithMany("BicycleValues")
-                        .HasForeignKey("PropertyBicycleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Backend_asp.net.Models.RoverMech", "RoverMech")
-                        .WithMany("PropertyValues")
-                        .HasForeignKey("RoverMechId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PropertyBicycle");
-
-                    b.Navigation("RoverMech");
-                });
-
-            modelBuilder.Entity("Backend_asp.net.Models.RoverMech", b =>
-                {
-                    b.HasOne("Backend_asp.net.Models.ShoppingCart", "ShoppingCart")
-                        .WithMany("RoverMeches")
-                        .HasForeignKey("ShoppingCartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ShoppingCart");
-                });
-
-            modelBuilder.Entity("Backend_asp.net.Models.ShoppingCart", b =>
+            modelBuilder.Entity("Backend_asp.net.Models.Basket", b =>
                 {
                     b.HasOne("Backend_asp.net.Models.UserRovery", "UserRovery")
-                        .WithMany("ShoppingCart")
+                        .WithMany("Baskets")
                         .HasForeignKey("UserRoveryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("UserRovery");
                 });
 
-            modelBuilder.Entity("Backend_asp.net.Models.DataBaseModel.PropertyBicycle", b =>
+            modelBuilder.Entity("Backend_asp.net.Models.DataBaseModel.ProductCategory", b =>
                 {
-                    b.Navigation("BicycleValues");
+                    b.HasOne("Backend_asp.net.Models.Category", "Category")
+                        .WithMany("ProductCategoryes")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Backend_asp.net.Models.Product", "Product")
+                        .WithMany("ProductCategoryes")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Backend_asp.net.Models.RoverMech", b =>
+            modelBuilder.Entity("Backend_asp.net.Models.Intermediate_class.BasketProduct", b =>
                 {
-                    b.Navigation("PropertyValues");
+                    b.HasOne("Backend_asp.net.Models.Basket", "Basket")
+                        .WithMany("BasketProducts")
+                        .HasForeignKey("BasketID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Backend_asp.net.Models.Product", "Product")
+                        .WithMany("BasketProducts")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Basket");
+
+                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Backend_asp.net.Models.ShoppingCart", b =>
+            modelBuilder.Entity("Backend_asp.net.Models.Intermediate_class.ProductKeyFeature", b =>
                 {
-                    b.Navigation("RoverMeches");
+                    b.HasOne("Backend_asp.net.Models.KeyFeature", "KeyFeature")
+                        .WithMany("ProductKeyFeatures")
+                        .HasForeignKey("IdKeyFeature")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Backend_asp.net.Models.Product", "Product")
+                        .WithMany("ProductKeyFeatures")
+                        .HasForeignKey("IdProduct")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("KeyFeature");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.ProductPicture", b =>
+                {
+                    b.HasOne("Backend_asp.net.Models.Product", "Product")
+                        .WithMany("ProductPicturees")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.Basket", b =>
+                {
+                    b.Navigation("BasketProducts");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.Category", b =>
+                {
+                    b.Navigation("ProductCategoryes");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.KeyFeature", b =>
+                {
+                    b.Navigation("ProductKeyFeatures");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.Product", b =>
+                {
+                    b.Navigation("BasketProducts");
+
+                    b.Navigation("ProductCategoryes");
+
+                    b.Navigation("ProductKeyFeatures");
+
+                    b.Navigation("ProductPicturees");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.UserRovery", b =>
                 {
-                    b.Navigation("ShoppingCart");
+                    b.Navigation("Baskets");
                 });
 #pragma warning restore 612, 618
         }

@@ -19,6 +19,7 @@ namespace Backend_asp.net.Controllers
             _context = context;
         }
 
+        //___________________________________<<<  Созданные методы  >>>>______________________________________//
         // Регистрация и создание нового пользователя в базе данных;
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -45,6 +46,7 @@ namespace Backend_asp.net.Controllers
                 hashModel.PhoneNumer = user.PhoneNumer;
                 hashModel.LastName = user.LastName;
                 hashModel.TimeCreateUserRovery = DateTime.Now;
+                hashModel.TimeIntrance = DateTime.Now;          // Дата входа пользователя;
 
                 // Записываем в базу данных пользователя;
                 _context.userRoverys.Add(hashModel);
@@ -75,12 +77,6 @@ namespace Backend_asp.net.Controllers
             return RedirectToAction("Index");
         }
 
-        // Метод для того, чтоб еще раз перезагрузить контроллер
-        public ActionResult Index()
-        {
-            return View("index");
-        }
-
         // Метод для проверки пользователя при входе;
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -91,11 +87,13 @@ namespace Backend_asp.net.Controllers
             var password = model.UserRovery.Password;
             if(imail==null || password == null)
                 return View("ErrorViewModel");
-
             // провверяю есть ли в базе данных;
             var userDB= await _context.userRoverys.FirstOrDefaultAsync(x=> x.Email == imail);
             if (userDB != null)
             {
+                // фиксация времени входа пользователя;
+                TimeIntrance(userDB);
+
                 if (userDB.Password == "default" || userDB.Password == null)
                     return ErrorValidation();
 
@@ -150,13 +148,6 @@ namespace Backend_asp.net.Controllers
                return ErrorValidation();
 
             return RedirectToAction("Index");
-        }
-
-        // Метод который выводит в поля ошибки;
-        private IActionResult ErrorValidation()
-        {
-            ViewBag.ValidPassword = "Nieprawidłowy login lub hasło!";
-            return View("index");
         }
 
         // Открытие ссылки на востановление пороля;
@@ -222,6 +213,7 @@ namespace Backend_asp.net.Controllers
             var userDB = await _context.userRoverys.FirstOrDefaultAsync(x => x.Id == user.Id);
             var pas = forgotpasswordhashee.HashPassword(user, user.Password);
             userDB.Password = pas;
+            userDB.TimeIntrance = DateTime.Now;
             _context.SaveChanges();
 
             //Cookies которые живут, только один сеанс;
@@ -240,5 +232,29 @@ namespace Backend_asp.net.Controllers
             return Redirect("Index");
         }
 
+
+        //________________________________________<<<<<< Дополнительные методы >>>>>____________________//
+
+        // Метод для того, чтоб еще раз перезагрузить контроллер
+        public ActionResult Index()
+        {
+            return View("index");
+        }
+
+        // Метод который выводит в поля ошибки;
+        private IActionResult ErrorValidation()
+        {
+            ViewBag.ValidPassword = "Nieprawidłowy login lub hasło!";
+            return View("index");
+        }
+
+        // Метод, который будет добовлять для сущности при входе время добовления входа;
+        // Этот метод можно добавить в том случае, если будет параметр найден в базе данных;
+        private async void TimeIntrance(UserRovery user)
+        {
+            user.TimeIntrance = DateTime.Now;
+            _context.userRoverys.Update(user);
+            await _context.SaveChangesAsync();
+        }
     }
 }
