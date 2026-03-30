@@ -1,5 +1,6 @@
 using Backend_asp.net.DataBase;
 using Backend_asp.net.Models;
+using Backend_asp.net.Models.Class_for_views;
 using Backend_asp.net.Models.Intermediate_class;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +28,6 @@ namespace Backend_asp.net.Controllers
             //      4. передать в представление;
 
             ICollection<ModelJsAlpine<Product>> model_for_catalog = new List<ModelJsAlpine<Product>>();
-            ModelJsAlpine<Product> modelJsAlpine = new ModelJsAlpine<Product>();
 
             // Собираю модель из BD;
             var products = await _context.products
@@ -35,9 +35,28 @@ namespace Backend_asp.net.Controllers
                 .Include(t => t.ProductPicturees)
                 .Include(t => t.ProductKeyFeatures)
                 .ToListAsync();
-            DotnetModel dotnetModel = new DotnetModel();
-            dotnetModel.model_products = products;
-            return View("katalog", dotnetModel);
+            // Перезапишу модель для js-модели page katalog.cshtml
+            for (int i = 0; i < products.Count; i++)
+            {
+                ModelJsAlpine<Product> modelJs = new ModelJsAlpine<Product>();
+                modelJs.Id = products[i].Id;
+                modelJs.title = products[i].Name;
+                var categoryName = await _context.categorys.FirstOrDefaultAsync(t => t.Id == products[i].IndicateCategory);
+                if (categoryName == null)
+                {
+                    throw new Exception($"Категория {categoryName} не существует в базе данных");
+                }
+                modelJs.category = categoryName.Name;
+                modelJs.price = products[i].Prise;
+                modelJs.rating = (double)products[i].Rating;
+                //List<ProductPicture> prod = new List<ProductPicture>();
+                var prod =products[i].ProductPicturees.Select(q=>q.Putch).ToList();
+                modelJs.pictures=prod.ToArray();
+                model_for_catalog.Add(modelJs);
+            }
+            ProductsGeneral product = new ProductsGeneral();
+            product.modelJsAlpines=model_for_catalog;
+            return View("katalog", product);
         }
     }   
 }

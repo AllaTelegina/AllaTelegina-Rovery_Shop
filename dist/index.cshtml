@@ -168,10 +168,10 @@
                 text-white bg-red-600 py-2 px-8 lg:px-16 focus:outline-none hover:bg-red-500 text-lg rounded-lg">
                 Kup teraz
             </a>
-            <button class="uppercase transition duration-300 ease-in-out transform hover:scale-105 inline-flex text-white bg-teal-500 border-0 py-2 px-6 lg:px-16 
+            <a asp-controller="About" asp-action="AboutStart" class="uppercase transition duration-300 ease-in-out transform hover:scale-105 inline-flex text-white bg-teal-500 border-0 py-2 px-6 lg:px-16
                 focus:outline-none hover:bg-teal-400 text-lg rounded-lg">
                 Poznaj nas
-            </button>
+            </a>
         </div>
         <div class="container lg:px-48  lg:pt-24 mx-auto flex flex-wrap text-teal-50">
             <div class="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
@@ -538,7 +538,7 @@
                               </p>
                         </div>
 
-                        <a href="/dist/blog.html"
+                <a asp-controller="Blog" asp-action="BlogStart"
                            class="inline-block border-2 border-red-600 text-red-600 hover:bg-teal-400 hover:border-teal-400 hover:text-white
                 rounded-lg px-8 py-2 text-sm uppercase transition-colors">
                               Więcej

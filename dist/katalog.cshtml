@@ -1,8 +1,21 @@
+@using Newtonsoft.Json
 <!-- строка подключения страницы _Layout, для того, чтоб открывался futer and header-->
 @{
     Layout="~/Views/Shared/_Layout.cshtml";
 }
-@model DotnetModel;
+<!-- Это основная модель -->
+@if (Model.modelJsAlpines == null)
+{
+    <h1 class="text-2xl font-bold text-teal-800 lg:text-3xl dark:text-white">
+        Модель пустая
+    </h1>
+}
+    else
+    {
+        <h1 class="text-2xl font-bold text-teal-800 lg:text-3xl dark:text-white">
+            Модель загружена;
+        </h1>
+    };
 <html lang="pl" class="dark h-full">
     <head>
         <meta charset="UTF-8" />
@@ -824,32 +837,28 @@
                                               <template x-for="product in filteredProducts" :key="product.id">
                                                   <article x-data="{
                                                            liked: false,
-                                                           rating: 4,
+                                                           rating: product.rating,
                                                            idx: 0,
-                                                           imgs: [
-                                                           '/assets/images/biking-leisure-black-sky-riding.jpg' ,
-                                                           '/assets/images/cool-bicycle-outdoors.jpg' ,
-                                                           '/assets/images/cycling-hat-bottle-bench.jpg'
-                                                           ],
+                                                           imgs: product.images,
                                                            timer: null,
                                                            userInteracted: false,
                                                            next() {
                                                            if (this.idx < this.imgs.length - 1) this.idx++;
-            else this.idx = 0;
-          },
-          prev() {
-            if (this.idx > 0) this.idx--;
-            else this.idx = this.imgs.length - 1;
-          },
-          startAuto() {
-            if (!this.userInteracted) {
-              this.timer = setInterval(() => this.next(), 2000);
-            }
-          },
-          stopAuto() {
-            clearInterval(this.timer);
-          }
-        }"
+                                                                    else this.idx = 0;
+                                                                },
+                                                                prev() {
+                                                                    if (this.idx > 0) this.idx--;
+                                                                    else this.idx = this.imgs.length - 1;
+                                                                },
+                                                                startAuto() {
+                                                                    if (!this.userInteracted) {
+                                                                    this.timer = setInterval(() => this.next(), 2000);
+                                                                    }
+                                                                },
+                                                                stopAuto() {
+                                                                    clearInterval(this.timer);
+                                                                }
+                                                                }"
 
                                                                 class="relative flex flex-col h-full rounded-lg border border-teal-400 bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700"
                                                           >
@@ -941,10 +950,7 @@
                                                                 <!-- Текст и кнопка -->
                                                                 <div class="px-5 pb-5 flex flex-col flex-grow">
                                                                       <a href="#" class="mb-3">
-                                                                            <h2 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-3 min-h-[4.5rem]">
-                                                                                  Apple Watch Series 7 GPS Sport Aluminium
-                                                                                  Case Starlight (Special Edition)
-                                                                            </h2>
+                                                                            <h2 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-3 min-h-[4.5rem]" x-text=" product.name"></h2>
                                                                       </a>
 
                                                                       <div class="flex items-center mb-5">
@@ -952,7 +958,7 @@
                                                                                   <template x-for="i in 5" :key="i">
                                                                                         <svg
                                                                                               class="w-4 h-4"
-                                                                                              :class="i <= rating ? 'text-teal-400' : 'text-gray-300 dark:text-gray-600'"
+                                                                                              :class="i <= product.rating ? 'text-teal-400' : 'text-gray-300 dark:text-gray-600'"
                                                                                               viewBox="0 0 22 20"
                                                                                               fill="currentColor"
                                                                                         >
@@ -960,11 +966,11 @@
                                                                                         </svg>
                                                                                   </template>
                                                                             </div>
-                                                                            <span class="ms-3 bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm">5.0</span>
+                                                                            <span class="ms-3 bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm" x-text="product.rating"></span>
                                                                       </div>
 
                                                                       <div class="mt-auto flex items-center justify-between">
-                                                                            <span class="text-3xl font-bold text-gray-900 dark:text-white">$599</span>
+                                                                            <span class="text-3xl font-bold text-gray-900 dark:text-white" x-text="'$'+product.price"></span>
                                                                             <div x-data="{ inCart: false }">
                                                                                   <button
                                                                                         type="button"
@@ -1250,7 +1256,12 @@
           </script>
           <!-- фильтр -->
           <script>
+            // TODO: вынести все фильтры в отдельный компонент, чтобы не загромождать основной код страницы
+            // начало определения модели;
               function filters() {
+            console.log("Инициализация модели:");
+            var modeljs=@Html.Raw(JsonConvert.SerializeObject(Model.modelJsAlpines));
+            console.log(modeljs);
                   return {
                       openFilters: false,
                       openExtra: false,
@@ -1324,44 +1335,18 @@
                          ТОВАРЫ (пример)
                          Бэкендер потом заменит на API
                       ----------------------------- */
-                      products: [
+                      products:modeljs.map(p=>( 
                           {
-                              id: 1,
-                              name: "Giant Talon 2",
-                              category: "Велосипеды",
-                              price: 3499,
-                              rating: 4,
+                              id: p.Id,
+                              name: p.title,
+                              category: p.category,
+                              price: p.price,
+                              rating: p.rating,
                               color: "Синий",
-                              images: [
-                                  "/assets/images/biking-leisure-black-sky-riding.jpg",
-                                  "/assets/images/cool-bicycle-outdoors.jpg",
-                                  "/assets/images/cycling-hat-bottle-bench.jpg"
-                              ]
-                          },
-                          {
-                              id: 2,
-                              name: "Xiaomi Electric Scooter 4",
-                              category: "Самокаты",
-                              price: 1999,
-                              rating: 5,
-                              color: "Черный",
-                              images: [
-                                  "/assets/images/scooter1.jpg",
-                                  "/assets/images/scooter2.jpg"
-                              ]
-                          },
-                          {
-                              id: 3,
-                              name: "Kask Abus",
-                              category: "Аксессуары",
-                              price: 199,
-                              rating: 5,
-                              color: "Белый",
-                              images: [
-                                  "/assets/images/helmet1.jpg"
-                              ]
-                          }
-                      ].sort(() => Math.random() - 0.5),
+                              images: p.pictures
+                          }),
+                        ),
+                      //].sort(() => Math.random() - 0.5),
 
 
                       /* -----------------------------

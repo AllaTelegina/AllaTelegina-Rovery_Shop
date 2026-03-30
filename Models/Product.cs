@@ -27,7 +27,7 @@ namespace Backend_asp.net.Models
         // Свойства непосредственно для описания на странице;
         public string? Color { get; set; } = "Default";
 
-        //HACK: нужно разобраться с этим свойством, его я не использую, а использую для картин другой класс;
+        //HACK: нужно разобраться с этим свойством, его я не использую, а использую для фото другой класс;
         public ICollection <string> Images { get; set; } = new List<string>();
         #endregion
 
