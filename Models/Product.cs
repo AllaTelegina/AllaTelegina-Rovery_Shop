@@ -28,6 +28,8 @@ namespace Backend_asp.net.Models
         public string? Color { get; set; } = "Default";
 
         //HACK: нужно разобраться с этим свойством, его я не использую, а использую для фото другой класс;
+        //NOTE: это свойство, через которое я передаю массив адрес фотографий в cart_produkt.cshtml;
+        #region
         public ICollection <string> Images { get; set; } = new List<string>();
         #endregion
 

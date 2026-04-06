@@ -832,177 +832,178 @@
                                               </template>
                                           </div>
 
-                                          <!-- PRODUCT LIST -->
-                                          <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                                              <template x-for="product in filteredProducts" :key="product.id">
-                                                  <article x-data="{
-                                                           liked: false,
-                                                           rating: product.rating,
-                                                           idx: 0,
-                                                           imgs: product.images,
-                                                           timer: null,
-                                                           userInteracted: false,
-                                                           next() {
-                                                           if (this.idx < this.imgs.length - 1) this.idx++;
-                                                                    else this.idx = 0;
-                                                                },
-                                                                prev() {
-                                                                    if (this.idx > 0) this.idx--;
-                                                                    else this.idx = this.imgs.length - 1;
-                                                                },
-                                                                startAuto() {
-                                                                    if (!this.userInteracted) {
-                                                                    this.timer = setInterval(() => this.next(), 2000);
-                                                                    }
-                                                                },
-                                                                stopAuto() {
-                                                                    clearInterval(this.timer);
-                                                                }
-                                                                }"
+                                    <!-- PRODUCT LIST -->
+                                    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                                        <template x-for="product in filteredProducts" :key="product.id">
+                                            <article x-data="{
+                                                     liked: false,
+                                                     rating: product.rating,
+                                                     idx: 0,
+                                                     imgs: product.images,
+                                                     timer: null,
+                                                     userInteracted: false,
+                                                     next() {
+                                                     if (this.idx < this.imgs.length - 1) this.idx++;
+                                                          else this.idx = 0;
+                                                      },
+                                                      prev() {
+                                                          if (this.idx > 0) this.idx--;
+                                                          else this.idx = this.imgs.length - 1;
+                                                      },
+                                                      startAuto() {
+                                                          if (!this.userInteracted) {
+                                                          this.timer = setInterval(() => this.next(), 2000);
+                                                          }
+                                                      },
+                                                      stopAuto() {
+                                                          clearInterval(this.timer);
+                                                      }
+                                                      }"
 
-                                                                class="relative flex flex-col h-full rounded-lg border border-teal-400 bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700"
+                                                      class="relative flex flex-col h-full rounded-lg border border-teal-400 bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700"
+                                                >
+
+                                                      <!-- Блок изображения -->
+                                                          <div
+
+                                                              class="p-5 group relative overflow-hidden"
+                                                              @@mouseenter="startAuto()"
+                                                              @@mouseleave="stopAuto()"
                                                           >
+                                                              <div class="relative w-full h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 overflow-hidden rounded-lg">
+                                                                      <a :href="`/Shopp/KartProductStart/${product.id}`">
+                                                                          <img
+                                                                              :src="imgs[idx]"
+                                                                              @@click="userInteracted = true; stopAuto()"
 
-                                                                <!-- Блок изображения -->
-                                                                <div
-                                                                      class="p-5 group relative overflow-hidden"
-                                                                      @@mouseenter="startAuto()"
-                                                                      @@mouseleave="stopAuto()"
-                                                                >
-                                                                      <div class="relative w-full h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 overflow-hidden rounded-lg">
-                                                                            <img
-                                                                                  :src="imgs[idx]"
-                                                                                  @@click.prevent.stop="userInteracted = true; stopAuto()"
-                                                                                  class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer"
-                                                                                  alt="product image"
-                                                                            />
-
-
-                                                                            <!-- Левая стрелка -->
-                                                                            <button
-                                                                                  @@click="userInteracted = true; stopAuto(); prev()"
-                                                                                  class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
-                                                                                  x-show="imgs.length > 1"
-                                                                            >
-                                                                                  <svg class="w-5 h-5" fill="none"
-                                                                                       stroke="currentColor"
-                                                                                       stroke-width="2" viewBox="0 0 24 24">
-                                                                                        <path d="M15 18l-6-6 6-6"
-                                                                                              stroke-linecap="round"
-                                                                                              stroke-linejoin="round"/>
-                                                                                  </svg>
-                                                                            </button>
-
-                                                                            <!-- Правая стрелка -->
-                                                                            <button
-                                                                                  @@click="userInteracted = true; stopAuto(); next()"
-                                                                                  class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
-                                                                                  x-show="imgs.length > 1"
-                                                                            >
-                                                                                  <svg class="w-5 h-5" fill="none"
-                                                                                       stroke="currentColor"
-                                                                                       stroke-width="2" viewBox="0 0 24 24">
-                                                                                        <path d="M9 18l6-6-6-6"
-                                                                                              stroke-linecap="round"
-                                                                                              stroke-linejoin="round"/>
-                                                                                  </svg>
-                                                                            </button>
-
-                                                                            <!-- Точки-индикаторы -->
-                                                                            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
-                                                                                  <template x-for="(img, i) in imgs"
-                                                                                            :key="i">
-                <span
-                      class="block w-1.5 h-1.5 rounded-full"
-                      :class="i === idx ? 'bg-white/90' : 'bg-white/30'"
-                ></span>
-                                                                                  </template>
-                                                                            </div>
-                                                                      </div>
-                                                                </div>
-
-                                                                <!-- Кнопка лайка -->
-                                                                <button
-                                                                      @@click="liked = !liked"
-                                                                      aria-label="Toggle like"
-                                                                      class="absolute top-6 right-6 flex items-center justify-center w-10 h-10 rounded-full text-white transition-colors duration-200"
-                                                                      :class="liked ? 'lg:bg-red-500 md:bg-red-500 hover:bg-red-400' : 'lg:bg-teal-400  hover:bg-teal-600 dark:bg-gray-700 dark:hover:bg-gray-600'"
-                                                                >
-                                                                      <template x-if="liked">
-                                                                            <svg class="w-6 h-6" viewBox="0 0 24 24"
-                                                                                 fill="currentColor">
-                                                                                  <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
-                                                                            </svg>
-                                                                      </template>
-                                                                      <template x-if="!liked">
-                                                                            <svg class="w-6 h-6" fill="none"
-                                                                                 stroke="currentColor" stroke-width="2"
-                                                                                 stroke-linecap="round"
-                                                                                 stroke-linejoin="round"
-                                                                                 viewBox="0 0 24 24">
-                                                                                  <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
-                                                                            </svg>
-                                                                      </template>
-                                                                </button>
-
-
-
-                                                                <!-- Текст и кнопка -->
-                                                                <div class="px-5 pb-5 flex flex-col flex-grow">
-                                                                      <a href="#" class="mb-3">
-                                                                            <h2 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-3 min-h-[4.5rem]" x-text=" product.name"></h2>
+                                                                              class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer"
+                                                                              alt="product image"
+                                                                          />
                                                                       </a>
 
-                                                                      <div class="flex items-center mb-5">
-                                                                            <div class="flex items-center space-x-1">
-                                                                                  <template x-for="i in 5" :key="i">
-                                                                                        <svg
-                                                                                              class="w-4 h-4"
-                                                                                              :class="i <= product.rating ? 'text-teal-400' : 'text-gray-300 dark:text-gray-600'"
-                                                                                              viewBox="0 0 22 20"
-                                                                                              fill="currentColor"
-                                                                                        >
-                                                                                              <path d="M20.924 7.625A1.523 1.523 0 0 0 19.686 6.58l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03 3.656-3.563a1.523 1.523 0 0 0 .387-1.575Z"/>
-                                                                                        </svg>
-                                                                                  </template>
-                                                                            </div>
-                                                                            <span class="ms-3 bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm" x-text="product.rating"></span>
-                                                                      </div>
+                                                                      <!-- Левая стрелка -->
+                                                                      <button
+                                                                          @@click="userInteracted = true; stopAuto(); prev()"
+                                                                          class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                                          x-show="imgs.length > 1"
+                                                                      >
+                                                                          <svg class="w-5 h-5" fill="none"
+                                                                              stroke="currentColor"
+                                                                              stroke-width="2" viewBox="0 0 24 24">
+                                                                                  <path d="M15 18l-6-6 6-6"
+                                                                                      stroke-linecap="round"
+                                                                                      stroke-linejoin="round"/>
+                                                                          </svg>
+                                                                      </button>
 
-                                                                      <div class="mt-auto flex items-center justify-between">
-                                                                            <span class="text-3xl font-bold text-gray-900 dark:text-white" x-text="'$'+product.price"></span>
-                                                                            <div x-data="{ inCart: false }">
-                                                                                  <button
-                                                                                        type="button"
-                                                                                        @@click="inCart = !inCart"
-                                                                                        :aria-pressed="inCart.toString()"
-                                                                                        :class="[
-          'inline-flex items-center border-2 border-red-600 gap-2 rounded-lg px-5 py-2 text-xs lg:px-6 lg:py-2.5 lg:text-sm uppercase transition-colors duration-200 focus:outline-none  active:scale-95',
-          inCart
-            ? 'bg-red-600 text-white hover:bg-red-500'
-            : 'text-red-600 hover:bg-teal-400 hover:border-teal-500 hover:text-white'
-        ]"
-                                                                                  >
-                                                                                        <!-- Состояние до добавления -->
-                                                                                        <template x-if="!inCart">
-                                                                                              <span>Do&nbsp;koszyka</span>
-                                                                                        </template>
-                                                                                        <!-- Состояние после добавления -->
-                                                                                        <template x-if="inCart">
-          <span class="inline-flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                 viewBox="0 0 24 24" stroke-width="1.5"
-                 stroke="currentColor" class="size-5">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
-            </svg>
-            <span>w&nbsp;koszyku</span>
-          </span>
-                                                                                        </template>
-                                                                                  </button>
-                                                                            </div>
+                                                                      <!-- Правая стрелка -->
+                                                                      <button
+                                                                          @@click="userInteracted = true; stopAuto(); next()"
+                                                                          class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                                          x-show="imgs.length > 1"
+                                                                      >
+                                                                          <svg class="w-5 h-5" fill="none"
+                                                                              stroke="currentColor"
+                                                                              stroke-width="2" viewBox="0 0 24 24">
+                                                                                  <path d="M9 18l6-6-6-6"
+                                                                                      stroke-linecap="round"
+                                                                                      stroke-linejoin="round"/>
+                                                                          </svg>
+                                                                      </button>
+
+                                                                      <!-- Точки-индикаторы -->
+                                                                      <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
+                                                                          <template x-for="(img, i) in imgs"
+                                                                                      :key="i">
+                                                                                      <span
+                                                                                          class="block w-1.5 h-1.5 rounded-full"
+                                                                                          :class="i === idx ? 'bg-white/90' : 'bg-white/30'"
+                                                                                      ></span>
+                                                                          </template>
                                                                       </div>
-                                                                </div>
+                                                              </div>
+                                                          </div>
+                                                      <!-- Кнопка лайка -->
+                                                      <button
+                                                            @@click="liked = !liked"
+                                                            aria-label="Toggle like"
+                                                            class="absolute top-6 right-6 flex items-center justify-center w-10 h-10 rounded-full text-white transition-colors duration-200"
+                                                            :class="liked ? 'lg:bg-red-500 md:bg-red-500 hover:bg-red-400' : 'lg:bg-teal-400  hover:bg-teal-600 dark:bg-gray-700 dark:hover:bg-gray-600'"
+                                                      >
+                                                            <template x-if="liked">
+                                                                  <svg class="w-6 h-6" viewBox="0 0 24 24"
+                                                                       fill="currentColor">
+                                                                        <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                                  </svg>
+                                                            </template>
+                                                            <template x-if="!liked">
+                                                                  <svg class="w-6 h-6" fill="none"
+                                                                       stroke="currentColor" stroke-width="2"
+                                                                       stroke-linecap="round"
+                                                                       stroke-linejoin="round"
+                                                                       viewBox="0 0 24 24">
+                                                                        <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                                  </svg>
+                                                            </template>
+                                                      </button>
+
+                                                      <!-- Текст и кнопка -->
+                                                      <div class="px-5 pb-5 flex flex-col flex-grow">
+                                                            <a href="#" class="mb-3">
+                                                                  <a :href="`/Shopp/KartProductStart/${product.id}">
+                                                                      <h2 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-3 min-h-[4.5rem]" x-text=" product.name"></h2>
+                                                                  </a>
+                                                            </a>
+
+                                                            <div class="flex items-center mb-5">
+                                                                  <div class="flex items-center space-x-1">
+                                                                        <template x-for="i in 5" :key="i">
+                                                                              <svg
+                                                                                    class="w-4 h-4"
+                                                                                    :class="i <= product.rating ? 'text-teal-400' : 'text-gray-300 dark:text-gray-600'"
+                                                                                    viewBox="0 0 22 20"
+                                                                                    fill="currentColor"
+                                                                              >
+                                                                                    <path d="M20.924 7.625A1.523 1.523 0 0 0 19.686 6.58l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03 3.656-3.563a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                                                              </svg>
+                                                                        </template>
+                                                                  </div>
+                                                                  <span class="ms-3 bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm" x-text="product.rating"></span>
+                                                            </div>
+
+                                                            <div class="mt-auto flex items-center justify-between">
+                                                                  <span class="text-3xl font-bold text-gray-900 dark:text-white" x-text="'$'+product.price"></span>
+                                                                  <div x-data="{ inCart: false }">
+                                                                        <button
+                                                                              type="button"
+                                                                              @@click="inCart = !inCart"
+                                                                              :aria-pressed="inCart.toString()"
+                                                                              :class="[
+                                                                                  'inline-flex items-center border-2 border-red-600 gap-2 rounded-lg px-5 py-2 text-xs lg:px-6 lg:py-2.5 lg:text-sm uppercase transition-colors duration-200 focus:outline-none  active:scale-95',
+                                                                                  inCart
+                                                                                      ? 'bg-red-600 text-white hover:bg-red-500'
+                                                                                      : 'text-red-600 hover:bg-teal-400 hover:border-teal-500 hover:text-white'
+                                                                                  ]">
+                                                                              <!-- Состояние до добавления -->
+                                                                              <template x-if="!inCart">
+                                                                                    <span>Do&nbsp;koszyka</span>
+                                                                              </template>
+                                                                              <!-- Состояние после добавления -->
+                                                                              <template x-if="inCart">
+<span class="inline-flex items-center gap-2">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+       viewBox="0 0 24 24" stroke-width="1.5"
+       stroke="currentColor" class="size-5">
+    <path stroke-linecap="round" stroke-linejoin="round"
+          d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+  </svg>
+  <span>w&nbsp;koszyku</span>
+</span>
+                                                                              </template>
+                                                                        </button>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
                                                           </article>
 
                                               </template>

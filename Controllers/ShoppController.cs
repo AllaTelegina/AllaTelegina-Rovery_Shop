@@ -58,5 +58,32 @@ namespace Backend_asp.net.Controllers
             product.modelJsAlpines=model_for_catalog;
             return View("katalog", product);
         }
+
+        // TODO: Переходит из katalog.cshtml in card_product.cshtml;
+        public async Task<IActionResult> KartProductStart(int id)
+        {
+            ProductsGeneral productGeneral = new ProductsGeneral();
+            List<string> keyfeatures = new List<string>();
+            var product = await _context.products.Include(t => t.ProductCategoryes)
+                .Include(t => t.ProductPicturees)
+                .Include(t => t.ProductKeyFeatures)
+                .ThenInclude(key => key.KeyFeature)
+                .FirstOrDefaultAsync(t => t.Id == id);
+            if (product == null)
+                throw new Exception($"Категория с {id} не найдена в базе данных");
+            productGeneral.ProductFromAdmin = product;
+            foreach (var a in product.ProductKeyFeatures)
+            {
+                if (a.KeyFeature == null)               
+                {
+                    ModelState.AddModelError("", "Не найден товар");
+                    return View("Error");
+                }
+                productGeneral.Text.Add(a.KeyFeature.Name);
+            }
+            foreach (var image in product.ProductPicturees)
+                productGeneral.ProductFromAdmin.Images.Add(image.Putch);
+            return View("card_produkt", productGeneral);
+        }
     }   
 }

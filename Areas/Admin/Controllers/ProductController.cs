@@ -39,7 +39,7 @@ namespace Backend_asp.net.Areas.Admin.Controllers
         }
         #endregion
 
-        // Добовления товара;
+        // Добовления товара в BD;
         #region
         [HttpPost]
         public async Task<IActionResult> SaveProductForAdmin(ProductsGeneral productparameter, int IsCategory)
@@ -233,7 +233,7 @@ namespace Backend_asp.net.Areas.Admin.Controllers
         }
         #endregion
 
-        // Метод для добовления товара черз API JS;
+        // Метод для добовления товара черз API JS в BD;
         [HttpPost]
         public async Task <IActionResult> AddProductJS(
             [FromForm] string keyObjectProduct, [FromForm] List<IFormFile> imagesFiles)
