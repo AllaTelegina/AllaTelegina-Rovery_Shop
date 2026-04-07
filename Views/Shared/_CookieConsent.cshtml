@@ -1,0 +1,198 @@
+<div id="cookie-banner"
+     x-data="cookieCenter()" 
+     x-init="init()" 
+     x-show="visible"
+     x-transition
+     class="fixed bottom-0 left-0 w-full bg-teal-900/90 backdrop-blur-xl text-white p-5 z-50 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+
+<div x-data="{ open: false }" class="relative flex justify-end w-full items-center gap-3">
+
+    <!-- Кнопка текущего языка -->
+    <button @@click="open = !open"
+            class="px-4 py-2 bg-teal-700 text-white rounded-lg hover:bg-teal-600 transition">
+        <span x-text="lang.toUpperCase()"></span>
+    </button>
+
+    <!-- Горизонтальный список языков -->
+    <div x-show="open"
+     @@click.outside="open = false"
+     class="flex items-center gap-2 bg-teal-700 text-white rounded-lg px-2 py-1">
+
+    <button @@click="setLang('pl'); open = false"
+            class="px-2 py-1 transition transform hover:scale-110">PL</button>
+
+    <button @@click="setLang('en'); open = false"
+            class="px-2 py-1 transition transform hover:scale-110">EN</button>
+
+    <button @@click="setLang('ru'); open = false"
+            class="px-2 py-1 transition transform hover:scale-110">RU</button>
+
+    <button @@click="setLang('ua'); open = false"
+            class="px-2 py-1 transition transform hover:scale-110">UA</button>
+</div>
+</div>
+
+    <!-- MAIN TEXT -->
+    <div class="text-lg leading-relaxed mb-4">
+        <strong x-text="t.title"></strong><br>
+        <span x-text="t.text"></span>
+        <a href="/polityka-cookies"
+        class="underline text-emerald-300 hover:text-emerald-400 transition ml-1">
+        Polityce plików cookie
+        </a>.
+        <div class="text-2xl leading-relaxed mb-4">
+        </div>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="flex gap-3 flex-wrap justify-end">
+
+        <!-- ACCEPT ALL -->
+        <button @@click="acceptAll()"
+            class="uppercase px-6 py-2 rounded-xl text-white
+            bg-red-500/30 backdrop-blur-md border border-white/20
+            transition duration-300 ease-in-out transform
+            hover:scale-105 hover:bg-red-400/30 hover:border-red-300/40
+            active:scale-95 shadow-lg hover:shadow-red-400/30">
+            <span x-text="t.acceptAll"></span>
+        </button>
+
+        <!-- MANAGE -->
+        <button @@click="openSettings = true"
+            class="uppercase px-6 py-2 rounded-xl text-white
+            bg-white/10 backdrop-blur-md border border-white/20
+            transition duration-300 ease-in-out transform
+            hover:scale-105 hover:bg-teal-400/30 hover:border-teal-300/40
+            active:scale-95 shadow-lg hover:shadow-teal-400/30">
+            <span x-text="t.manage"></span>
+        </button>
+
+        <!-- ACCEPT NECESSARY -->
+        <button @@click="acceptNecessary()"
+            class="uppercase px-6 py-2 rounded-xl text-white
+            bg-white/5 backdrop-blur-md border border-white/10
+            transition duration-300 ease-in-out transform
+            hover:scale-105 hover:bg-white/10 hover:border-white/30
+            active:scale-95">
+            <span x-text="t.acceptNecessary"></span>
+        </button>
+    </div>
+
+   <!-- MODAL -->
+   <div x-show="openSettings"
+     x-transition
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+
+        <div class="bg-teal-900 text-white bottom-60 rounded-2xl shadow-2xl max-w-xl w-full mx-4 p-6 border border-white/10 relative">
+
+        <!-- CLOSE -->
+        <button @@click="openSettings = false"
+                class="absolute top-3 right-3 text-white/80 hover:text-white transition">
+            ✕
+        </button>
+
+        <!-- LIGHT TITLE -->
+        <h2 class="text-lg font-semibold mb-3">Ustawienia prywatności</h2>
+
+        <!-- INTRO WITH COOKIE POLICY LINK -->
+        <p class="text-sm text-gray-200 mb-6">
+            Zarządzasz zgodą na różne kategorie plików cookie. 
+            Szczegóły znajdziesz w naszej 
+            <a href="/polityka-cookies" class="underline text-emerald-300 hover:text-emerald-400 transition ml-1">
+                Polityce plików cookie
+            </a>.
+        </p>
+
+        <!-- NEW SECTION TITLE -->
+        <div class="text-sm font-semibold text-gray-200 mb-3">
+            Wyrażam zgodę na:
+        </div>
+
+        <div class="space-y-4 text-sm">
+
+            <!-- NECESSARY -->
+            <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="font-semibold" x-text="t.necessaryTitle"></div>
+                        <div class="text-gray-300 mt-1" x-text="t.necessaryDesc"></div>
+                    </div>
+                    <div class="text-xs px-3 py-1 rounded-full bg-teal-500/20 border border-emerald-300/50">
+                        <span x-text="t.alwaysActive"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PERFORMANCE -->
+            <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex justify-between items-start">
+                <div>
+                    <div class="font-semibold" x-text="t.performanceTitle"></div>
+                    <div class="text-gray-300 mt-1" x-text="t.performanceDesc"></div>
+                </div>
+                <label class="inline-flex items-center cursor-pointer">
+                    <input type="checkbox" x-model="performance" class="sr-only">
+                    <span class="w-10 h-5 flex items-center bg-gray-600 rounded-full p-1 transition">
+                        <span class="w-4 h-4 bg-white rounded-full shadow transform transition"
+                              :class="performance ? 'translate-x-4 bg-emerald-300' : ''"></span>
+                    </span>
+                </label>
+            </div>
+
+            <!-- FUNCTIONAL -->
+            <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex justify-between items-start">
+                <div>
+                    <div class="font-semibold" x-text="t.functionalTitle"></div>
+                    <div class="text-gray-300 mt-1" x-text="t.functionalDesc"></div>
+                </div>
+                <label class="inline-flex items-center cursor-pointer">
+                    <input type="checkbox" x-model="functional" class="sr-only">
+                    <span class="w-10 h-5 flex items-center bg-gray-600 rounded-full p-1 transition">
+                        <span class="w-4 h-4 bg-white rounded-full shadow transform transition"
+                              :class="functional ? 'translate-x-4 bg-emerald-300' : ''"></span>
+                    </span>
+                </label>
+            </div>
+
+            <!-- ADVERTISING -->
+            <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex justify-between items-start">
+                <div>
+                    <div class="font-semibold" x-text="t.advertisingTitle"></div>
+                    <div class="text-gray-300 mt-1" x-text="t.advertisingDesc"></div>
+                </div>
+                <label class="inline-flex items-center cursor-pointer">
+                    <input type="checkbox" x-model="advertising" class="sr-only">
+                    <span class="w-10 h-5 flex items-center bg-gray-600 rounded-full p-1 transition">
+                        <span class="w-4 h-4 bg-white rounded-full shadow transform transition"
+                              :class="advertising ? 'translate-x-4 bg-emerald-300' : ''"></span>
+                    </span>
+                </label>
+            </div>
+        </div>
+
+        <!-- FOOTER BUTTONS -->
+           <div class="mt-6 flex justify-end gap-4">
+               <!-- ANULUJ -->
+               <button 
+                @@click="performance=false; functional=false; advertising=false"
+                class="text-sm text-gray-300 hover:text-emerald-300 transition">
+                Anuluj
+                </button>
+
+                <!-- ACCEPT NECESSARY -->
+                <button @@click="acceptNecessary()"
+                    class="px-4 py-2 text-sm rounded-lg border border-white/20 bg-white/5
+                    hover:bg-white/10 transition">
+                    <span x-text="t.acceptNecessary"></span>
+                </button>
+
+                <!-- SAVE -->
+                <button @@click="savePreferences()"
+                    class="px-5 py-2 text-sm rounded-lg bg-teal-500 hover:bg-teal-400
+                    text-gray-900 font-semibold shadow-lg transition">
+                    <span x-text="t.save"></span>
+                </button>
+
+            </div>
+        </div>
+   </div>
+</div>

@@ -6,6 +6,7 @@ module.exports = {
       "./src/**/*.{js,ts,jsx,tsx}",
       "./node_modules/flowbite/**/*.js"
   ],
+
   theme: {
     extend: {
        keyframes: {
@@ -29,8 +30,10 @@ module.exports = {
             'dark-text': '#e0e0e0',
             'accent': '#D62934',
         },
+    
     },
   },
+  
   plugins: [
       require('flowbite/plugin'),
       require('flowbite-typography'),
