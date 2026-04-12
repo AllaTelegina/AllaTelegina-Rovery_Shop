@@ -6,7 +6,7 @@ namespace Backend_asp.net.Models.Class_for_views
     {
         public ICollection <Category> ListCategorys { get; set; }=new List<Category>();
         public Product ProductFromAdmin { get; set; } = new Product ();
-        public ICollection<ModelJsAlpine<Product>> modelJsAlpines { get; set; } =new List<ModelJsAlpine<Product>>();
+        public List<ModelJsAlpine<Product>> modelJsAlpines { get; set; } =new List<ModelJsAlpine<Product>>();
         public List<string> Text { get; set; } = new List<string>(); // для передачи списка;
     }
 }

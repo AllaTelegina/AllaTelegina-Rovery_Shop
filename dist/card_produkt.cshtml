@@ -625,129 +625,35 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <table class="min-w-full">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="px-6 py-3 text-left text-lg font-medium text-teal-800 uppercase tracking-wider">
-                                                            Name
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="bg-white divide-y divide-gray-200">
-                                                    <tr class="bg-teal-50">
-                                                        <td class="px-6 py-4 whitespace-nowrap">First Name</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Jane</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Last Name</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Doe</td>
-                                                    </tr>
-                                                    <tr class="bg-teal-50">
-                                                        <td class="px-6 py-4 whitespace-nowrap">Email</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">jane@example.com</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Phone</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">555-555-5555</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                            @for (int i = 0; i < Model.modelJsAlpines.Count; i++)
+                                            {
+                                                for (int j = 0; j < Model.modelJsAlpines[i].specs.Length; j++)
+                                                {
+                                                    var spec = Model.modelJsAlpines[i].specs[j];
 
+                                                    <table class="min-w-full mt-10 mb-10">
+                                                        <thead>
+                                                            <tr>
+                                                                <th colspan="2" class="px-6 py-3 text-left text-lg font-medium text-teal-800 uppercase tracking-wider">
+                                                                    @spec.name
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
 
-                                            <table class="min-w-full mt-10">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="px-6 py-3 text-left text-lg font-medium text-teal-800 uppercase tracking-wider">Tormozy</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="bg-white divide-y divide-gray-200">
-                                                    <tr class="bg-teal-50">
-                                                        <td class="px-6 py-4 whitespace-nowrap">First Name</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Jane</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Last Name</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Doe</td>
-                                                    </tr>
-                                                    <tr class="bg-teal-50">
-                                                        <td class="px-6 py-4 whitespace-nowrap">Email</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">jane@example.com</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                                        <tbody class="bg-white divide-y divide-gray-200">
+                                                            @foreach (var row in spec.features.Select((x, index) => new { x, index }))
+                                                            {
+                                                                var rowClass = row.index % 2 == 0 ? "bg-teal-50" : "";
 
-                                            <table class="min-w-full mt-10">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="px-6 py-3 text-left text-lg font-medium text-teal-800 uppercase tracking-wider">Tormozy</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="bg-white divide-y divide-gray-200">
-                                                    <tr class="bg-teal-50">
-                                                        <td class="px-6 py-4 whitespace-nowrap">First Name</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Jane</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Last Name</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Doe</td>
-                                                    </tr>
-                                                    <tr class="bg-teal-50">
-                                                        <td class="px-6 py-4 whitespace-nowrap">Email</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">jane@example.com</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Last Name</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Doe</td>
-                                                    </tr>
-                                                    <tr class="bg-teal-50">
-                                                        <td class="px-6 py-4 whitespace-nowrap">Name</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Dane</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
-                                            <table class="min-w-full mt-10">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="px-6 py-3 text-left text-lg font-medium text-teal-800 uppercase tracking-wider">Tormozy</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="bg-white divide-y divide-gray-200">
-                                                    <tr class="bg-teal-50">
-                                                        <td class="px-6 py-4 whitespace-nowrap">First Name</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Jane</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Last Name</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Doe</td>
-                                                    </tr>
-                                                    <tr class="bg-teal-50">
-                                                        <td class="px-6 py-4 whitespace-nowrap">Email</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">jane@example.com </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Last Name</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Doe</td>
-                                                    </tr>
-                                                    <tr class="bg-teal-50">
-                                                        <td class="px-6 py-4 whitespace-nowrap">Name</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Dane</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Last Name</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Doe</td>
-                                                    </tr>
-                                                    <tr class="bg-teal-50">
-                                                        <td class="px-6 py-4 whitespace-nowrap">Email</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">jane@example.com</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Last Name</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">Doe</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
+                                                                <tr class="@rowClass grid grid-cols-[250px_1fr] gap-x-80">
+                                                                    <td class="px-6 py-4">@row.x.key</td>
+                                                                    <td class="px-6 py-4">@row.x.value</td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                }
+                                            }
                                         </div>
                                     </div>
                                 </div>

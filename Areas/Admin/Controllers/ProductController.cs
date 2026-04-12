@@ -235,8 +235,7 @@ namespace Backend_asp.net.Areas.Admin.Controllers
 
         // Метод для добовления товара черз API JS в BD;
         [HttpPost]
-        public async Task <IActionResult> AddProductJS(
-            [FromForm] string keyObjectProduct, [FromForm] List<IFormFile> imagesFiles)
+        public async Task <IActionResult> AddProductJS( [FromForm] string keyObjectProduct, [FromForm] List<IFormFile> imagesFiles)
         {
             ModelJsAlpine<object>? modelJsAlpine = null;
             Product product = new Product();
