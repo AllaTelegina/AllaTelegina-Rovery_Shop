@@ -4,33 +4,8 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 @model ProductsGeneral
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AdminPanel — Товары</title>
-   <link href="output.css" rel="stylesheet">
-
-   <style>[x-cloak]{display:none !important;}</style>
-
-      <script src="https://cdn.tailwindcss.com"></script>
-
-      <!-- Alpine.js (defer - скрипт ждёт загрузки DOM) -->
-      <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-      <!-- Flowbite JS (версия 2.3.0) -->
-      <script defer src="https://unpkg.com/flowbite@2.3.0/dist/flowbite.min.js"></script>
-
-      <!-- Skript для проверки полей заполнения создание через админ панель товара -->
-      <script defer src="\jsfile\Validate_Product_adminPanel.js"></script>
-
-
-      <!-- основной JS -->
-
-      <script type="module" defer src="/dist/main.js"></script>
-</head>
 
 <body class="bg-gray-100 flex">
-
 
     <!-- Main -->
     <main class="flex-1 p-8 bg-gray-100 min-h-screen" x-data="productsAdmin()" x-cloak>
@@ -439,6 +414,46 @@
                 },
                 products: [],
 
+
+
+
+// ВСТАВЛЕННО ВРЕМЕННО 
+   init(){
+      const raw = localStorage.getItem('admin_products_full_v1');
+      if(raw) this.products = JSON.parse(raw);
+      else {
+        this.products = [
+          {
+            id: 1,
+            category: 'Велосипеды',
+            title: 'Rovery X1',
+            sku: 'RVX1',
+            price: 52000,
+            oldPrice: 58000,
+            rating: 4.5,
+            status: 'В наличии',
+            colors: ['#000000','#ffffff'],
+            keyFeatures: ['Лёгкая рама','Гидравл. тормоза'],
+            images: ['https://images.unsplash.com/photo-1508975550034-c3b5cc6f4a53?w=800&q=60'],
+            shortDesc: 'Городской электровелосипед Rovery X1',
+            fullDesc: 'Это основной текст полного описания продукта — длинный, на всю ширину.',
+            descriptionBlocks: [
+              {title:'Особенности', text:'Короткий текст о особенностях.'},
+              {title:'Комплектация', text:'Что идёт в коробке.'}
+            ],
+            descImages: ['https://images.unsplash.com/photo-1525104698733-6a7a4d15f3f4?w=800&q=60'],
+            specs: [{name:'Двигатель', features:[{key:'Мощность',value:'250 Вт'}]}],
+            createdAt: (new Date()).toLocaleString(),
+            updatedAt: (new Date()).toLocaleString()
+          }
+        ];
+        this.saveToStorage();
+      }
+    },
+
+
+
+
                 // computed
                 get filtered(){
                     const s = this.search.toLowerCase().trim();
@@ -479,25 +494,22 @@
                     });
                     return arr;
                 },
-
+               //paginations
                 get pages(){
                     return Math.max(1, Math.ceil(this.filtered.length / this.perPage));
                 },
-
                 get pagesArray(){
                     const arr = [];
                     for(let i=1;i<=this.pages;i++) arr.push(i);
                     return arr;
                 },
-
                 get paginatedFiltered(){
                     const start = (this.page - 1) * this.perPage;
                     return this.filtered.slice(start, start + this.perPage);
                 },
-
                 prevPage(){ if(this.page>1) this.page--; },
                 nextPage(){ if(this.page < this.pages) this.page++; },
-
+                //sortuj ↑↓
                 toggleSort(field){
                     if(this.sortField === field) this.sortAsc = !this.sortAsc;
                     else { this.sortField = field; this.sortAsc = true; }
@@ -702,7 +714,6 @@
             }
         }
     </script>
-
 
 </body>
 </html>

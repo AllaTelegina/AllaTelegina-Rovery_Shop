@@ -14,6 +14,7 @@ out/
 *.suo
 *.userosscache
 *.sln.docstates
+appsettings.json
 
 #  Rider / JetBrains
 .idea/
