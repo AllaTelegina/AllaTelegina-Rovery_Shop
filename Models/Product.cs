@@ -20,6 +20,7 @@ namespace Backend_asp.net.Models
         public string BriefDiscription { get; set; } = "Default";             // Короткое описание;
         public string FullDiscription { get; set; } = "Default";              // Полное описание товара;
         public decimal Rating {  get; set; }                                  // Рейтинг объекта;
+        public int Quantity { get; set; } = 1;                                // Количество товара;
 
         // Свойство которое будет записываться по результату значения ProductCategory;
         public int IndicateCategory { get; set; } = 0;
