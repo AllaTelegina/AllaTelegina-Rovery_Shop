@@ -1,0 +1,1954 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html lang="pl">
+<head>
+      <meta charset="UTF-8">
+      <title>Ulubione</title>
+      <link href="output.css" rel="stylesheet">
+      <script src="https://cdn.tailwindcss.com"></script>
+
+      <!-- Alpine.js (defer - скрипт ждёт загрузки DOM) -->
+      <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+      <!-- Flowbite JS (версия 2.3.0) -->
+      <script defer src="https://unpkg.com/flowbite@2.3.0/dist/flowbite.min.js"></script>
+
+      <!-- основной JS -->
+
+      <script type="module" defer src="./main.js"></script>
+</head>
+<body class="flex flex-col min-h-screen">
+
+<!-- Модальное окно вход header+ -->
+<div id="authentication-modal" tabindex="-1" aria-hidden="true"
+     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0
+ inset-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+      <div class="relative p-4 w-full max-w-md max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+                  <!-- Modal header -->
+                  <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                              Zaloguj się na swoje konto osobiste
+                        </h3>
+                        <button type="button"
+                                class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                data-modal-hide="authentication-modal">
+                              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                   viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                          stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                              </svg>
+                              <span class="sr-only">Close modal</span>
+                        </button>
+                  </div>
+                  <!-- Modal body -->
+                  <div class="p-4 md:p-5">
+                        <div
+                              @@click="mode = 'login'"
+                              x-show="mode === 'login' || window.innerWidth >= 640"
+                              x-cloak
+                              :class="mode === 'login' ? 'ring-2 ring-teal-200' : ''"
+                              class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow transition-all">
+
+                              <form class="space-y-4" action="#">
+                                    <div>
+                                          <label for="email"
+                                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Twój
+                                                e-mail</label>
+                                          <input type="email" name="email" id="email"
+                                                 class="border border-teal-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                 placeholder="name@company.com" required/>
+                                    </div>
+                                    <div>
+                                          <label for="password"
+                                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Twoje
+                                                hasło</label>
+                                          <input type="password" name="password" id="password" placeholder="••••••••"
+                                                 class="border border-teal-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                 required/>
+                                    </div>
+                                    <div class="flex justify-between">
+                                          <div class="flex items-start">
+
+                                                <div x-data="{ checked: false }"
+                                                     class="flex items-center text-sm cursor-pointer space-x-2">
+                                                      <!-- Кастомный чекбокс -->
+                                                      <div @@click="checked = !checked"
+                                                           class="w-5 h-5 border border-gray-400 rounded flex items-center justify-center"
+                                                           :class="{ 'bg-teal-500 border-teal-500': checked }">
+                                                            <!-- Галочка -->
+                                                            <svg x-show="checked" xmlns="http://www.w3.org/2000/svg"
+                                                                 class="w-3 h-3 text-white" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke="currentColor" stroke-width="4">
+                                                                  <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="M5 13l4 4L19 7"/>
+                                                            </svg>
+                                                      </div>
+
+                                                      <!-- Текст и скрытый checkbox для форм -->
+                                                      <label for="remember"
+                                                             class="ms-2 text-sm  text-gray-900 dark:text-gray-300">
+                                                            <input type="checkbox" id="terms" name="terms"
+                                                                   x-model="checked" class="hidden" required/>
+                                                            Pamiętaj mnie</label>
+                                                </div>
+
+                                          </div>
+                                          <a href="/dist/forgot_password.html"
+                                             class="text-sm font-medium hover:text-teal-500 text-red-700 hover:underline dark:text-blue-500">Zapomniałem
+                                                hasła?</a>
+                                    </div>
+
+                                    <div class="mt-6">
+                                          <div class="relative">
+                                                <div class="absolute inset-0 flex items-center">
+                                                      <div class="w-full border-t border-teal-500"></div>
+                                                </div>
+                                                <div class="relative flex justify-center text-sm">
+                                                      <span class="bg-white dark:bg-teal-700 px-2 text-gray-500 dark:text-white">Login using</span>
+                                                </div>
+                                          </div>
+                                          <button
+                                                class="inline-flex w-full items-center justify-center rounded-md border border-teal-700 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-teal-700 hover:text-white dark:text-white shadow-sm hover:bg-teal-400 dark:hover:bg-gray-600 disabled:cursor-wait disabled:opacity-50">
+                                                <span class="sr-only">Sign in with Google</span>
+                                                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"
+                                                     aria-hidden="true">
+                                                      <clipPath id="p.0">
+                                                            <path d="m0 0l20.0 0l0 20.0l-20.0 0l0 -20.0z"
+                                                                  clip-rule="nonzero"></path>
+                                                      </clipPath>
+                                                      <g clip-path="url(#p.0)">
+                                                            <path fill="currentColor" fill-opacity="0.0"
+                                                                  d="m0 0l20.0 0l0 20.0l-20.0 0z"
+                                                                  fill-rule="evenodd"></path>
+                                                            <path fill="currentColor"
+                                                                  d="m19.850197 8.270351c0.8574047 4.880001 -1.987587 9.65214 -6.6881847 11.218641c-4.700598 1.5665016 -9.83958 -0.5449295 -12.08104 -4.963685c-2.2414603 -4.4187555 -0.909603 -9.81259 3.1310139 -12.6801605c4.040616 -2.867571 9.571754 -2.3443127 13.002944 1.2301085l-2.8127813 2.7000687l0 0c-2.0935059 -2.1808972 -5.468274 -2.500158 -7.933616 -0.75053835c-2.4653416 1.74962 -3.277961 5.040613 -1.9103565 7.7366734c1.3676047 2.6960592 4.5031037 3.9843292 7.3711267 3.0285425c2.868022 -0.95578575 4.6038647 -3.8674583 4.0807285 -6.844941z"
+                                                                  fill-rule="evenodd"></path>
+                                                            <path fill="currentColor"
+                                                                  d="m10.000263 8.268785l9.847767 0l0 3.496233l-9.847767 0z"
+                                                                  fill-rule="evenodd"></path>
+                                                      </g>
+                                                </svg>
+                                          </button>
+                                    </div>
+                                    <button type="submit"
+                                            class="w-full uppercase text-white hover:bg-red-600 bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-500 font-medium rounded-lg text-sm px-5 py-3.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                          wejście
+                                    </button>
+                                    <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+                                          Nie jesteś zarejestrowany?
+                                          <a href="/dist/registration.html"
+                                             class="hover:text-teal-800 text-red-700 hover:underline dark:text-blue-500">Utwórz
+                                                konto</a>
+                                    </div>
+                              </form>
+
+                        </div>
+                  </div>
+            </div>
+      </div>
+</div>
+
+
+<!-- Модальное окно поиска header+ -->
+<div id="search-modal" tabindex="-1" aria-hidden="true"
+     class="hidden fixed inset-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto flex items-start justify-center pt-20 sm:pt-32">
+
+      <!-- Контейнер формы -->
+      <div class="relative w-full max-w-xl sm:max-w-2xl lg:max-w-7xl">
+            <div class="relative bg-gray-800/10 rounded-xl shadow dark:bg-gray-700 p-6 lg:p-10 min-h-[280px] lg:min-h-[360px]">
+                  <!-- Кнопка закрытия -->
+                  <button type="button"
+                          class="absolute top-2 right-2 text-white bg-transparent hover:bg-gray-200 hover:text-teal-600 rounded-lg text-sm w-8 h-8 flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"
+                          data-modal-hide="search-modal">
+                        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M1 1l6 6m0 0l6 6M7 7l6-6M7 7L1 13"/>
+                        </svg>
+                        <span class="sr-only">Закрыть</span>
+                  </button>
+
+                  <!-- Форма поиска -->
+                  <form class="mt-6">
+                        <div class="relative w-full">
+                              <input placeholder="e.g. Blog"
+                                     class="rounded-full w-full h-16 bg-white py-2 pl-8 pr-32 outline-none border-2 border-gray-200 shadow-md hover:outline-none focus:ring-teal-200 focus:border-teal-200 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                                     type="text" name="query" id="query">
+
+                              <button type="submit"
+                                      class="absolute inline-flex items-center h-10 px-4 py-2 text-sm text-white transition duration-150 ease-in-out rounded-full right-3 top-3 bg-teal-600 sm:px-6 sm:text-base sm:font-medium hover:bg-teal-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                                    <svg class="-ml-0.5 sm:-ml-1 mr-2 w-4 h-4 sm:h-5 sm:w-5"
+                                         xmlns="http://www.w3.org/2000/svg" fill="none"
+                                         viewBox="0 0 24 24" stroke="currentColor">
+                                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    </svg>
+                                    Search
+                              </button>
+                        </div>
+                  </form>
+            </div>
+      </div>
+</div>
+
+
+<main class="flex-grow container mx-auto mt-20">
+
+
+      <!-- H! + Хлебные крошки -->
+      <div class="mb-6 mt-6 mx-8 flex flex-col sm:flex-row items-start sm:items-center justify-between sm:gap-2 sm:mb-8 md:mb-12">
+            <h1 class="text-2xl font-bold text-teal-800 lg:text-3xl dark:text-white">Polecane produkty</h1>
+            <!-- Хлебные крошки -->
+            <nav class="flex" aria-label="Breadcrumb">
+                  <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                        <li class="inline-flex items-center">
+                              <a href="/dist/index.html"
+                                 class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-red-700 dark:text-gray-400 dark:hover:text-white">
+                                    <svg class="w-3 h-3 me-2.5" aria-hidden="true" fill="currentColor"
+                                         viewBox="0 0 20 20">
+                                          <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
+                                    </svg>
+                                    Dom
+                              </a>
+
+                        </li>
+                        <li aria-current="page">
+                              <div class="flex items-center">
+                                    <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" fill="none"
+                                         viewBox="0 0 6 10">
+                                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" d="m1 9 4-4-4-4"/>
+                                    </svg>
+                                    <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">Polecane produkty</span>
+                              </div>
+                        </li>
+                  </ol>
+            </nav>
+      </div>
+
+
+      <section class="text-gray-600 body-font lg:mx-6">
+            <div class="container mx-auto">
+                  <div class="flex flex-wrap">
+
+                        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 p-4">
+                              <article
+                                    x-data="{
+              liked: false,
+              rating: 4,
+              idx: 0,
+              imgs: [
+                'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80'
+              ],
+              timer: null,
+              userInteracted: false,
+              next() {
+                this.idx = (this.idx + 1) % this.imgs.length;
+              },
+              prev() {
+                this.idx = (this.idx - 1 + this.imgs.length) % this.imgs.length;
+              },
+              startAuto() {
+                if (!this.userInteracted) {
+                  this.timer = setInterval(() => this.next(), 3000);
+                }
+              },
+              stopAuto() {
+                clearInterval(this.timer);
+              }
+            }"
+                                    class="relative flex flex-col h-full rounded-lg border border-teal-400 bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700"
+                              >
+
+                                    <!-- Изображение -->
+                                    <div
+                                          class="group relative overflow-hidden rounded-t-lg"
+                                          @@mouseenter="startAuto()"
+                                          @@mouseleave="stopAuto()"
+                                    >
+                                          <div class="relative w-full h-48 sm:h-56 md:h-64 lg:h-56 overflow-hidden rounded-lg">
+                                                <img
+                                                      :src="imgs[idx]"
+                                                      @@click.prevent.stop="userInteracted = true; stopAuto()"
+                                                      alt="product image"
+                                                      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
+                                                />
+                                                <!-- Кнопки переключения -->
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); prev()"
+                                                      class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M15 18l-6-6 6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); next()"
+                                                      class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M9 18l6-6-6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <!-- Индикаторы -->
+                                                <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
+                                                      <template x-for="(img, i) in imgs" :key="i">
+                    <span
+                          class="block w-1.5 h-1.5 rounded-full"
+                          :class="i === idx ? 'bg-white/90' : 'bg-white/30'"
+                    ></span>
+                                                      </template>
+                                                </div>
+                                          </div>
+                                    </div>
+
+                                    <button
+                                          @@click="liked = !liked"
+                                          aria-label="Toggle like"
+                                          class="absolute top-4 right-4 flex items-center justify-center w-9 h-9 rounded-full text-white transition-colors duration-200 z-10"
+                                          :class="liked ? 'bg-teal-400 hover:bg-teal-500' : 'bg-red-600 hover:bg-red-700 dark:bg-gray-700 dark:hover:bg-gray-600'"
+                                    >
+                                          <template x-if="liked">
+                                                <!-- Зеленый фон — прозрачное (stroke), без заливки -->
+                                                <svg class="w-5 h-5" fill="none" stroke="white" stroke-width="2"
+                                                     stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                          <template x-if="!liked">
+                                                <!-- Красный фон — залитое белое сердце -->
+                                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="white">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                    </button>
+
+                                    <!-- Текст и кнопки -->
+                                    <div class="px-4 pb-4 flex flex-col flex-grow">
+                                          <a href="#" class="mb-2">
+                                                <h2 class="text-base font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-2 min-h-[3rem]">
+                                                      Apple Watch Series 7 GPS Sport Aluminium Case Starlight (Special
+                                                      Edition)
+                                                </h2>
+                                          </a>
+
+                                          <div class="flex items-center justify-between mb-4">
+                                                <div class="flex items-center space-x-1">
+                                                      <template x-for="i in 5" :key="i">
+                                                            <svg
+                                                                  class="w-3 h-3"
+                                                                  :class="i <= rating ? 'text-teal-400' : 'text-gray-300 dark:text-gray-600'"
+                                                                  viewBox="0 0 22 20"
+                                                                  fill="currentColor"
+                                                            >
+                                                                  <path d="M20.924 7.625A1.523 1.523 0 0 0 19.686 6.58l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03 3.656-3.563a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                                            </svg>
+                                                      </template>
+                                                </div>
+                                                <span class="bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm select-none">5.0</span>
+                                                <span class="text-xl font-bold text-gray-900 dark:text-white ms-auto select-none">$599</span>
+                                          </div>
+
+                                          <div x-data="{ inCart: false }">
+                                                <button
+                                                      type="button"
+                                                      @@click="inCart = !inCart"
+                                                      :aria-pressed="inCart.toString()"
+                                                      :class="[
+      'w-full border-2 bg-red-600 gap-2 rounded-lg px-5 py-2 text-base  uppercase transition-colors duration-200 focus:outline-none  active:scale-95',
+      inCart
+        ? 'bg-teal-500 text-white hover:bg-teal-400 '
+        : 'text-white hover:bg-red-400 hover:border-red-500 hover:text-white'
+    ]"
+                                                >
+                                                      <!-- Состояние до добавления -->
+                                                      <template x-if="!inCart">
+                                                            <span>Do&nbsp;koszyka</span>
+                                                      </template>
+                                                      <!-- Состояние после добавления -->
+                                                      <template x-if="inCart">
+      <span class="inline-flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor" class="size-5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+        </svg>
+        <span>w&nbsp;koszyku</span>
+      </span>
+                                                      </template>
+                                                </button>
+                                          </div>
+                                    </div>
+                              </article>
+                        </div>
+
+
+                        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 p-4">
+                              <article
+                                    x-data="{
+              liked: false,
+              rating: 4,
+              idx: 0,
+              imgs: [
+                'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80'
+              ],
+              timer: null,
+              userInteracted: false,
+              next() {
+                this.idx = (this.idx + 1) % this.imgs.length;
+              },
+              prev() {
+                this.idx = (this.idx - 1 + this.imgs.length) % this.imgs.length;
+              },
+              startAuto() {
+                if (!this.userInteracted) {
+                  this.timer = setInterval(() => this.next(), 3000);
+                }
+              },
+              stopAuto() {
+                clearInterval(this.timer);
+              }
+            }"
+                                    class="relative flex flex-col h-full rounded-lg border border-teal-400 bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700"
+                              >
+
+                                    <!-- Изображение -->
+                                    <div
+                                          class="group relative overflow-hidden rounded-t-lg"
+                                 @@mouseenter="startAuto()"
+                                          @@mouseleave="stopAuto()"
+                                    >
+                                          <div class="relative w-full h-48 sm:h-56 md:h-64 lg:h-56 overflow-hidden rounded-lg">
+                                                <img
+                                                      :src="imgs[idx]"
+                                                      @@click.prevent.stop="userInteracted = true; stopAuto()"
+                                                      alt="product image"
+                                                      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
+                                                />
+                                                <!-- Кнопки переключения -->
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); prev()"
+                                                      class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M15 18l-6-6 6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); next()"
+                                                      class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M9 18l6-6-6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <!-- Индикаторы -->
+                                                <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
+                                                      <template x-for="(img, i) in imgs" :key="i">
+                    <span
+                          class="block w-1.5 h-1.5 rounded-full"
+                          :class="i === idx ? 'bg-white/90' : 'bg-white/30'"
+                    ></span>
+                                                      </template>
+                                                </div>
+                                          </div>
+                                    </div>
+
+                                    <button
+                                          @@click="liked = !liked"
+                                          aria-label="Toggle like"
+                                          class="absolute top-4 right-4 flex items-center justify-center w-9 h-9 rounded-full text-white transition-colors duration-200 z-10"
+                                          :class="liked ? 'bg-teal-400 hover:bg-teal-500' : 'bg-red-600 hover:bg-red-700 dark:bg-gray-700 dark:hover:bg-gray-600'"
+                                    >
+                                          <template x-if="liked">
+                                                <!-- Зеленый фон — прозрачное (stroke), без заливки -->
+                                                <svg class="w-5 h-5" fill="none" stroke="white" stroke-width="2"
+                                                     stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                          <template x-if="!liked">
+                                                <!-- Красный фон — залитое белое сердце -->
+                                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="white">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                    </button>
+
+                                    <!-- Текст и кнопки -->
+                                    <div class="px-4 pb-4 flex flex-col flex-grow">
+                                          <a href="#" class="mb-2">
+                                                <h2 class="text-base font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-2 min-h-[3rem]">
+                                                      Apple Watch Series 7 GPS Sport Aluminium Case Starlight (Special
+                                                      Edition)
+                                                </h2>
+                                          </a>
+
+                                          <div class="flex items-center justify-between mb-4">
+                                                <div class="flex items-center space-x-1">
+                                                      <template x-for="i in 5" :key="i">
+                                                            <svg
+                                                                  class="w-3 h-3"
+                                                                  :class="i <= rating ? 'text-teal-400' : 'text-gray-300 dark:text-gray-600'"
+                                                                  viewBox="0 0 22 20"
+                                                                  fill="currentColor"
+                                                            >
+                                                                  <path d="M20.924 7.625A1.523 1.523 0 0 0 19.686 6.58l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03 3.656-3.563a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                                            </svg>
+                                                      </template>
+                                                </div>
+                                                <span class="bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm select-none">5.0</span>
+                                                <span class="text-xl font-bold text-gray-900 dark:text-white ms-auto select-none">$599</span>
+                                          </div>
+
+                                          <div x-data="{ inCart: false }">
+                                                <button
+                                                      type="button"
+                                                      @@click="inCart = !inCart"
+                                                      :aria-pressed="inCart.toString()"
+                                                      :class="[
+      'w-full border-2 bg-red-600 gap-2 rounded-lg px-5 py-2 text-base  uppercase transition-colors duration-200 focus:outline-none  active:scale-95',
+      inCart
+        ? 'bg-teal-500 text-white hover:bg-teal-400 '
+        : 'text-white hover:bg-red-400 hover:border-red-500 hover:text-white'
+    ]"
+                                                >
+                                                      <!-- Состояние до добавления -->
+                                                      <template x-if="!inCart">
+                                                            <span>Do&nbsp;koszyka</span>
+                                                      </template>
+                                                      <!-- Состояние после добавления -->
+                                                      <template x-if="inCart">
+      <span class="inline-flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor" class="size-5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+        </svg>
+        <span>w&nbsp;koszyku</span>
+      </span>
+                                                      </template>
+                                                </button>
+                                          </div>
+                                    </div>
+                              </article>
+                        </div>
+
+                        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 p-4">
+                              <article
+                                    x-data="{
+              liked: false,
+              rating: 4,
+              idx: 0,
+              imgs: [
+                'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80'
+              ],
+              timer: null,
+              userInteracted: false,
+              next() {
+                this.idx = (this.idx + 1) % this.imgs.length;
+              },
+              prev() {
+                this.idx = (this.idx - 1 + this.imgs.length) % this.imgs.length;
+              },
+              startAuto() {
+                if (!this.userInteracted) {
+                  this.timer = setInterval(() => this.next(), 3000);
+                }
+              },
+              stopAuto() {
+                clearInterval(this.timer);
+              }
+            }"
+                                    class="relative flex flex-col h-full rounded-lg border border-teal-400 bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700"
+                              >
+
+                                    <!-- Изображение -->
+                                    <div
+                                          class="group relative overflow-hidden rounded-t-lg"
+                                          @@mouseenter="startAuto()"
+                                          @@mouseleave="stopAuto()"
+                                    >
+                                          <div class="relative w-full h-48 sm:h-56 md:h-64 lg:h-56 overflow-hidden rounded-lg">
+                                                <img
+                                                      :src="imgs[idx]"
+                                                      @@click.prevent.stop="userInteracted = true; stopAuto()"
+                                                      alt="product image"
+                                                      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
+                                                />
+                                                <!-- Кнопки переключения -->
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); prev()"
+                                                      class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M15 18l-6-6 6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); next()"
+                                                      class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M9 18l6-6-6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <!-- Индикаторы -->
+                                                <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
+                                                      <template x-for="(img, i) in imgs" :key="i">
+                    <span
+                          class="block w-1.5 h-1.5 rounded-full"
+                          :class="i === idx ? 'bg-white/90' : 'bg-white/30'"
+                    ></span>
+                                                      </template>
+                                                </div>
+                                          </div>
+                                    </div>
+
+                                    <button
+                                          @@click="liked = !liked"
+                                          aria-label="Toggle like"
+                                          class="absolute top-4 right-4 flex items-center justify-center w-9 h-9 rounded-full text-white transition-colors duration-200 z-10"
+                                          :class="liked ? 'bg-teal-400 hover:bg-teal-500' : 'bg-red-600 hover:bg-red-700 dark:bg-gray-700 dark:hover:bg-gray-600'"
+                                    >
+                                          <template x-if="liked">
+                                                <!-- Зеленый фон — прозрачное (stroke), без заливки -->
+                                                <svg class="w-5 h-5" fill="none" stroke="white" stroke-width="2"
+                                                     stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                          <template x-if="!liked">
+                                                <!-- Красный фон — залитое белое сердце -->
+                                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="white">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                    </button>
+
+                                    <!-- Текст и кнопки -->
+                                    <div class="px-4 pb-4 flex flex-col flex-grow">
+                                          <a href="#" class="mb-2">
+                                                <h2 class="text-base font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-2 min-h-[3rem]">
+                                                      Apple Watch Series 7 GPS Sport Aluminium Case Starlight (Special
+                                                      Edition)
+                                                </h2>
+                                          </a>
+
+                                          <div class="flex items-center justify-between mb-4">
+                                                <div class="flex items-center space-x-1">
+                                                      <template x-for="i in 5" :key="i">
+                                                            <svg
+                                                                  class="w-3 h-3"
+                                                                  :class="i <= rating ? 'text-teal-400' : 'text-gray-300 dark:text-gray-600'"
+                                                                  viewBox="0 0 22 20"
+                                                                  fill="currentColor"
+                                                            >
+                                                                  <path d="M20.924 7.625A1.523 1.523 0 0 0 19.686 6.58l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03 3.656-3.563a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                                            </svg>
+                                                      </template>
+                                                </div>
+                                                <span class="bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm select-none">5.0</span>
+                                                <span class="text-xl font-bold text-gray-900 dark:text-white ms-auto select-none">$599</span>
+                                          </div>
+
+                                          <div x-data="{ inCart: false }">
+                                                <button
+                                                      type="button"
+                                                      @@click="inCart = !inCart"
+                                                      :aria-pressed="inCart.toString()"
+                                                      :class="[
+      'w-full border-2 bg-red-600 gap-2 rounded-lg px-5 py-2 text-base  uppercase transition-colors duration-200 focus:outline-none  active:scale-95',
+      inCart
+        ? 'bg-teal-500 text-white hover:bg-teal-400 '
+        : 'text-white hover:bg-red-400 hover:border-red-500 hover:text-white'
+    ]"
+                                                >
+                                                      <!-- Состояние до добавления -->
+                                                      <template x-if="!inCart">
+                                                            <span>Do&nbsp;koszyka</span>
+                                                      </template>
+                                                      <!-- Состояние после добавления -->
+                                                      <template x-if="inCart">
+      <span class="inline-flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor" class="size-5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+        </svg>
+        <span>w&nbsp;koszyku</span>
+      </span>
+                                                      </template>
+                                                </button>
+                                          </div>
+                                    </div>
+                              </article>
+                        </div>
+
+                        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 p-4">
+                              <article
+                                    x-data="{
+              liked: false,
+              rating: 4,
+              idx: 0,
+              imgs: [
+                'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80'
+              ],
+              timer: null,
+              userInteracted: false,
+              next() {
+                this.idx = (this.idx + 1) % this.imgs.length;
+              },
+              prev() {
+                this.idx = (this.idx - 1 + this.imgs.length) % this.imgs.length;
+              },
+              startAuto() {
+                if (!this.userInteracted) {
+                  this.timer = setInterval(() => this.next(), 3000);
+                }
+              },
+              stopAuto() {
+                clearInterval(this.timer);
+              }
+            }"
+                                    class="relative flex flex-col h-full rounded-lg border border-teal-400 bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700"
+                              >
+
+                                    <!-- Изображение -->
+                                    <div
+                                          class="group relative overflow-hidden rounded-t-lg"
+                                          @@mouseenter="startAuto()"
+                                          @@mouseleave="stopAuto()"
+                                    >
+                                          <div class="relative w-full h-48 sm:h-56 md:h-64 lg:h-56 overflow-hidden rounded-lg">
+                                                <img
+                                                      :src="imgs[idx]"
+                                                      @@click.prevent.stop="userInteracted = true; stopAuto()"
+                                                      alt="product image"
+                                                      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
+                                                />
+                                                <!-- Кнопки переключения -->
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); prev()"
+                                                      class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M15 18l-6-6 6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); next()"
+                                                      class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M9 18l6-6-6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <!-- Индикаторы -->
+                                                <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
+                                                      <template x-for="(img, i) in imgs" :key="i">
+                    <span
+                          class="block w-1.5 h-1.5 rounded-full"
+                          :class="i === idx ? 'bg-white/90' : 'bg-white/30'"
+                    ></span>
+                                                      </template>
+                                                </div>
+                                          </div>
+                                    </div>
+
+                                    <button
+                                          @@click="liked = !liked"
+                                          aria-label="Toggle like"
+                                          class="absolute top-4 right-4 flex items-center justify-center w-9 h-9 rounded-full text-white transition-colors duration-200 z-10"
+                                          :class="liked ? 'bg-teal-400 hover:bg-teal-500' : 'bg-red-600 hover:bg-red-700 dark:bg-gray-700 dark:hover:bg-gray-600'"
+                                    >
+                                          <template x-if="liked">
+                                                <!-- Зеленый фон — прозрачное (stroke), без заливки -->
+                                                <svg class="w-5 h-5" fill="none" stroke="white" stroke-width="2"
+                                                     stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                          <template x-if="!liked">
+                                                <!-- Красный фон — залитое белое сердце -->
+                                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="white">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                    </button>
+
+                                    <!-- Текст и кнопки -->
+                                    <div class="px-4 pb-4 flex flex-col flex-grow">
+                                          <a href="#" class="mb-2">
+                                                <h2 class="text-base font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-2 min-h-[3rem]">
+                                                      Apple Watch Series 7 GPS Sport Aluminium Case Starlight (Special
+                                                      Edition)
+                                                </h2>
+                                          </a>
+
+                                          <div class="flex items-center justify-between mb-4">
+                                                <div class="flex items-center space-x-1">
+                                                      <template x-for="i in 5" :key="i">
+                                                            <svg
+                                                                  class="w-3 h-3"
+                                                                  :class="i <= rating ? 'text-teal-400' : 'text-gray-300 dark:text-gray-600'"
+                                                                  viewBox="0 0 22 20"
+                                                                  fill="currentColor"
+                                                            >
+                                                                  <path d="M20.924 7.625A1.523 1.523 0 0 0 19.686 6.58l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03 3.656-3.563a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                                            </svg>
+                                                      </template>
+                                                </div>
+                                                <span class="bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm select-none">5.0</span>
+                                                <span class="text-xl font-bold text-gray-900 dark:text-white ms-auto select-none">$599</span>
+                                          </div>
+
+                                          <div x-data="{ inCart: false }">
+                                                <button
+                                                      type="button"
+                                                      @@click="inCart = !inCart"
+                                                      :aria-pressed="inCart.toString()"
+                                                      :class="[
+      'w-full border-2 bg-red-600 gap-2 rounded-lg px-5 py-2 text-base  uppercase transition-colors duration-200 focus:outline-none  active:scale-95',
+      inCart
+        ? 'bg-teal-500 text-white hover:bg-teal-400 '
+        : 'text-white hover:bg-red-400 hover:border-red-500 hover:text-white'
+    ]"
+                                                >
+                                                      <!-- Состояние до добавления -->
+                                                      <template x-if="!inCart">
+                                                            <span>Do&nbsp;koszyka</span>
+                                                      </template>
+                                                      <!-- Состояние после добавления -->
+                                                      <template x-if="inCart">
+      <span class="inline-flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor" class="size-5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+        </svg>
+        <span>w&nbsp;koszyku</span>
+      </span>
+                                                      </template>
+                                                </button>
+                                          </div>
+                                    </div>
+                              </article>
+                        </div>
+
+                        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 p-4">
+                              <article
+                                    x-data="{
+              liked: false,
+              rating: 4,
+              idx: 0,
+              imgs: [
+                'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80'
+              ],
+              timer: null,
+              userInteracted: false,
+              next() {
+                this.idx = (this.idx + 1) % this.imgs.length;
+              },
+              prev() {
+                this.idx = (this.idx - 1 + this.imgs.length) % this.imgs.length;
+              },
+              startAuto() {
+                if (!this.userInteracted) {
+                  this.timer = setInterval(() => this.next(), 3000);
+                }
+              },
+              stopAuto() {
+                clearInterval(this.timer);
+              }
+            }"
+                                    class="relative flex flex-col h-full rounded-lg border border-teal-400 bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700"
+                              >
+
+                                    <!-- Изображение -->
+                                    <div
+                                          class="group relative overflow-hidden rounded-t-lg"
+                                          @@mouseenter="startAuto()"
+                                          @@mouseleave="stopAuto()"
+                                    >
+                                          <div class="relative w-full h-48 sm:h-56 md:h-64 lg:h-56 overflow-hidden rounded-lg">
+                                                <img
+                                                      :src="imgs[idx]"
+                                                      @@click.prevent.stop="userInteracted = true; stopAuto()"
+                                                      alt="product image"
+                                                      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
+                                                />
+                                                <!-- Кнопки переключения -->
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); prev()"
+                                                      class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M15 18l-6-6 6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); next()"
+                                                      class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M9 18l6-6-6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <!-- Индикаторы -->
+                                                <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
+                                                      <template x-for="(img, i) in imgs" :key="i">
+                    <span
+                          class="block w-1.5 h-1.5 rounded-full"
+                          :class="i === idx ? 'bg-white/90' : 'bg-white/30'"
+                    ></span>
+                                                      </template>
+                                                </div>
+                                          </div>
+                                    </div>
+
+                                    <button
+                                          @@click="liked = !liked"
+                                          aria-label="Toggle like"
+                                          class="absolute top-4 right-4 flex items-center justify-center w-9 h-9 rounded-full text-white transition-colors duration-200 z-10"
+                                          :class="liked ? 'bg-teal-400 hover:bg-teal-500' : 'bg-red-600 hover:bg-red-700 dark:bg-gray-700 dark:hover:bg-gray-600'"
+                                    >
+                                          <template x-if="liked">
+                                                <!-- Зеленый фон — прозрачное (stroke), без заливки -->
+                                                <svg class="w-5 h-5" fill="none" stroke="white" stroke-width="2"
+                                                     stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                          <template x-if="!liked">
+                                                <!-- Красный фон — залитое белое сердце -->
+                                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="white">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                    </button>
+
+                                    <!-- Текст и кнопки -->
+                                    <div class="px-4 pb-4 flex flex-col flex-grow">
+                                          <a href="#" class="mb-2">
+                                                <h2 class="text-base font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-2 min-h-[3rem]">
+                                                      Apple Watch Series 7 GPS Sport Aluminium Case Starlight (Special
+                                                      Edition)
+                                                </h2>
+                                          </a>
+
+                                          <div class="flex items-center justify-between mb-4">
+                                                <div class="flex items-center space-x-1">
+                                                      <template x-for="i in 5" :key="i">
+                                                            <svg
+                                                                  class="w-3 h-3"
+                                                                  :class="i <= rating ? 'text-teal-400' : 'text-gray-300 dark:text-gray-600'"
+                                                                  viewBox="0 0 22 20"
+                                                                  fill="currentColor"
+                                                            >
+                                                                  <path d="M20.924 7.625A1.523 1.523 0 0 0 19.686 6.58l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03 3.656-3.563a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                                            </svg>
+                                                      </template>
+                                                </div>
+                                                <span class="bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm select-none">5.0</span>
+                                                <span class="text-xl font-bold text-gray-900 dark:text-white ms-auto select-none">$599</span>
+                                          </div>
+
+                                          <div x-data="{ inCart: false }">
+                                                <button
+                                                      type="button"
+                                                      @@click="inCart = !inCart"
+                                                      :aria-pressed="inCart.toString()"
+                                                      :class="[
+      'w-full border-2 bg-red-600 gap-2 rounded-lg px-5 py-2 text-base  uppercase transition-colors duration-200 focus:outline-none  active:scale-95',
+      inCart
+        ? 'bg-teal-500 text-white hover:bg-teal-400 '
+        : 'text-white hover:bg-red-400 hover:border-red-500 hover:text-white'
+    ]"
+                                                >
+                                                      <!-- Состояние до добавления -->
+                                                      <template x-if="!inCart">
+                                                            <span>Do&nbsp;koszyka</span>
+                                                      </template>
+                                                      <!-- Состояние после добавления -->
+                                                      <template x-if="inCart">
+      <span class="inline-flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor" class="size-5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+        </svg>
+        <span>w&nbsp;koszyku</span>
+      </span>
+                                                      </template>
+                                                </button>
+                                          </div>
+                                    </div>
+                              </article>
+                        </div>
+
+
+                        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 p-4">
+                              <article
+                                    x-data="{
+              liked: false,
+              rating: 4,
+              idx: 0,
+              imgs: [
+                'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80'
+              ],
+              timer: null,
+              userInteracted: false,
+              next() {
+                this.idx = (this.idx + 1) % this.imgs.length;
+              },
+              prev() {
+                this.idx = (this.idx - 1 + this.imgs.length) % this.imgs.length;
+              },
+              startAuto() {
+                if (!this.userInteracted) {
+                  this.timer = setInterval(() => this.next(), 3000);
+                }
+              },
+              stopAuto() {
+                clearInterval(this.timer);
+              }
+            }"
+                                    class="relative flex flex-col h-full rounded-lg border border-teal-400 bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700"
+                              >
+
+                                    <!-- Изображение -->
+                                    <div
+                                          class="group relative overflow-hidden rounded-t-lg"
+                                          @@mouseenter="startAuto()"
+                                          @@mouseleave="stopAuto()"
+                                    >
+                                          <div class="relative w-full h-48 sm:h-56 md:h-64 lg:h-56 overflow-hidden rounded-lg">
+                                                <img
+                                                      :src="imgs[idx]"
+                                                      @@click.prevent.stop="userInteracted = true; stopAuto()"
+                                                      alt="product image"
+                                                      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
+                                                />
+                                                <!-- Кнопки переключения -->
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); prev()"
+                                                      class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M15 18l-6-6 6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); next()"
+                                                      class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M9 18l6-6-6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <!-- Индикаторы -->
+                                                <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
+                                                      <template x-for="(img, i) in imgs" :key="i">
+                    <span
+                          class="block w-1.5 h-1.5 rounded-full"
+                          :class="i === idx ? 'bg-white/90' : 'bg-white/30'"
+                    ></span>
+                                                      </template>
+                                                </div>
+                                          </div>
+                                    </div>
+
+                                    <button
+                                          @@click="liked = !liked"
+                                          aria-label="Toggle like"
+                                          class="absolute top-4 right-4 flex items-center justify-center w-9 h-9 rounded-full text-white transition-colors duration-200 z-10"
+                                          :class="liked ? 'bg-teal-400 hover:bg-teal-500' : 'bg-red-600 hover:bg-red-700 dark:bg-gray-700 dark:hover:bg-gray-600'"
+                                    >
+                                          <template x-if="liked">
+                                                <!-- Зеленый фон — прозрачное (stroke), без заливки -->
+                                                <svg class="w-5 h-5" fill="none" stroke="white" stroke-width="2"
+                                                     stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                          <template x-if="!liked">
+                                                <!-- Красный фон — залитое белое сердце -->
+                                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="white">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                    </button>
+
+                                    <!-- Текст и кнопки -->
+                                    <div class="px-4 pb-4 flex flex-col flex-grow">
+                                          <a href="#" class="mb-2">
+                                                <h2 class="text-base font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-2 min-h-[3rem]">
+                                                      Apple Watch Series 7 GPS Sport Aluminium Case Starlight (Special
+                                                      Edition)
+                                                </h2>
+                                          </a>
+
+                                          <div class="flex items-center justify-between mb-4">
+                                                <div class="flex items-center space-x-1">
+                                                      <template x-for="i in 5" :key="i">
+                                                            <svg
+                                                                  class="w-3 h-3"
+                                                                  :class="i <= rating ? 'text-teal-400' : 'text-gray-300 dark:text-gray-600'"
+                                                                  viewBox="0 0 22 20"
+                                                                  fill="currentColor"
+                                                            >
+                                                                  <path d="M20.924 7.625A1.523 1.523 0 0 0 19.686 6.58l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03 3.656-3.563a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                                            </svg>
+                                                      </template>
+                                                </div>
+                                                <span class="bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm select-none">5.0</span>
+                                                <span class="text-xl font-bold text-gray-900 dark:text-white ms-auto select-none">$599</span>
+                                          </div>
+
+                                          <div x-data="{ inCart: false }">
+                                                <button
+                                                      type="button"
+                                                      @@click="inCart = !inCart"
+                                                      :aria-pressed="inCart.toString()"
+                                                      :class="[
+      'w-full border-2 bg-red-600 gap-2 rounded-lg px-5 py-2 text-base  uppercase transition-colors duration-200 focus:outline-none  active:scale-95',
+      inCart
+        ? 'bg-teal-500 text-white hover:bg-teal-400 '
+        : 'text-white hover:bg-red-400 hover:border-red-500 hover:text-white'
+    ]"
+                                                >
+                                                      <!-- Состояние до добавления -->
+                                                      <template x-if="!inCart">
+                                                            <span>Do&nbsp;koszyka</span>
+                                                      </template>
+                                                      <!-- Состояние после добавления -->
+                                                      <template x-if="inCart">
+      <span class="inline-flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor" class="size-5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+        </svg>
+        <span>w&nbsp;koszyku</span>
+      </span>
+                                                      </template>
+                                                </button>
+                                          </div>
+                                    </div>
+                              </article>
+                        </div>
+
+
+                        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 p-4">
+                              <article
+                                    x-data="{
+              liked: false,
+              rating: 4,
+              idx: 0,
+              imgs: [
+                'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80'
+              ],
+              timer: null,
+              userInteracted: false,
+              next() {
+                this.idx = (this.idx + 1) % this.imgs.length;
+              },
+              prev() {
+                this.idx = (this.idx - 1 + this.imgs.length) % this.imgs.length;
+              },
+              startAuto() {
+                if (!this.userInteracted) {
+                  this.timer = setInterval(() => this.next(), 3000);
+                }
+              },
+              stopAuto() {
+                clearInterval(this.timer);
+              }
+            }"
+                                    class="relative flex flex-col h-full rounded-lg border border-teal-400 bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700"
+                              >
+
+                                    <!-- Изображение -->
+                                    <div
+                                          class="group relative overflow-hidden rounded-t-lg"
+                                          @@mouseenter="startAuto()"
+                                          @@mouseleave="stopAuto()"
+                                    >
+                                          <div class="relative w-full h-48 sm:h-56 md:h-64 lg:h-56 overflow-hidden rounded-lg">
+                                                <img
+                                                      :src="imgs[idx]"
+                                                      @@click.prevent.stop="userInteracted = true; stopAuto()"
+                                                      alt="product image"
+                                                      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
+                                                />
+                                                <!-- Кнопки переключения -->
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); prev()"
+                                                      class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M15 18l-6-6 6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); next()"
+                                                      class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M9 18l6-6-6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <!-- Индикаторы -->
+                                                <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
+                                                      <template x-for="(img, i) in imgs" :key="i">
+                    <span
+                          class="block w-1.5 h-1.5 rounded-full"
+                          :class="i === idx ? 'bg-white/90' : 'bg-white/30'"
+                    ></span>
+                                                      </template>
+                                                </div>
+                                          </div>
+                                    </div>
+
+                                    <button
+                                          @@click="liked = !liked"
+                                          aria-label="Toggle like"
+                                          class="absolute top-4 right-4 flex items-center justify-center w-9 h-9 rounded-full text-white transition-colors duration-200 z-10"
+                                          :class="liked ? 'bg-teal-400 hover:bg-teal-500' : 'bg-red-600 hover:bg-red-700 dark:bg-gray-700 dark:hover:bg-gray-600'"
+                                    >
+                                          <template x-if="liked">
+                                                <!-- Зеленый фон — прозрачное (stroke), без заливки -->
+                                                <svg class="w-5 h-5" fill="none" stroke="white" stroke-width="2"
+                                                     stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                          <template x-if="!liked">
+                                                <!-- Красный фон — залитое белое сердце -->
+                                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="white">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                    </button>
+
+                                    <!-- Текст и кнопки -->
+                                    <div class="px-4 pb-4 flex flex-col flex-grow">
+                                          <a href="#" class="mb-2">
+                                                <h2 class="text-base font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-2 min-h-[3rem]">
+                                                      Apple Watch Series 7 GPS Sport Aluminium Case Starlight (Special
+                                                      Edition)
+                                                </h2>
+                                          </a>
+
+                                          <div class="flex items-center justify-between mb-4">
+                                                <div class="flex items-center space-x-1">
+                                                      <template x-for="i in 5" :key="i">
+                                                            <svg
+                                                                  class="w-3 h-3"
+                                                                  :class="i <= rating ? 'text-teal-400' : 'text-gray-300 dark:text-gray-600'"
+                                                                  viewBox="0 0 22 20"
+                                                                  fill="currentColor"
+                                                            >
+                                                                  <path d="M20.924 7.625A1.523 1.523 0 0 0 19.686 6.58l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03 3.656-3.563a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                                            </svg>
+                                                      </template>
+                                                </div>
+                                                <span class="bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm select-none">5.0</span>
+                                                <span class="text-xl font-bold text-gray-900 dark:text-white ms-auto select-none">$599</span>
+                                          </div>
+
+                                          <div x-data="{ inCart: false }">
+                                                <button
+                                                      type="button"
+                                                      @@click="inCart = !inCart"
+                                                      :aria-pressed="inCart.toString()"
+                                                      :class="[
+      'w-full border-2 bg-red-600 gap-2 rounded-lg px-5 py-2 text-base  uppercase transition-colors duration-200 focus:outline-none  active:scale-95',
+      inCart
+        ? 'bg-teal-500 text-white hover:bg-teal-400 '
+        : 'text-white hover:bg-red-400 hover:border-red-500 hover:text-white'
+    ]"
+                                                >
+                                                      <!-- Состояние до добавления -->
+                                                      <template x-if="!inCart">
+                                                            <span>Do&nbsp;koszyka</span>
+                                                      </template>
+                                                      <!-- Состояние после добавления -->
+                                                      <template x-if="inCart">
+      <span class="inline-flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor" class="size-5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+        </svg>
+        <span>w&nbsp;koszyku</span>
+      </span>
+                                                      </template>
+                                                </button>
+                                          </div>
+                                    </div>
+                              </article>
+                        </div>
+
+                        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 p-4">
+                              <article
+                                    x-data="{
+              liked: false,
+              rating: 4,
+              idx: 0,
+              imgs: [
+                'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80'
+              ],
+              timer: null,
+              userInteracted: false,
+              next() {
+                this.idx = (this.idx + 1) % this.imgs.length;
+              },
+              prev() {
+                this.idx = (this.idx - 1 + this.imgs.length) % this.imgs.length;
+              },
+              startAuto() {
+                if (!this.userInteracted) {
+                  this.timer = setInterval(() => this.next(), 3000);
+                }
+              },
+              stopAuto() {
+                clearInterval(this.timer);
+              }
+            }"
+                                    class="relative flex flex-col h-full rounded-lg border border-teal-400 bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700"
+                              >
+
+                                    <!-- Изображение -->
+                                    <div
+                                          class="group relative overflow-hidden rounded-t-lg"
+                                          @@mouseenter="startAuto()"
+                                          @@mouseleave="stopAuto()"
+                                    >
+                                          <div class="relative w-full h-48 sm:h-56 md:h-64 lg:h-56 overflow-hidden rounded-lg">
+                                                <img
+                                                      :src="imgs[idx]"
+                                                      @@click.prevent.stop="userInteracted = true; stopAuto()"
+                                                      alt="product image"
+                                                      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
+                                                />
+                                                <!-- Кнопки переключения -->
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); prev()"
+                                                      class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M15 18l-6-6 6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); next()"
+                                                      class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M9 18l6-6-6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <!-- Индикаторы -->
+                                                <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
+                                                      <template x-for="(img, i) in imgs" :key="i">
+                    <span
+                          class="block w-1.5 h-1.5 rounded-full"
+                          :class="i === idx ? 'bg-white/90' : 'bg-white/30'"
+                    ></span>
+                                                      </template>
+                                                </div>
+                                          </div>
+                                    </div>
+
+                                    <button
+                                          @@click="liked = !liked"
+                                          aria-label="Toggle like"
+                                          class="absolute top-4 right-4 flex items-center justify-center w-9 h-9 rounded-full text-white transition-colors duration-200 z-10"
+                                          :class="liked ? 'bg-teal-400 hover:bg-teal-500' : 'bg-red-600 hover:bg-red-700 dark:bg-gray-700 dark:hover:bg-gray-600'"
+                                    >
+                                          <template x-if="liked">
+                                                <!-- Зеленый фон — прозрачное (stroke), без заливки -->
+                                                <svg class="w-5 h-5" fill="none" stroke="white" stroke-width="2"
+                                                     stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                          <template x-if="!liked">
+                                                <!-- Красный фон — залитое белое сердце -->
+                                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="white">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                    </button>
+
+                                    <!-- Текст и кнопки -->
+                                    <div class="px-4 pb-4 flex flex-col flex-grow">
+                                          <a href="#" class="mb-2">
+                                                <h2 class="text-base font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-2 min-h-[3rem]">
+                                                      Apple Watch Series 7 GPS Sport Aluminium Case Starlight (Special
+                                                      Edition)
+                                                </h2>
+                                          </a>
+
+                                          <div class="flex items-center justify-between mb-4">
+                                                <div class="flex items-center space-x-1">
+                                                      <template x-for="i in 5" :key="i">
+                                                            <svg
+                                                                  class="w-3 h-3"
+                                                                  :class="i <= rating ? 'text-teal-400' : 'text-gray-300 dark:text-gray-600'"
+                                                                  viewBox="0 0 22 20"
+                                                                  fill="currentColor"
+                                                            >
+                                                                  <path d="M20.924 7.625A1.523 1.523 0 0 0 19.686 6.58l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03 3.656-3.563a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                                            </svg>
+                                                      </template>
+                                                </div>
+                                                <span class="bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm select-none">5.0</span>
+                                                <span class="text-xl font-bold text-gray-900 dark:text-white ms-auto select-none">$599</span>
+                                          </div>
+
+                                          <div x-data="{ inCart: false }">
+                                                <button
+                                                      type="button"
+                                                      @@click="inCart = !inCart"
+                                                      :aria-pressed="inCart.toString()"
+                                                      :class="[
+      'w-full border-2 bg-red-600 gap-2 rounded-lg px-5 py-2 text-base  uppercase transition-colors duration-200 focus:outline-none  active:scale-95',
+      inCart
+        ? 'bg-teal-500 text-white hover:bg-teal-400 '
+        : 'text-white hover:bg-red-400 hover:border-red-500 hover:text-white'
+    ]"
+                                                >
+                                                      <!-- Состояние до добавления -->
+                                                      <template x-if="!inCart">
+                                                            <span>Do&nbsp;koszyka</span>
+                                                      </template>
+                                                      <!-- Состояние после добавления -->
+                                                      <template x-if="inCart">
+      <span class="inline-flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor" class="size-5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+        </svg>
+        <span>w&nbsp;koszyku</span>
+      </span>
+                                                      </template>
+                                                </button>
+                                          </div>
+                                    </div>
+                              </article>
+                        </div>
+
+                        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 p-4">
+                              <article
+                                    x-data="{
+              liked: false,
+              rating: 4,
+              idx: 0,
+              imgs: [
+                'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80'
+              ],
+              timer: null,
+              userInteracted: false,
+              next() {
+                this.idx = (this.idx + 1) % this.imgs.length;
+              },
+              prev() {
+                this.idx = (this.idx - 1 + this.imgs.length) % this.imgs.length;
+              },
+              startAuto() {
+                if (!this.userInteracted) {
+                  this.timer = setInterval(() => this.next(), 3000);
+                }
+              },
+              stopAuto() {
+                clearInterval(this.timer);
+              }
+            }"
+                                    class="relative flex flex-col h-full rounded-lg border border-teal-400 bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700"
+                              >
+
+                                    <!-- Изображение -->
+                                    <div
+                                          class="group relative overflow-hidden rounded-t-lg"
+                                          @@mouseenter="startAuto()"
+                                          @@mouseleave="stopAuto()"
+                                    >
+                                          <div class="relative w-full h-48 sm:h-56 md:h-64 lg:h-56 overflow-hidden rounded-lg">
+                                                <img
+                                                      :src="imgs[idx]"
+                                                      @@click.prevent.stop="userInteracted = true; stopAuto()"
+                                                      alt="product image"
+                                                      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
+                                                />
+                                                <!-- Кнопки переключения -->
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); prev()"
+                                                      class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M15 18l-6-6 6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); next()"
+                                                      class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M9 18l6-6-6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <!-- Индикаторы -->
+                                                <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
+                                                      <template x-for="(img, i) in imgs" :key="i">
+                    <span
+                          class="block w-1.5 h-1.5 rounded-full"
+                          :class="i === idx ? 'bg-white/90' : 'bg-white/30'"
+                    ></span>
+                                                      </template>
+                                                </div>
+                                          </div>
+                                    </div>
+
+                                    <button
+                                          @@click="liked = !liked"
+                                          aria-label="Toggle like"
+                                          class="absolute top-4 right-4 flex items-center justify-center w-9 h-9 rounded-full text-white transition-colors duration-200 z-10"
+                                          :class="liked ? 'bg-teal-400 hover:bg-teal-500' : 'bg-red-600 hover:bg-red-700 dark:bg-gray-700 dark:hover:bg-gray-600'"
+                                    >
+                                          <template x-if="liked">
+                                                <!-- Зеленый фон — прозрачное (stroke), без заливки -->
+                                                <svg class="w-5 h-5" fill="none" stroke="white" stroke-width="2"
+                                                     stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                          <template x-if="!liked">
+                                                <!-- Красный фон — залитое белое сердце -->
+                                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="white">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                    </button>
+
+                                    <!-- Текст и кнопки -->
+                                    <div class="px-4 pb-4 flex flex-col flex-grow">
+                                          <a href="#" class="mb-2">
+                                                <h2 class="text-base font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-2 min-h-[3rem]">
+                                                      Apple Watch Series 7 GPS Sport Aluminium Case Starlight (Special
+                                                      Edition)
+                                                </h2>
+                                          </a>
+
+                                          <div class="flex items-center justify-between mb-4">
+                                                <div class="flex items-center space-x-1">
+                                                      <template x-for="i in 5" :key="i">
+                                                            <svg
+                                                                  class="w-3 h-3"
+                                                                  :class="i <= rating ? 'text-teal-400' : 'text-gray-300 dark:text-gray-600'"
+                                                                  viewBox="0 0 22 20"
+                                                                  fill="currentColor"
+                                                            >
+                                                                  <path d="M20.924 7.625A1.523 1.523 0 0 0 19.686 6.58l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03 3.656-3.563a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                                            </svg>
+                                                      </template>
+                                                </div>
+                                                <span class="bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm select-none">5.0</span>
+                                                <span class="text-xl font-bold text-gray-900 dark:text-white ms-auto select-none">$599</span>
+                                          </div>
+
+                                          <div x-data="{ inCart: false }">
+                                                <button
+                                                      type="button"
+                                                      @@click="inCart = !inCart"
+                                                      :aria-pressed="inCart.toString()"
+                                                      :class="[
+      'w-full border-2 bg-red-600 gap-2 rounded-lg px-5 py-2 text-base  uppercase transition-colors duration-200 focus:outline-none  active:scale-95',
+      inCart
+        ? 'bg-teal-500 text-white hover:bg-teal-400 '
+        : 'text-white hover:bg-red-400 hover:border-red-500 hover:text-white'
+    ]"
+                                                >
+                                                      <!-- Состояние до добавления -->
+                                                      <template x-if="!inCart">
+                                                            <span>Do&nbsp;koszyka</span>
+                                                      </template>
+                                                      <!-- Состояние после добавления -->
+                                                      <template x-if="inCart">
+      <span class="inline-flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor" class="size-5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+        </svg>
+        <span>w&nbsp;koszyku</span>
+      </span>
+                                                      </template>
+                                                </button>
+                                          </div>
+                                    </div>
+                              </article>
+                        </div>
+
+                        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 p-4">
+                              <article
+                                    x-data="{
+              liked: false,
+              rating: 4,
+              idx: 0,
+              imgs: [
+                'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80'
+              ],
+              timer: null,
+              userInteracted: false,
+              next() {
+                this.idx = (this.idx + 1) % this.imgs.length;
+              },
+              prev() {
+                this.idx = (this.idx - 1 + this.imgs.length) % this.imgs.length;
+              },
+              startAuto() {
+                if (!this.userInteracted) {
+                  this.timer = setInterval(() => this.next(), 3000);
+                }
+              },
+              stopAuto() {
+                clearInterval(this.timer);
+              }
+            }"
+                                    class="relative flex flex-col h-full rounded-lg border border-teal-400 bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700"
+                              >
+
+                                    <!-- Изображение -->
+                                    <div
+                                          class="group relative overflow-hidden rounded-t-lg"
+                                          @@mouseenter="startAuto()"
+                                          @@mouseleave="stopAuto()"
+                                    >
+                                          <div class="relative w-full h-48 sm:h-56 md:h-64 lg:h-56 overflow-hidden rounded-lg">
+                                                <img
+                                                      :src="imgs[idx]"
+                                                      @@click.prevent.stop="userInteracted = true; stopAuto()"
+                                                      alt="product image"
+                                                      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
+                                                />
+                                                <!-- Кнопки переключения -->
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); prev()"
+                                                      class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M15 18l-6-6 6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <button
+                                                      @@click="userInteracted = true; stopAuto(); next()"
+                                                      class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white p-1 rounded-full hover:bg-black/60 transition-opacity duration-200"
+                                                      x-show="imgs.length > 1"
+                                                >
+                                                      <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                           stroke-width="2" viewBox="0 0 24 24">
+                                                            <path d="M9 18l6-6-6-6" stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                      </svg>
+                                                </button>
+                                                <!-- Индикаторы -->
+                                                <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
+                                                      <template x-for="(img, i) in imgs" :key="i">
+                    <span
+                          class="block w-1.5 h-1.5 rounded-full"
+                          :class="i === idx ? 'bg-white/90' : 'bg-white/30'"
+                    ></span>
+                                                      </template>
+                                                </div>
+                                          </div>
+                                    </div>
+
+                                    <button
+                                          @@click="liked = !liked"
+                                          aria-label="Toggle like"
+                                          class="absolute top-4 right-4 flex items-center justify-center w-9 h-9 rounded-full text-white transition-colors duration-200 z-10"
+                                          :class="liked ? 'bg-teal-400 hover:bg-teal-500' : 'bg-red-600 hover:bg-red-700 dark:bg-gray-700 dark:hover:bg-gray-600'"
+                                    >
+                                          <template x-if="liked">
+                                                <!-- Зеленый фон — прозрачное (stroke), без заливки -->
+                                                <svg class="w-5 h-5" fill="none" stroke="white" stroke-width="2"
+                                                     stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                          <template x-if="!liked">
+                                                <!-- Красный фон — залитое белое сердце -->
+                                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="white">
+                                                      <path d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                                                </svg>
+                                          </template>
+                                    </button>
+
+                                    <!-- Текст и кнопки -->
+                                    <div class="px-4 pb-4 flex flex-col flex-grow">
+                                          <a href="#" class="mb-2">
+                                                <h2 class="text-base font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-2 min-h-[3rem]">
+                                                      Apple Watch Series 7 GPS Sport Aluminium Case Starlight (Special
+                                                      Edition)
+                                                </h2>
+                                          </a>
+
+                                          <div class="flex items-center justify-between mb-4">
+                                                <div class="flex items-center space-x-1">
+                                                      <template x-for="i in 5" :key="i">
+                                                            <svg
+                                                                  class="w-3 h-3"
+                                                                  :class="i <= rating ? 'text-teal-400' : 'text-gray-300 dark:text-gray-600'"
+                                                                  viewBox="0 0 22 20"
+                                                                  fill="currentColor"
+                                                            >
+                                                                  <path d="M20.924 7.625A1.523 1.523 0 0 0 19.686 6.58l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03 3.656-3.563a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                                            </svg>
+                                                      </template>
+                                                </div>
+                                                <span class="bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm select-none">5.0</span>
+                                                <span class="text-xl font-bold text-gray-900 dark:text-white ms-auto select-none">$599</span>
+                                          </div>
+
+                                          <div x-data="{ inCart: false }">
+                                                <button
+                                                      type="button"
+                                                      @@click="inCart = !inCart"
+                                                      :aria-pressed="inCart.toString()"
+                                                      :class="[
+      'w-full border-2 bg-red-600 gap-2 rounded-lg px-5 py-2 text-base  uppercase transition-colors duration-200 focus:outline-none  active:scale-95',
+      inCart
+        ? 'bg-teal-500 text-white hover:bg-teal-400 '
+        : 'text-white hover:bg-red-400 hover:border-red-500 hover:text-white'
+    ]"
+                                                >
+                                                      <!-- Состояние до добавления -->
+                                                      <template x-if="!inCart">
+                                                            <span>Do&nbsp;koszyka</span>
+                                                      </template>
+                                                      <!-- Состояние после добавления -->
+                                                      <template x-if="inCart">
+      <span class="inline-flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor" class="size-5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+        </svg>
+        <span>w&nbsp;koszyku</span>
+      </span>
+                                                      </template>
+                                                </button>
+                                          </div>
+                                    </div>
+                              </article>
+                        </div>
+
+                  </div>
+            </div>
+      </section>
+
+</main>
+
+
+<!-- Обратная связь -->
+<section class="text-gray-600 body-font relative">
+      <div class="container px-5 py-24 mx-auto">
+            <div class="flex flex-col text-center w-full mb-12">
+                  <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-teal-800">Napisz do nas</h1>
+                  <p class="lg:w-2/3 mx-auto leading-relaxed text-base">jeśli masz jakieś pytania lub nie znalazłeś
+                        modelu, którego potrzebujesz</p>
+            </div>
+            <div class="lg:w-1/2 md:w-2/3 mx-auto">
+                  <div class="flex flex-wrap -m-2">
+                        <div class="p-2 w-1/2">
+                              <div class="relative">
+                                    <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
+                                    <input type="text" id="name" name="name" class="w-full  bg-opacity-50 rounded-lg border border-teal-400
+             focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500 text-base outline-none transition-transform duration-300 hover:scale-105 hover:shadow-lg
+              text-gray-700 py-1 px-3 leading-8 ease-in-out">
+                              </div>
+                        </div>
+                        <div class="p-2 w-1/2">
+                              <div class="relative">
+                                    <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
+                                    <input type="text" id="name" name="name" class="w-full bg-opacity-50 rounded-lg border border-teal-400
+             focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500 text-base outline-none transition-transform duration-300 hover:scale-105 hover:shadow-lg
+              text-gray-700 py-1 px-3 leading-8 ease-in-out">
+                              </div>
+                        </div>
+                        <div class="p-2 w-full">
+                              <div class="relative">
+                                    <label for="message" class="leading-7 text-sm text-gray-600">Message</label>
+                                    <textarea id="message" name="message" class="w-full  bg-opacity-50 rounded border border-teal-400
+             focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500 h-32 text-base outline-nonetransition-transform duration-300 hover:scale-105 hover:shadow-lg
+              text-gray-700 py-1 px-3 resize-none leading-6 transition-colors ease-in-out"></textarea>
+                              </div>
+                        </div>
+                        <div class="p-2 w-full flex justify-center">
+                              <button class="w-full lg:w-1/2 xl:w-1/3 bg-white dark:bg-gray-700 dark:border-none text-center text-sm font-semibold
+    outline-none ring-indigo-300 transition duration-100 
+    focus-visible:ring active:bg-gray-200 md:px-8 md:py-3 md:text-base
+    uppercase py-2 px-4 rounded-lg bg-transparent border-2 border-red-600 text-red-600 dark:text-white 
+    hover:bg-teal-400 hover:border-teal-400 hover:text-white text-md">
+                                    Wysłać
+                              </button>
+                        </div>
+
+                  </div>
+            </div>
+      </div>
+</section>
+
+<!-- Кнопка вверх -->
+<div
+      x-data="{ show: false }"
+      x-init="window.addEventListener('scroll', () => show = window.scrollY > 900)"
+      x-show="show"
+      x-transition.opacity
+      @@click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+      class="fixed bottom-6 right-6 bg-gray-400/40 rounded-3xl p-2 cursor-pointer shadow-lg hover:bg-teal-700"
+>
+      <svg class="w-[36px] h-[36px] text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.1"
+                  d="M12 6v13m0-13 4 4m-4-4-4 4"/>
+      </svg>
+</div>
+
+<!-- поиск header+ -->
+<script>
+      document.addEventListener('alpine:init', () => {
+            Alpine.store('search', {
+                  show: false
+            })
+      })
+</script>
+
+<!-- темная тема header+ -->
+<script>
+      function themeSwitcher() {
+            return {
+                  isDark:
+                        localStorage.getItem('theme') === 'dark' ||
+                        (!('theme' in localStorage) &&
+                              window.matchMedia('(prefers-color-scheme: dark)').matches),
+
+                  toggleTheme() {
+                        this.isDark = !this.isDark;
+                        if (this.isDark) {
+                              document.documentElement.classList.add('dark')
+                              localStorage.setItem('theme', 'dark')
+                        } else {
+                              document.documentElement.classList.remove('dark')
+                              localStorage.setItem('theme', 'light')
+                        }
+                  },
+
+                  init() {
+                        if (this.isDark) {
+                              document.documentElement.classList.add('dark')
+                        } else {
+                              document.documentElement.classList.remove('dark')
+                        }
+                  }
+            }
+      }
+</script>
+
+
+</body>
+</html>

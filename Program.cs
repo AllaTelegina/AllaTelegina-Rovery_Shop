@@ -6,6 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
+// Строка для того, чтоб можно было еще подгрузить appsettings.Development.json
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
 // получение строки подключения для Bd;
 var connectionstring = builder.Configuration.GetConnectionString("Defaultconnection");
 // регистрирую DbContext в DB;
@@ -58,7 +63,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
     app.UseHttpsRedirection();
-    //app.UseStaticFiles();
+    app.UseStaticFiles();
     app.UseStaticFiles(new StaticFileOptions
     {
         FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "assets", "images")),
@@ -71,5 +76,11 @@ if (!app.Environment.IsDevelopment())
     app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
+        // pattern: "{controller=Product}/{action=ProductsView}/{id?}");   // :DOTO для того, чтоб можно было загрузить нужный контроллер
+
+app.MapAreaControllerRoute(
+        name: "Areas",
+        areaName: "Admin",
+        pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
 
     app.Run();

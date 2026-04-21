@@ -1,0 +1,75 @@
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<html lang="pl">
+<head>
+      <meta charset="UTF-8">
+      <title>Dashboard</title>
+      <link href="output.css" rel="stylesheet">
+      <script src="https://cdn.tailwindcss.com"></script>
+
+      <!-- Alpine.js (defer - скрипт ждёт загрузки DOM) -->
+      <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+      <!-- Flowbite JS (версия 2.3.0) -->
+      <script defer src="https://unpkg.com/flowbite@2.3.0/dist/flowbite.min.js"></script>
+
+      <!-- основной JS -->
+
+      <script type="module" defer src="/dist/main.js"></script>
+</head>
+<body class="flex flex-col min-h-screen">
+<div class="flex min-h-screen bg-gray-900 text-white">
+    
+    <!-- Основная часть -->
+    <main class="flex-1 p-8 bg-gray-950">
+        <!-- Заголовок -->
+        <h1 class="text-3xl font-bold mb-2">Добро пожаловать!</h1>
+        <p class="text-gray-400 mb-8">Сводка по активности за сегодня:</p>
+
+        <!-- Карточки статистики -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-gray-800 p-5 rounded-lg shadow text-center">
+                <p class="text-gray-400 text-sm mb-1">Заказы сегодня</p>
+                <h2 class="text-3xl font-bold text-teal-400">23</h2>
+            </div>
+            <div class="bg-gray-800 p-5 rounded-lg shadow text-center">
+                <p class="text-gray-400 text-sm mb-1">Доход за неделю</p>
+                <h2 class="text-3xl font-bold text-green-400">₽12,450</h2>
+            </div>
+            <div class="bg-gray-800 p-5 rounded-lg shadow text-center">
+                <p class="text-gray-400 text-sm mb-1">Новых пользователей</p>
+                <h2 class="text-3xl font-bold text-blue-400">8</h2>
+            </div>
+            <div class="bg-gray-800 p-5 rounded-lg shadow text-center">
+                <p class="text-gray-400 text-sm mb-1">Отзывы за день</p>
+                <h2 class="text-3xl font-bold text-yellow-400">5</h2>
+            </div>
+        </div>
+
+        <!-- Последняя активность -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow mb-8">
+            <h3 class="text-xl font-semibold mb-4">🕓 Последняя активность</h3>
+            <ul class="space-y-2 text-gray-300">
+                <li>🛍️ Новый заказ от <b>Иван Петров</b></li>
+                <li>⭐ Новый отзыв на <b>“Горный велосипед”</b></li>
+                <li>👥 Зарегистрировался <b>Анна Кузнецова</b></li>
+                <li>💬 Новый комментарий под статьёй <b>“Советы по выбору самоката”</b></li>
+            </ul>
+        </div>
+
+        <!-- Быстрые действия -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow">
+            <h3 class="text-xl font-semibold mb-4">⚡ Быстрые действия</h3>
+            <div class="flex flex-wrap gap-4">
+                <a href="/Admin/Products/Create" class="bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded text-white">➕ Добавить товар</a>
+                <a href="/Admin/Blog/Create" class="bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded text-white">📝 Создать пост</a>
+                <a href="/Admin/Orders" class="bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded text-white">📦 Просмотреть заказы</a>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,290 @@
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AdminPanel — Комментарии</title>
+    <link href="output.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Flowbite JS (версия 2.3.0) -->
+    <script
+      defer
+      src="https://unpkg.com/flowbite@2.3.0/dist/flowbite.min.js"
+    ></script>
+    <!-- основной JS -->
+    <script type="module" defer src="/dist/main.js"></script>
+    <!-- Alpine.js (defer - скрипт ждёт загрузки DOM) -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+      defer
+    ></script>
+  </head>
+
+  <body class="bg-gray-100 flex">
+
+    <!-- Основная часть -->
+    <main class="flex-1 p-8 bg-gray-100 min-h-screen" x-data="commentsAdmin()">
+      <div class="max-w-10xl mx-auto bg-white shadow rounded-lg p-4">
+        <!-- Заголовок -->
+        <div class="flex justify-between items-center mb-6">
+          <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+            💬 Комментарии
+          </h1>
+        </div>
+
+        <!-- Панель фильтров -->
+        <div class="flex flex-wrap gap-2 mb-6">
+          <input
+            type="text"
+            placeholder="🔍 Поиск по пользователю или тексту..."
+            x-model="search"
+            class="w-full md:w-1/3 border border-gray-300 rounded-lg px-4 py-2 focus:ring-teal-200 focus:border-teal-500 outline-none"
+          />
+          <select
+            x-model="filterStatus"
+            class="border border-gray-300 rounded-lg px-3 py-2"
+          >
+            <option value="">Все статусы</option>
+            <option>Ожидает</option>
+            <option>Одобрено</option>
+            <option>Отклонено</option>
+          </select>
+        </div>
+
+        <!-- Таблица -->
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-sm text-left">
+            <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+              <tr>
+                <th class="px-4 py-3">ID</th>
+                <th class="px-4 py-3">Пользователь</th>
+                <th class="px-4 py-3">Комментарий</th>
+                <th class="px-4 py-3">Статус</th>
+                <th class="px-4 py-3 text-right">Действия</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <template x-for="comment in paginatedComments" :key="comment.id">
+                <tr class="hover:bg-gray-50">
+                  <td class="px-4 py-3 text-gray-600" x-text="comment.id"></td>
+                  <td
+                    class="px-4 py-3 font-medium text-gray-800"
+                    x-text="comment.user"
+                  ></td>
+                  <td
+                    class="px-4 py-3 text-gray-700 truncate max-w-sm"
+                    x-text="comment.message"
+                  ></td>
+                  <td class="px-4 py-3">
+                    <span
+                      :class="{
+                    'text-yellow-600': comment.status === 'Ожидает',
+                    'text-green-600': comment.status === 'Одобрено',
+                    'text-red-600': comment.status === 'Отклонено'
+                  }"
+                      x-text="comment.status"
+                    ></span>
+                  </td>
+                  <td class="px-4 py-3 text-right">
+                    <button
+                      @@click="selected = comment"
+                      class="text-blue-600 hover:underline"
+                    >
+                      Просмотр
+                    </button>
+                  </td>
+                </tr>
+              </template>
+
+              <template x-if="paginatedComments.length === 0">
+                <tr>
+                  <td colspan="5" class="px-4 py-6 text-center text-gray-500">
+                    Комментариев не найдено
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Пагинация -->
+        <div
+          class="flex justify-between items-center mt-6 text-sm text-gray-600"
+        >
+          <p
+            x-text="`Показано ${paginatedComments.length} из ${filteredComments.length} комментариев`"
+          ></p>
+          <div class="flex items-center space-x-2">
+            <button
+              @@click="prevPage"
+              class="px-3 py-1 border rounded-lg hover:bg-gray-200 transition"
+            >
+              «
+            </button>
+            <template x-for="pageNum in totalPages" :key="pageNum">
+              <button
+                @@click="currentPage = pageNum"
+                :class="{'bg-teal-600 text-white': currentPage === pageNum, 'border px-3 py-1 rounded-lg hover:bg-gray-200 transition': true}"
+                x-text="pageNum"
+              ></button>
+            </template>
+            <button
+              @@click="nextPage"
+              class="px-3 py-1 border rounded-lg hover:bg-gray-200 transition"
+            >
+              »
+            </button>
+          </div>
+        </div>
+
+        <!-- Модальное окно -->
+        <div
+          x-show="selected"
+          x-transition.opacity
+          class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+        >
+          <div
+            class="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg"
+            @@click.away="selected = null"
+          >
+            <h3
+              class="text-xl font-semibold mb-4"
+              x-text="'Комментарий #' + selected.id"
+            ></h3>
+            <p>
+              <strong>Пользователь:</strong>
+              <span x-text="selected.user"></span>
+            </p>
+            <p>
+              <strong>Текст:</strong> <span x-text="selected.message"></span>
+            </p>
+            <p>
+              <strong>Статус:</strong> <span x-text="selected.status"></span>
+            </p>
+
+            <div class="flex justify-end mt-4 gap-2">
+              <button
+                @@click="selected = null"
+                class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+              >
+                Закрыть
+              </button>
+              <button
+                @@click="approve(selected)"
+                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+              >
+                Одобрить
+              </button>
+              <button
+                @@click="reject(selected)"
+                class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+              >
+                Отклонить
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Скрипт -->
+    <script>
+      function commentsAdmin() {
+        return {
+          search: "",
+          filterStatus: "",
+          selected: null,
+          currentPage: 1,
+          perPage: 5,
+          comments: [
+            {
+              id: 1,
+              user: "Петр Петров",
+              message: "Отличный велосипед!",
+              status: "Ожидает",
+            },
+            {
+              id: 2,
+              user: "Иван Иванов",
+              message: "Быстрая доставка, спасибо!",
+              status: "Одобрено",
+            },
+            {
+              id: 3,
+              user: "Анна Смирнова",
+              message: "Не подошёл размер.",
+              status: "Отклонено",
+            },
+            {
+              id: 4,
+              user: "Сергей Кузнецов",
+              message: "Все супер!",
+              status: "Одобрено",
+            },
+            {
+              id: 5,
+              user: "Мария Федорова",
+              message: "Хотел бы другой цвет.",
+              status: "Ожидает",
+            },
+            {
+              id: 6,
+              user: "Дмитрий Сидоров",
+              message: "Доставка опоздала.",
+              status: "Отклонено",
+            },
+            {
+              id: 7,
+              user: "Алексей Егоров",
+              message: "Очень доволен покупкой!",
+              status: "Одобрено",
+            },
+            {
+              id: 8,
+              user: "Елена Козлова",
+              message: "Не хватает инструкций.",
+              status: "Ожидает",
+            },
+          ],
+
+          get filteredComments() {
+            return this.comments.filter(
+              (c) =>
+                (c.user.toLowerCase().includes(this.search.toLowerCase()) ||
+                  c.message
+                    .toLowerCase()
+                    .includes(this.search.toLowerCase())) &&
+                (this.filterStatus === "" || c.status === this.filterStatus)
+            );
+          },
+
+          get totalPages() {
+            return Math.ceil(this.filteredComments.length / this.perPage);
+          },
+
+          get paginatedComments() {
+            const start = (this.currentPage - 1) * this.perPage;
+            return this.filteredComments.slice(start, start + this.perPage);
+          },
+
+          prevPage() {
+            if (this.currentPage > 1) this.currentPage--;
+          },
+          nextPage() {
+            if (this.currentPage < this.totalPages) this.currentPage++;
+          },
+
+          approve(comment) {
+            comment.status = "Одобрено";
+            this.selected = null;
+          },
+          reject(comment) {
+            comment.status = "Отклонено";
+            this.selected = null;
+          },
+        };
+      }
+    </script>
+  </body>
+</>

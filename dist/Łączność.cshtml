@@ -1,0 +1,705 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html lang="pl">
+<head>
+      <meta charset="UTF-8">
+      <title>Łączność</title>
+      <link href="output.css" rel="stylesheet">
+      <script src="https://cdn.tailwindcss.com"></script>
+
+      <!-- Alpine.js (defer - скрипт ждёт загрузки DOM) -->
+      <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+      <!-- Flowbite JS (версия 2.3.0) -->
+      <script defer src="https://unpkg.com/flowbite@2.3.0/dist/flowbite.min.js"></script>
+
+      <!-- основной JS -->
+
+      <script type="module" defer src="/dist/main.js"></script>
+</head>
+<body class="flex flex-col min-h-screen">
+
+<!-- Модальное окно вход header+ -->
+<div id="authentication-modal" tabindex="-1" aria-hidden="true"
+     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0
+ inset-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+      <div class="relative p-4 w-full max-w-md max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+                  <!-- Modal header -->
+                  <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                              Zaloguj się na swoje konto osobiste
+                        </h3>
+                        <button type="button"
+                                class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                data-modal-hide="authentication-modal">
+                              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                   viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                          stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                              </svg>
+                              <span class="sr-only">Close modal</span>
+                        </button>
+                  </div>
+                  <!-- Modal body -->
+                  <div class="p-4 md:p-5">
+                        <div
+                              @@click="mode = 'login'"
+                              x-show="mode === 'login' || window.innerWidth >= 640"
+                              x-cloak
+                              :class="mode === 'login' ? 'ring-2 ring-teal-200' : ''"
+                              class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow transition-all">
+
+                              <form class="space-y-4" action="#">
+                                    <div>
+                                          <label for="email"
+                                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Twój
+                                                e-mail</label>
+                                          <input type="email" name="email" id="email"
+                                                 class="border border-teal-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                 placeholder="name@company.com" required/>
+                                    </div>
+                                    <div>
+                                          <label for="password"
+                                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Twoje
+                                                hasło</label>
+                                          <input type="password" name="password" id="password" placeholder="••••••••"
+                                                 class="border border-teal-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                 required/>
+                                    </div>
+                                    <div class="flex justify-between">
+                                          <div class="flex items-start">
+
+                                                <div x-data="{ checked: false }"
+                                                     class="flex items-center text-sm cursor-pointer space-x-2">
+                                                      <!-- Кастомный чекбокс -->
+                                                      <div @@click="checked = !checked"
+                                                           class="w-5 h-5 border border-gray-400 rounded flex items-center justify-center"
+                                                           :class="{ 'bg-teal-500 border-teal-500': checked }">
+                                                            <!-- Галочка -->
+                                                            <svg x-show="checked" xmlns="http://www.w3.org/2000/svg"
+                                                                 class="w-3 h-3 text-white" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke="currentColor" stroke-width="4">
+                                                                  <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="M5 13l4 4L19 7"/>
+                                                            </svg>
+                                                      </div>
+
+                                                      <!-- Текст и скрытый checkbox для форм -->
+                                                      <label for="remember"
+                                                             class="ms-2 text-sm  text-gray-900 dark:text-gray-300">
+                                                            <input type="checkbox" id="terms" name="terms"
+                                                                   x-model="checked" class="hidden" required/>
+                                                            Pamiętaj mnie</label>
+                                                </div>
+
+                                          </div>
+                                          <a href="/dist/forgot_password.html"
+                                             class="text-sm font-medium hover:text-teal-500 text-red-700 hover:underline dark:text-blue-500">Zapomniałem
+                                                hasła?</a>
+                                    </div>
+
+                                    <div class="mt-6">
+                                          <div class="relative">
+                                                <div class="absolute inset-0 flex items-center">
+                                                      <div class="w-full border-t border-teal-500"></div>
+                                                </div>
+                                                <div class="relative flex justify-center text-sm">
+                                                      <span class="bg-white dark:bg-teal-700 px-2 text-gray-500 dark:text-white">Login using</span>
+                                                </div>
+                                          </div>
+                                          <button
+                                                class="inline-flex w-full items-center justify-center rounded-md border border-teal-700 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-teal-700 hover:text-white dark:text-white shadow-sm hover:bg-teal-400 dark:hover:bg-gray-600 disabled:cursor-wait disabled:opacity-50">
+                                                <span class="sr-only">Sign in with Google</span>
+                                                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"
+                                                     aria-hidden="true">
+                                                      <clipPath id="p.0">
+                                                            <path d="m0 0l20.0 0l0 20.0l-20.0 0l0 -20.0z"
+                                                                  clip-rule="nonzero"></path>
+                                                      </clipPath>
+                                                      <g clip-path="url(#p.0)">
+                                                            <path fill="currentColor" fill-opacity="0.0"
+                                                                  d="m0 0l20.0 0l0 20.0l-20.0 0z"
+                                                                  fill-rule="evenodd"></path>
+                                                            <path fill="currentColor"
+                                                                  d="m19.850197 8.270351c0.8574047 4.880001 -1.987587 9.65214 -6.6881847 11.218641c-4.700598 1.5665016 -9.83958 -0.5449295 -12.08104 -4.963685c-2.2414603 -4.4187555 -0.909603 -9.81259 3.1310139 -12.6801605c4.040616 -2.867571 9.571754 -2.3443127 13.002944 1.2301085l-2.8127813 2.7000687l0 0c-2.0935059 -2.1808972 -5.468274 -2.500158 -7.933616 -0.75053835c-2.4653416 1.74962 -3.277961 5.040613 -1.9103565 7.7366734c1.3676047 2.6960592 4.5031037 3.9843292 7.3711267 3.0285425c2.868022 -0.95578575 4.6038647 -3.8674583 4.0807285 -6.844941z"
+                                                                  fill-rule="evenodd"></path>
+                                                            <path fill="currentColor"
+                                                                  d="m10.000263 8.268785l9.847767 0l0 3.496233l-9.847767 0z"
+                                                                  fill-rule="evenodd"></path>
+                                                      </g>
+                                                </svg>
+                                          </button>
+                                    </div>
+                                    <button type="submit"
+                                            class="w-full uppercase text-white hover:bg-red-600 bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-500 font-medium rounded-lg text-sm px-5 py-3.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                          wejście
+                                    </button>
+                                    <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+                                          Nie jesteś zarejestrowany?
+                                          <a href="/dist/registration.html"
+                                             class="hover:text-teal-800 text-red-700 hover:underline dark:text-blue-500">Utwórz
+                                                konto</a>
+                                    </div>
+                              </form>
+
+                        </div>
+                  </div>
+            </div>
+      </div>
+</div>
+
+
+<!-- Модальное окно поиска header+ -->
+<div id="search-modal" tabindex="-1" aria-hidden="true"
+     class="hidden fixed inset-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto flex items-start justify-center pt-20 sm:pt-32">
+
+      <!-- Контейнер формы -->
+      <div class="relative w-full max-w-xl sm:max-w-2xl lg:max-w-7xl">
+            <div class="relative bg-gray-800/10 rounded-xl shadow dark:bg-gray-700 p-6 lg:p-10 min-h-[280px] lg:min-h-[360px]">
+                  <!-- Кнопка закрытия -->
+                  <button type="button"
+                          class="absolute top-2 right-2 text-white bg-transparent hover:bg-gray-200 hover:text-teal-600 rounded-lg text-sm w-8 h-8 flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"
+                          data-modal-hide="search-modal">
+                        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M1 1l6 6m0 0l6 6M7 7l6-6M7 7L1 13"/>
+                        </svg>
+                        <span class="sr-only">Закрыть</span>
+                  </button>
+
+                  <!-- Форма поиска -->
+                  <form class="mt-6">
+                        <div class="relative w-full">
+                              <input placeholder="e.g. Blog"
+                                     class="rounded-full w-full h-16 bg-white py-2 pl-8 pr-32 outline-none border-2 border-gray-200 shadow-md hover:outline-none focus:ring-teal-200 focus:border-teal-200 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                                     type="text" name="query" id="query">
+
+                              <button type="submit"
+                                      class="absolute inline-flex items-center h-10 px-4 py-2 text-sm text-white transition duration-150 ease-in-out rounded-full right-3 top-3 bg-teal-600 sm:px-6 sm:text-base sm:font-medium hover:bg-teal-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                                    <svg class="-ml-0.5 sm:-ml-1 mr-2 w-4 h-4 sm:h-5 sm:w-5"
+                                         xmlns="http://www.w3.org/2000/svg" fill="none"
+                                         viewBox="0 0 24 24" stroke="currentColor">
+                                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    </svg>
+                                    Search
+                              </button>
+                        </div>
+                  </form>
+            </div>
+      </div>
+</div>
+
+
+<main class="flex-grow container mx-auto mt-20">
+
+      <div class="mb-6 flex flex-col gap-4 sm:mb-8 md:mb-12">
+            <div class="bg-white dark:bg-gray-800 sm:py-8 lg:py-4 container px-2 py-1 ">
+                  <div class="max-w-screen-3xl px-2 py-4 md:px-8 mx-auto">
+
+
+                        <div class="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between sm:gap-2 sm:mb-8 md:mb-12">
+                              <h1 class="text-2xl font-bold text-teal-800 lg:text-3xl dark:text-white">Blog
+                                    informacyjny</h1>
+                              <!-- Хлебные крошки -->
+                              <nav class="flex" aria-label="Breadcrumb">
+                                    <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                                          <li class="inline-flex items-center">
+                                                <a href="#"
+                                                   class="inline-flex items-center text-sm font-medium text-teal-700 hover:text-red-700 dark:text-gray-400 dark:hover:text-white">
+                                                      <svg class="w-3 h-3 me-2.5" aria-hidden="true" fill="currentColor"
+                                                           viewBox="0 0 20 20">
+                                                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
+                                                      </svg>
+                                                      Dom
+                                                </a>
+                                          </li>
+                                          <li aria-current="page">
+                                                <div class="flex items-center">
+                                                      <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" fill="none"
+                                                           viewBox="0 0 6 10">
+                                                            <path stroke="currentColor" stroke-linecap="round"
+                                                                  stroke-linejoin="round" stroke-width="2"
+                                                                  d="m1 9 4-4-4-4"/>
+                                                      </svg>
+                                                      <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">Łączność</span>
+                                                </div>
+                                          </li>
+                                    </ol>
+                              </nav>
+                        </div>
+
+
+                        <section>
+                              <div class="bg-white dark:bg-gray-800 py-6 sm:py-8 lg:py-12">
+                                    <div class="max-w-screen-2xl  mx-auto">
+                                          <!-- Title Section -->
+
+                                          <form action="https://fabform.io/f/xxxxx" method="post">
+                                                <section class="py-2">
+                                                      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                                                            <div class="grid lg:grid-cols-2 grid-cols-1 bg-white rounded-2xl overflow-hidden shadow-md">
+
+                                                                  <!-- Left Image Section -->
+                                                                  <div class="relative">
+                                                                        <img src="https://pagedone.io/asset/uploads/1696488602.png"
+                                                                             alt="Contact Image"
+                                                                             class="w-full h-full object-cover lg:rounded-l-2xl"/>
+                                                                        <h1 class="absolute top-10 left-10 text-white text-4xl font-bold">
+                                                                              Contact us</h1>
+
+                                                                        <div class="absolute bottom-0 w-full p-6">
+                                                                              <div class="bg-white rounded-lg p-6 shadow">
+                                                                                    <!-- Contact Info -->
+                                                                                    <div class="space-y-5">
+                                                                                          <a href="tel:4706011911"
+                                                                                             class="flex items-center text-black">
+                                                                                                <svg class="w-[28px] h-[28px] text-teal-700 dark:text-white"
+                                                                                                     aria-hidden="true"
+                                                                                                     xmlns="http://www.w3.org/2000/svg"
+                                                                                                     width="24"
+                                                                                                     height="24"
+                                                                                                     fill="none"
+                                                                                                     viewBox="0 0 24 24">
+                                                                                                      <path stroke="currentColor"
+                                                                                                            stroke-linecap="round"
+                                                                                                            stroke-linejoin="round"
+                                                                                                            stroke-width="1.4"
+                                                                                                            d="M19.0225 4 14 8.98132m0 0 3.03.00002M14 8.98132V5.99998m4.2327 8.51492-1.1431-1.1439c-1.143-1.1439-1.9758-.3696-2.8382.4565-.3159.3161-.7443.4936-1.1911.4936-.4467 0-.8751-.1775-1.191-.4936L9.998 11.9549c-.65643-.6564-.92477-1.4591 0-2.38383.8488-.86837 1.6837-1.61177.4926-2.8037L9.2995 5.57544c-.90492-.90556-1.99137-.383-2.61843.23625-3.13257 3.1118-1.72021 6.77001 1.41066 9.90141s6.78747 4.5465 9.90477 1.4254c.1744-.1461.551-.565.6473-.7712.0962-.2062.1461-.4311.1461-.6587 0-.2277-.0499-.4525-.1461-.6588-.0963-.2062-.2366-.3888-.4111-.5349Z"/>
+                                                                                                </svg>
+                                                                                                <span class="ml-4">470-601-1911</span>
+                                                                                          </a>
+                                                                                          <a href="https://veilmail.io/irish-geoff"
+                                                                                             class="flex items-center text-black">
+                                                                                                <svg class="w-[28px] h-[28px] text-teal-700 dark:text-white"
+                                                                                                     aria-hidden="true"
+                                                                                                     xmlns="http://www.w3.org/2000/svg"
+                                                                                                     width="24"
+                                                                                                     height="24"
+                                                                                                     fill="none"
+                                                                                                     viewBox="0 0 24 24">
+                                                                                                      <path stroke="currentColor"
+                                                                                                            stroke-linecap="round"
+                                                                                                            stroke-width="1.4"
+                                                                                                            d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/>
+                                                                                                </svg>
+                                                                                                <span class="ml-4">https://veilmail.io/irish-geoff</span>
+                                                                                          </a>
+                                                                                          <a href="#"
+                                                                                             class="flex items-center text-black">
+                                                                                                <svg class="w-[28px] h-[28px] text-teal-700 dark:text-white"
+                                                                                                     aria-hidden="true"
+                                                                                                     xmlns="http://www.w3.org/2000/svg"
+                                                                                                     width="24"
+                                                                                                     height="24"
+                                                                                                     fill="none"
+                                                                                                     viewBox="0 0 24 24">
+                                                                                                      <path stroke="currentColor"
+                                                                                                            stroke-linecap="round"
+                                                                                                            stroke-linejoin="round"
+                                                                                                            stroke-width="1.4"
+                                                                                                            d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                                                                                                      <path stroke="currentColor"
+                                                                                                            stroke-linecap="round"
+                                                                                                            stroke-linejoin="round"
+                                                                                                            stroke-width="1.4"
+                                                                                                            d="M17.8 13.938h-.011a7 7 0 1 0-11.464.144h-.016l.14.171c.1.127.2.251.3.371L12 21l5.13-6.248c.194-.209.374-.429.54-.659l.13-.155Z"/>
+                                                                                                </svg>
+
+                                                                                                <span class="ml-4">654 Sycamore Avenue, Meadowville, WA 76543</span>
+                                                                                          </a>
+                                                                                    </div>
+                                                                              </div>
+                                                                        </div>
+                                                                  </div>
+
+                                                                  <!-- Right Form Section -->
+                                                                  <div class="bg-gray p-8">
+                                                                        <div class="text-center mb-12">
+                                                                              <h2 class="text-2xl sm:text-3xl font-semibold text-teal-800 mt-4">
+                                                                                    Napisz do nas</h2>
+                                                                              <p class="text-gray-600 mt-10">jeśli masz
+                                                                                    jakieś pytania lub nie znalazłeś
+                                                                                    modelu, którego potrzebujesz</p>
+                                                                        </div>
+
+                                                                        <div class="space-y-6">
+
+                                                                              <div>
+                                                                                    <label
+                                                                                          class="block mb-1 text-sm text-gray-600">Name</label>
+                                                                                    <input type="text" name="name"
+                                                                                           class="w-full border border-teal-400 rounded-lg px-4 py-2 focus:ring-2 focus:ring-teal-500 transition hover:scale-105 hover:shadow-lg"/>
+                                                                              </div>
+
+
+                                                                              <div>
+                                                                                    <label
+                                                                                          class="block mb-1 text-sm text-gray-600">Email</label>
+                                                                                    <input type="email" name="email"
+                                                                                           class="w-full border border-teal-400 rounded-lg px-4 py-2 focus:ring-2 focus:ring-teal-500 transition hover:scale-105 hover:shadow-lg"/>
+                                                                              </div>
+
+                                                                              <div>
+                                                                                    <label
+                                                                                          class="block mb-1 text-sm text-gray-600">Message
+                                                                                    </label>
+                                                                                    <textarea name="message" rows="9"
+                                                                                              class="w-full border border-teal-400 rounded-lg px-4 py-2 focus:ring-2 focus:ring-teal-500 transition hover:scale-105 hover:shadow-lg resize-none"></textarea>
+                                                                              </div>
+
+                                                                              <div class="flex justify-center">
+                                                                                    <button type="submit"
+                                                                                            class="bg-transparent border-2 border-red-600 text-red-600 rounded-lg px-60 py-2 uppercase font-semibold hover:bg-teal-400 hover:border-teal-400 hover:text-white transition">
+                                                                                          Wysłać
+                                                                                    </button>
+                                                                              </div>
+                                                                        </div>
+                                                                  </div>
+
+                                                            </div>
+                                                      </div>
+                                                </section>
+                                          </form>
+
+                                    </div>
+                              </div>
+                        </section>
+
+
+                  </div>
+            </div>
+      </div>
+</main>
+
+<main class="flex-grow container mx-auto mt-4">
+
+
+      <div class="mb-6 flex flex-col gap-4 sm:mb-8 md:mb-12">
+            <div class="bg-white dark:bg-gray-800 sm:py-8 lg:py-4 container px-5 py-1 mx-auto">
+                  <div class="mx-auto max-w-screen-2xl px-2 md:px-8">
+
+                        <!-- Вкладки -->
+                        <div class="mb-4 border-b border-teal-200 dark:border-gray-700">
+                              <ul class="flex flex-wrap -mb-px text-sm lg:text-lg font-medium justify-center"
+                                  id="default-styled-tab" data-tabs-toggle="#default-styled-tab-content"
+                                  data-tabs-active-classes="text-red-700 hover:text-red-600 dark:text-purple-700 dark:hover:text-purple-500 border-red-600 dark:border-purple-500"
+                                  data-tabs-inactive-classes="dark:border-transparent text-teal-800 hover:text-teal-400 dark:text-gray-400 border-teal-100 hover:border-teal-300 dark:border-gray-700 dark:hover:text-gray-300"
+                                  role="tablist">
+                                    <li class="me-2" role="presentation">
+                                          <button class="inline-block p-4 border-b-2 rounded-t-lg"
+                                                  id="profile-styled-tab" data-tabs-target="#styled-profile"
+                                                  type="button" role="tab" aria-controls="profile"
+                                                  aria-selected="false">Dostawa
+                                          </button>
+                                    </li>
+                                    <li class="me-2" role="presentation">
+                                          <button
+                                                class="inline-block p-4 border-b-2 rounded-t-lg hover:text-teal-400 hover:border-teal-300 dark:hover:text-gray-300"
+                                                id="dashboard-styled-tab" data-tabs-target="#styled-dashboard"
+                                                type="button" role="tab" aria-controls="dashboard"
+                                                aria-selected="false">Płatność
+                                          </button>
+                                    </li>
+                                    <li class="me-2" role="presentation">
+                                          <button
+                                                class="inline-block p-4 border-b-2 rounded-t-lg hover:text-teal-400 hover:border-teal-300 dark:hover:text-gray-300"
+                                                id="settings-styled-tab" data-tabs-target="#styled-settings"
+                                                type="button" role="tab" aria-controls="settings" aria-selected="false">
+                                                Montaż
+                                          </button>
+                                    </li>
+                                    <li role="presentation">
+                                          <button
+                                                class="inline-block p-4 border-b-2 rounded-t-lg hover:text-teal-400 hover:border-teal-300 dark:hover:text-gray-300"
+                                                id="contacts-styled-tab" data-tabs-target="#styled-contacts"
+                                                type="button" role="tab" aria-controls="contacts" aria-selected="false">
+                                                Zwrot
+                                          </button>
+                                    </li>
+                              </ul>
+                        </div>
+
+
+                        <!-- Вкладки -->
+                        <div class="mb-4 border-b border-teal-200 dark:border-gray-700">
+                              <ul class="flex flex-wrap -mb-px text-sm lg:text-lg font-medium justify-center"
+                                  id="default-styled-tab"
+                                  data-tabs-toggle="#default-styled-tab-content"
+                                  data-tabs-active-classes="text-red-700 underline underline-offset-[22px] decoration-red-700 decoration-2 transition-all duration-500 ease-in-out"
+                                  data-tabs-inactive-classes="text-gray-700 hover:text-teal-500 hover:underline hover:underline-offset-[10px] hover:decoration-teal-500 hover:decoration-2 border-transparent transition-all duration-300 ease-in-out"
+                                  role="tablist">
+
+                                    <li class="me-2" role="presentation">
+                                          <button class="inline-block p-4 border-b-2  rounded-t-lg"
+                                                  id="profile-styled-tab" data-tabs-target="#styled-profile"
+                                                  type="button" role="tab" aria-controls="profile"
+                                                  aria-selected="false">
+                                                Dostawa
+                                          </button>
+                                    </li>
+                                    <li class="me-2" role="presentation">
+                                          <button class="inline-block p-4 border-b-2 rounded-t-lg"
+                                                  id="dashboard-styled-tab" data-tabs-target="#styled-dashboard"
+                                                  type="button" role="tab" aria-controls="dashboard"
+                                                  aria-selected="false">
+                                                Płatność
+                                          </button>
+                                    </li>
+                                    <li class="me-2" role="presentation">
+                                          <button class="inline-block p-4 border-b-2 rounded-t-lg"
+                                                  id="settings-styled-tab" data-tabs-target="#styled-settings"
+                                                  type="button" role="tab" aria-controls="settings"
+                                                  aria-selected="false">
+                                                Montaż
+                                          </button>
+                                    </li>
+                                    <li role="presentation">
+                                          <button class="inline-block p-4 border-b-2 rounded-t-lg"
+                                                  id="contacts-styled-tab" data-tabs-target="#styled-contacts"
+                                                  type="button" role="tab" aria-controls="contacts"
+                                                  aria-selected="false">
+                                                Zwrot
+                                          </button>
+                                    </li>
+                              </ul>
+                        </div>
+
+
+                        <!-- вкладка 1-->
+                        <section class="text-gray-600 body-font">
+                              <div class="container my-10 mx-auto">
+                                    <div class="hidden p-4 rounded-lg dark:bg-gray-800" id="styled-profile"
+                                         role="tabpanel" aria-labelledby="profile-tab">
+                                          <div class="flex flex-wrap -m-4">
+
+                                                <section class="text-gray-600 body-font">
+                                                      <div class="container px-5 py-24 mx-auto">
+                                                            <div class="xl:w-1/2 lg:w-3/4 w-full mx-auto text-center">
+                                                                  <svg xmlns="http://www.w3.org/2000/svg"
+                                                                       fill="currentColor"
+                                                                       class="inline-block w-8 h-8 text-gray-400 mb-8"
+                                                                       viewBox="0 0 975.036 975.036">
+                                                                        <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
+                                                                  </svg>
+                                                                  <p class="leading-relaxed text-lg">Edison bulb retro
+                                                                        cloud bread echo park, helvetica stumptown
+                                                                        taiyaki taxidermy 90's cronut +1 kinfolk.
+                                                                        Single-origin coffee ennui shaman taiyaki vape
+                                                                        DIY tote bag drinking vinegar cronut adaptogen
+                                                                        squid fanny pack vaporware. Man bun next level
+                                                                        coloring book skateboard four loko knausgaard.
+                                                                        Kitsch keffiyeh master cleanse direct trade
+                                                                        indigo juice before they sold out gentrify plaid
+                                                                        gastropub normcore XOXO 90's pickled cindigo
+                                                                        jean shorts. Slow-carb next level shoindigoitch
+                                                                        ethical authentic, yr scenester sriracha forage
+                                                                        franzen organic drinking vinegar.</p>
+                                                                  <span class="inline-block h-1 w-10 rounded bg-indigo-500 mt-8 mb-6"></span>
+                                                                  <h2 class="text-gray-900 font-medium title-font tracking-wider text-sm">
+                                                                        HOLDEN CAULFIELD</h2>
+                                                                  <p class="text-gray-500">Senior Product Designer</p>
+                                                            </div>
+                                                      </div>
+                                                </section>
+
+                                          </div>
+                                    </div>
+                              </div>
+                        </section>
+
+                        <!-- вкладка 2-->
+                        <section class="text-gray-600 body-font">
+                              <div class="container my-10 mx-auto">
+                                    <div class="hidden p-4 rounded-lg dark:bg-gray-800" id="styled-dashboard"
+                                         role="tabpanel" aria-labelledby="dashboard-tab">
+                                          <div class="flex flex-wrap -m-4">
+
+                                                <section class="text-gray-600 body-font">
+                                                      <div class="container px-5 py-24 mx-auto">
+                                                            <div class="xl:w-1/2 lg:w-3/4 w-full mx-auto text-center">
+                                                                  <svg xmlns="http://www.w3.org/2000/svg"
+                                                                       fill="currentColor"
+                                                                       class="inline-block w-8 h-8 text-gray-400 mb-8"
+                                                                       viewBox="0 0 975.036 975.036">
+                                                                        <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
+                                                                  </svg>
+                                                                  <p class="leading-relaxed text-lg">Edison bulb retro
+                                                                        cloud bread echo park, helvetica stumptown
+                                                                        taiyaki taxidermy 90's cronut +1 kinfolk.
+                                                                        Single-origin coffee ennui shaman taiyaki vape
+                                                                        DIY tote bag drinking vinegar cronut adaptogen
+                                                                        squid fanny pack vaporware. Man bun next level
+                                                                        coloring book skateboard four loko knausgaard.
+                                                                        Kitsch keffiyeh master cleanse direct trade
+                                                                        indigo juice before they sold out gentrify plaid
+                                                                        gastropub normcore XOXO 90's pickled cindigo
+                                                                        jean shorts. Slow-carb next level shoindigoitch
+                                                                        ethical authentic, yr scenester sriracha forage
+                                                                        franzen organic drinking vinegar.</p>
+                                                                  <span class="inline-block h-1 w-10 rounded bg-indigo-500 mt-8 mb-6"></span>
+                                                                  <h2 class="text-gray-900 font-medium title-font tracking-wider text-sm">
+                                                                        HOLDEN CAULFIELD</h2>
+                                                                  <p class="text-gray-500">Senior Product Designer</p>
+                                                            </div>
+                                                      </div>
+                                                </section>
+
+                                          </div>
+                                    </div>
+                              </div>
+                        </section>
+
+                        <!-- вкладка 3-->
+                        <section class="text-gray-600 body-font">
+                              <div class="container my-10 mx-auto">
+                                    <div class="hidden p-4 rounded-lg dark:bg-gray-800" id="styled-settings"
+                                         role="tabpanel" aria-labelledby="settings-tab">
+                                          <div class="flex flex-wrap -m-4">
+
+                                                <section class="text-gray-600 body-font">
+                                                      <div class="container px-5 py-24 mx-auto">
+                                                            <div class="xl:w-1/2 lg:w-3/4 w-full mx-auto text-center">
+                                                                  <svg xmlns="http://www.w3.org/2000/svg"
+                                                                       fill="currentColor"
+                                                                       class="inline-block w-8 h-8 text-gray-400 mb-8"
+                                                                       viewBox="0 0 975.036 975.036">
+                                                                        <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
+                                                                  </svg>
+                                                                  <p class="leading-relaxed text-lg">Edison bulb retro
+                                                                        cloud bread echo park, helvetica stumptown
+                                                                        taiyaki taxidermy 90's cronut +1 kinfolk.
+                                                                        Single-origin coffee ennui shaman taiyaki vape
+                                                                        DIY tote bag drinking vinegar cronut adaptogen
+                                                                        squid fanny pack vaporware. Man bun next level
+                                                                        coloring book skateboard four loko knausgaard.
+                                                                        Kitsch keffiyeh master cleanse direct trade
+                                                                        indigo juice before they sold out gentrify plaid
+                                                                        gastropub normcore XOXO 90's pickled cindigo
+                                                                        jean shorts. Slow-carb next level shoindigoitch
+                                                                        ethical authentic, yr scenester sriracha forage
+                                                                        franzen organic drinking vinegar.</p>
+                                                                  <span class="inline-block h-1 w-10 rounded bg-indigo-500 mt-8 mb-6"></span>
+                                                                  <h2 class="text-gray-900 font-medium title-font tracking-wider text-sm">
+                                                                        HOLDEN CAULFIELD</h2>
+                                                                  <p class="text-gray-500">Senior Product Designer</p>
+                                                            </div>
+                                                      </div>
+                                                </section>
+                                          </div>
+                                    </div>
+                              </div>
+                        </section>
+
+                        <!-- вкладка 4-->
+                        <section class="text-gray-600 body-font">
+                              <div class="container my-10 mx-auto">
+                                    <div class="hidden p-4 rounded-lg dark:bg-gray-800" id="styled-contacts"
+                                         role="tabpanel" aria-labelledby="contacts-tab">
+                                          <div class="flex flex-wrap -m-4">
+
+                                                <section class="text-gray-600 body-font">
+                                                      <div class="container px-5 py-24 mx-auto">
+                                                            <div class="xl:w-1/2 lg:w-3/4 w-full mx-auto text-center">
+                                                                  <svg xmlns="http://www.w3.org/2000/svg"
+                                                                       fill="currentColor"
+                                                                       class="inline-block w-8 h-8 text-gray-400 mb-8"
+                                                                       viewBox="0 0 975.036 975.036">
+                                                                        <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
+                                                                  </svg>
+                                                                  <p class="leading-relaxed text-lg">Edison bulb retro
+                                                                        cloud bread echo park, helvetica stumptown
+                                                                        taiyaki taxidermy 90's cronut +1 kinfolk.
+                                                                        Single-origin coffee ennui shaman taiyaki vape
+                                                                        DIY tote bag drinking vinegar cronut adaptogen
+                                                                        squid fanny pack vaporware. Man bun next level
+                                                                        coloring book skateboard four loko knausgaard.
+                                                                        Kitsch keffiyeh master cleanse direct trade
+                                                                        indigo juice before they sold out gentrify plaid
+                                                                        gastropub normcore XOXO 90's pickled cindigo
+                                                                        jean shorts. Slow-carb next level shoindigoitch
+                                                                        ethical authentic, yr scenester sriracha forage
+                                                                        franzen organic drinking vinegar.</p>
+                                                                  <span class="inline-block h-1 w-10 rounded bg-indigo-500 mt-8 mb-6"></span>
+                                                                  <h2 class="text-gray-900 font-medium title-font tracking-wider text-sm">
+                                                                        HOLDEN CAULFIELD</h2>
+                                                                  <p class="text-gray-500">Senior Product Designer</p>
+                                                            </div>
+                                                      </div>
+                                                </section>
+
+                                          </div>
+                                    </div>
+                              </div>
+                        </section>
+
+                  </div>
+            </div>
+      </div>
+</main>
+
+
+
+<!-- Кнопка вверх -->
+<div
+      x-data="{ show: false }"
+      x-init="window.addEventListener('scroll', () => show = window.scrollY > 900)"
+      x-show="show"
+      x-transition.opacity
+      @@click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+      class="fixed bottom-6 right-6 bg-gray-400/40 rounded-3xl p-2 cursor-pointer shadow-lg hover:bg-teal-700"
+>
+      <svg class="w-[36px] h-[36px] text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.1"
+                  d="M12 6v13m0-13 4 4m-4-4-4 4"/>
+      </svg>
+</div>
+
+<!-- поиск header+ -->
+<script>
+      document.addEventListener('alpine:init', () => {
+            Alpine.store('search', {
+                  show: false
+            })
+      })
+</script>
+
+<!-- темная тема header+ -->
+<script>
+      function themeSwitcher() {
+            return {
+                  isDark:
+                        localStorage.getItem('theme') === 'dark' ||
+                        (!('theme' in localStorage) &&
+                              window.matchMedia('(prefers-color-scheme: dark)').matches),
+
+                  toggleTheme() {
+                        this.isDark = !this.isDark;
+                        if (this.isDark) {
+                              document.documentElement.classList.add('dark')
+                              localStorage.setItem('theme', 'dark')
+                        } else {
+                              document.documentElement.classList.remove('dark')
+                              localStorage.setItem('theme', 'light')
+                        }
+                  },
+
+                  init() {
+                        if (this.isDark) {
+                              document.documentElement.classList.add('dark')
+                        } else {
+                              document.documentElement.classList.remove('dark')
+                        }
+                  }
+            }
+      }
+</script>
+
+
+</body>
+</html>
