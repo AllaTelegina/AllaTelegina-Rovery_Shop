@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl" class="h-full">
+<!-- Страница Layout.cshtml -->
 <head>
-
     <meta charset="UTF-8">
     <title>index</title>
     <link href="output.css" rel="stylesheet">
@@ -17,11 +17,16 @@
 
     <!-- основной JS -->
     <script type="module" defer src="./main.js"></script>
+     <!-- Script подключает черный цвет для темной темы -->
+        <script>
+            tailwind.config = {
+                darkMode: 'class'
+            }
+        </script>
 </head>
-
+<!-- Подключение модального окна из Modal_Layout.cshtml -->
+@Html.Partial("Modal_Layout", new DotnetModel());
 <body class="flex flex-col min-h-screen">
-
-
     <header class="fixed top-0 left-0 w-full z-50" x-data="{ mobileMenuOpen: false }">
         <!-- Затемнение фона при открытом меню -->
         <div x-show="mobileMenuOpen"
@@ -155,9 +160,12 @@
                                 </a>
 
                                 <!-- Modal toggle -->
+                                <!--TODO: Вставить сюда модальное окно для авторизации и регистрации-->
+                                <!-- Начало модального окна -->
+                                
+                                <!-- Конец модального окна -->
                                 @if (Context.Request.Cookies["name"] == null)
                                 {
-                                    
                                 <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
                                         class="dropdown-toggle flex items-center justify-between w-full py-2 px-3 font-medium text-teal-50 border-b border-gray-100 md:w-auto
                                      hover:bg-teal-800 md:hover:bg-transparent md:border-0 md:hover:text-teal-800 md:p-0 dark:text-white
@@ -435,14 +443,9 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
 
 
     <!-- COOKIES
