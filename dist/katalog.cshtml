@@ -624,7 +624,7 @@
 
                                     <!-- PRODUCT LIST -->
                                     <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                                        <template x-for="product in filteredProducts" :key="product.id">
+                                        <template x-for="product in products" :key="product.id">
                                             <article x-data="{
                                                 liked: false,
                                                 rating: product.rating,
@@ -751,8 +751,7 @@
                                                                                     class="w-4 h-4"
                                                                                     :class="i <= product.rating ? 'text-teal-400' : 'text-gray-300 dark:text-gray-600'"
                                                                                     viewBox="0 0 22 20"
-                                                                                    fill="currentColor"
-                                                                              >
+                                                                                    fill="currentColor">
                                                                                     <path d="M20.924 7.625A1.523 1.523 0 0 0 19.686 6.58l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03 3.656-3.563a1.523 1.523 0 0 0 .387-1.575Z"/>
                                                                               </svg>
                                                                         </template>
@@ -762,42 +761,44 @@
 
                                                             <div class="mt-auto flex items-center justify-between">
                                                                 <span class="text-3xl font-bold text-gray-900 dark:text-white" x-text="'$'+product.price"></span>
-                                                                <div x-data="{inCart: false, productId: product.id,
-                                                                    init(){
-                                                                        const cart=getCatalogProducts();
-                                                                        this.inCart=cart.includes(this.productId);
-                                                                        }
-                                                                    }">
-                                                                    <button
-                                                                            type="button"
-                                                                            @@click="addProductToCatalog(productId); inCart = !inCart"
-                                                                            :aria-pressed="inCart.toString()"
-                                                                            :class="[
-                                                                                'inline-flex items-center border-2 border-red-600 gap-2 rounded-lg px-5 py-2 text-xs lg:px-6 lg:py-2.5 lg:text-sm uppercase transition-colors duration-200 focus:outline-none  active:scale-95',
-                                                                                inCart
-                                                                                    ? 'bg-red-600 text-white hover:bg-red-500'
-                                                                                    : 'text-red-600 hover:bg-teal-400 hover:border-teal-500 hover:text-white'
-                                                                                ]">
-                                                                            <!-- Состояние до добавления -->
-                                                                            <template x-if="!inCart">
-                                                                                <span>Do koszyka</span>
-                                                                            </template>
-                                                                            <!-- Состояние после добавления -->
-                                                                                <template x-if="inCart">
-                                                                                <span class="inline-flex items-center gap-2">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                                viewBox="0 0 24 24" stroke-width="1.5"
-                                                                                stroke="currentColor" class="size-5">
-                                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
-                                                                                </svg>
-                                                                                <span>w koszyku</span>
-                                                                                </span>
+                                                                    <div x-data="{inCart: false, productId: product.id, productBacket: product,
+                                                                        init(){
+                                                                            const cart=getCatalogProducts();
+                                                                            this.inCart=cart.some(t => t.id === this.productBacket.id);
+                                                                            // TEMP: для отладки, удалить позже;
+                                                                            console.log('Инициализация продукта метод init',  'В корзине:', this.inCart);   
+                                                                            }
+                                                                        }">
+                                                                        <button
+                                                                                type="button"
+                                                                                @@click="addProductToCatalog(productBacket); inCart = !inCart"
+                                                                                :aria-pressed="inCart.toString()"
+                                                                                :class="[
+                                                                                    'inline-flex items-center border-2 border-red-600 gap-2 rounded-lg px-5 py-2 text-xs lg:px-6 lg:py-2.5 lg:text-sm uppercase transition-colors duration-200 focus:outline-none  active:scale-95',
+                                                                                    inCart
+                                                                                        ? 'bg-red-600 text-white hover:bg-red-500'
+                                                                                        : 'text-red-600 hover:bg-teal-400 hover:border-teal-500 hover:text-white'
+                                                                                    ]">
+                                                                                <!-- Состояние до добавления -->
+                                                                                <template x-if="!inCart">
+                                                                                    <span>Do koszyka</span>
                                                                                 </template>
-                                                                    </button>
-                                                                </div>
+                                                                                <!-- Состояние после добавления -->
+                                                                                <template x-if="inCart">
+                                                                                    <span class="inline-flex items-center gap-2">
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                                        viewBox="0 0 24 24" stroke-width="1.5"
+                                                                                        stroke="currentColor" class="size-5">
+                                                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                                                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+                                                                                        </svg>
+                                                                                        <span>w koszyku</span>
+                                                                                    </span>
+                                                                                </template>
+                                                                        </button>
+                                                                    </div>
                                                             </div>
-                                                      </div>
+                                                        </div>
                                                     </article>
 
                                               </template>
@@ -1057,6 +1058,20 @@
             console.log("Инициализация модели:");
             var modeljs=@Html.Raw(JsonConvert.SerializeObject(Model.modelJsAlpines));
             console.log(modeljs);
+            var products=modeljs.map(p=>( 
+                {
+                    id: p.Id,
+                    name: p.title,
+                    category: p.category,
+                    price: p.price,
+                    rating: p.rating,
+                    color: "Синий",
+                    images: p.pictures,
+                    sku: p.sku
+                })
+            );
+            console.log("Преобразованные продукты для представления, смотрю параметр-sku:", products);
+
                   return {
                       openFilters: false,
                       openExtra: false,
@@ -1130,17 +1145,7 @@
                          ТОВАРЫ (пример)
                          Бэкендер потом заменит на API
                       ----------------------------- */
-                      products:modeljs.map(p=>( 
-                          {
-                              id: p.Id,
-                              name: p.title,
-                              category: p.category,
-                              price: p.price,
-                              rating: p.rating,
-                              color: "Синий",
-                              images: p.pictures
-                          }),
-                        ),
+                      products,
                       //].sort(() => Math.random() - 0.5),
 
 

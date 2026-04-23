@@ -10,16 +10,21 @@ function saveCatalogProducts(catalogProducts) {
     localStorage.setItem('catalogProducts', JSON.stringify(catalogProducts));
 }
 // Метод который добавляет продукт в каталог;
-function addProductToCatalog(productId) {
+function addProductToCatalog(productBacket) {
+    // TEMP: Выводим в консоль продукт который хотим добавить в каталог для проверки;
+    console.log("Получаем продукт для добавления в каталог", productBacket);
     let catalogProducts = getCatalogProducts();
-    console.log("Добовляем продукт в каталог", productId);
-    if(catalogProducts.includes(productId)){
-        catalogProducts = catalogProducts.filter(id => id !== productId);
-        console.log("Продукт удален из каталога", productId);
+    // TEMP: Выводим в консоль текущие продукты в каталоге для проверки;
+    console.log("Добовляем продукт в каталог", productBacket);
+    const exist=catalogProducts.some(x => x.id === productBacket.id);
+    if(exist){
+        catalogProducts = catalogProducts.filter(x => x.id !== productBacket.id);
+        // TEMP: Выводим в консоль продукт который удалили из каталога для проверки;
+        console.log("Продукт удален из каталога", productBacket);
     }
     else{
-        catalogProducts.push(productId);
-        console.log("Продукт добавлен в каталог", productId);
+        catalogProducts.push(productBacket);
+        console.log("Продукт добавлен в каталог", productBacket);
     }
     saveCatalogProducts(catalogProducts);
     console.log("Текущий каталог продуктов", catalogProducts);

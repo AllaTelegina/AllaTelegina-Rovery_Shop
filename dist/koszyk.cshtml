@@ -5,8 +5,8 @@
 <head>
       <meta charset="UTF-8">
       <title>koszyk</title>
+      <script src="~/jsfile/SetProductInCatalog.js"></script>
       <link href="output.css" rel="stylesheet">
-      <script src="https://cdn.tailwindcss.com"></script>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
       <style>
             @@media (max-width: 640px) {
@@ -140,12 +140,8 @@
 
                               <!-- Header with cart count -->
                               <div class="flex justify-between items-center mb-8">
-                                    <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">Shopping
-                                          Cart</h1>
-                                    <div x-data="cart()" class="
-      inline-block border-2 border-teal-700 text-teal-700 hover:bg-red-700 hover:border-red-700 hover:text-white 
-                rounded-lg  text-sm uppercase transition-colors
-       px-3 py-1 items-center">
+                                    <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">Shopping Cart</h1>
+                                    <div x-data="cart()" class="inline-block border-2 border-teal-700 text-teal-700 hover:bg-red-700 hover:border-red-700 hover:text-white rounded-lg  text-sm uppercase transition-colors px-3 py-1 items-center">
                                           <i class="fas fa-shopping-cart mr-2"></i>
                                           <span x-text="cartItems.length"></span> <span class="hidden sm:inline ml-1">items</span>
                                     </div>
@@ -306,7 +302,7 @@
                                                       </tr>
                                                       </thead>
                                                       <tbody>
-                                                      <template x-for="(item, index) in cartItems" :key="index">
+                                                      <template x-for="(item, index) in cartItems" :key="item.id">
                                                             <tr class="border border-teal-100 hover:bg-teal-50 transition">
                                                                   <td class="py-4 px-4">
                                                                         <div class="flex items-center space-x-3">
@@ -319,7 +315,7 @@
                                                                                     <p class="text-sm text-gray-600"
                                                                                        x-text="item.model"></p>
                                                                                     <p class="text-xs text-gray-500"
-                                                                                       x-text="'HS: ' + item.hsCode"></p>
+                                                                                       x-text="'SKU: ' + item.hsCode"></p>
                                                                               </div>
                                                                         </div>
                                                                   </td>
@@ -374,7 +370,7 @@
                                                                               x-text="'$' + item.totalPrice.toFixed(2)"></span>
                                                                   </td>
                                                                   <td class="py-4 px-4 text-center">
-                                                                        <button @@click="removeItem(index)"
+                                                                        <button @@click="removeItem(index, item)"
                                                                                 class="text-red-500 hover:text-teal-700 p-1">
                                                                               <i class="fas fa-trash"></i>
                                                                         </button>
@@ -633,50 +629,37 @@
 <!-- для корзины -->
 <script>
       function cart() {
+            itemsBackets = JSON.parse(localStorage.getItem('catalogProducts')) || [];
+            console.log("Это корзина, вот товары которые лежат внутри:", itemsBackets);
+            var cartItems = itemsBackets.map(item => ({
+                  id: item.id,            // Уникальный идентификатор товара
+                  name: item.category,    // Категория товара
+                  model: item.name,       // Имя товара
+                  hsCode: item.sku,       // Код товара
+                  quantity: 1,
+                  weight: item.weight || 0,
+                  perPieceRate: item.price || 0,      // Цена за единицу товара;
+                  totalPrice: item.price || 0,
+                  color: "Black",
+                  deliveryMethod: "standard",
+                  description: "No description available.",
+                  isEditingDescription: false,
+                  originalDescription: "",
+                  showDescription: false,
+                  image: item.images[1] || []
+            }));
             return {
-                  cartItems: [
-                        {
-                              name: "Laptop",
-                              model: "XPS 13",
-                              hsCode: "847130",
-                              quantity: 1,
-                              weight: 2.5,
-                              perPieceRate: 999.99,
-                              totalPrice: 999.99,
-                              color: "Silver",
-                              deliveryMethod: "Air",
-                              description: "A powerful and lightweight laptop with excellent performance.",
-                              isEditingDescription: false,
-                              originalDescription: "",
-                              showDescription: false,
-                              image: "/assets/images/cycling-hat-bottle-bench.jpg"
-                        },
-                        {
-                              name: "Smartphone",
-                              model: "iPhone 14",
-                              hsCode: "851712",
-                              quantity: 2,
-                              weight: 0.5,
-                              perPieceRate: 799.99,
-                              totalPrice: 1599.98,
-                              color: "Black",
-                              deliveryMethod: "Ship",
-                              description: "The latest iPhone with advanced camera and processing power.",
-                              isEditingDescription: false,
-                              originalDescription: "",
-                              showDescription: false,
-                              image: "/assets/images/biking-leisure-black-sky-riding.jpg"
-                        }
-                  ],
+                  cartItems,
                   shippingMethod: "standard",
                   promoCode: "",
                   promoMessage: "",
                   promoValid: false,
                   discount: 0,
 
-                  removeItem(index) {
+                  removeItem(index, item) {
                         if (confirm('Are you sure you want to remove this item?')) {
                               this.cartItems.splice(index, 1);
+                              addProductToCatalog(item); // Возвращаем товар в каталог
                         }
                   },
 

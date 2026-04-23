@@ -51,6 +51,7 @@ namespace Backend_asp.net.Controllers
                 modelJs.category = categoryName.Name;
                 modelJs.price = products[i].Prise;
                 modelJs.rating = (double)products[i].Rating;
+                modelJs.sku = products[i].SkuNumber;
                 //List<ProductPicture> prod = new List<ProductPicture>();
                 var prod =products[i].ProductPicturees.Select(q=>q.Putch).ToList();
                 modelJs.pictures=prod.ToArray();
