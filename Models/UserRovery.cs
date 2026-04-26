@@ -15,6 +15,7 @@ namespace Backend_asp.net.Models
         public DateTime? TimeIntrance { get; set; }     // Это время когда пользователь входит в систему;
         public bool? IsSignature { get; set; }=false;           // Имеется ли подписка у пользователя
         public bool? IsStatus { get; set; } =false;                 // Статус пользователя на сейчас. Он активен либо заблокированный;
+        public string? IdName { get; set; }                         // Свойство для создания псевдо-пользователя;
 
 
         // Дополнительные парамеетры для заказа;

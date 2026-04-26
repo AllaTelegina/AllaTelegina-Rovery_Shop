@@ -1,0 +1,134 @@
+using Backend_asp.net.Models.DotnetModel;
+@model DotnetModel;
+
+@* Script для идентификации, если пользователь не идентифицирован всплывает повторно окно *@
+@if (ViewBag.ValidPassword != null)
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('authentication-modal');
+        if (modal) {
+        modal.classList.remove('hidden');
+        }
+        })
+    </script>
+}
+
+<!-- Page Modal_Layout -->
+<div id="authentication-modal" tabindex="-1" aria-hidden="true" 
+class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0  
+        inset-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"> <!--flex-->
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Zaloguj się na swoje konto osobiste
+                </h3>
+                @* <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="authentication-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button> *@
+            </div>
+            <!-- Modal body -->
+            <div class="p-4 md:p-5">
+                <div 
+                    data-click="mode = 'login'" 
+                    x-show="mode === 'login' || window.innerWidth >= 640" 
+                    x-cloak 
+                    :class="mode === 'login' ? 'ring-2 ring-teal-200' : ''"
+                    class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow transition-all">
+       
+                    <form class="space-y-4 validate-form" method="post">
+                        @Html.AntiForgeryToken()
+                        <div>
+                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Twój e-mail</label>
+                            <input type="email" asp-for="UserRovery.Email" class="validate-email border border-teal-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" />
+                            
+                            <!--Вызывает ошибку при входе если email не верный-->
+                            @if (ViewBag.ValidPassword != null)
+                            {
+                                <div role="alert" class="flex items-center p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span>@ViewBag.ValidPassword</span>
+                                </div>
+                            }
+                        </div>
+                        <div>
+                            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Twoje hasło</label>
+                            <input type="password" asp-for="UserRovery.Password" id="password" placeholder="••••••••" class="validate-password border border-teal-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
+                            
+                            <!--Вызывает ошибку при входе если пароль не верный-->
+                            @if (ViewBag.ValidPassword != null)
+                            {
+                                <div role="alert" class="flex items-center p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span>@ViewBag.ValidPassword</span>
+                                </div>
+                            }
+                        </div>
+                        <div class="flex justify-between">
+                            <div class="flex items-start">
+                            
+                                <!-- Текст и скрытый checkbox для форм -->
+                                <label class="ms-2 text-sm  text-gray-900 dark:text-gray-300">
+                                    <input type="checkbox" name="RememberMe" value="true" x-model="checked" />
+                                    Pamiętaj mnie
+                                </label>
+                            
+                            </div>
+                            <a asp-controller="RegisterUser" asp-action="Open_ForgotPassword" class="text-sm font-medium hover:text-teal-500 text-red-700 hover:underline dark:text-blue-500">Zapomniałem hasła?</a>
+                        </div>
+
+                        <div class="mt-6">
+                            <div class="relative">
+                                <div class="absolute inset-0 flex items-center">
+                                    <div class="w-full border-t border-teal-500"></div>
+                                </div>
+                                <div class="relative flex justify-center text-sm">
+                                    <span class="bg-white dark:bg-teal-700 px-2 text-gray-500 dark:text-white">Login using</span>
+                                </div>
+                            </div>
+                        <!-- Кнопка отправки формы -->
+                        <button asp-controller="RegisterUser" asp-action="EntranceForUser" type="submit" class="submit-buttonValidate w-full uppercase text-white hover:bg-red-600 bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-500 font-medium rounded-lg text-sm px-5 py-3.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">wejście</button>
+                        </div>
+                    </form>
+
+                    <!-- -->
+                    <a type="button" asp-controller="SendGoogle" asp-action="SingGoogleServer"
+                        class="mt-6 inline-flex w-full items-center justify-center rounded-md border border-teal-700 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-teal-700 hover:text-white dark:text-white shadow-sm hover:bg-teal-400 dark:hover:bg-gray-600 disabled:cursor-wait disabled:opacity-50">
+                        <span class="sr-only">Sign in with Google</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <clipPath id="p.0">
+                                <path d="m0 0l20.0 0l0 20.0l-20.0 0l0 -20.0z" clip-rule="nonzero"></path>
+                            </clipPath>
+                            <g clip-path="url(#p.0)">
+                                <path fill="currentColor" fill-opacity="0.0" d="m0 0l20.0 0l0 20.0l-20.0 0z"
+                                    fill-rule="evenodd"></path>
+                                <path fill="currentColor"
+                                    d="m19.850197 8.270351c0.8574047 4.880001 -1.987587 9.65214 -6.6881847 11.218641c-4.700598 1.5665016 -9.83958 -0.5449295 -12.08104 -4.963685c-2.2414603 -4.4187555 -0.909603 -9.81259 3.1310139 -12.6801605c4.040616 -2.867571 9.571754 -2.3443127 13.002944 1.2301085l-2.8127813 2.7000687l0 0c-2.0935059 -2.1808972 -5.468274 -2.500158 -7.933616 -0.75053835c-2.4653416 1.74962 -3.277961 5.040613 -1.9103565 7.7366734c1.3676047 2.6960592 4.5031037 3.9843292 7.3711267 3.0285425c2.868022 -0.95578575 4.6038647 -3.8674583 4.0807285 -6.844941z"
+                                    fill-rule="evenodd"></path>
+                                <path fill="currentColor" d="m10.000263 8.268785l9.847767 0l0 3.496233l-9.847767 0z"
+                                    fill-rule="evenodd"></path>
+                            </g>
+                        </svg>
+                    </a>
+                                            
+                    <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+                        Nie jesteś zarejestrowany?
+                            <a asp-controller="SimplePageTransition" asp-action="Registration" class="hover:text-teal-800 text-red-700 hover:underline dark:text-blue-500">Utwórz konto</a>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

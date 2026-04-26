@@ -5,19 +5,9 @@
 <head>
       <meta charset="UTF-8">
       <title>koszyk</title>
+      <script src="~/jsfile/SetProductInCatalog.js"></script>
+      <script src="~/jsfile/Koszyk.js" ></script>
       <link href="output.css" rel="stylesheet">
-      <script src="https://cdn.tailwindcss.com"></script>
-
-
-      <!-- Alpine.js (defer - скрипт ждёт загрузки DOM) -->
-      <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-      <!-- Flowbite JS (версия 2.3.0) -->
-      <script defer src="https://unpkg.com/flowbite@2.3.0/dist/flowbite.min.js"></script>
-
-      <!-- основной JS -->
-      <script type="module" defer src="./main.js"></script>
-
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
       <style>
             @@media (max-width: 640px) {
@@ -63,139 +53,6 @@
       </style>
 </head>
 <body class="flex flex-col min-h-screen">
-
-<!-- Модальное окно вход header+ -->
-<div id="authentication-modal" tabindex="-1" aria-hidden="true"
-     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0
- inset-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-      <div class="relative p-4 w-full max-w-md max-h-full">
-            <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-                  <!-- Modal header -->
-                  <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                              Zaloguj się na swoje konto osobiste
-                        </h3>
-                        <button type="button"
-                                class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                data-modal-hide="authentication-modal">
-                              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                   viewBox="0 0 14 14">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                          stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                              </svg>
-                              <span class="sr-only">Close modal</span>
-                        </button>
-                  </div>
-                  <!-- Modal body -->
-                  <div class="p-4 md:p-5">
-                        <div
-                              @@click="mode = 'login'"
-                              x-show="mode === 'login' || window.innerWidth >= 640"
-                              x-cloak
-                              :class="mode === 'login' ? 'ring-2 ring-teal-200' : ''"
-                              class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow transition-all">
-
-                              <form class="space-y-4" action="#">
-                                    <div>
-                                          <label for="email"
-                                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Twój
-                                                e-mail</label>
-                                          <input type="email" name="email" id="email"
-                                                 class="border border-teal-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                                 placeholder="name@company.com" required/>
-                                    </div>
-                                    <div>
-                                          <label for="password"
-                                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Twoje
-                                                hasło</label>
-                                          <input type="password" name="password" id="password" placeholder="••••••••"
-                                                 class="border border-teal-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                                 required/>
-                                    </div>
-                                    <div class="flex justify-between">
-                                          <div class="flex items-start">
-
-                                                <div x-data="{ checked: false }"
-                                                     class="flex items-center text-sm cursor-pointer space-x-2">
-                                                      <!-- Кастомный чекбокс -->
-                                                      <div @@click="checked = !checked"
-                                                           class="w-5 h-5 border border-gray-400 rounded flex items-center justify-center"
-                                                           :class="{ 'bg-teal-500 border-teal-500': checked }">
-                                                            <!-- Галочка -->
-                                                            <svg x-show="checked" xmlns="http://www.w3.org/2000/svg"
-                                                                 class="w-3 h-3 text-white" fill="none"
-                                                                 viewBox="0 0 24 24"
-                                                                 stroke="currentColor" stroke-width="4">
-                                                                  <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        d="M5 13l4 4L19 7"/>
-                                                            </svg>
-                                                      </div>
-
-                                                      <!-- Текст и скрытый checkbox для форм -->
-                                                      <label for="remember"
-                                                             class="ms-2 text-sm  text-gray-900 dark:text-gray-300">
-                                                            <input type="checkbox" id="terms" name="terms"
-                                                                   x-model="checked" class="hidden" required/>
-                                                            Pamiętaj mnie</label>
-                                                </div>
-
-                                          </div>
-                                          <a href="/dist/forgot_password.html"
-                                             class="text-sm font-medium hover:text-teal-500 text-red-700 hover:underline dark:text-blue-500">Zapomniałem
-                                                hasła?</a>
-                                    </div>
-
-                                    <div class="mt-6">
-                                          <div class="relative">
-                                                <div class="absolute inset-0 flex items-center">
-                                                      <div class="w-full border-t border-teal-500"></div>
-                                                </div>
-                                                <div class="relative flex justify-center text-sm">
-                                                      <span class="bg-white dark:bg-teal-700 px-2 text-gray-500 dark:text-white">Login using</span>
-                                                </div>
-                                          </div>
-                                          <button
-                                                class="inline-flex w-full items-center justify-center rounded-md border border-teal-700 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-teal-700 hover:text-white dark:text-white shadow-sm hover:bg-teal-400 dark:hover:bg-gray-600 disabled:cursor-wait disabled:opacity-50">
-                                                <span class="sr-only">Sign in with Google</span>
-                                                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"
-                                                     aria-hidden="true">
-                                                      <clipPath id="p.0">
-                                                            <path d="m0 0l20.0 0l0 20.0l-20.0 0l0 -20.0z"
-                                                                  clip-rule="nonzero"></path>
-                                                      </clipPath>
-                                                      <g clip-path="url(#p.0)">
-                                                            <path fill="currentColor" fill-opacity="0.0"
-                                                                  d="m0 0l20.0 0l0 20.0l-20.0 0z"
-                                                                  fill-rule="evenodd"></path>
-                                                            <path fill="currentColor"
-                                                                  d="m19.850197 8.270351c0.8574047 4.880001 -1.987587 9.65214 -6.6881847 11.218641c-4.700598 1.5665016 -9.83958 -0.5449295 -12.08104 -4.963685c-2.2414603 -4.4187555 -0.909603 -9.81259 3.1310139 -12.6801605c4.040616 -2.867571 9.571754 -2.3443127 13.002944 1.2301085l-2.8127813 2.7000687l0 0c-2.0935059 -2.1808972 -5.468274 -2.500158 -7.933616 -0.75053835c-2.4653416 1.74962 -3.277961 5.040613 -1.9103565 7.7366734c1.3676047 2.6960592 4.5031037 3.9843292 7.3711267 3.0285425c2.868022 -0.95578575 4.6038647 -3.8674583 4.0807285 -6.844941z"
-                                                                  fill-rule="evenodd"></path>
-                                                            <path fill="currentColor"
-                                                                  d="m10.000263 8.268785l9.847767 0l0 3.496233l-9.847767 0z"
-                                                                  fill-rule="evenodd"></path>
-                                                      </g>
-                                                </svg>
-                                          </button>
-                                    </div>
-                                    <button type="submit"
-                                            class="w-full uppercase text-white hover:bg-red-600 bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-500 font-medium rounded-lg text-sm px-5 py-3.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                          wejście
-                                    </button>
-                                    <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-                                          Nie jesteś zarejestrowany?
-                                          <a href="/dist/registration.html"
-                                             class="hover:text-teal-800 text-red-700 hover:underline dark:text-blue-500">Utwórz
-                                                konto</a>
-                                    </div>
-                              </form>
-
-                        </div>
-                  </div>
-            </div>
-      </div>
-</div>
-
 
 <!-- Модальное окно поиска header+ -->
 <div id="search-modal" tabindex="-1" aria-hidden="true"
@@ -284,12 +141,8 @@
 
                               <!-- Header with cart count -->
                               <div class="flex justify-between items-center mb-8">
-                                    <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">Shopping
-                                          Cart</h1>
-                                    <div x-data="cart()" class="
-      inline-block border-2 border-teal-700 text-teal-700 hover:bg-red-700 hover:border-red-700 hover:text-white 
-                rounded-lg  text-sm uppercase transition-colors
-       px-3 py-1 items-center">
+                                    <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">Shopping Cart</h1>
+                                    <div x-data="cart()" class="inline-block border-2 border-teal-700 text-teal-700 hover:bg-red-700 hover:border-red-700 hover:text-white rounded-lg  text-sm uppercase transition-colors px-3 py-1 items-center">
                                           <i class="fas fa-shopping-cart mr-2"></i>
                                           <span x-text="cartItems.length"></span> <span class="hidden sm:inline ml-1">items</span>
                                     </div>
@@ -301,7 +154,7 @@
                                          class="bg-white rounded-lg shadow-md p-6 text-center">
                                           <i class="fas fa-shopping-cart text-gray-300 text-5xl mb-4"></i>
                                           <p class="text-xl text-gray-500">Your cart is empty</p>
-                                          <a href="#"
+                                          <a asp-controller="Shopp" asp-action="Shoppmethod"
                                              class="inline-block mt-4 bg-teal-700 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition">
                                                 Continue Shopping
                                           </a>
@@ -450,7 +303,7 @@
                                                       </tr>
                                                       </thead>
                                                       <tbody>
-                                                      <template x-for="(item, index) in cartItems" :key="index">
+                                                      <template x-for="(item, index) in cartItems" :key="item.id">
                                                             <tr class="border border-teal-100 hover:bg-teal-50 transition">
                                                                   <td class="py-4 px-4">
                                                                         <div class="flex items-center space-x-3">
@@ -463,7 +316,7 @@
                                                                                     <p class="text-sm text-gray-600"
                                                                                        x-text="item.model"></p>
                                                                                     <p class="text-xs text-gray-500"
-                                                                                       x-text="'HS: ' + item.hsCode"></p>
+                                                                                       x-text="'SKU: ' + item.hsCode"></p>
                                                                               </div>
                                                                         </div>
                                                                   </td>
@@ -518,7 +371,7 @@
                                                                               x-text="'$' + item.totalPrice.toFixed(2)"></span>
                                                                   </td>
                                                                   <td class="py-4 px-4 text-center">
-                                                                        <button @@click="removeItem(index)"
+                                                                        <button @@click="removeItem(index, item)"
                                                                                 class="text-red-500 hover:text-teal-700 p-1">
                                                                               <i class="fas fa-trash"></i>
                                                                         </button>
@@ -774,168 +627,7 @@
       </svg>
 </div>
 
-<!-- для корзины -->
-<script>
-      function cart() {
-            return {
-                  cartItems: [
-                        {
-                              name: "Laptop",
-                              model: "XPS 13",
-                              hsCode: "847130",
-                              quantity: 1,
-                              weight: 2.5,
-                              perPieceRate: 999.99,
-                              totalPrice: 999.99,
-                              color: "Silver",
-                              deliveryMethod: "Air",
-                              description: "A powerful and lightweight laptop with excellent performance.",
-                              isEditingDescription: false,
-                              originalDescription: "",
-                              showDescription: false,
-                              image: "/assets/images/cycling-hat-bottle-bench.jpg"
-                        },
-                        {
-                              name: "Smartphone",
-                              model: "iPhone 14",
-                              hsCode: "851712",
-                              quantity: 2,
-                              weight: 0.5,
-                              perPieceRate: 799.99,
-                              totalPrice: 1599.98,
-                              color: "Black",
-                              deliveryMethod: "Ship",
-                              description: "The latest iPhone with advanced camera and processing power.",
-                              isEditingDescription: false,
-                              originalDescription: "",
-                              showDescription: false,
-                              image: "/assets/images/biking-leisure-black-sky-riding.jpg"
-                        }
-                  ],
-                  shippingMethod: "standard",
-                  promoCode: "",
-                  promoMessage: "",
-                  promoValid: false,
-                  discount: 0,
 
-                  removeItem(index) {
-                        if (confirm('Are you sure you want to remove this item?')) {
-                              this.cartItems.splice(index, 1);
-                        }
-                  },
-
-                  clearCart() {
-                        if (confirm('Are you sure you want to clear your cart?')) {
-                              this.cartItems = [];
-                        }
-                  },
-
-                  incrementQuantity(index) {
-                        this.cartItems[index].quantity++;
-                        this.updateTotalPrice(index);
-                  },
-
-                  decrementQuantity(index) {
-                        if (this.cartItems[index].quantity > 1) {
-                              this.cartItems[index].quantity--;
-                              this.updateTotalPrice(index);
-                        }
-                  },
-
-                  updateTotalPrice(index) {
-                        const item = this.cartItems[index];
-                        item.totalPrice = item.perPieceRate * item.quantity;
-                  },
-
-                  toggleDescription(index) {
-                        this.cartItems[index].showDescription = !this.cartItems[index].showDescription;
-                  },
-
-                  startEditingDescription(index) {
-                        this.cartItems[index].originalDescription = this.cartItems[index].description;
-                        this.cartItems[index].isEditingDescription = true;
-                  },
-
-                  saveDescription(index) {
-                        this.cartItems[index].isEditingDescription = false;
-                        // Here you could add code to save to backend if needed
-                        console.log(`Description updated for ${this.cartItems[index].name}`);
-                  },
-
-                  cancelEditingDescription(index) {
-                        this.cartItems[index].description = this.cartItems[index].originalDescription;
-                        this.cartItems[index].isEditingDescription = false;
-                  },
-
-                  getColorHex(color) {
-                        const colorMap = {
-                              'Black': '#000000',
-                              'Silver': '#C0C0C0',
-                              'Blue': '#0047AB',
-                              'Red': '#FF0000',
-                              'White': '#FFFFFF'
-                        };
-                        return colorMap[color] || '#000000';
-                  },
-
-                  applyPromoCode() {
-                        // Example promo codes
-                        const promoCodes = {
-                              'SAVE10': {discount: 0.1, message: '10% discount applied!'},
-                              'FREESHIP': {discount: 0, message: 'Free shipping applied!', freeShipping: true},
-                              'WELCOME20': {discount: 0.2, message: '20% discount applied!'}
-                        };
-
-                        if (this.promoCode.trim() === '') {
-                              this.promoMessage = 'Please enter a promo code';
-                              this.promoValid = false;
-                              return;
-                        }
-
-                        const promo = promoCodes[this.promoCode.toUpperCase()];
-                        if (promo) {
-                              this.promoValid = true;
-                              this.promoMessage = promo.message;
-
-                              if (promo.discount) {
-                                    this.discount = this.subtotal * promo.discount;
-                              }
-
-                              if (promo.freeShipping) {
-                                    this.shippingMethod = 'standard';
-                                    this.shipping = 0;
-                              }
-                        } else {
-                              this.promoValid = false;
-                              this.promoMessage = 'Invalid promo code';
-                              this.discount = 0;
-                        }
-                  },
-
-                  calculateTax() {
-                        // Example tax calculation (7.5%)
-                        return (this.subtotal - this.discount) * 0.075;
-                  },
-
-                  get subtotal() {
-                        return this.cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
-                  },
-
-                  get shippingCost() {
-                        const shippingRates = {
-                              'standard': 5,
-                              'express': 15,
-                              'overnight': 25
-                        };
-                        return shippingRates[this.shippingMethod] || 5;
-                  },
-
-                  get total() {
-                        return this.subtotal + this.shippingCost + this.calculateTax() - this.discount;
-                  }
-            };
-      }
-</script>
 
 <!-- поиск header+ -->
 <script>

@@ -14,7 +14,11 @@ out/
 *.suo
 *.userosscache
 *.sln.docstates
+<<<<<<< HEAD
 appsettings.json
+=======
+appsettings.Development.json
+>>>>>>> Archeticture_database
 
 #  Rider / JetBrains
 .idea/

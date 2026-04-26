@@ -6,6 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
+// Строка для того, чтоб можно было еще подгрузить appsettings.Development.json
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
 // получение строки подключения для Bd;
 var connectionstring = builder.Configuration.GetConnectionString("Defaultconnection");
 // регистрирую DbContext в DB;

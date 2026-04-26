@@ -20,6 +20,7 @@ namespace Backend_asp.net.Models
         public string BriefDiscription { get; set; } = "Default";             // Короткое описание;
         public string FullDiscription { get; set; } = "Default";              // Полное описание товара;
         public decimal Rating {  get; set; }                                  // Рейтинг объекта;
+        public int Quantity { get; set; } = 1;                                // Количество товара;
 
         // Свойство которое будет записываться по результату значения ProductCategory;
         public int IndicateCategory { get; set; } = 0;
@@ -28,6 +29,7 @@ namespace Backend_asp.net.Models
         public string? Color { get; set; } = "Default";
 
         //HACK: нужно разобраться с этим свойством, его я не использую, а использую для фото другой класс;
+        //NOTE: это свойство, через которое я передаю массив адрес фотографий в cart_produkt.cshtml;
         public ICollection <string> Images { get; set; } = new List<string>();
         #endregion
 
