@@ -1056,6 +1056,7 @@
             // начало определения модели;
               function filters() {
             console.log("Инициализация модели:");
+            // Модель которую получаю из контроллера dotnet;
             var modeljs=@Html.Raw(JsonConvert.SerializeObject(Model.modelJsAlpines));
             console.log(modeljs);
             var products=modeljs.map(p=>( 
@@ -1067,7 +1068,8 @@
                     rating: p.rating,
                     color: "Синий",
                     images: p.pictures,
-                    sku: p.sku
+                    sku: p.sku,
+                    quantity:1
                 })
             );
             console.log("Преобразованные продукты для представления, смотрю параметр-sku:", products);

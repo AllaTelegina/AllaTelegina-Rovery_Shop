@@ -5,11 +5,13 @@ function getCatalogProducts() {
     console.log("Создан LocalStorage", catalogProducts);
     return JSON.parse(catalogProducts)|| [];
 }
+
 // Метод который сохраняет корзину в localStorage;
 function saveCatalogProducts(catalogProducts) {
     localStorage.setItem('catalogProducts', JSON.stringify(catalogProducts));
 }
-// Метод который добавляет продукт в каталог;
+
+// Метод который добавляет либо удаляет продукт из каталога;
 function addProductToCatalog(productBacket) {
     // TEMP: Выводим в консоль продукт который хотим добавить в каталог для проверки;
     console.log("Получаем продукт для добавления в каталог", productBacket);

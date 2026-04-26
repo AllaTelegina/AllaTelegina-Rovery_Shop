@@ -6,6 +6,7 @@
       <meta charset="UTF-8">
       <title>koszyk</title>
       <script src="~/jsfile/SetProductInCatalog.js"></script>
+      <script src="~/jsfile/Koszyk.js" ></script>
       <link href="output.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
       <style>
@@ -153,7 +154,7 @@
                                          class="bg-white rounded-lg shadow-md p-6 text-center">
                                           <i class="fas fa-shopping-cart text-gray-300 text-5xl mb-4"></i>
                                           <p class="text-xl text-gray-500">Your cart is empty</p>
-                                          <a href="#"
+                                          <a asp-controller="Shopp" asp-action="Shoppmethod"
                                              class="inline-block mt-4 bg-teal-700 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition">
                                                 Continue Shopping
                                           </a>
@@ -626,155 +627,7 @@
       </svg>
 </div>
 
-<!-- для корзины -->
-<script>
-      function cart() {
-            itemsBackets = JSON.parse(localStorage.getItem('catalogProducts')) || [];
-            console.log("Это корзина, вот товары которые лежат внутри:", itemsBackets);
-            var cartItems = itemsBackets.map(item => ({
-                  id: item.id,            // Уникальный идентификатор товара
-                  name: item.category,    // Категория товара
-                  model: item.name,       // Имя товара
-                  hsCode: item.sku,       // Код товара
-                  quantity: 1,
-                  weight: item.weight || 0,
-                  perPieceRate: item.price || 0,      // Цена за единицу товара;
-                  totalPrice: item.price || 0,
-                  color: "Black",
-                  deliveryMethod: "standard",
-                  description: "No description available.",
-                  isEditingDescription: false,
-                  originalDescription: "",
-                  showDescription: false,
-                  image: item.images[1] || []
-            }));
-            return {
-                  cartItems,
-                  shippingMethod: "standard",
-                  promoCode: "",
-                  promoMessage: "",
-                  promoValid: false,
-                  discount: 0,
 
-                  removeItem(index, item) {
-                        if (confirm('Are you sure you want to remove this item?')) {
-                              this.cartItems.splice(index, 1);
-                              addProductToCatalog(item); // Возвращаем товар в каталог
-                        }
-                  },
-
-                  clearCart() {
-                        if (confirm('Are you sure you want to clear your cart?')) {
-                              this.cartItems = [];
-                        }
-                  },
-
-                  incrementQuantity(index) {
-                        this.cartItems[index].quantity++;
-                        this.updateTotalPrice(index);
-                  },
-
-                  decrementQuantity(index) {
-                        if (this.cartItems[index].quantity > 1) {
-                              this.cartItems[index].quantity--;
-                              this.updateTotalPrice(index);
-                        }
-                  },
-
-                  updateTotalPrice(index) {
-                        const item = this.cartItems[index];
-                        item.totalPrice = item.perPieceRate * item.quantity;
-                  },
-
-                  toggleDescription(index) {
-                        this.cartItems[index].showDescription = !this.cartItems[index].showDescription;
-                  },
-
-                  startEditingDescription(index) {
-                        this.cartItems[index].originalDescription = this.cartItems[index].description;
-                        this.cartItems[index].isEditingDescription = true;
-                  },
-
-                  saveDescription(index) {
-                        this.cartItems[index].isEditingDescription = false;
-                        // Here you could add code to save to backend if needed
-                        console.log(`Description updated for ${this.cartItems[index].name}`);
-                  },
-
-                  cancelEditingDescription(index) {
-                        this.cartItems[index].description = this.cartItems[index].originalDescription;
-                        this.cartItems[index].isEditingDescription = false;
-                  },
-
-                  getColorHex(color) {
-                        const colorMap = {
-                              'Black': '#000000',
-                              'Silver': '#C0C0C0',
-                              'Blue': '#0047AB',
-                              'Red': '#FF0000',
-                              'White': '#FFFFFF'
-                        };
-                        return colorMap[color] || '#000000';
-                  },
-
-                  applyPromoCode() {
-                        // Example promo codes
-                        const promoCodes = {
-                              'SAVE10': {discount: 0.1, message: '10% discount applied!'},
-                              'FREESHIP': {discount: 0, message: 'Free shipping applied!', freeShipping: true},
-                              'WELCOME20': {discount: 0.2, message: '20% discount applied!'}
-                        };
-
-                        if (this.promoCode.trim() === '') {
-                              this.promoMessage = 'Please enter a promo code';
-                              this.promoValid = false;
-                              return;
-                        }
-
-                        const promo = promoCodes[this.promoCode.toUpperCase()];
-                        if (promo) {
-                              this.promoValid = true;
-                              this.promoMessage = promo.message;
-
-                              if (promo.discount) {
-                                    this.discount = this.subtotal * promo.discount;
-                              }
-
-                              if (promo.freeShipping) {
-                                    this.shippingMethod = 'standard';
-                                    this.shipping = 0;
-                              }
-                        } else {
-                              this.promoValid = false;
-                              this.promoMessage = 'Invalid promo code';
-                              this.discount = 0;
-                        }
-                  },
-
-                  calculateTax() {
-                        // Example tax calculation (7.5%)
-                        return (this.subtotal - this.discount) * 0.075;
-                  },
-
-                  get subtotal() {
-                        return this.cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
-                  },
-
-                  get shippingCost() {
-                        const shippingRates = {
-                              'standard': 5,
-                              'express': 15,
-                              'overnight': 25
-                        };
-                        return shippingRates[this.shippingMethod] || 5;
-                  },
-
-                  get total() {
-                        return this.subtotal + this.shippingCost + this.calculateTax() - this.discount;
-                  }
-            };
-      }
-</script>
 
 <!-- поиск header+ -->
 <script>
