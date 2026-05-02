@@ -522,11 +522,10 @@
                                                                   </div>
                                                             </div>
                                                       </div>
-                                                      <button
+                                                      <button onclick="location.href='@Url.Action("Checkout", "Order")'"
                                                             class="w-full bg-teal-600 text-white uppercase py-3 rounded-lg font-medium hover:bg-teal-500 transition flex items-center justify-center"
                                                             :disabled="cartItems.length === 0"
-                                                            :class="{'opacity-50 cursor-not-allowed': cartItems.length === 0}"
-                                                      >
+                                                            :class="{'opacity-50 cursor-not-allowed': cartItems.length === 0}">
                                                             <i class="fas fa-lock mr-2 "></i> Płacić
                                                       </button>
                                                       <div class="flex items-center justify-center mt-4 text-sm text-gray-600">

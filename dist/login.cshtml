@@ -184,7 +184,7 @@
 
 
                                           <div x-data="themeSwitcher()" x-init="init()" class="p-1">
-                                                <button @click="toggleTheme"
+                                                <button @@click="toggleTheme"
                                                         class="dropdown-toggle flex items-center justify-between w-full py-2 px-3 font-medium text-teal-50 border-b border-gray-100 md:w-auto
     hover:bg-teal-800 md:hover:bg-transparent md:border-0 md:hover:text-teal-800 md:p-0 dark:text-white
     md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent
@@ -440,7 +440,7 @@
                   <!-- Modal body -->
                   <div class="p-4 md:p-5">
                         <div
-                              @click="mode = 'login'"
+                              @@click="mode = 'login'"
                               x-show="mode === 'login' || window.innerWidth >= 640"
                               x-cloak
                               :class="mode === 'login' ? 'ring-2 ring-teal-200' : ''"
@@ -469,7 +469,7 @@
                                                 <div x-data="{ checked: false }"
                                                      class="flex items-center text-sm cursor-pointer space-x-2">
                                                       <!-- Кастомный чекбокс -->
-                                                      <div @click="checked = !checked"
+                                                      <div @@click="checked = !checked"
                                                            class="w-5 h-5 border border-gray-400 rounded flex items-center justify-center"
                                                            :class="{ 'bg-teal-500 border-teal-500': checked }">
                                                             <!-- Галочка -->
@@ -714,17 +714,17 @@
                               <div x-data="{ active: 1 }">
                                 SVG переключатели на мобильных
                                 <div class="flex justify-center gap-4 sm:hidden my-4">
-                                  <button @click="active = 1" :class="active === 1 ? 'text-teal-600' : 'text-gray-400'" title="Opcja 1">
+                                  <button @@click="active = 1" :class="active === 1 ? 'text-teal-600' : 'text-gray-400'" title="Opcja 1">
                                     <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                       <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                   </button>
-                                  <button @click="active = 2" :class="active === 2 ? 'text-teal-600' : 'text-gray-400'" title="Opcja 2">
+                                  <button @@click="active = 2" :class="active === 2 ? 'text-teal-600' : 'text-gray-400'" title="Opcja 2">
                                     <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                       <circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                   </button>
-                                  <button @click="active = 3" :class="active === 3 ? 'text-teal-600' : 'text-gray-400'" title="Opcja 3">
+                                  <button @@click="active = 3" :class="active === 3 ? 'text-teal-600' : 'text-gray-400'" title="Opcja 3">
                                     <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                       <rect x="4" y="4" width="16" height="16" rx="2" ry="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
@@ -796,7 +796,7 @@
 
                               <!-- Кнопки выбора на всех экранах -->
                               <div class="flex justify-center mb-8 gap-2 flex-wrap border-b-2 border-teal-200 dark:border-gray-700">
-                                    <button @click="mode = 'login'"
+                                    <button @@click="mode = 'login'"
                                             :class="mode === 'login'
             ? 'text-red-700 underline underline-offset-[14px] decoration-red-700 decoration-2' 
             : 'text-gray-700 hover:text-teal-500 hover:underline hover:underline-offset-[10px] hover:decoration-teal-500 hover:decoration-2'"
@@ -805,7 +805,7 @@
                                           Вход
                                     </button>
 
-                                    <button @click="mode = 'register'"
+                                    <button @@click="mode = 'register'"
                                             :class="mode === 'register'
             ? 'text-red-700 underline underline-offset-[14px] decoration-red-700 decoration-2' 
             : 'text-gray-700 hover:text-teal-500 hover:underline hover:underline-offset-[10px] hover:decoration-teal-500 hover:decoration-2'"
@@ -814,7 +814,7 @@
                                           Регистрация
                                     </button>
 
-                                    <button @click="mode = 'guest'"
+                                    <button @@click="mode = 'guest'"
                                             :class="mode === 'guest'
                                             ? 'text-red-700 underline underline-offset-[14px] decoration-red-700 decoration-2' 
                                             : 'text-gray-700 hover:text-teal-500 hover:underline hover:underline-offset-[10px] hover:decoration-teal-500 hover:decoration-2'"
@@ -830,7 +830,7 @@
 
                                     <!-- Вход -->
                                     <div
-                                          @click="mode = 'login'"
+                                          @@click="mode = 'login'"
                                           x-show="mode === 'login' || window.innerWidth >= 640"
                                           x-cloak
                                           :class="mode === 'login' ? 'ring-2 ring-teal-200' : ''"
@@ -861,7 +861,7 @@
                                                             <div x-data="{ checked: false }"
                                                                  class="flex items-center text-sm cursor-pointer space-x-2">
                                                                   <!-- Кастомный чекбокс -->
-                                                                  <div @click="checked = !checked"
+                                                                  <div @@click="checked = !checked"
                                                                        class="w-5 h-5 border border-gray-400 rounded flex items-center justify-center"
                                                                        :class="{ 'bg-teal-500 border-teal-500': checked }">
                                                                         <!-- Галочка -->
@@ -940,7 +940,7 @@
 
                                     <!-- Регистрация -->
                                     <div
-                                          @click="mode = 'register'"
+                                          @@click="mode = 'register'"
                                           x-show="mode === 'register' || window.innerWidth >= 640"
                                           x-cloak
                                           :class="mode === 'register' ? 'ring-2 ring-teal-200' : ''"
@@ -1003,7 +1003,7 @@
                                                                    class="border border-teal-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-500 block w-full p-2.5 pr-10 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                                                    required/>
 
-                                                            <button type="button" @click="show = !show"
+                                                            <button type="button" @@click="show = !show"
                                                                     class="absolute inset-y-0 right-2 flex items-center text-gray-600 dark:text-gray-300">
                                                                   <svg x-show="!show" xmlns="http://www.w3.org/2000/svg"
                                                                        class="w-5 h-5" fill="none" viewBox="0 0 24 24"
@@ -1041,7 +1041,7 @@
                                                                    required
                                                                    class="border border-teal-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-500 block w-full p-2.5 pr-10 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"/>
 
-                                                            <button type="button" @click="show = !show"
+                                                            <button type="button" @@click="show = !show"
                                                                     class="absolute inset-y-0 right-2 flex items-center text-gray-600 dark:text-gray-300">
                                                                   <svg x-show="!show" xmlns="http://www.w3.org/2000/svg"
                                                                        class="w-5 h-5" fill="none" viewBox="0 0 24 24"
@@ -1070,7 +1070,7 @@
                                                 <div x-data="{ checked: false }"
                                                      class="flex items-center text-sm cursor-pointer space-x-2">
                                                       <!-- Кастомный чекбокс -->
-                                                      <div @click="checked = !checked"
+                                                      <div @@click="checked = !checked"
                                                            class="w-5 h-5 border border-gray-400 rounded flex items-center justify-center"
                                                            :class="{ 'bg-teal-500 border-teal-500': checked }">
                                                             <!-- Галочка -->
@@ -1098,7 +1098,7 @@
                                                             <div x-data="{ checked: false }"
                                                                  class="flex items-center text-sm cursor-pointer space-x-2">
                                                                   <!-- Кастомный чекбокс -->
-                                                                  <div @click="checked = !checked"
+                                                                  <div @@click="checked = !checked"
                                                                        class="w-5 h-5 border border-gray-400 rounded flex items-center justify-center"
                                                                        :class="{ 'bg-teal-500 border-teal-500': checked }">
                                                                         <!-- Галочка -->
@@ -1129,7 +1129,7 @@
                                                             <div x-data="{ checked: false }"
                                                                  class="flex items-center text-sm cursor-pointer space-x-2">
                                                                   <!-- Кастомный чекбокс -->
-                                                                  <div @click="checked = !checked"
+                                                                  <div @@click="checked = !checked"
                                                                        class="w-5 h-5 border border-gray-400 rounded flex items-center justify-center"
                                                                        :class="{ 'bg-teal-500 border-teal-500': checked }">
                                                                         <!-- Галочка -->
@@ -1197,7 +1197,7 @@
 
                                     <!-- Гость -->
                                     <div
-                                          @click="mode = 'guest'"
+                                          @@click="mode = 'guest'"
                                           x-show="mode === 'guest' || window.innerWidth >= 640"
                                           x-cloak
                                           :class="mode === 'guest' ? 'ring-2 ring-teal-200' : ''"
@@ -1278,7 +1278,7 @@
                                                 <div x-data="{ checked: false }"
                                                      class="flex items-center text-sm cursor-pointer space-x-2">
                                                       <!-- Кастомный чекбокс -->
-                                                      <div @click="checked = !checked"
+                                                      <div @@click="checked = !checked"
                                                            class="w-5 h-5 border border-gray-400 rounded flex items-center justify-center"
                                                            :class="{ 'bg-teal-500 border-teal-500': checked }">
                                                             <!-- Галочка -->
@@ -1374,7 +1374,7 @@
       x-init="window.addEventListener('scroll', () => show = window.scrollY > 900)"
       x-show="show"
       x-transition.opacity
-      @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+      @@click="window.scrollTo({ top: 0, behavior: 'smooth' })"
       class="fixed bottom-6 right-6 bg-gray-400/40 rounded-3xl p-2 cursor-pointer shadow-lg hover:bg-teal-700"
 >
       <svg class="w-[36px] h-[36px] text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
