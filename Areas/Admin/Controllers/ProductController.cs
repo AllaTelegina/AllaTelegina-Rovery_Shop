@@ -79,22 +79,19 @@ namespace Backend_asp.net.Areas.Admin.Controllers
                     {
                         // пример для велосипеды -             "1000000"
                         var skuname = 0;
-                        var product = await _context.products.OrderBy(x=>x.SkuNumber).LastOrDefaultAsync();
-                        if (product != null)
+                        var product = await _context.products.OrderBy(x => x.SkuNumber).LastOrDefaultAsync();
+                        if (product != null && int.TryParse(product.SkuNumber, out int x) && x >= 1000000 && x < 2000000)
                         {
-
-                            if (int.TryParse(product.SkuNumber, out int x))
-                            {
-                                skuname = x;
-                            }
+                            skuname = x;
+                            skuname++;
                             // Добавить условие при котором, если не получится Parse числа; #дописать;
-                            product.SkuNumber = (skuname++).ToString();
+                            product.SkuNumber = (skuname).ToString();
                             return Ok(product);
                         }
                         else
                         {
                             product = new Product();
-                            product.SkuNumber= 1000001.ToString();
+                            product.SkuNumber = 1000001.ToString();
                             return Ok(product);
                         }
                     }
@@ -105,129 +102,117 @@ namespace Backend_asp.net.Areas.Admin.Controllers
                     }
                 }
                 case "Электровелосипеды":
+                {
+                    try
                     {
-                        try
+                        // пример для электровелосипедов -             "2000000"
+                        var skuname = 0;
+                        var product = await _context.products.OrderBy(x => x.SkuNumber).LastOrDefaultAsync();
+                        if (product != null && int.TryParse(product.SkuNumber, out int x) && x >= 2000000 && x < 3000000)
                         {
-                            // пример для электровелосипедов -             "2000000"
-                            var skuname = 0;
-                            var product = await _context.products.OrderBy(x => x.SkuNumber).LastOrDefaultAsync();
-                            if (product != null)
-                            {
-
-                                if (int.TryParse(product.SkuNumber, out int x))
-                                {
-                                    skuname = x;
-                                }
-                                // Добавить условие при котором, если не получится Parse числа; #дописать;
-                                product.SkuNumber = (skuname++).ToString();
-                                return Ok(product);
-                            }
-                            else
-                            {
-                                product = new Product();
-                                product.SkuNumber = 2000001.ToString();
-                                return Ok(product);
-                            }
+                            skuname = x;
+                            skuname++;
+                            // Добавить условие при котором, если не получится Parse числа; #дописать;
+                            product.SkuNumber = (skuname).ToString();
+                            return Ok(product);
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            Console.WriteLine("Ошибка выполнения \n" + ex);
-                            break;
+                            product = new Product();
+                            product.SkuNumber = 2000001.ToString();
+                            return Ok(product);
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Ошибка выполнения \n" + ex);
+                        break;
+                    }
+                }
                 case "Cамокаты":
+                {
+                    try
                     {
-                        try
+                        // пример для самокаты -             "3000000"
+                        var skuname = 0;
+                        var product = await _context.products.OrderBy(x => x.SkuNumber).LastOrDefaultAsync();
+                        if (product != null && int.TryParse(product.SkuNumber, out int x) && x>= 3000000 && x< 4000000)
                         {
-                            // пример для самокаты -             "3000000"
-                            var skuname = 0;
-                            var product = await _context.products.OrderBy(x => x.SkuNumber).LastOrDefaultAsync();
-                            if (product != null)
-                            {
-
-                                if (int.TryParse(product.SkuNumber, out int x))
-                                {
-                                    skuname = x;
-                                }
-                                // Добавить условие при котором, если не получится Parse числа; #дописать;
-                                product.SkuNumber = (skuname++).ToString();
-                                return Ok(product);
-                            }
-                            else
-                            {
-                                product = new Product();
-                                product.SkuNumber = 3000001.ToString();
-                                return Ok(product);
-                            }
+                            skuname = x;
+                            skuname++;
+                            product.SkuNumber = (skuname).ToString();
+                            return Ok(product);
                         }
-                        catch (Exception ex)
+                        // Добавить условие при котором, если не получится Parse числа; #дописать;
+                        else
                         {
-                            Console.WriteLine("Ошибка выполнения \n" + ex);
-                            break;
+                            product = new Product();
+                            product.SkuNumber = 3000001.ToString();
+                            return Ok(product);
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Ошибка выполнения \n" + ex);
+                        break;
+                    }
+                }
                 case "Электросамокаты":
+                {
+                    try
                     {
-                        try
+                        // пример для электросамокаты -             "4000000"
+                        var skuname = 0;
+                        var product = await _context.products.OrderBy(x => x.SkuNumber).LastOrDefaultAsync();
+                        if (product != null && int.TryParse(product.SkuNumber, out int x) && x >= 4000000 && x < 5000000)
                         {
-                            // пример для электросамокаты -             "4000000"
-                            var skuname = 0;
-                            var product = await _context.products.OrderBy(x => x.SkuNumber).LastOrDefaultAsync();
-                            if (product != null)
-                            {
-
-                                if (int.TryParse(product.SkuNumber, out int x))
-                                {
-                                    skuname = x;
-                                }
-                                // Добавить условие при котором, если не получится Parse числа; #дописать;
-                                product.SkuNumber = (skuname++).ToString();
-                                return Ok(product);
-                            }
-                            else
-                            {
-                                product = new Product();
-                                product.SkuNumber = 4000001.ToString();
-                                return Ok(product);
-                            }
+                            skuname = x;
+                            skuname++;
+                            // Добавить условие при котором, если не получится Parse числа; #дописать;
+                            product.SkuNumber = (skuname).ToString();
+                            return Ok(product);
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            Console.WriteLine("Ошибка выполнения \n" + ex);
-                            break;
+                            product = new Product();
+                            product.SkuNumber = 4000001.ToString();
+                            return Ok(product);
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Ошибка выполнения \n" + ex);
+                        break;
+                    }
+                }
                 case "Аксессуары":
+                {
+                    try
                     {
-                        try
-                        {
-                            // пример для аксессуары -             "5000000"
-                            var skuname = 0;
-                            var product = await _context.products.OrderBy(x => x.SkuNumber).LastOrDefaultAsync();
-                            if (product != null)
-                            {
-
-                                if (int.TryParse(product.SkuNumber, out int x))
-                                {
-                                    skuname = x;
-                                }
-                                // Добавить условие при котором, если не получится Parse числа; #дописать;
-                                product.SkuNumber = (skuname++).ToString();
-                                return Ok(product);
-                            }
-                            else
-                            {
-                                product = new Product();
-                                product.SkuNumber = 5000001.ToString();
-                                return Ok(product);
-                            }
+                        // пример для аксессуары -             "5000000"
+                        var skuname = 0;
+                        var product = await _context.products.OrderBy(x => x.SkuNumber).LastOrDefaultAsync();
+                        if (product != null && int.TryParse(product.SkuNumber, out int x) && x >= 5000000 && x < 6000000)
+                        { 
+                            skuname = x;
+                            skuname++;
+                            // Добавить условие при котором, если не получится Parse числа; #дописать;
+                            product.SkuNumber = (skuname).ToString();
+                            return Ok(product);
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            Console.WriteLine("Ошибка выполнения \n" + ex);
-                            break;
+                            product = new Product();
+                            product.SkuNumber = 5000001.ToString();
+                            return Ok(product);
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Ошибка выполнения \n" + ex);
+                        break;
+                    }
+                }
             }
             return Ok();
         }
