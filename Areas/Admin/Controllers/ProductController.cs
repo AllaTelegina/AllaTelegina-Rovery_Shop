@@ -4,6 +4,7 @@ using Backend_asp.net.DataBase;
 using Backend_asp.net.Models;
 using Backend_asp.net.Models.Class_for_views;
 using Backend_asp.net.Models.DataBaseModel;
+using Backend_asp.net.Models.Enams;
 using Backend_asp.net.Models.Intermediate_class;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,62 @@ namespace Backend_asp.net.Areas.Admin.Controllers
             var product = new ProductsGeneral();
             product.ProductFromAdmin = new Product();
             product.ListCategorys=await _context.categorys.ToListAsync();
+            // TODO: передаю список моделей;
+            var products = await _context.products
+                .Include(t => t.ProductCategoryes)
+                .ThenInclude(a => a.Category)
+                .Include(t => t.ProductKeyFeatures)
+                .ThenInclude(a => a.KeyFeature)
+                .Include(t => t.ProductPicturees)
+                .ToListAsync();
+            if (products == null)
+                throw new Exception("Товары не найдены в базе данных");
+            // Список объектов, которые я собираю для передачи в модель, которая для представления;
+            List<ModelJsAlpine<Product>> send_modelJsAlpines = new List<ModelJsAlpine<Product>>();
+            foreach (var prod in products)
+            {
+                var modjs = new ModelJsAlpine<Product>()
+                {
+                    Id = prod.Id,
+                    title = prod.Name,
+                    sku = prod.SkuNumber,
+                    price = prod.Prise,
+                    oldPrice = prod.Lastprise,
+                    rating = (double)prod.Rating,
+                    status = StatusProduct.Name[prod.Status],
+                };
+                // присвоил категорию для модели;
+                foreach (var category in prod.ProductCategoryes)
+                {
+                    if (category != null)
+                    {
+                        if (category.Category == null)
+                            throw new Exception("Не найдена главная категория");
+                        if (category.Category.LevelCategory == 0)
+                        {
+                            modjs.category = category.Category.Name;
+                        }
+                    }
+                }
+                // фото;
+                if (prod.ProductPicturees.Any())
+                {
+                    var pict = prod.ProductPicturees.ElementAt(0);
+                    modjs.pictures = new string[] { pict.Putch };
+                }
+                // Дата создания;
+                modjs.Create_time = prod.CreateRoverMechTime.ToString("dd.MM.yyyy (HH:mm)");
+                // Features;
+                ICollection<string> listfeat = new List<string>();
+                foreach (var feat in prod.ProductKeyFeatures)
+                {
+                    if (feat.KeyFeature != null)
+                        listfeat.Add(feat.KeyFeature.Name);
+                }
+                modjs.keyFeatures = listfeat.ToArray();
+                send_modelJsAlpines.Add(modjs);
+            };
+            product.modelJsAlpines = send_modelJsAlpines;
             return View("~/Areas/Admin/Views/Products/index.cshtml", product);
         }
         #endregion

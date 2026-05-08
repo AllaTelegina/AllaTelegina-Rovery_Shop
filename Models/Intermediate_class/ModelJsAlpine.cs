@@ -17,6 +17,8 @@ namespace Backend_asp.net.Models.Intermediate_class
         public List<Blog> descriptionBlocks { get; set; }= new List<Blog>(); // Получени List для сохранения блога;
         public Specs [] specs { get; set; } = [];
         public string[] pictures { get; set; } = [];
+        public string Create_time { get; set; } = "no name";        //Дата создания;
+        public string Time_of_chenge { get; set; } = "no name";     // Дата изминения;
     }
 
     public class Specs
