@@ -1,4 +1,4 @@
-using Backend_asp.net.Models.Intermediate_class;
+    using Backend_asp.net.Models.Intermediate_class;
 
 namespace Backend_asp.net.Models.Class_for_views
 {

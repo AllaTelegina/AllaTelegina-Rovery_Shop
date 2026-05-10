@@ -51,8 +51,9 @@
           <div class="text-sm text-gray-600">Найдено: <span class="font-medium text-gray-800" x-text="filtered.length"></span></div>
           <div class="flex items-center gap-2">
             <label class="text-sm text-gray-600">Сортировать:</label>
+            <button @@click="toggleSort('id')" :class="sortField==='id' ? 'bg-teal-600 text-white' : 'bg-gray-100'" class="px-3 py-1 rounded">Id</button>
             <button @@click="toggleSort('price')" :class="sortField==='price' ? 'bg-teal-600 text-white' : 'bg-gray-100'" class="px-3 py-1 rounded">Цена</button>
-                    <button @@click="toggleSort('createdAt')" :class="sortField==='createdAt' ? 'bg-teal-600 text-white' : 'bg-gray-100'" class="px-3 py-1 rounded">Дата</button>
+            <button @@click="toggleSort('createdAt')" :class="sortField==='createdAt' ? 'bg-teal-600 text-white' : 'bg-gray-100'" class="px-3 py-1 rounded">Дата</button>
           </div>
         </div>
 
@@ -374,21 +375,21 @@
 
     <script>
         function productsAdmin(){
+            var productsFromServer = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.modelJsAlpines));
             return {
                 placeholder: 'https://via.placeholder.com/400x300?text=No+image',
-                perPage: 6,
-                page: 1,
-                search: '',
-                filterCategory: '',
-                filterStatus: '',
-                sortField: 'createdAt',
-                sortAsc: false,
-                categories: ['Велосипеды','Электровелосипеды','Самокаты','Аксессуары'],
-                showModal: false,
-                tab: 'main',
-                editingId: null,
-                newFeature: '',
-                toast: { show:false, text:'', type:'success' },
+                perPage: 15,    // товаров на странице;
+                page: 1,        // текущая страница;
+                search: '',     // строка поиска;
+                filterCategory: '', // фильтр по категории;
+                filterStatus: '',   // фильтр по статусу;
+                sortField: 'id',    // сортировка по умолчанию по ID;
+                sortAsc: true,     // сортировка по убыванию по умолчанию;
+                showModal: false,   // показывать ли модальное окно;
+                tab: 'main',        // активная вкладка в модальном окне;
+                editingId: null,    // id редактируемого товара (null при добавлении);
+                newFeature: '',     // временное хранилище для новой key feature;
+                toast: { show:false, text:'', type:'success' }, // для отображения сообщений (успех/ошибка);
 
                 // form template
                 form: {
@@ -413,46 +414,24 @@
                     updatedAt: ''
                 },
                 products: [],
-
-
-
-
-// ВСТАВЛЕННО ВРЕМЕННО 
-   init(){
-      const raw = localStorage.getItem('admin_products_full_v1');
-      if(raw) this.products = JSON.parse(raw);
-      else {
-        this.products = [
-          {
-            id: 1,
-            category: 'Велосипеды',
-            title: 'Rovery X1',
-            sku: 'RVX1',
-            price: 52000,
-            oldPrice: 58000,
-            rating: 4.5,
-            status: 'В наличии',
-            colors: ['#000000','#ffffff'],
-            keyFeatures: ['Лёгкая рама','Гидравл. тормоза'],
-            images: ['https://images.unsplash.com/photo-1508975550034-c3b5cc6f4a53?w=800&q=60'],
-            shortDesc: 'Городской электровелосипед Rovery X1',
-            fullDesc: 'Это основной текст полного описания продукта — длинный, на всю ширину.',
-            descriptionBlocks: [
-              {title:'Особенности', text:'Короткий текст о особенностях.'},
-              {title:'Комплектация', text:'Что идёт в коробке.'}
-            ],
-            descImages: ['https://images.unsplash.com/photo-1525104698733-6a7a4d15f3f4?w=800&q=60'],
-            specs: [{name:'Двигатель', features:[{key:'Мощность',value:'250 Вт'}]}],
-            createdAt: (new Date()).toLocaleString(),
-            updatedAt: (new Date()).toLocaleString()
-          }
-        ];
-        this.saveToStorage();
-      }
-    },
-
-
-
+                init(){
+                    this.products = productsFromServer.map(p=>{
+                        return{
+                            id:p.Id,
+                            category: p.category,
+                            title: p.title,
+                            sku: p.sku,
+                            price: p.price,
+                            oldPrice: p.oldPrice,
+                            rating: p.rating,
+                            status: p.status,
+                            keyFeatures: p.keyFeatures,
+                            images: p.pictures,
+                            shortDesc: p.shortDesc,
+                            createdAt: p.Create_time
+                        }
+                    });
+                },
 
                 // computed
                 get filtered(){
