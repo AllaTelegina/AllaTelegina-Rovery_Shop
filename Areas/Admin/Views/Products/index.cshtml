@@ -264,8 +264,6 @@
                                                             <img :src="img" class="w-full h-20 object-cover">
                                                             <button type="button" x-on:click="removeImage(idx)" class="absolute top-1 right-1 bg-white bg-opacity-80 rounded-full text-xs px-1">✕</button>
                                                             <button type="button" x-on:click="setMain(idx)" class="absolute left-1 bottom-1 bg-white bg-opacity-80 rounded-full text-xs px-1">Set</button> 
-
-
                                                         </div>
                                                     </template>
                                                     <label class="flex items-center justify-center border rounded cursor-pointer text-sm text-gray-500 p-2">
@@ -372,7 +370,6 @@
       </div>
     </main>
   
-
     <script>
         function productsAdmin(){
             var productsFromServer = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.modelJsAlpines));
@@ -400,11 +397,11 @@
                     price: null,
                     oldPrice: null,
                     rating: 0,
-                    files: [],
+                    files: [],                  // Массив файлов с фотографиями;
                     status: '',
                     colors: [],
                     keyFeatures: [],
-                    images: [],
+                    images: [],                 // Массив URL-ов для отображения фотографий (после загрузки файлов);
                     shortDesc: '',
                     fullDesc: '',
                     descriptionBlocks: [], // {title,text}
@@ -504,9 +501,13 @@
 
                 editProduct(p){
                     this.form = JSON.parse(JSON.stringify(p));
+                    // TEMP: код который нужно будет удалить;
+                    console.log("получил объект, который нужно отредактировать:");
+                    console.dir(this.form);
                     this.editingId = p.id;
                     this.showModal = true;
                     this.tab = 'main';
+                    this.form.files = []; // создаем массив для записи файлов;
                 },
 
                 duplicate(){
@@ -587,13 +588,18 @@
                     // TODO: отправка объекта формы на сервер;
                     const objectForm=new FormData();
                     objectForm.append("keyObjectProduct", JSON.stringify(this.form));
-                    // Передача файлов изображений в FormData для последующей отправки на сервер;
                     for(const f of this.form.files){
                         objectForm.append("imagesFiles", f);
                     }
                     fetch("/Admin/Product/AddProductJS/", {
                         method: "POST",
                         body: objectForm
+                    }).then(response => {
+                        if(response.ok){
+                            window.location.reload(); // перезагрузка страницы для отображения нового/обновленного товара в списке (можно заменить на более изящное обновление списка без перезагрузки);
+                        } else {
+                            this.showToast('Ошибка при сохранении товара', 'error');
+                        }
                     });
                     console.log("Объект отправлен на сервер");
                     // .then(response => {
@@ -607,9 +613,6 @@
                     // });
 
                     //this.saveToStorage();         отключено, пока без надобности;
-
-
-
                     this.closeModal();
                 },
 
@@ -632,7 +635,11 @@
 
                 // загрузка изображений в контроллер;
                 uploadImage(e, setMain=false){
+                    // TEMP: просмотр файлов в консоли для понимания структуры;
+                    console.log("Выбраны файлы для загрузки:");
+                    console.dir(e.target);
                     const files = Array.from(e.target.files || []);
+                    //this.form.files=[];
                     for (const f of files){
                         if (this.form.images.length >= 6){
                             this.showToast('Максимум 6 фото в галерее', 'error');
@@ -653,7 +660,10 @@
                     e.target.value = '';
                 },
 
-                removeImage(idx){ this.form.images.splice(idx,1); },
+                removeImage(idx){ 
+                    this.form.images.splice(idx,1); 
+                },
+
                 setMain(idx){
                     if(idx === 0) return;
                     const img = this.form.images.splice(idx,1)[0];

@@ -76,8 +76,16 @@ namespace Backend_asp.net.Areas.Admin.Controllers
                 // фото;
                 if (prod.ProductPicturees.Any())
                 {
-                    var pict = prod.ProductPicturees.ElementAt(0);
-                    modjs.pictures = new string[] { pict.Putch };
+                    //var pict = prod.ProductPicturees.ElementAt(0);
+                    //modjs.pictures = new string[] { pict.Putch };
+                    modjs.pictures = new string[prod.ProductPicturees.Count];
+                    var listArr = new List<string>();
+                    foreach (var foto in prod.ProductPicturees)
+                    {
+                        listArr.Add(foto.Putch);
+                    }
+                    // Копирую массив картинок в массив модели;
+                    modjs.pictures = listArr.ToArray();
                 }
                 // Дата создания;
                 modjs.Create_time = prod.CreateRoverMechTime.ToString("dd.MM.yyyy (HH:mm)");
@@ -119,7 +127,7 @@ namespace Backend_asp.net.Areas.Admin.Controllers
         }
         #endregion
 
-        // Метод, который будет вызван при отправки из запроса .js
+        // Метод, который будет вызван при отправки из запроса .js, который присвоит SKU номер автоматически
         #region
         // Для формирования и присвоения для продукта SKU;
         [HttpGet("SendSKU/{id}")]
@@ -332,7 +340,6 @@ namespace Backend_asp.net.Areas.Admin.Controllers
             // Добовление файлов картинок для Product;
             //(var f in imagesFiles)
             var mas = imagesFiles.ToList();
-
             for(int a=0; a<mas.Count;a++)
             {
                 var namef = Guid.NewGuid() + Path.GetExtension(mas[a].FileName);
@@ -397,7 +404,10 @@ namespace Backend_asp.net.Areas.Admin.Controllers
             return Ok();
         }
 
-        // Метод, который достает из базы данныхм
-
+        // Метод для перезагрузки представления;
+        private IActionResult ApdateProductController()
+        {
+            return RedirectToAction("ProductsView");
+        }
     }
 }
