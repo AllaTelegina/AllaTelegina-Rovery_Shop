@@ -70,7 +70,7 @@ namespace Backend_asp.net.DataBase
                 .HasOne(a => a.Product)
                 .WithMany(b => b.ProductPicturees)
                 .HasForeignKey(c => c.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             // настройка связи продукт и KeyFeature
             modelBuilder.Entity<ProductKeyFeature>()

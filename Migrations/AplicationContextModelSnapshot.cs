@@ -80,9 +80,6 @@ namespace Backend_asp.net.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.HasKey("ProductId", "CategoryId");
 
                     b.HasIndex("CategoryId");
@@ -201,6 +198,9 @@ namespace Backend_asp.net.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("Time_of_chenge")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -386,7 +386,7 @@ namespace Backend_asp.net.Migrations
                     b.HasOne("Backend_asp.net.Models.Product", "Product")
                         .WithMany("ProductPicturees")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Product");

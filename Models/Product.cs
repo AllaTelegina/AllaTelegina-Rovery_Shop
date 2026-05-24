@@ -16,6 +16,7 @@ namespace Backend_asp.net.Models
         public decimal Prise { get; set; }                                    // цена нашего магазина;
         public decimal Lastprise { get; set; }                                // последняя установленная цена;
         public DateTime CreateRoverMechTime { get; set; } = DateTime.Now;
+        public DateTime? Time_of_chenge { get; set; }                         // Дата и время изменения;
         public StatusProductEnum Status {  get; set; }                        //Перечесление;
         public string BriefDiscription { get; set; } = "Default";             // Короткое описание;
         public string FullDiscription { get; set; } = "Default";              // Полное описание товара;

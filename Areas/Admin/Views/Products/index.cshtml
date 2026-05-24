@@ -169,7 +169,11 @@
                                             <!-- Выбор категории-->
                                             <div>
                                                 <label class="block text-sm text-gray-600 mb-1">Категория</label>
-                                                <select @@change="changeSKU" name="IsCategory" x-model="form.category" Id=categoryId class="w-full border rounded px-3 py-2">
+                                                <!--TEMP: нужно раскоментировать эту строку и разобраться с методом  changeSKU
+                                                <!--<select @@change="changeSKU" name="IsCategory" -->
+                                                <select  name="IsCategory"
+                                                x-model.number="form.categoryId" Id=categoryId
+                                                class="w-full border rounded px-3 py-2">
                                                     <option value="">— Выбрать —</option>
                                                     @foreach (var a in Model.ListCategorys)
                                                     {
@@ -373,6 +377,9 @@
     <script>
         function productsAdmin(){
             var productsFromServer = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.modelJsAlpines));
+            // TEMP: вывод данных, полученных с сервера, в консоль для проверки;
+            console.log("Данные, полученные с сервера (productsFromServer):");
+            console.dir(productsFromServer);
             return {
                 placeholder: 'https://via.placeholder.com/400x300?text=No+image',
                 perPage: 15,    // товаров на странице;
@@ -398,7 +405,7 @@
                     oldPrice: null,
                     rating: 0,
                     files: [],                  // Массив файлов с фотографиями;
-                    status: '',
+                    status: 0,
                     colors: [],
                     keyFeatures: [],
                     images: [],                 // Массив URL-ов для отображения фотографий (после загрузки файлов);
@@ -408,13 +415,14 @@
                     descImages: [], // images for full description (after blocks)
                     specs: [], // {name, features:[{key,value}]}
                     createdAt: '',
-                    updatedAt: ''
+                    updatedAt: '',
+                    categoryId: 0
                 },
                 products: [],
                 init(){
                     this.products = productsFromServer.map(p=>{
                         return{
-                            id:p.Id,
+                            id:p.id,
                             category: p.category,
                             title: p.title,
                             sku: p.sku,
@@ -425,7 +433,9 @@
                             keyFeatures: p.keyFeatures,
                             images: p.pictures,
                             shortDesc: p.shortDesc,
-                            createdAt: p.Create_time
+                            createdAt: p.Create_time,
+                            fullDesc: p.fullDesc,
+                            categoryId:p.categoryId
                         }
                     });
                 },
@@ -501,13 +511,12 @@
 
                 editProduct(p){
                     this.form = JSON.parse(JSON.stringify(p));
-                    // TEMP: код который нужно будет удалить;
-                    console.log("получил объект, который нужно отредактировать:");
-                    console.dir(this.form);
                     this.editingId = p.id;
                     this.showModal = true;
                     this.tab = 'main';
                     this.form.files = []; // создаем массив для записи файлов;
+                    this.form.category=p.category; // для корректной работы метода changeSKU при редактировании товара (чтобы не затирался SKU при открытии модалки редактирования);
+                    this.form.categoryId=Number(p.categoryId);
                 },
 
                 duplicate(){
@@ -690,7 +699,7 @@
                 },
 
                 // specs
-                addSpecGroup(){ this.form.specs.push({name:'', features:[]}); },
+                //addSpecGroup(){ this.form.specs.push({name:'', features:[]}); },
 
                 // helpers
                 formatPrice(v){ if(v===null||v===undefined||v==='') return '—'; return new Intl.NumberFormat('ru-RU').format(Number(v)) + ' ₽'; },

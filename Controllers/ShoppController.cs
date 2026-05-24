@@ -41,7 +41,7 @@ namespace Backend_asp.net.Controllers
             for (int i = 0; i < products.Count; i++)
             {
                 ModelJsAlpine<Product> modelJs = new ModelJsAlpine<Product>();
-                modelJs.Id = products[i].Id;
+                modelJs.id = products[i].Id;
                 modelJs.title = products[i].Name;
                 var categoryName = await _context.categorys.FirstOrDefaultAsync(t => t.Id == products[i].IndicateCategory);
                 if (categoryName == null)
