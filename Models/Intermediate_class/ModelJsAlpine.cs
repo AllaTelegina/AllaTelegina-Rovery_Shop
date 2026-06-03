@@ -11,7 +11,8 @@ namespace Backend_asp.net.Models.Intermediate_class
         public decimal price { get; set; }
         public decimal oldPrice { get; set; }
         public double rating { get; set; }  
-        public string status { get; set; } = "no name";
+        public string status { get; set; } = "no name";  // передача значения enum в string;
+        public int statusInt { get; set; }               // передача значения enum в int;
         public string[] keyFeatures { get; set; } = [];
         public string shortDesc { get; set; } = "no name";
         public string fullDesc { get; set; } = "no name";

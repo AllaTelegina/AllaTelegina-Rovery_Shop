@@ -63,8 +63,10 @@ namespace Backend_asp.net.Areas.Admin.Controllers
                     oldPrice = prod.Lastprise,
                     rating = (double)prod.Rating,
                     status = StatusProduct.Name[prod.Status],
+                    //status=prod.Status,
                     shortDesc = prod.BriefDiscription,
                     fullDesc = prod.FullDiscription,
+                    statusInt=(int)prod.Status
                 };
 
                 // Присвоение главной категории для модели;
@@ -122,52 +124,30 @@ namespace Backend_asp.net.Areas.Admin.Controllers
                 var cateory_in_List = prod.ProductCategoryes.ToList();     //собрал весь список категорий;
                 var listSpecs = new List<Specs>();
 
+                // использование LINQ запросы;
+                var filter_category = cateory_in_List.Where(t => t.Category != null && t.Category.LevelCategory > 0).ToList();
+                var group_category=filter_category.GroupBy(t=> t.Category?.Title).ToList();
 
-                for(int i=0; i<cateory_in_List.Count();)        // перебираю его
-                {
-                    var specs = new Specs();
-                    var listFeatures = new List<Features>();
-                    var next = cateory_in_List.ElementAtOrDefault(i+1);
+                // создаю уже готовый список;
+                modjs.specs = group_category.Where(t => t.Key != null)
+                    .Select(t=> new Specs()
                     {
-                        if (cateory_in_List[i]?.Category?.LevelCategory > 0)    // отсеиваю главные категории из этого списка
+                        name=t.Key!,
+                        features= t.Where(g=> g.Category is { Name:not null, Description:not null})
+                        .Select(a=>new Features()
                         {
-                            do
-                            {
-                                if (next != null)
-                                {
-                                    specs.name = cateory_in_List[i].Category.Title;
-                                    var feat = new Features()
-                                    {
-                                        key = cateory_in_List[i].Category.Name,
-                                        value = cateory_in_List[i].Category.Description
-                                    };
-                                    listFeatures.Add(feat);
-                                    i++;
-                                    next = cateory_in_List.ElementAtOrDefault(i);
-                                }
-                            }
-                            while (next != null && specs.name == cateory_in_List[i].Category.Title);
-                            if (next == null)
-                                i++;
-                            specs.features = listFeatures.ToArray();
-                            listSpecs.Add(specs);
-                        }
-                        else
-                            i++;
-                    }
-                }
+                            key=a.Category!.Name,
+                            value=a.Category.Description!
+                        }).ToArray()
+                    }).ToArray();
                 send_modelJsAlpines.Add(modjs);
             };
-
-
-
-
             product.modelJsAlpines = send_modelJsAlpines;
             return View("~/Areas/Admin/Views/Products/index.cshtml", product);
         }
         #endregion
 
-        // Добовления товара в BD;
+        // TEMP: разобраться с этим методом, не понятно, что он делает. Добовления товара в BD ;
         #region
         [HttpPost]
         public async Task<IActionResult> SaveProductForAdmin(ProductsGeneral productparameter, int IsCategory)
