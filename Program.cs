@@ -1,4 +1,7 @@
 using Backend_asp.net.DataBase;
+using Backend_asp.net.Interface;
+using Backend_asp.net.Models.Repository;
+using Backend_asp.net.Models.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +18,10 @@ builder.Configuration
 var connectionstring = builder.Configuration.GetConnectionString("Defaultconnection");
 // регистрирую DbContext в DB;
 builder.Services.AddDbContext<AplicationContext>(options=>options.UseSqlServer(connectionstring));
+
+// Automatics create IRepository and ProductRepository. This is DI
+builder.Services.AddScoped<IRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddAuthentication(option =>
 {

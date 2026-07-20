@@ -1,11 +1,13 @@
 using System.ClientModel.Primitives;
 using System.Text.Json;
 using Backend_asp.net.DataBase;
+using Backend_asp.net.Interface;
 using Backend_asp.net.Models;
 using Backend_asp.net.Models.Class_for_views;
 using Backend_asp.net.Models.DataBaseModel;
 using Backend_asp.net.Models.Enams;
 using Backend_asp.net.Models.Intermediate_class;
+using Backend_asp.net.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,139 +15,149 @@ namespace Backend_asp.net.Areas.Admin.Controllers
 {
     public class ProductController : Controller
     {
-        //Определиние _context а также и конструктор для получения среды разработки;
-        #region
-        // Открытие базы данных, определение context;
         private readonly AplicationContext _context;
-        // получаю путь из среды разработки папок;
         private readonly IWebHostEnvironment _inv;
+        private readonly IRepository _repos;
+        private readonly IProductService _prodServ;
 
-        // Конструктор для создания контекста;
-        public ProductController(AplicationContext context, IWebHostEnvironment inv)
+        // Create new constructor;
+        public ProductController(IRepository repos, AplicationContext context, IWebHostEnvironment inv, IProductService prodServ)
         {
+            _repos = repos;
             _context = context;
             _inv = inv;
+            _prodServ = prodServ;
         }
-        #endregion
 
         //---------------------------------<< Методы контроллера  >>------------------------------------//
-        // Для загрузки этого представления;
-        #region
+        // Start the page of catalog
         public async Task <IActionResult> ProductsView()
         {
-            var product = new ProductsGeneral();
-            product.ProductFromAdmin = new Product();
-            product.ListCategorys=await _context.categorys.ToListAsync();
-            // TODO: передаю список моделей;
-            var products = await _context.products
-                .Include(t => t.ProductCategoryes)
-                .ThenInclude(a => a.Category)
-                .Include(t => t.ProductKeyFeatures)
-                .ThenInclude(a => a.KeyFeature)
-                .Include(t => t.ProductPicturees)
-                .ToListAsync();
-            if (products == null)
-                throw new Exception("Товары не найдены в базе данных");
-            // Список объектов, которые я собираю для передачи в модель, которая для представления;
-            List<ModelJsAlpine<Product>> send_modelJsAlpines = new List<ModelJsAlpine<Product>>();
-
-            // Для проверки сборки всех свойств:
-            var test_All_Specs = new List<Specs>();
-
-            foreach (var prod in products)
-            {
-                var modjs = new ModelJsAlpine<Product>()
-                {
-                    id = prod.Id,
-                    title = prod.Name,
-                    sku = prod.SkuNumber,
-                    price = prod.Prise,
-                    oldPrice = prod.Lastprise,
-                    rating = (double)prod.Rating,
-                    status = StatusProduct.Name[prod.Status],
-                    //status=prod.Status,
-                    shortDesc = prod.BriefDiscription,
-                    fullDesc = prod.FullDiscription,
-                    statusInt=(int)prod.Status
-                };
-
-                // Присвоение главной категории для модели;
-                foreach (var category in prod.ProductCategoryes)
-                {
-                    if (category != null)
-                    {
-                        if (category.Category == null)
-                            throw new Exception("Не найдена главная категория");
-                        if (category.Category.LevelCategory == 0)
-                        {
-                            modjs.category = category.Category.Name;
-                            modjs.categoryId=category.Category.Id;
-                        }
-                    }
-                }
-
-                // фото;
-                if (prod.ProductPicturees.Any())
-                {
-                    //var pict = prod.ProductPicturees.ElementAt(0);
-                    //modjs.pictures = new string[] { pict.Putch };
-                    modjs.pictures = new string[prod.ProductPicturees.Count];
-                    var listArr = new List<string>();
-                    foreach (var foto in prod.ProductPicturees)
-                    {
-                        listArr.Add(foto.Putch);
-                    }
-                    // Копирую массив картинок в массив модели;
-                    modjs.pictures = listArr.ToArray();
-                }
-
-                // Дата создания;
-                modjs.Create_time = prod.CreateRoverMechTime.ToString("dd.MM.yyyy (HH:mm)");
-
-                // Features;
-                ICollection<string> listfeat = new List<string>();
-                foreach (var feat in prod.ProductKeyFeatures)
-                {
-                    if (feat.KeyFeature != null)
-                        listfeat.Add(feat.KeyFeature.Name);
-                }
-                modjs.keyFeatures = listfeat.ToArray();
-
-                // Дата изменения:
-                if (prod.Time_of_chenge==null)
-                    modjs.Time_of_chenge = " ";
-                else
-                {
-                    modjs.Time_of_chenge = prod.Time_of_chenge.Value.ToString("dd.MM.yyyy (HH:mm)");
-                }
-
-                // TEMP: присвоение для модели свойств;
-                // Передача свойств товара;
-                var cateory_in_List = prod.ProductCategoryes.ToList();     //собрал весь список категорий;
-                var listSpecs = new List<Specs>();
-
-                // использование LINQ запросы;
-                var filter_category = cateory_in_List.Where(t => t.Category != null && t.Category.LevelCategory > 0).ToList();
-                var group_category=filter_category.GroupBy(t=> t.Category?.Title).ToList();
-
-                // создаю уже готовый список;
-                modjs.specs = group_category.Where(t => t.Key != null)
-                    .Select(t=> new Specs()
-                    {
-                        name=t.Key!,
-                        features= t.Where(g=> g.Category is { Name:not null, Description:not null})
-                        .Select(a=>new Features()
-                        {
-                            key=a.Category!.Name,
-                            value=a.Category.Description!
-                        }).ToArray()
-                    }).ToArray();
-                send_modelJsAlpines.Add(modjs);
-            };
-            product.modelJsAlpines = send_modelJsAlpines;
-            return View("~/Areas/Admin/Views/Products/index.cshtml", product);
+            var result = await _prodServ.ModelSendInViews();
+            return View("~/Areas/Admin/Views/Products/index.cshtml", result);
         }
-        #endregion
+
+        // Adding product in Data Base;
+        [HttpPost]
+        public async Task <IActionResult> AddProductJS( [FromForm] string keyObjectProduct, [FromForm] List<IFormFile> imagesFiles)
+        {
+            await _prodServ.JsonSerialFromJS(keyObjectProduct);
+            //ModelJsAlpine<object>? modelJsAlpine = null;
+            //Product product = new Product();
+            //try
+            //{
+            //    modelJsAlpine = JsonSerializer.Deserialize<ModelJsAlpine<object>>(keyObjectProduct);
+            //}
+            // //Проверка modelJsAlpine на NULL;
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine($"Ошибка в сериализации, {ex.Message}");
+            //}
+            //if (modelJsAlpine == null)
+            //{
+            //    return BadRequest("Json не удалось преобразовать.");
+            //}
+            // Условие для редактирования модели;
+            //if (modelJsAlpine.id > 0)
+            //{
+            //    await AditionModel(modelJsAlpine, imagesFiles);
+            //    return Ok();
+            //}
+
+            // заполнение модели для добовления в базу данных;
+            //#region
+            //product.Name = modelJsAlpine.title;
+            //product.SkuNumber = modelJsAlpine.sku;
+            //product.Prise = modelJsAlpine.price;
+            //product.Lastprise = modelJsAlpine.oldPrice;
+            //product.Rating = (decimal)modelJsAlpine.rating;
+            //product.FullDiscription = modelJsAlpine.fullDesc;
+            //product.BriefDiscription = modelJsAlpine.shortDesc;
+            //if(Enum.TryParse(modelJsAlpine.status, out StatusProductEnum result))
+            //{
+            //    product.Status = result;
+            //}
+            //#endregion
+            // Assigning the product main category;
+            //if (!int.TryParse(modelJsAlpine.category, out int id))
+            //    return BadRequest("Error. no category");
+            //var categoryFromBase = await _context.categorys.FindAsync(id); // Найден элемент
+            //if (categoryFromBase == null)
+            //    return BadRequest("Error. No category");
+            //// Объект ProductCategory;
+            //var productCategory = new ProductCategory
+            //{
+            //    Category = categoryFromBase,
+            //    Product = product,
+            //};
+
+            // The end look code;
+            //if (productCategory.Category.LevelCategory == 0)
+            //{
+            //    product.IndicateCategory = productCategory.Category.Id;
+            //}
+            //// Добовление файлов картинок для Product;
+            //var mas = imagesFiles.ToList();
+            //for(int a=0; a<mas.Count;a++)
+            //{
+            //    var namef = Guid.NewGuid() + Path.GetExtension(mas[a].FileName);
+            //    var pathf = Path.Combine(_inv.WebRootPath, "FotoProduct", namef);
+            //    using (var streemf = new FileStream(pathf, FileMode.Create))
+            //    {
+            //        await mas[a].CopyToAsync(streemf);
+            //    };
+            //    var productpictureForDB = new ProductPicture();
+            //    if (a == 0)
+            //    {
+            //        productpictureForDB.MainPhoto = true;
+            //    }
+            //    productpictureForDB.Putch = "/FotoProduct/" + namef;
+            //    productpictureForDB.NamePicture = namef;
+            //    productpictureForDB.Product = product;
+            //    await _context.productsPicture.AddAsync(productpictureForDB);
+            //}
+            //await _context.products.AddAsync(product);
+            //// Добовление Features для Product;
+            //foreach (string feat in modelJsAlpine.keyFeatures)
+            //{
+            //    KeyFeature feature = new KeyFeature();
+            //    feature.Name=feat;
+            //    var productKeyFeatures = new ProductKeyFeature()
+            //    {
+            //        KeyFeature = feature,
+            //        Product=product,
+            //    };
+            //    await _context.productKeyFeatures.AddAsync(productKeyFeatures);
+            //    await _context.keyFeatures.AddAsync(feature);
+            //}
+            //// Добовление в BD Category;
+            //for(int a=0; a <modelJsAlpine.specs.Length;a++)
+            //{
+            //    var specs = modelJsAlpine.specs[a];
+            //    var features = specs.features;
+            //    foreach(var t in features)
+            //    {
+            //        var category = new Category()
+            //        {
+            //            LevelCategory = 1,
+            //            Name = t.key,
+            //            Description = t.value,
+            //            Title = specs.name
+            //        };
+            //        var productcategory = new ProductCategory()
+            //        {
+            //            Category = category,
+            //            Product = product
+            //        };
+            //        await _context.categorys.AddAsync(category);
+            //        await _context.productCategories.AddAsync(productcategory);
+            //        await _context.SaveChangesAsync();
+            //    }
+            //}
+            //await _context.productCategories.AddAsync(productCategory);
+            //_context.SaveChanges();
+            return Ok();
+        }
 
         // TEMP: разобраться с этим методом, не понятно, что он делает. Добовления товара в BD ;
         #region
@@ -326,126 +338,6 @@ namespace Backend_asp.net.Areas.Admin.Controllers
         }
         #endregion
 
-        // Метод для добовления товара черз API JS в BD;
-        #region
-        [HttpPost]
-        public async Task <IActionResult> AddProductJS( [FromForm] string keyObjectProduct, [FromForm] List<IFormFile> imagesFiles)
-        {
-            ModelJsAlpine<object>? modelJsAlpine = null;
-            Product product = new Product();
-            try
-            {
-                modelJsAlpine = JsonSerializer.Deserialize<ModelJsAlpine<object>>(keyObjectProduct);
-            }
-             //Проверка modelJsAlpine на NULL;
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Ошибка в сериализации, {ex.Message}");
-            }
-            if (modelJsAlpine == null)
-            {
-                return BadRequest("Json не удалось преобразовать.");
-            }
-            // Условие для редактирования модели;
-            if (modelJsAlpine.id > 0)
-            {
-                await AditionModel(modelJsAlpine, imagesFiles);
-                return Ok();
-            }
-
-            // заполнение модели для добовления в базу данных;
-            #region
-            product.Name = modelJsAlpine.title;
-            product.SkuNumber = modelJsAlpine.sku;
-            product.Prise = modelJsAlpine.price;
-            product.Lastprise = modelJsAlpine.oldPrice;
-            product.Rating = (decimal)modelJsAlpine.rating;
-            product.FullDiscription = modelJsAlpine.fullDesc;
-            product.BriefDiscription = modelJsAlpine.shortDesc;
-            if(Enum.TryParse(modelJsAlpine.status, out StatusProductEnum result))
-            {
-                product.Status = result;
-            }
-            // присвоение в product category;
-            if (!int.TryParse(modelJsAlpine.category, out int id))
-                return BadRequest("Error. no category");
-            var categoryFromBase = await _context.categorys.FindAsync(id); // Найден элемент
-            if (categoryFromBase == null)
-                return BadRequest("Error. No category");
-            // Объект ProductCategory;
-            var productCategory = new ProductCategory
-            {
-                Category = categoryFromBase,
-                Product = product,
-            };
-            if (productCategory.Category.LevelCategory == 0)
-            {
-                product.IndicateCategory = productCategory.Category.Id;
-            }
-            // Добовление файлов картинок для Product;
-            var mas = imagesFiles.ToList();
-            for(int a=0; a<mas.Count;a++)
-            {
-                var namef = Guid.NewGuid() + Path.GetExtension(mas[a].FileName);
-                var pathf = Path.Combine(_inv.WebRootPath, "FotoProduct", namef);
-                using (var streemf = new FileStream(pathf, FileMode.Create))
-                {
-                    await mas[a].CopyToAsync(streemf);
-                };
-                var productpictureForDB = new ProductPicture();
-                if (a == 0)
-                {
-                    productpictureForDB.MainPhoto = true;
-                }
-                productpictureForDB.Putch = "/FotoProduct/" + namef;
-                productpictureForDB.NamePicture = namef;
-                productpictureForDB.Product = product;
-                await _context.productsPicture.AddAsync(productpictureForDB);
-            }
-            await _context.products.AddAsync(product);
-            // Добовление Features для Product;
-            foreach (string feat in modelJsAlpine.keyFeatures)
-            {
-                KeyFeature feature = new KeyFeature();
-                feature.Name=feat;
-                var productKeyFeatures = new ProductKeyFeature()
-                {
-                    KeyFeature = feature,
-                    Product=product,
-                };
-                await _context.productKeyFeatures.AddAsync(productKeyFeatures);
-                await _context.keyFeatures.AddAsync(feature);
-            }
-            // Добовление в BD Category;
-            for(int a=0; a <modelJsAlpine.specs.Length;a++)
-            {
-                var specs = modelJsAlpine.specs[a];
-                var features = specs.features;
-                foreach(var t in features)
-                {
-                    var category = new Category()
-                    {
-                        LevelCategory = 1,
-                        Name = t.key,
-                        Description = t.value,
-                        Title = specs.name
-                    };
-                    var productcategory = new ProductCategory()
-                    {
-                        Category = category,
-                        Product = product
-                    };
-                    await _context.categorys.AddAsync(category);
-                    await _context.productCategories.AddAsync(productcategory);
-                    await _context.SaveChangesAsync();
-                }
-            }
-            await _context.productCategories.AddAsync(productCategory);
-            _context.SaveChanges();
-            #endregion
-            return Ok();
-        }
-        #endregion
 
         // Метод для перезагрузки представления;
         private IActionResult ApdateProductController()
