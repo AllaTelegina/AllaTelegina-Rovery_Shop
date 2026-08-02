@@ -23,8 +23,9 @@ namespace Backend_asp.net.Models
         public decimal Rating {  get; set; }                                  // Рейтинг объекта;
         public int Quantity { get; set; } = 1;                                // Количество товара;
 
-        // Свойство которое будет записываться по результату значения ProductCategory;
-        public int IndicateCategory { get; set; } = 0;
+        // The navigation property for EF. Where discription the table of are main category;
+        public MainCategory MainCategory { get; set; } = new MainCategory { Name = "Default" }; // It's properti, where write main category, example "Bike" or "ElectroBike" and other; 
+        public int MainCategoryId { get; set; }     // Navi property;
 
         // Свойства непосредственно для описания на странице;
         public string? Color { get; set; } = "Default";
@@ -34,24 +35,29 @@ namespace Backend_asp.net.Models
         public ICollection <string> Images { get; set; } = new List<string>();
         #endregion
 
-        // Связь с корзиной товара через промежуточный class BacketProduct;
-        #region
-        public ICollection<BasketProduct> BasketProducts { get; set; } = new List<BasketProduct>();
-        #endregion
-
-        // Связь с категориями товаров через промежуточный класс ProductCategory;
+        // The connect Product with ProductCategory;
         #region
         public ICollection<ProductCategory> ProductCategoryes { get; set; }=new List<ProductCategory>();
-        #endregion
-
-        // Связь продукта с ProductPicture;
-        #region
-        public ICollection<ProductPicture> ProductPicturees { get; set; } = new List<ProductPicture>();
         #endregion
 
         // Связь с категориями товаров через промежуточный класс ProductKeyFeature;
         #region
         public ICollection<ProductKeyFeature> ProductKeyFeatures { get; set; } = new List<ProductKeyFeature>();
+        #endregion
+
+        // The connect Product and PropertyTypeValue;
+
+
+        // I should, to sort through under;
+
+        // Связь с корзиной товара через промежуточный class BacketProduct;
+        #region
+        public ICollection<BasketProduct> BasketProducts { get; set; } = new List<BasketProduct>();
+        #endregion
+
+        // Связь продукта с ProductPicture;
+        #region
+        public ICollection<Photoproduct> ProductPicturees { get; set; } = new List<Photoproduct>();
         #endregion
     }
 }

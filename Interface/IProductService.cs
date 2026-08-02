@@ -8,6 +8,8 @@ namespace Backend_asp.net.Interface
     {
         // Prepares the model for submission to the presentation
         public Task <ProductsGeneral> ModelSendInViews();
-        public Task <Product> JsonSerialFromJS(string StringFromJS);
+        public ModelJsAlpine<Object> JsonSerialFromJS(string StringFromJS);
+        public Task <ProductsGeneral> AddNewProduct(string Json, List<IFormFile> imagesFiles);
+        public Task<ProductsGeneral> ChengeModel(ModelJsAlpine<object> modelJsAlpine, List<IFormFile> imagesFiles);
     }
 }

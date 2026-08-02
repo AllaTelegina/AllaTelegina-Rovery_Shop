@@ -2,6 +2,7 @@ using Backend_asp.net.DataBase;
 using Backend_asp.net.Interface;
 using Backend_asp.net.Models.Repository;
 using Backend_asp.net.Models.Service;
+using Backend_asp.net.Seeder;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,8 +21,10 @@ var connectionstring = builder.Configuration.GetConnectionString("Defaultconnect
 builder.Services.AddDbContext<AplicationContext>(options=>options.UseSqlServer(connectionstring));
 
 // Automatics create IRepository and ProductRepository. This is DI
+builder.Services.AddScoped<MainCategorySeeder>();
 builder.Services.AddScoped<IRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+
 
 builder.Services.AddAuthentication(option =>
 {
@@ -61,6 +64,12 @@ app.MapControllers(); // Разрешает использовать API-кон�
 app.UseAuthentication(); // Для аутентификации;
 app.UseAuthorization();  // Для авторизации;
 app.MapRazorPages();    // Подключение Razor;
+
+using(var scope = app.Services.CreateScope())
+{
+    var seeder =scope.ServiceProvider.GetRequiredService<MainCategorySeeder>();
+    await seeder.SeedAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

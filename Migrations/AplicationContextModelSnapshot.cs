@@ -54,17 +54,8 @@ namespace Backend_asp.net.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LevelCategory")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -127,6 +118,28 @@ namespace Backend_asp.net.Migrations
                     b.ToTable("productKeyFeatures");
                 });
 
+            modelBuilder.Entity("Backend_asp.net.Models.Intermediate_class.PropertyTypeValue", b =>
+                {
+                    b.Property<int>("PropertyTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PropertyTypeId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("PropertyTypeValues");
+                });
+
             modelBuilder.Entity("Backend_asp.net.Models.KeyFeature", b =>
                 {
                     b.Property<int>("Id")
@@ -147,7 +160,7 @@ namespace Backend_asp.net.Migrations
                     b.ToTable("keyFeatures");
                 });
 
-            modelBuilder.Entity("Backend_asp.net.Models.Product", b =>
+            modelBuilder.Entity("Backend_asp.net.Models.MainCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -155,59 +168,16 @@ namespace Backend_asp.net.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("BriefDiscription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Color")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreateRoverMechTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FullDiscription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.PrimitiveCollection<string>("Images")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IndicateCategory")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Lastprise")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Prise")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Rating")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("SkuNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("Time_of_chenge")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
-                    b.ToTable("products");
+                    b.ToTable("MainCategoryes");
                 });
 
-            modelBuilder.Entity("Backend_asp.net.Models.ProductPicture", b =>
+            modelBuilder.Entity("Backend_asp.net.Models.Photoproduct", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -237,6 +207,85 @@ namespace Backend_asp.net.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("productsPicture");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BriefDiscription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateRoverMechTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FullDiscription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.PrimitiveCollection<string>("Images")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Lastprise")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("MainCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Prise")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Rating")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("SkuNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Time_of_chenge")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MainCategoryId");
+
+                    b.ToTable("products");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.PropertyType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PropertyTypes");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.UserRovery", b =>
@@ -381,7 +430,26 @@ namespace Backend_asp.net.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Backend_asp.net.Models.ProductPicture", b =>
+            modelBuilder.Entity("Backend_asp.net.Models.Intermediate_class.PropertyTypeValue", b =>
+                {
+                    b.HasOne("Backend_asp.net.Models.Category", "Category")
+                        .WithMany("PropertyTypeValues")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Backend_asp.net.Models.PropertyType", "PropertyType")
+                        .WithMany("PropertyTypeValues")
+                        .HasForeignKey("PropertyTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("PropertyType");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.Photoproduct", b =>
                 {
                     b.HasOne("Backend_asp.net.Models.Product", "Product")
                         .WithMany("ProductPicturees")
@@ -392,6 +460,17 @@ namespace Backend_asp.net.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Backend_asp.net.Models.Product", b =>
+                {
+                    b.HasOne("Backend_asp.net.Models.MainCategory", "MainCategory")
+                        .WithMany("Products")
+                        .HasForeignKey("MainCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MainCategory");
+                });
+
             modelBuilder.Entity("Backend_asp.net.Models.Basket", b =>
                 {
                     b.Navigation("BasketProducts");
@@ -400,11 +479,18 @@ namespace Backend_asp.net.Migrations
             modelBuilder.Entity("Backend_asp.net.Models.Category", b =>
                 {
                     b.Navigation("ProductCategoryes");
+
+                    b.Navigation("PropertyTypeValues");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.KeyFeature", b =>
                 {
                     b.Navigation("ProductKeyFeatures");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.MainCategory", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.Product", b =>
@@ -416,6 +502,11 @@ namespace Backend_asp.net.Migrations
                     b.Navigation("ProductKeyFeatures");
 
                     b.Navigation("ProductPicturees");
+                });
+
+            modelBuilder.Entity("Backend_asp.net.Models.PropertyType", b =>
+                {
+                    b.Navigation("PropertyTypeValues");
                 });
 
             modelBuilder.Entity("Backend_asp.net.Models.UserRovery", b =>

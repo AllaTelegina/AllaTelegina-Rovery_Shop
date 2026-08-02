@@ -16,15 +16,19 @@ namespace Backend_asp.net.DataBase
         // Категория товаров;
         public DbSet<Category> categorys{ get; set; }
         // Фотографии для продукта;
-        public DbSet<ProductPicture> productsPicture { get; set; }
+        public DbSet<Photoproduct> productsPicture { get; set; }
         // Добовление таблицы KeyFeatyre;
         public DbSet<KeyFeature> keyFeatures { get; set; }
+        // Add Main Category;
+        public DbSet<MainCategory> MainCategoryes { get; set; }
+        public DbSet<PropertyType> PropertyTypes { get; set; }
 
         // Добовление таблицы свойств для велосипедов и промежуточной таблицы;
         #region
         public DbSet<ProductCategory> productCategories { get; set; }
         public DbSet<BasketProduct> basketProducts { get; set; }
         public DbSet<ProductKeyFeature> productKeyFeatures { get; set; }
+        public DbSet<PropertyTypeValue> PropertyTypeValues { get; set; }
         #endregion
 
         // Это конструктор;
@@ -34,6 +38,36 @@ namespace Backend_asp.net.DataBase
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // The setup connection with "Category" and "PropertyType" via table "PropertyTypeValue"
+            modelBuilder.Entity<PropertyTypeValue>()
+                .HasKey(a => new { a.PropertyTypeId, a.CategoryId });
+            modelBuilder.Entity<PropertyTypeValue>()
+                .HasOne(a => a.PropertyType)
+                .WithMany(b => b.PropertyTypeValues)
+                .HasForeignKey(t => t.PropertyTypeId);
+            modelBuilder.Entity<PropertyTypeValue>()
+                .HasOne(a => a.Category)
+                .WithMany(b => b.PropertyTypeValues)
+                .HasForeignKey(c => c.CategoryId);
+
+            // The setup connection with "Product" and "Category" via table "ProductCategory";
+            modelBuilder.Entity<ProductCategory>()
+                .HasKey(c => new { c.ProductId, c.CategoryId });
+            modelBuilder.Entity<ProductCategory>()
+                .HasOne(a => a.Product)
+                .WithMany(b => b.ProductCategoryes)
+                .HasForeignKey(t => t.ProductId);
+            modelBuilder.Entity<ProductCategory>()
+                .HasOne(a => a.Category)
+                .WithMany(b => b.ProductCategoryes)
+                .HasForeignKey(c => c.CategoryId);
+
+            // The setup connection with "Product" and "MainProduct";
+            modelBuilder.Entity<Product>()
+                .HasOne(a => a.MainCategory)
+                .WithMany(b => b.Products)
+                .HasForeignKey(a => a.MainCategoryId);
+
             modelBuilder.Entity<Basket>()
                 .HasOne(a => a.UserRovery)
                 .WithMany(c => c.Baskets)
@@ -53,20 +87,8 @@ namespace Backend_asp.net.DataBase
                 .WithMany(b=>b.BasketProducts)
                 .HasForeignKey(c=>c.ProductID);
 
-            // настройка связи продукт и категория;
-            modelBuilder.Entity<ProductCategory>()
-                .HasKey(c => new { c.ProductId, c.CategoryId });
-            modelBuilder.Entity<ProductCategory>()
-                .HasOne(a => a.Product)
-                .WithMany(b => b.ProductCategoryes)
-                .HasForeignKey(t => t.ProductId);
-            modelBuilder.Entity<ProductCategory>()
-                .HasOne(a => a.Category)
-                .WithMany(b => b.ProductCategoryes)
-                .HasForeignKey(c => c.CategoryId);
-
             // настройка связи продукт и картинка;
-            modelBuilder.Entity<ProductPicture>()
+            modelBuilder.Entity<Photoproduct>()
                 .HasOne(a => a.Product)
                 .WithMany(b => b.ProductPicturees)
                 .HasForeignKey(c => c.ProductId)
@@ -85,12 +107,12 @@ namespace Backend_asp.net.DataBase
                 .HasForeignKey(c => c.IdKeyFeature);
 
             // Чтоб EF увидел поля значением "null";
-            modelBuilder.Entity<Category>()
-                .Property(a => a.Description)
-                .IsRequired(false);
-            modelBuilder.Entity<Category>()
-                .Property(a => a.Title)
-                .IsRequired(false);
+            //modelBuilder.Entity<Category>()
+            //    .Property(a => a.Description)
+            //    .IsRequired(false);
+            //modelBuilder.Entity<Category>()
+            //    .Property(a => a.Title)
+            //    .IsRequired(false);
         }
     }
 }

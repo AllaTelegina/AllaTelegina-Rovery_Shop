@@ -20,7 +20,7 @@
     </head>
 
     <body  class="flex flex-col min-h-screen">
-
+        <!--katalog.cshtml-->
           <!-- Мобильный фильтр (ОТДЕЛЬНЫЙ overlay, НЕ конфликтует с бургером) -->
           <div x-show="openFilters"
                x-transition.opacity
@@ -1067,12 +1067,12 @@
                     price: p.price,
                     rating: p.rating,
                     color: "Синий",
-                    images: p.pictures,
+                    images: p.images,
                     sku: p.sku,
                     quantity:1
                 })
             );
-            console.log("Преобразованные продукты для представления, смотрю параметр-sku:", products);
+            console.log("Преобразованные продукты для представления, смотрю images:", products);
 
                   return {
                       openFilters: false,

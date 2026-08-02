@@ -16,36 +16,47 @@ namespace Backend_asp.net.Models.Repository
         }
         #endregion
 
-        public async Task<List<Product>> GetAllProductList()
+        // Return result, where List Main Category;
+        public async Task<List<MainCategory>> GetMainCategoryFromDB()
         {
-            // TODO: The method passes a list product from DB; 
-            var products = await _context.products
-                .Include(t => t.ProductCategoryes)
-                .ThenInclude(a => a.Category)
-                .Include(t => t.ProductKeyFeatures)
-                .ThenInclude(a => a.KeyFeature)
-                .Include(t => t.ProductPicturees)
-                .ToListAsync();
-            return products;
-        }
-
-        // Return result, where category eqwals id;
-        public async Task<Category> GetMainCategory(int id)
-        {
-            var mainCategory=await _context.categorys.FirstOrDefaultAsync(t=>t.Id == id);
+            var mainCategory = await _context.MainCategoryes.ToListAsync();
             if (mainCategory == null)
             {
                 throw new Exception("No exist Data Base");
             }
             return mainCategory;
         }
-
-        public Task<List<Category>> GetListCategoryForPage()
+        public async Task<List<Product>> GetAllProductList()
         {
-            var ListCategory = _context.categorys.Where(cat => cat.LevelCategory == 0).ToListAsync();
-            return ListCategory;
+            // TODO: The method passes a list product from DB; 
+            var products = new List<Product>();
+            products= await _context.products
+                .Include(t => t.ProductKeyFeatures).ThenInclude(at => at.KeyFeature)
+                .Include(t => t.MainCategory)
+                .Include(pict=>pict.ProductPicturees)
+                .Include(a => a.ProductCategoryes).ThenInclude(ab => ab.Category)
+                .ThenInclude(ac => ac!.PropertyTypeValues).ThenInclude(cb => cb.PropertyType)
+                .ToListAsync();
+            return products;
         }
 
+        //public async Task<List<Category>> GetListCategoryForPage()
+        //{
+        //    var ListCategory = new List <Category>();
+        //    return  ListCategory;
+        //}
 
+        public async Task<List<Product>> GetProductById(int id)
+        {
+            var products = new List<Product>();
+            products = await _context.products.Where(prod=>prod.Id==id)
+                .Include(t => t.ProductKeyFeatures).ThenInclude(at => at.KeyFeature)
+                .Include(t => t.MainCategory)
+                .Include(pict => pict.ProductPicturees)
+                .Include(a => a.ProductCategoryes).ThenInclude(ab => ab.Category)
+                .ThenInclude(ac => ac!.PropertyTypeValues).ThenInclude(cb => cb.PropertyType)
+                .ToListAsync();
+            return products;
+        }
     }
 }

@@ -22,9 +22,8 @@
             <div id="categorySelect">
             <select x-model="form.category" class="border border-gray-300 rounded-lg px-3 py-2">
                 <option value="">--Все категории--</option>
-                @foreach(var a in Model.ListCategorys)
+                @foreach(var a in Model.MainCategories)
                 {
-                    if (a.LevelCategory == 0)
                     {
                         <option value="@a.Name">@a.Name</option>
                     }
@@ -175,9 +174,8 @@
                                                 x-model.category="form.category"
                                                 class="w-full border rounded px-3 py-2">
                                                     <option value="">— Выбрать —</option>
-                                                    @foreach (var a in Model.ListCategorys)
+                                                    @foreach (var a in Model.MainCategories)
                                                     {
-                                                        if (a.LevelCategory == 0)
                                                         {
                                                             <option value="@a.Id">@a.Name</option>
                                                         }
@@ -400,7 +398,7 @@
 
                 // form template
                 form: {
-                    id: null,
+                    id: 0,
                     category: '',
                     title: '',
                     sku: '',
@@ -435,9 +433,9 @@
                             rating: p.rating,
                             status: p.status,
                             keyFeatures: p.keyFeatures,
-                            images: p.pictures,
+                            images: p.images,
                             shortDesc: p.shortDesc,
-                            createdAt: p.Create_time,
+                            createdAt: p.createdAt,
                             fullDesc: p.fullDesc,
                             categoryId:p.categoryId,
                             specs:p.specs,
@@ -549,27 +547,49 @@
 
                 resetForm(){
                     this.form = {
+                        //id: null,
+                        //category: '',
+                        //title: '',
+                        //sku: '',
+                        //price: null,
+                        //oldPrice: null,
+                        //rating: 0,
+                        //status: 'В наличии',
+                        //colors: [],
+                        //keyFeatures: [],
+                        //images: [],
+                        //files: [], 
+                        //shortDesc: '',
+                        //fullDesc: '',
+                        //descriptionBlocks: [],
+                        //descImages: [],
+                        //specs: [],
+                        //createdAt: '',
+                        //updatedAt: ''
+                        // автозамена модели чтоб не заполнять в ручную все поля;
                         id: null,
-                        category: '',
-                        title: '',
-                        sku: '',
-                        price: null,
-                        oldPrice: null,
-                        rating: 0,
-                        status: 'В наличии',
+                        category: '1',
+                        title: 'Горный велоспед',
+                        sku: '1000001',
+                        price: 4350,
+                        oldPrice: 4420,
+                        rating: 4.8,
+                        status: 'Ожидается',
                         colors: [],
-                        keyFeatures: [],
+                        keyFeatures: ['Лёгкая рама', 'Быстрая сборка', 'Надёжные тормоза'],
                         images: [],
                         files: [], 
-                        shortDesc: '',
-                        fullDesc: '',
+                        shortDesc: 'Короткое описание товара',
+                        fullDesc: 'Полное описание товара', 
                         descriptionBlocks: [],
                         descImages: [],
-                        specs: [],
+                        specs: [{name:'РАМА', features:[{key:'высота',value:'1150 mm'}, {key:'длина',value:'1235 mm'}]},
+                                {name:'КОЛЕСА', features:[{key:'материал',value:'алюминий'}, {key:'размер',value:"17'"}]}],
                         createdAt: '',
-                        updatedAt: ''
+                        updatedAt: '',
+                        categoryId: 0,
+                        statusInt: '2',
                     };
-                    this.newFeature = '';
                 },
 
                 // Поиск на сервере номер SKU в зависимости от категории;
@@ -585,23 +605,23 @@
                     console.dir(this.form);
                     if(!this.form.title)
                         return this.showToast('Введите название', 'error');
-                    // if(this.editingId){
-                    //     const idx = this.products.findIndex(p => p.id === this.editingId);
-                    //     if(idx === -1)
-                    //         return this.showToast('Товар не найден', 'error');
-                    //     this.form.updatedAt = now;
-                    //     this.products[idx] = JSON.parse(JSON.stringify(this.form));
-                    //     this.showToast('Товар обновлён', 'success');
-                    // }
-                    // else {
-                    //     const max = this.products.length ? Math.max(...this.products.map(p => p.id)) : 0;
-                    //     this.form.id = max + 1;
-                    //     this.form.createdAt = now;
-                    //     this.form.updatedAt = now;
-                    //     this.products.push(JSON.parse(JSON.stringify(this.form)));
-                    //     this.showToast('Товар добавлен', 'success');
-                    //     this.page = this.pages;
-                    // }
+                    if(this.editingId){
+                        const idx = this.products.findIndex(p => p.id === this.editingId);
+                        if(idx === -1)
+                            return this.showToast('Товар не найден', 'error');
+                        this.form.updatedAt = now;
+                        this.products[idx] = JSON.parse(JSON.stringify(this.form));
+                        this.showToast('Товар обновлён', 'success');
+                    }
+                    else {
+                        const max = this.products.length ? Math.max(...this.products.map(p => p.id)) : 0;
+                        this.form.id = max + 1;
+                        this.form.createdAt = now;
+                        this.form.updatedAt = now;
+                        this.products.push(JSON.parse(JSON.stringify(this.form)));
+                        this.showToast('Товар добавлен', 'success');
+                        this.page = this.pages;
+                    }
 
                     // TODO: отправка объекта формы на сервер;
                     const objectForm=new FormData();
