@@ -20,7 +20,7 @@
                    placeholder="🔎 Поиск по названию или SKU..."
                    class="w-full md:w-72 border border-gray-300 rounded-lg px-3 py-2 focus:ring-teal-200 focus:border-teal-500 outline-none" />
             <div id="categorySelect">
-            <select x-model="form.category" class="border border-gray-300 rounded-lg px-3 py-2">
+            <select x-model="form.mainCategory" class="border border-gray-300 rounded-lg px-3 py-2">
                 <option value="">--Все категории--</option>
                 @foreach(var a in Model.MainCategories)
                 {
@@ -78,7 +78,7 @@
               <template x-for="p in paginatedFiltered" :key="p.id">
                 <tr class="hover:bg-gray-50">
                   <td class="px-4 py-3 text-gray-600" x-text="p.id"></td>
-                  <td class="px-4 py-3 text-gray-700" x-text="p.category || '—'"></td>
+                  <td class="px-4 py-3 text-gray-700" x-text="p.mainCategoryName || '—'"></td>
                   <td class="px-4 py-3 font-medium text-gray-800" x-text="p.title"></td>
                   <td class="px-4 py-3 text-gray-500" x-text="p.sku || '—'"></td>
                   <td class="px-4 py-3 text-gray-800 font-semibold" x-text="formatPrice(p.price)"></td>
@@ -170,8 +170,7 @@
                                                 <!--TEMP: нужно раскоментировать эту строку и разобраться с методом  changeSKU
                                                 <!--<select @@change="changeSKU" name="IsCategory" -->
                                                 <select  name="IsCategory"
-                                                x-model.number="form.categoryId" Id=categoryId
-                                                x-model.category="form.category"
+                                                x-model.number="form.mainCategory"
                                                 class="w-full border rounded px-3 py-2">
                                                     <option value="">— Выбрать —</option>
                                                     @foreach (var a in Model.MainCategories)
@@ -215,16 +214,15 @@
                                             </div>
 
                                             <!-- Статус для объекта -->
-                                                <!--x-model.number="form.categoryId" Id=categoryId -->
                                             <div>
                                                 <label class="block text-sm text-gray-600 mb-1">Статус</label>
                                                 <select asp-for="ProductFromAdmin.Status" 
-                                                x-model="form.statusInt" 
+                                                x-model=form.status 
                                                 class="w-full border rounded px-3 py-2">
-                                                    <option value="">--Все статусы--</option>
+                                                    <option>--Все статусы--</option>
                                                     @foreach (var a in StatusProduct.Name)
                                                     {
-                                                        <option value="@((int)a.Key)">@a.Value</option>
+                                                        <option>@a.Value</option>
                                                     }
                                                 </select>
                                             </div>
@@ -399,7 +397,7 @@
                 // form template
                 form: {
                     id: 0,
-                    category: '',
+                    mainCategory: 0,
                     title: '',
                     sku: '',
                     price: null,
@@ -417,7 +415,7 @@
                     specs: [], // {name, features:[{key,value}]}
                     createdAt: '',
                     updatedAt: '',
-                    categoryId: 0,
+                    mainCategoryName: '',
                     statusInt: 0
                 },
                 products: [],
@@ -425,7 +423,7 @@
                     this.products = productsFromServer.map(p=>{
                         return{
                             id:p.id,
-                            category: p.category,
+                            mainCategory: p.mainCategory,
                             title: p.title,
                             sku: p.sku,
                             price: p.price,
@@ -437,7 +435,7 @@
                             shortDesc: p.shortDesc,
                             createdAt: p.createdAt,
                             fullDesc: p.fullDesc,
-                            categoryId:p.categoryId,
+                            mainCategoryName:p.mainCategoryName,
                             specs:p.specs,
                             statusInt: p.statusInt
                         }
@@ -449,7 +447,7 @@
                     const s = this.search.toLowerCase().trim();
                     let arr = this.products.slice();
 
-                    if(this.filterCategory) arr = arr.filter(p => p.category === this.filterCategory);
+                    if(this.filterCategory) arr = arr.filter(p => p.mainCategory === this.filterCategory);
                     if(this.filterStatus) arr = arr.filter(p => p.status === this.filterStatus);
 
                     if(s){
@@ -519,8 +517,8 @@
                     this.showModal = true;
                     this.tab = 'main';
                     this.form.files = []; // создаем массив для записи файлов;
-                    this.form.category=p.category; // для корректной работы метода changeSKU при редактировании товара (чтобы не затирался SKU при открытии модалки редактирования);
-                    this.form.categoryId=Number(p.categoryId),
+                    this.form.mainCategory=p.mainCategory; // для корректной работы метода changeSKU при редактировании товара (чтобы не затирался SKU при открытии модалки редактирования);
+                    this.form.mainCategoryName=p.mainCategoryName,
                     this.form.specs=p.specs || [],
                     this.form.status=p.status,
                     this.form.statusInt=p.statusInt
@@ -539,6 +537,18 @@
                     this.products = this.products.filter(p => p.id !== id);
                     this.saveToStorage();
                     this.showToast('Товар удалён', 'success');
+                    fetch("/Admin/Product/Deleteproduct/" + id, {
+                        method: "DELETE"
+                    }).then(response => {
+                        if(response.ok){
+                            window.location.reload(); // перезагрузка страницы для отображения изменений в списке товаров (можно заменить на более изящное обновление списка без перезагрузки);
+                            console.log("Товар успешно удалён на сервере");
+                        } else {
+                            console.error("Ошибка при удалении товара на сервере");
+                        }
+                    }).catch(error => {
+                        console.error("Ошибка сети при удалении товара:", error);
+                    });
                 },
 
                 closeModal(){
@@ -548,7 +558,7 @@
                 resetForm(){
                     this.form = {
                         //id: null,
-                        //category: '',
+                        //mainCategory: '',
                         //title: '',
                         //sku: '',
                         //price: null,
@@ -568,7 +578,7 @@
                         //updatedAt: ''
                         // автозамена модели чтоб не заполнять в ручную все поля;
                         id: null,
-                        category: '1',
+                        mainCategory: 3,
                         title: 'Горный велоспед',
                         sku: '1000001',
                         price: 4350,
@@ -587,14 +597,14 @@
                                 {name:'КОЛЕСА', features:[{key:'материал',value:'алюминий'}, {key:'размер',value:"17'"}]}],
                         createdAt: '',
                         updatedAt: '',
-                        categoryId: 0,
+                        mainCategoryName: '',
                         statusInt: '2',
                     };
                 },
 
                 // Поиск на сервере номер SKU в зависимости от категории;
                 async changeSKU(){
-                    let response = await fetch("/SendSKU/" + this.form.category);
+                    let response = await fetch("/SendSKU/" + this.form.mainCategory);
                     let data = await response.json();
                     this.form.sku = data.skuNumber;
                 },
@@ -603,7 +613,7 @@
                 saveProduct(){
                     console.log("сработал метод saveProduct()");
                     console.dir(this.form);
-                    if(!this.form.title)
+                    /*if(!this.form.title)
                         return this.showToast('Введите название', 'error');
                     if(this.editingId){
                         const idx = this.products.findIndex(p => p.id === this.editingId);
@@ -621,7 +631,7 @@
                         this.products.push(JSON.parse(JSON.stringify(this.form)));
                         this.showToast('Товар добавлен', 'success');
                         this.page = this.pages;
-                    }
+                    }*/
 
                     // TODO: отправка объекта формы на сервер;
                     const objectForm=new FormData();

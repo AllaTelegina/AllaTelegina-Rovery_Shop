@@ -24,7 +24,7 @@ namespace Backend_asp.net.Models
         public int Quantity { get; set; } = 1;                                // Количество товара;
 
         // The navigation property for EF. Where discription the table of are main category;
-        public MainCategory MainCategory { get; set; } = new MainCategory { Name = "Default" }; // It's properti, where write main category, example "Bike" or "ElectroBike" and other; 
+        public MainCategory? MainCategory { get; set; }   // It's properti, where write main category, example "Bike" or "ElectroBike" and other; 
         public int MainCategoryId { get; set; }     // Navi property;
 
         // Свойства непосредственно для описания на странице;

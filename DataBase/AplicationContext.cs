@@ -56,7 +56,8 @@ namespace Backend_asp.net.DataBase
             modelBuilder.Entity<ProductCategory>()
                 .HasOne(a => a.Product)
                 .WithMany(b => b.ProductCategoryes)
-                .HasForeignKey(t => t.ProductId);
+                .HasForeignKey(t => t.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);  
             modelBuilder.Entity<ProductCategory>()
                 .HasOne(a => a.Category)
                 .WithMany(b => b.ProductCategoryes)
@@ -100,19 +101,12 @@ namespace Backend_asp.net.DataBase
             modelBuilder.Entity<ProductKeyFeature>()
                 .HasOne(c => c.Product)
                 .WithMany(a => a.ProductKeyFeatures)
-                .HasForeignKey(b => b.IdProduct);
+                .HasForeignKey(b => b.IdProduct)
+                .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<ProductKeyFeature>()
                 .HasOne(a => a.KeyFeature)
                 .WithMany(b => b.ProductKeyFeatures)
                 .HasForeignKey(c => c.IdKeyFeature);
-
-            // Чтоб EF увидел поля значением "null";
-            //modelBuilder.Entity<Category>()
-            //    .Property(a => a.Description)
-            //    .IsRequired(false);
-            //modelBuilder.Entity<Category>()
-            //    .Property(a => a.Title)
-            //    .IsRequired(false);
         }
     }
 }

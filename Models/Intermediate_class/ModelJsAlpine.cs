@@ -4,7 +4,7 @@ namespace Backend_asp.net.Models.Intermediate_class
     // промежуточный класс, между классами который передает с представления js alpine в Product class;
     {
         public int? id { get; set; }
-        public string category { get; set; } = "no name";
+        public int mainCategory { get; set; }   
         public string title { get; set; } = "no name";
         public string sku { get; set; } = "no name";
         public decimal price { get; set; }
@@ -14,7 +14,7 @@ namespace Backend_asp.net.Models.Intermediate_class
         public List<string> colors { get; set; } = new List<string>();
         public string shortDesc { get; set; } = "no name";
         public string fullDesc { get; set; } = "no name";
-        public int categoryId { get; set; }              // передача id категории в представление;
+        public string? mainCategoryName { get; set; }              // передача id категории в представление;
         public string statusInt { get; set; } = "no name";               // передача значения enum в int;
         public List<string> keyFeatures { get; set; } = new List<string>();
         public List<string> images { get; set; } = new List<string>();  // принимает адреса картинок, которые приходят из views

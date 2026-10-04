@@ -38,7 +38,7 @@ namespace Backend_asp.net.Areas.Admin.Controllers
             return View("~/Areas/Admin/Views/Products/index.cshtml", result);
         }
 
-        // Adding product in Data Base;
+        // Adding product in Data Base and method for editing a model;
         [HttpPost]
         public async Task <IActionResult> AddProductJS( [FromForm] string keyObjectProduct, [FromForm] List<IFormFile> imagesFiles)
         {
@@ -46,30 +46,17 @@ namespace Backend_asp.net.Areas.Admin.Controllers
             return Ok();
         }
 
-        // TEMP: разобраться с этим методом, не понятно, что он делает. Добовления товара в BD ;
-        #region
-        //[HttpPost]
-        //public async Task<IActionResult> SaveProductForAdmin(ProductsGeneral productparameter, int IsCategory)
-        //{
-        //    if(productparameter==null || productparameter.ProductFromAdmin==null)
-        //        return BadRequest("Send error data.");
-        //    var product = productparameter.ProductFromAdmin;
-        //    // Для объекта product определим Category IsCategory;
-        //    var categoryFromIsCategory = await _context.categorys.FirstOrDefaultAsync(a => a.Id==IsCategory);
-        //    if (categoryFromIsCategory == null)
-        //        return NotFound($"Категория с Id {IsCategory} не найдена");
-        //    // Добовление в базу данных главной категории;
-        //    #region
-        //    ProductCategory productCategory = new();
-        //    productCategory.CategoryId= categoryFromIsCategory.Id;
-        //    product.ProductCategoryes.Add(productCategory);
-        //    #endregion
+        //The method for removing the product of a DB;
+        [HttpDelete]
+        public async Task<IActionResult> Deleteproduct(int id)
+        {
+            await _prodServ.ProductDelete(id);
+            return Ok();
+        }
 
-        //    return RedirectToAction("ProductsView");
-        //}
-        #endregion
 
-        // Метод, который будет вызван при отправки из запроса .js, который присвоит SKU номер автоматически
+
+        // RU:Метод, который будет вызван при отправки из запроса .js, который присвоит SKU номер автоматически
         #region
         // Для формирования и присвоения для продукта SKU;
         //[HttpGet("SendSKU/{id}")]
@@ -226,16 +213,16 @@ namespace Backend_asp.net.Areas.Admin.Controllers
         #endregion
 
 
-        // Метод для перезагрузки представления;
+        // RU:Метод для перезагрузки представления;
         private IActionResult ApdateProductController()
         {
             return RedirectToAction("ProductsView");
         }
 
-        //Метод для редактирования модели;
-        private async Task<IActionResult> AditionModel(ModelJsAlpine<object> modelJsAlpine, List<IFormFile> imagesFiles)
-        {
-            await _prodServ.ChengeModel(modelJsAlpine, imagesFiles);
+        // RU:Метод для редактирования модели;
+        //private async Task<IActionResult> AditionModel(ModelJsAlpine<object> modelJsAlpine, List<IFormFile> imagesFiles)
+        //{
+        //    await _prodServ.ChengeModel(modelJsAlpine, imagesFiles);
             //    var product=await _context.products
             //        .Include(t => t.ProductCategoryes)
             //        .ThenInclude(a => a.Category)
@@ -354,7 +341,7 @@ namespace Backend_asp.net.Areas.Admin.Controllers
             //            await _context.SaveChangesAsync();
             //        };
             //        await _context.SaveChangesAsync();
-            return Ok();
-        }
+        //    return Ok();
+        //}
     }
 }
