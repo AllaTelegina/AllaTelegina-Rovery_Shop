@@ -1,4 +1,3 @@
-using Backend_asp.net.Models.DataBaseModel;
 using Backend_asp.net.Models.Intermediate_class;
 
 namespace Backend_asp.net.Models
@@ -35,11 +34,6 @@ namespace Backend_asp.net.Models
         public ICollection <string> Images { get; set; } = new List<string>();
         #endregion
 
-        // The connect Product with ProductCategory;
-        #region
-        public ICollection<ProductCategory> ProductCategoryes { get; set; }=new List<ProductCategory>();
-        #endregion
-
         // Связь с категориями товаров через промежуточный класс ProductKeyFeature;
         #region
         public ICollection<ProductKeyFeature> ProductKeyFeatures { get; set; } = new List<ProductKeyFeature>();
@@ -59,5 +53,8 @@ namespace Backend_asp.net.Models
         #region
         public ICollection<Photoproduct> ProductPicturees { get; set; } = new List<Photoproduct>();
         #endregion
+
+        // RU: Связь с PropertyValue;
+        public ICollection<PropertyValue> PropertyValues { get; set; } = new List<PropertyValue>();
     }
 }

@@ -26,37 +26,34 @@ namespace Backend_asp.net.Models.Repository
             }
             return mainCategory;
         }
+
+        // The method passes a list product from DB; 
         public async Task<List<Product>> GetAllProductList()
         {
-            // TODO: The method passes a list product from DB; 
             var products = new List<Product>();
-            products= await _context.products
+            products= await _context.Products
                 .Include(t => t.ProductKeyFeatures).ThenInclude(at => at.KeyFeature)
                 .Include(t => t.MainCategory)
+                .Include(a=>a.PropertyValues)
+                .ThenInclude(cat=>cat.Category)
                 .Include(pict=>pict.ProductPicturees)
-                .Include(a => a.ProductCategoryes).ThenInclude(ab => ab.Category)
-                .ThenInclude(ac => ac!.PropertyTypeValues).ThenInclude(cb => cb.PropertyType)
                 .ToListAsync();
             return products;
         }
 
-        //public async Task<List<Category>> GetListCategoryForPage()
-        //{
-        //    var ListCategory = new List <Category>();
-        //    return  ListCategory;
-        //}
-
-        public async Task<List<Product>> GetProductById(int id)
+        //TODO: The method finding product by Id;
+        //RU: обрати внимание, нужно чтоб этот метод возвратил пустой объект либо нет;
+        public async Task<Product> GetProductById(int id)
         {
-            var products = new List<Product>();
-            products = await _context.products.Where(prod=>prod.Id==id)
-                .Include(t => t.ProductKeyFeatures).ThenInclude(at => at.KeyFeature)
+            var productId = await _context.Products
+                .Include(t => t.ProductKeyFeatures)
+                .ThenInclude(at => at.KeyFeature)
                 .Include(t => t.MainCategory)
+                .Include(a => a.PropertyValues)
+                .ThenInclude(cat => cat.Category)
                 .Include(pict => pict.ProductPicturees)
-                .Include(a => a.ProductCategoryes).ThenInclude(ab => ab.Category)
-                .ThenInclude(ac => ac!.PropertyTypeValues).ThenInclude(cb => cb.PropertyType)
-                .ToListAsync();
-            return products;
+                .FirstOrDefaultAsync(prod => prod.Id == id);
+            return productId ?? new Product { Name = "no name" };
         }
     }
 }

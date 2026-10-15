@@ -21,7 +21,7 @@ namespace Backend_asp.net.Areas.Admin.Controllers
         {
             // Отражение всех пользователей в таблице;
             ICollection<UserRovery> viewsUser = new List<UserRovery>();
-            viewsUser =await _context.userRoverys.ToListAsync();
+            viewsUser =await _context.UserRoverys.ToListAsync();
             return View("~/Areas/Admin/Views/Users/index.cshtml", viewsUser);
         }
     }

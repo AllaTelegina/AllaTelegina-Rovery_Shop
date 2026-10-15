@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\FotoProduct1\" />
     <Folder Include="wwwroot\FotoProduct\" />
     <Folder Include="wwwroot\PictureforProduct\" />

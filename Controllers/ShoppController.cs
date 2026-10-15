@@ -2,7 +2,6 @@ using Backend_asp.net.DataBase;
 using Backend_asp.net.Interface;
 using Backend_asp.net.Models;
 using Backend_asp.net.Models.Class_for_views;
-using Backend_asp.net.Models.DataBaseModel;
 using Backend_asp.net.Models.Intermediate_class;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

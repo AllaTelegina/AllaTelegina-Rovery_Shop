@@ -3,9 +3,9 @@ using System.Text.Json;
 using Backend_asp.net.DataBase;
 using Backend_asp.net.Interface;
 using Backend_asp.net.Models.Class_for_views;
-using Backend_asp.net.Models.DataBaseModel;
 using Backend_asp.net.Models.Enams;
 using Backend_asp.net.Models.Intermediate_class;
+using Backend_asp.net.Models.Static_classes;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using static System.Net.Mime.MediaTypeNames;
@@ -25,7 +25,7 @@ namespace Backend_asp.net.Models.Service
             _inv = inv;
         }
 
-        //        //The method prepares the model for download page, where the catalog a product;
+        //The method prepares the model for download page, where the catalog a product;
         public async Task<ProductsGeneral> ModelSendInViews()
         {
             var productGeneral = new ProductsGeneral();
@@ -62,16 +62,25 @@ namespace Backend_asp.net.Models.Service
                         jsmod.keyFeatures.Add(keyfeature);
                     }
                 }
-                jsmod.specs = product.ProductCategoryes.Select(prodcat => new Specs
+
+                // TODO: RU: Добовление свойств товара для передачи в представлении;
+                // Addit propertes the goods for transfing in views;
+                var sortByCategory = product.PropertyValues.GroupBy(t => t.Category);
+                foreach (var category in sortByCategory)
                 {
-                    name = prodcat.Category!.Name,
-                    features = prodcat.Category.PropertyTypeValues
-                    .Select(val => new Features()
+                    var sp = new Specs();
+                    foreach (var feat in category)
                     {
-                        key = val.PropertyType.Name,
-                        value = val.Value
-                    }).ToList()
-                }).ToList();
+                        var feature =new Features()
+                        {
+                            key=feat.Property,
+                            value= feat.Value
+                        };
+                        sp.name = feat.Category.Name;
+                        sp.features.Add(feature);
+                    }
+                    jsmod.specs.Add(sp);
+                }
                 listJsModel.Add(jsmod);
             }
             productGeneral.modelJsAlpines = listJsModel;
@@ -98,7 +107,7 @@ namespace Backend_asp.net.Models.Service
                 return;
             };
             var product = new Product()
-            {
+            {   
                 Name = modeljs.title,
                 SkuNumber = modeljs.sku,
                 Prise = modeljs.price,
@@ -120,39 +129,39 @@ namespace Backend_asp.net.Models.Service
                     KeyFeature = keyfeature,
                     Product = product
                 };
-                await _contextServices.keyFeatures.AddAsync(keyfeature);
-                await _contextServices.productKeyFeatures.AddAsync(productkeyfeat);
+                await _contextServices.KeyFeatures.AddAsync(keyfeature);
+                await _contextServices.ProductKeyFeatures.AddAsync(productkeyfeat);
             }
             //filling the "Status"
             product.Status = StatusProduct.Name.First(t => t.Value == modeljs.status).Key;
+            //TODO: RU: Добовляю свойства товара в базу данных;
             //filling the "categorys"
-            foreach (var category in modeljs.specs)
+            if (modeljs.specs != null)
             {
-                var categorProduct = new Category()
+                var categoryFromDB = await _contextServices.Categorys.ToListAsync();
+                foreach (var spec in modeljs.specs)
                 {
-                    Name = category.name,
-                };
-                foreach (var propertyType in category.features)
-                {
-                    var propertyTypeTable = new PropertyType()
+                    var category = categoryFromDB.FirstOrDefault(t => t.Name == spec.name);
+                    ICollection<PropertyValue> properValue=new List<PropertyValue>();
+                    if (category == null)
                     {
-                        Name = propertyType.key
-                    };
-                    var propertyTypeValue = new PropertyTypeValue()
-                    {
-                        Value = propertyType.value,
-                        PropertyType = propertyTypeTable,
-                        Category = categorProduct
-                    };
-                    _contextServices.PropertyTypeValues.Add(propertyTypeValue);
-                    _contextServices.PropertyTypes.Add(propertyTypeTable);
+                        category = new Category()
+                        {
+                            Name = spec.name,
+                        };
+                        await _contextServices.Categorys.AddAsync(category);
+                        if (spec.features != null)
+                        {
+                            properValue=AddStaticMethod.CreatePropertyValueFromFeatures(spec.features,category,product);
+                        }
+                    }
+                    else
+                        if(spec.features != null)
+                        properValue = AddStaticMethod.CreatePropertyValueFromFeatures(spec.features, category, product);
+                    foreach (var propertyValueSaveInDB in properValue)
+                        _contextServices.PropertyValues.Add(propertyValueSaveInDB);
+                    await _contextServices.SaveChangesAsync();
                 }
-                var productCategory = new ProductCategory()
-                {
-                    Category = categorProduct,
-                    Product = product
-                };
-                _contextServices.productCategories.Add(productCategory);
             }
             // Adding files to the DB.
             var mainFile = true;
@@ -176,24 +185,26 @@ namespace Backend_asp.net.Models.Service
                 if (mainFile == true)
                     photo.MainPhoto = true;
                 mainFile = false;
-                await _contextServices.productsPicture.AddAsync(photo);
+                await _contextServices.Photoproducts.AddAsync(photo);
             }
             await _contextServices.SaveChangesAsync();
         }
 
+        // TODO: RU: Метод, который будет изменять; 
         // The method for chenges a model on the page;
         public async Task ChengeModel(ModelJsAlpine<Object> jsmodel, List<IFormFile> imagesFiles)
         {
-            var productDB = await _contextServices.products
+            var productDB = await _contextServices.Products
                 .Include(t => t.ProductKeyFeatures)
                 .ThenInclude(feat => feat.KeyFeature)
                 .Include(pict => pict.ProductPicturees)
                 .Include(maincat => maincat.MainCategory)
-                .Include(prodcat => prodcat.ProductCategoryes)
-                .ThenInclude(cat => cat.Category)
-                .ThenInclude(proptypeval => proptypeval!.PropertyTypeValues)
-                .ThenInclude(proptype => proptype.PropertyType)
+                .Include(cat=>cat.PropertyValues)
+                .ThenInclude(catg=>catg.Category)
                 .FirstOrDefaultAsync(t => t.Id == jsmodel.id);
+
+
+
             if (productDB == null)
                 return;
             // Chenging the model here;
@@ -218,10 +229,10 @@ namespace Backend_asp.net.Models.Service
                 // Removing associations for ProductKeyFeature;
                 foreach (var pkf in keyfeatDelete)
                 {
-                    var prod = await _contextServices.productKeyFeatures
+                    var prod = await _contextServices.ProductKeyFeatures
                         .FirstOrDefaultAsync(t => t.KeyFeature!.Name == pkf && productDB.Id == t.IdProduct);
                     if (prod != null)
-                        _contextServices.productKeyFeatures.Remove(prod);
+                        _contextServices.ProductKeyFeatures.Remove(prod);
                 }
                 // Adding relations for ProductKeyFeature;
                 foreach (var prodkeyfeat in keyfeatNew)
@@ -229,19 +240,19 @@ namespace Backend_asp.net.Models.Service
                     // RU: проверяю есть ли совподение уже в BD
                     if (prodkeyfeat != null)
                     {
-                        var keyfeatFromDB = await _contextServices.keyFeatures
+                        var keyfeatFromDB = await _contextServices.KeyFeatures
                             .FirstOrDefaultAsync(t => t.Name == prodkeyfeat);
                         if (keyfeatFromDB == null)
                         {
                             keyfeatFromDB = new KeyFeature { Name = prodkeyfeat };
-                            _contextServices.keyFeatures.Add(keyfeatFromDB);
+                            _contextServices.KeyFeatures.Add(keyfeatFromDB);
                         }
                     }
                 }
                 await _contextServices.SaveChangesAsync();
                 foreach (var prodkeyfeat in keyfeatNew)
                 {
-                    var keyfeatFromDB = await _contextServices.keyFeatures
+                    var keyfeatFromDB = await _contextServices.KeyFeatures
                             .FirstOrDefaultAsync(t => t.Name == prodkeyfeat);
                     if (keyfeatFromDB != null)
                     {
@@ -250,7 +261,7 @@ namespace Backend_asp.net.Models.Service
                             IdProduct = productDB.Id,
                             IdKeyFeature = keyfeatFromDB.Id
                         };
-                        _contextServices.productKeyFeatures.Add(addProdkeyfeat);
+                        _contextServices.ProductKeyFeatures.Add(addProdkeyfeat);
                     }
                 }
                 await _contextServices.SaveChangesAsync();
@@ -283,7 +294,7 @@ namespace Backend_asp.net.Models.Service
                         if (index < files.Count)
                         {
                             // RU: буду увеличивать по index;
-                            // TODO: RU: Идет задвоение файлов, т.к. встречает два раза bloob и два раза гонит по массиву;
+                            // RU: Идет задвоение файлов, т.к. встречает два раза bloob и два раза гонит по массиву;
                             var fileName = Guid.NewGuid() + Path.GetExtension(files[index].FileName);
                             var fileAdresInServer = Path.Combine(_namefolder, fileName);
                             var fileFullAdress = Path.Combine(_inv.WebRootPath, fileAdresInServer);
@@ -303,7 +314,7 @@ namespace Backend_asp.net.Models.Service
                                 photoproduct.MainPhoto = true;
                                 flag = false;
                             }
-                            await _contextServices.productsPicture.AddAsync(photoproduct);
+                            await _contextServices.Photoproducts.AddAsync(photoproduct);
                             index++;
                         };
                     }
@@ -334,7 +345,7 @@ namespace Backend_asp.net.Models.Service
                     {
                         if (deletePictureFromDB.Contains(photoProduct.Putch))
                         {
-                            _contextServices.productsPicture.Remove(photoProduct);
+                            _contextServices.Photoproducts.Remove(photoProduct);
                             // Удаляем файлы из папки с этими именами;
                             var patch = Path.Combine(_inv.WebRootPath, photoProduct.Putch);
                             if (File.Exists(patch))
@@ -344,53 +355,17 @@ namespace Backend_asp.net.Models.Service
                 }
                 await _contextServices.SaveChangesAsync();
             }
-
-            // TODO:
-            // RU: Проверка и замена свойст товара (проверку делаю ручно);
-            if(jsmodel.specs!=null && productDB.ProductCategoryes!=null)
-            {
-                //RU: собираю похожую модель на ModelJsAlpine  из DB  для сравнения;
-                var specAll = new List<Specs>();
-                foreach(var prodCat in productDB.ProductCategoryes)
-                {
-                    var spec = new Specs();
-                    if (prodCat.Category != null)
-                    {
-                        spec.name = prodCat.Category.Name;
-                        //RU: тут же создаю модель Features();
-                        if (prodCat.Category != null)
-                        {
-                            foreach(var catdb in prodCat.Category.PropertyTypeValues)
-                            {
-                                var modelSpec = new Features();
-                                modelSpec.key = catdb.PropertyType.Name;
-                                modelSpec.value = catdb.Value;
-                                spec.features.Add(modelSpec);
-                            }
-                        }
-                    }
-                    specAll.Add(spec);
-                }
-                if (specAll == jsmodel.specs)
-                    Console.WriteLine("модель равна данной");
-                else
-                    Console.WriteLine("модель не равна, но на самом деле равна ищи другой способ для логики");
-            }
         }
 
         // Remove product from DB;
         public async Task ProductDelete(int id)
         {
             var product = new Product();
-            product = await _contextServices.products
+            product = await _contextServices.Products
                 .Include(t => t.ProductKeyFeatures)
                 .ThenInclude(feat => feat.KeyFeature)
                 .Include(pict => pict.ProductPicturees)
                 .Include(maincat => maincat.MainCategory)
-                .Include(prodcat => prodcat.ProductCategoryes)
-                .ThenInclude(cat => cat.Category)
-                .ThenInclude(proptypeval => proptypeval!.PropertyTypeValues)
-                .ThenInclude(proptype => proptype.PropertyType)
                 .FirstOrDefaultAsync(t => t.Id == id);
             if (product == null)
                 return;
@@ -399,19 +374,8 @@ namespace Backend_asp.net.Models.Service
             foreach (var key in keyfeats)
             {
                 if (key != null)
-                    _contextServices.keyFeatures.Remove(key);
+                    _contextServices.KeyFeatures.Remove(key);
             }
-            var categorys = product.ProductCategoryes.Select(t => t.Category).ToList();
-            foreach (var category in categorys)
-            {
-                if (category != null)
-                    _contextServices.categorys.Remove(category);
-            }
-            var propertyTypes = categorys.Where(t => t!.PropertyTypeValues != null).SelectMany(t => t!.PropertyTypeValues)
-                .Select(a => a.PropertyType).Distinct().ToList();
-            foreach (var propertytype in propertyTypes)
-                _contextServices.PropertyTypes.Remove(propertytype);
-            //
             // The delete phisical files;
             var pictures = product.ProductPicturees.ToList();
             foreach (var picture in pictures)
@@ -421,7 +385,7 @@ namespace Backend_asp.net.Models.Service
                 if (System.IO.File.Exists(patch))
                     System.IO.File.Delete(patch);
             }
-            _contextServices.products.Remove(product);
+            _contextServices.Products.Remove(product);
             await _contextServices.SaveChangesAsync();
         }
     }

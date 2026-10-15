@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Backend_asp.net.Migrations
 {
     /// <inheritdoc />
-    public partial class First_migrations_new_DB_New1BDRoveryShop : Migration
+    public partial class NewDBSimplestructproductandPropertyValues : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "categorys",
+                name: "Categorys",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -21,11 +21,11 @@ namespace Backend_asp.net.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_categorys", x => x.Id);
+                    table.PrimaryKey("PK_Categorys", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "keyFeatures",
+                name: "KeyFeatures",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -35,7 +35,7 @@ namespace Backend_asp.net.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_keyFeatures", x => x.Id);
+                    table.PrimaryKey("PK_KeyFeatures", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -52,20 +52,7 @@ namespace Backend_asp.net.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PropertyTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PropertyTypes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "userRoverys",
+                name: "UserRoverys",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -93,11 +80,11 @@ namespace Backend_asp.net.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_userRoverys", x => x.Id);
+                    table.PrimaryKey("PK_UserRoverys", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "products",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -119,9 +106,9 @@ namespace Backend_asp.net.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_products", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_products_MainCategoryes_MainCategoryId",
+                        name: "FK_Products_MainCategoryes_MainCategoryId",
                         column: x => x.MainCategoryId,
                         principalTable: "MainCategoryes",
                         principalColumn: "Id",
@@ -129,33 +116,7 @@ namespace Backend_asp.net.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PropertyTypeValues",
-                columns: table => new
-                {
-                    PropertyTypeId = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PropertyTypeValues", x => new { x.PropertyTypeId, x.CategoryId });
-                    table.ForeignKey(
-                        name: "FK_PropertyTypeValues_PropertyTypes_PropertyTypeId",
-                        column: x => x.PropertyTypeId,
-                        principalTable: "PropertyTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PropertyTypeValues_categorys_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "categorys",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "baskets",
+                name: "Baskets",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -166,67 +127,17 @@ namespace Backend_asp.net.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_baskets", x => x.Id);
+                    table.PrimaryKey("PK_Baskets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_baskets_userRoverys_UserRoveryId",
+                        name: "FK_Baskets_UserRoverys_UserRoveryId",
                         column: x => x.UserRoveryId,
-                        principalTable: "userRoverys",
+                        principalTable: "UserRoverys",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "productCategories",
-                columns: table => new
-                {
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_productCategories", x => new { x.ProductId, x.CategoryId });
-                    table.ForeignKey(
-                        name: "FK_productCategories_categorys_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "categorys",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_productCategories_products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "productKeyFeatures",
-                columns: table => new
-                {
-                    IdProduct = table.Column<int>(type: "int", nullable: false),
-                    IdKeyFeature = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_productKeyFeatures", x => new { x.IdProduct, x.IdKeyFeature });
-                    table.ForeignKey(
-                        name: "FK_productKeyFeatures_keyFeatures_IdKeyFeature",
-                        column: x => x.IdKeyFeature,
-                        principalTable: "keyFeatures",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_productKeyFeatures_products_IdProduct",
-                        column: x => x.IdProduct,
-                        principalTable: "products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "productsPicture",
+                name: "Photoproducts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -239,17 +150,71 @@ namespace Backend_asp.net.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_productsPicture", x => x.Id);
+                    table.PrimaryKey("PK_Photoproducts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_productsPicture_products_ProductId",
+                        name: "FK_Photoproducts_Products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "products",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "basketProducts",
+                name: "ProductKeyFeatures",
+                columns: table => new
+                {
+                    IdProduct = table.Column<int>(type: "int", nullable: false),
+                    IdKeyFeature = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductKeyFeatures", x => new { x.IdProduct, x.IdKeyFeature });
+                    table.ForeignKey(
+                        name: "FK_ProductKeyFeatures_KeyFeatures_IdKeyFeature",
+                        column: x => x.IdKeyFeature,
+                        principalTable: "KeyFeatures",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductKeyFeatures_Products_IdProduct",
+                        column: x => x.IdProduct,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PropertyValues",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Property = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PropertyValues", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PropertyValues_Categorys_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categorys",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PropertyValues_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BasketProducts",
                 columns: table => new
                 {
                     ProductID = table.Column<int>(type: "int", nullable: false),
@@ -258,92 +223,86 @@ namespace Backend_asp.net.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_basketProducts", x => new { x.BasketID, x.ProductID });
+                    table.PrimaryKey("PK_BasketProducts", x => new { x.BasketID, x.ProductID });
                     table.ForeignKey(
-                        name: "FK_basketProducts_baskets_BasketID",
+                        name: "FK_BasketProducts_Baskets_BasketID",
                         column: x => x.BasketID,
-                        principalTable: "baskets",
+                        principalTable: "Baskets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_basketProducts_products_ProductID",
+                        name: "FK_BasketProducts_Products_ProductID",
                         column: x => x.ProductID,
-                        principalTable: "products",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_basketProducts_ProductID",
-                table: "basketProducts",
+                name: "IX_BasketProducts_ProductID",
+                table: "BasketProducts",
                 column: "ProductID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_baskets_UserRoveryId",
-                table: "baskets",
+                name: "IX_Baskets_UserRoveryId",
+                table: "Baskets",
                 column: "UserRoveryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_productCategories_CategoryId",
-                table: "productCategories",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_productKeyFeatures_IdKeyFeature",
-                table: "productKeyFeatures",
-                column: "IdKeyFeature");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_products_MainCategoryId",
-                table: "products",
-                column: "MainCategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_productsPicture_ProductId",
-                table: "productsPicture",
+                name: "IX_Photoproducts_ProductId",
+                table: "Photoproducts",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PropertyTypeValues_CategoryId",
-                table: "PropertyTypeValues",
+                name: "IX_ProductKeyFeatures_IdKeyFeature",
+                table: "ProductKeyFeatures",
+                column: "IdKeyFeature");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_MainCategoryId",
+                table: "Products",
+                column: "MainCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PropertyValues_CategoryId",
+                table: "PropertyValues",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PropertyValues_ProductId",
+                table: "PropertyValues",
+                column: "ProductId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "basketProducts");
+                name: "BasketProducts");
 
             migrationBuilder.DropTable(
-                name: "productCategories");
+                name: "Photoproducts");
 
             migrationBuilder.DropTable(
-                name: "productKeyFeatures");
+                name: "ProductKeyFeatures");
 
             migrationBuilder.DropTable(
-                name: "productsPicture");
+                name: "PropertyValues");
 
             migrationBuilder.DropTable(
-                name: "PropertyTypeValues");
+                name: "Baskets");
 
             migrationBuilder.DropTable(
-                name: "baskets");
+                name: "KeyFeatures");
 
             migrationBuilder.DropTable(
-                name: "keyFeatures");
+                name: "Categorys");
 
             migrationBuilder.DropTable(
-                name: "products");
+                name: "Products");
 
             migrationBuilder.DropTable(
-                name: "PropertyTypes");
-
-            migrationBuilder.DropTable(
-                name: "categorys");
-
-            migrationBuilder.DropTable(
-                name: "userRoverys");
+                name: "UserRoverys");
 
             migrationBuilder.DropTable(
                 name: "MainCategoryes");

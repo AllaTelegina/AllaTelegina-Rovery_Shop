@@ -41,7 +41,7 @@ namespace Backend_asp.net.Controllers
                 return View("registration");
 
             // Записываю пользователся в Cookies и записываю его в базу данных;
-            var dbuserEmail=await _context.userRoverys.FirstOrDefaultAsync(x=>x.Email==emailUser);
+            var dbuserEmail=await _context.UserRoverys.FirstOrDefaultAsync(x=>x.Email==emailUser);
             if (dbuserEmail==null)
             {
                 var userAddDatabase = new UserRovery()
@@ -49,7 +49,7 @@ namespace Backend_asp.net.Controllers
                     Name = nameUser,
                     Email = emailUser,
                 };
-                await _context.userRoverys.AddAsync(userAddDatabase);
+                await _context.UserRoverys.AddAsync(userAddDatabase);
                 _context.SaveChanges();
             };
 

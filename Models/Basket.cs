@@ -1,4 +1,3 @@
-using Backend_asp.net.Models.DataBaseModel;
 using Backend_asp.net.Models.Intermediate_class;
 
 namespace Backend_asp.net.Models

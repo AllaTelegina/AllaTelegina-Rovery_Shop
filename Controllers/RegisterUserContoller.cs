@@ -30,7 +30,7 @@ namespace Backend_asp.net.Controllers
             var user=model.UserRovery;
 
             // проверка модели есть ли в базе данных такой email;
-            var SerchModelDB = await _context.userRoverys.FirstOrDefaultAsync(x => x.Email == user.Email);
+            var SerchModelDB = await _context.UserRoverys.FirstOrDefaultAsync(x => x.Email == user.Email);
             if (SerchModelDB == null)
             {
 
@@ -49,7 +49,7 @@ namespace Backend_asp.net.Controllers
                 hashModel.TimeIntrance = DateTime.Now;          // Дата входа пользователя;
 
                 // Записываем в базу данных пользователя;
-                _context.userRoverys.Add(hashModel);
+                _context.UserRoverys.Add(hashModel);
                 await _context.SaveChangesAsync();
                 //Передача данных в cookes;
                 Response.Cookies.Append("name", user.Name ?? "", new CookieOptions
@@ -88,7 +88,7 @@ namespace Backend_asp.net.Controllers
             if(imail==null || password == null)
                 return View("ErrorViewModel");
             // провверяю есть ли в базе данных;
-            var userDB= await _context.userRoverys.FirstOrDefaultAsync(x=> x.Email == imail);
+            var userDB= await _context.UserRoverys.FirstOrDefaultAsync(x=> x.Email == imail);
             if (userDB != null)
             {
                 // фиксация времени входа пользователя;
@@ -160,7 +160,7 @@ namespace Backend_asp.net.Controllers
         [HttpPost]
         public async Task<ActionResult> If_FogotPassword(UserRovery user)
         {
-            var temporaryEmail=await _context.userRoverys.FirstOrDefaultAsync(x=>x.Email==user.Email);
+            var temporaryEmail=await _context.UserRoverys.FirstOrDefaultAsync(x=>x.Email==user.Email);
             if (temporaryEmail == null)
             {
                 ViewBag.Error = "Email is not exist";
@@ -182,7 +182,7 @@ namespace Backend_asp.net.Controllers
         [HttpGet]
         public async Task<ActionResult> BackToken(string token)
         {
-            var user=await _context.userRoverys.FirstOrDefaultAsync(x=>x.Token== token);
+            var user=await _context.UserRoverys.FirstOrDefaultAsync(x=>x.Token== token);
             if (user.TokenExpiry == null || user.TokenExpiry <= DateTime.Now)
             {
                 user.TokenExpiry = null;
@@ -210,7 +210,7 @@ namespace Backend_asp.net.Controllers
             }
             // хэшер для пороля;
             var forgotpasswordhashee = new PasswordHasher<UserRovery>();
-            var userDB = await _context.userRoverys.FirstOrDefaultAsync(x => x.Id == user.Id);
+            var userDB = await _context.UserRoverys.FirstOrDefaultAsync(x => x.Id == user.Id);
             var pas = forgotpasswordhashee.HashPassword(user, user.Password);
             userDB.Password = pas;
             userDB.TimeIntrance = DateTime.Now;
@@ -253,7 +253,7 @@ namespace Backend_asp.net.Controllers
         private async void TimeIntrance(UserRovery user)
         {
             user.TimeIntrance = DateTime.Now;
-            _context.userRoverys.Update(user);
+            _context.UserRoverys.Update(user);
             await _context.SaveChangesAsync();
         }
     }

@@ -1,5 +1,4 @@
 using Backend_asp.net.Models;
-using Backend_asp.net.Models.DataBaseModel;
 using Backend_asp.net.Models.Intermediate_class;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,27 +7,25 @@ namespace Backend_asp.net.DataBase
     public class AplicationContext:DbContext
     {
         // создание в Db таблицу пользователей
-        public DbSet<UserRovery> userRoverys { get; set; }
+        public DbSet<UserRovery> UserRoverys { get; set; }
         // создание в Db таблицу товаров механические велосипеды
-        public DbSet<Product> products { get; set; }
+        public DbSet<Product> Products { get; set; }
         // создание в Db таблицу карточку товаров
-        public DbSet<Basket> baskets { get; set; }
+        public DbSet<Basket> Baskets { get; set; }
         // Категория товаров;
-        public DbSet<Category> categorys{ get; set; }
+        public DbSet<Category> Categorys{ get; set; }
         // Фотографии для продукта;
-        public DbSet<Photoproduct> productsPicture { get; set; }
+        public DbSet<Photoproduct> Photoproducts { get; set; }
         // Добовление таблицы KeyFeatyre;
-        public DbSet<KeyFeature> keyFeatures { get; set; }
+        public DbSet<KeyFeature> KeyFeatures { get; set; }
         // Add Main Category;
         public DbSet<MainCategory> MainCategoryes { get; set; }
-        public DbSet<PropertyType> PropertyTypes { get; set; }
+        public DbSet<PropertyValue> PropertyValues { get; set; }
 
         // Добовление таблицы свойств для велосипедов и промежуточной таблицы;
         #region
-        public DbSet<ProductCategory> productCategories { get; set; }
-        public DbSet<BasketProduct> basketProducts { get; set; }
-        public DbSet<ProductKeyFeature> productKeyFeatures { get; set; }
-        public DbSet<PropertyTypeValue> PropertyTypeValues { get; set; }
+        public DbSet<BasketProduct> BasketProducts { get; set; }
+        public DbSet<ProductKeyFeature> ProductKeyFeatures { get; set; }
         #endregion
 
         // Это конструктор;
@@ -38,30 +35,16 @@ namespace Backend_asp.net.DataBase
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // The setup connection with "Category" and "PropertyType" via table "PropertyTypeValue"
-            modelBuilder.Entity<PropertyTypeValue>()
-                .HasKey(a => new { a.PropertyTypeId, a.CategoryId });
-            modelBuilder.Entity<PropertyTypeValue>()
-                .HasOne(a => a.PropertyType)
-                .WithMany(b => b.PropertyTypeValues)
-                .HasForeignKey(t => t.PropertyTypeId);
-            modelBuilder.Entity<PropertyTypeValue>()
-                .HasOne(a => a.Category)
-                .WithMany(b => b.PropertyTypeValues)
-                .HasForeignKey(c => c.CategoryId);
+            modelBuilder.Entity<PropertyValue>()
+                .HasOne(pv => pv.Product)
+                .WithMany(p => p.PropertyValues)
+                .HasForeignKey(pv => pv.ProductId);
 
-            // The setup connection with "Product" and "Category" via table "ProductCategory";
-            modelBuilder.Entity<ProductCategory>()
-                .HasKey(c => new { c.ProductId, c.CategoryId });
-            modelBuilder.Entity<ProductCategory>()
-                .HasOne(a => a.Product)
-                .WithMany(b => b.ProductCategoryes)
-                .HasForeignKey(t => t.ProductId)
-                .OnDelete(DeleteBehavior.Cascade);  
-            modelBuilder.Entity<ProductCategory>()
-                .HasOne(a => a.Category)
-                .WithMany(b => b.ProductCategoryes)
-                .HasForeignKey(c => c.CategoryId);
+            // RU:создание связи один ко многим между таблицами "Product" и "PropertyValue";
+            modelBuilder.Entity<PropertyValue>()
+                .HasOne(pv => pv.Category)
+                .WithMany(c => c.PropertyValues)
+                .HasForeignKey(pv => pv.CategoryId);
 
             // The setup connection with "Product" and "MainProduct";
             modelBuilder.Entity<Product>()

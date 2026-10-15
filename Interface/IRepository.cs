@@ -1,5 +1,4 @@
 using Backend_asp.net.Models;
-using Backend_asp.net.Models.DataBaseModel;
 
 namespace Backend_asp.net.Interface
 {
@@ -13,6 +12,6 @@ namespace Backend_asp.net.Interface
         //// return list, where category equals == 0;
         //public Task<List<Category>> GetListCategoryForPage();
         // Returning the model at the Id;
-        public Task<List<Product>> GetProductById(int id);
+        public Task<Product> GetProductById(int id);
     }
 }
