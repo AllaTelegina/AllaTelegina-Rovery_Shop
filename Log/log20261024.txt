@@ -1,0 +1,1250 @@
+2026-10-24 11:46:15.821 +02:00 [INF] User profile is available. Using 'C:\Users\Dog\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-10-24 11:46:21.423 +02:00 [WRN] No store type was specified for the decimal property 'Lastprise' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-24 11:46:21.436 +02:00 [WRN] No store type was specified for the decimal property 'Prise' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-24 11:46:21.442 +02:00 [WRN] No store type was specified for the decimal property 'Rating' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-24 11:46:25.940 +02:00 [INF] Executed DbCommand (47ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [MainCategoryes] AS [m]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-10-24 11:46:27.329 +02:00 [INF] Now listening on: https://localhost:7001
+2026-10-24 11:46:27.333 +02:00 [INF] Now listening on: http://localhost:5000
+2026-10-24 11:46:27.344 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-10-24 11:46:27.348 +02:00 [INF] Hosting environment: Development
+2026-10-24 11:46:27.352 +02:00 [INF] Content root path: D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net
+2026-10-24 11:46:33.909 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/ - null null
+2026-10-24 11:46:39.904 +02:00 [WRN] Unable to contact VS to retrieve Browser Link script tag.
+2026-10-24 11:46:40.092 +02:00 [INF] Executing endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-24 11:46:40.174 +02:00 [INF] Route matched with {action = "ProductsView", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ProductsView() on controller Backend_asp.net.Areas.Admin.Controllers.ProductController (DockerProjectBackend).
+2026-10-24 11:46:40.833 +02:00 [INF] Executed DbCommand (105ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[Name]
+FROM [MainCategoryes] AS [m]
+2026-10-24 11:46:41.873 +02:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-10-24 11:46:42.249 +02:00 [INF] Executed DbCommand (82ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id], [s].[Name], [s].[Id0], [s].[CreateKeyFeature], [s].[Name0], [m].[Name], [s0].[Id], [s0].[CategoryId], [s0].[ProductId], [s0].[Property], [s0].[Value], [s0].[Id0], [s0].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM [Products] AS [p]
+INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s] ON [p].[Id] = [s].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s0] ON [p].[Id] = [s0].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [p].[Id] = [p2].[ProductId]
+ORDER BY [p].[Id], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id0], [s0].[Id], [s0].[Id0]
+2026-10-24 11:46:43.022 +02:00 [INF] Executing ViewResult, running view ~/Areas/Admin/Views/Products/index.cshtml.
+2026-10-24 11:46:44.504 +02:00 [INF] Executed ViewResult - view ~/Areas/Admin/Views/Products/index.cshtml executed in 1506.2461ms.
+2026-10-24 11:46:44.623 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-24 11:46:44.638 +02:00 [INF] Executed action Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend) in 4457.479ms
+2026-10-24 11:46:44.673 +02:00 [INF] Executed endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-24 11:46:44.681 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 59.8951ms
+2026-10-24 11:46:44.725 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/ - 200 null text/html; charset=utf-8 10894.1304ms
+2026-10-24 11:46:46.984 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:46:47.043 +02:00 [INF] The file /FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG was not modified
+2026-10-24 11:46:47.786 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 304 null image/jpeg 802.6229ms
+2026-10-24 11:46:56.956 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/8 - null null
+2026-10-24 11:46:57.239 +02:00 [WRN] Unable to contact VS to retrieve Browser Link script tag.
+2026-10-24 11:46:57.304 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 11:46:57.365 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 11:46:57.965 +02:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-10-24 11:46:58.979 +02:00 [INF] Executed DbCommand (630ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 11:46:59.087 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 11:47:00.170 +02:00 [INF] Executed ViewResult - view card_produkt executed in 1102.5754ms.
+2026-10-24 11:47:00.338 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/main.js - null null
+2026-10-24 11:47:00.516 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 3130.2042ms
+2026-10-24 11:47:00.715 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 11:47:00.568 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/assets/images/rover.png - null null
+2026-10-24 11:47:00.523 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/output.css - null null
+2026-10-24 11:47:00.788 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 11:47:00.771 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 11:47:00.738 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/8 - 200 null text/html; charset=utf-8 3781.9071ms
+2026-10-24 11:47:00.798 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 11:47:00.806 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/assets/images/rover.png - 404 0 null 237.6158ms
+2026-10-24 11:47:00.816 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 11:47:00.863 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/assets/images/rover.png, Response status code: 404
+2026-10-24 11:47:00.920 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-24 11:47:00.943 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 22.9683ms
+2026-10-24 11:47:01.037 +02:00 [INF] Executed DbCommand (82ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 11:47:01.068 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/js/validate_fields_now.js - null null
+2026-10-24 11:47:01.571 +02:00 [INF] Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 11:47:01.648 +02:00 [INF] Создан пустой конструктор
+2026-10-24 11:47:01.669 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/js/validate_fields_now.js - 404 0 null 601.1793ms
+2026-10-24 11:47:01.751 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/js/validate_fields_now.js, Response status code: 404
+2026-10-24 11:47:01.721 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 11:47:01.716 +02:00 [INF] Создан пустой конструктор
+2026-10-24 11:47:01.788 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 11:47:01.816 +02:00 [INF] Executed ViewResult - view card_produkt executed in 96.3257ms.
+2026-10-24 11:47:01.831 +02:00 [INF] Executed ViewResult - view card_produkt executed in 42.9306ms.
+2026-10-24 11:47:01.845 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 969.5068ms
+2026-10-24 11:47:01.854 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 11:47:01.867 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/main.js - 200 null text/html; charset=utf-8 1528.9649ms
+2026-10-24 11:47:01.836 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 989.7667ms
+2026-10-24 11:47:01.918 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 11:47:01.930 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/output.css - 200 null text/html; charset=utf-8 1407.2317ms
+2026-10-24 11:47:05.054 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:47:05.057 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:47:05.125 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:47:05.552 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 427.1584ms
+2026-10-24 11:47:05.530 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 472.572ms
+2026-10-24 11:47:05.554 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 499.4694ms
+2026-10-24 11:47:05.798 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:47:05.777 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:47:05.570 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:47:09.760 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:47:09.783 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 23.2161ms
+2026-10-24 11:47:09.815 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:47:14.828 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:47:14.831 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:47:14.870 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 41.8982ms
+2026-10-24 11:47:14.896 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 499 null null 65.1983ms
+2026-10-24 11:47:14.981 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 499
+2026-10-24 11:47:14.971 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:47:19.737 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:47:19.743 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 5.9741ms
+2026-10-24 11:47:19.758 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:47:20.487 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:47:20.499 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 12.3154ms
+2026-10-24 11:47:20.520 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:47:24.750 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:47:24.750 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:47:24.777 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 27.6324ms
+2026-10-24 11:47:24.803 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:47:24.769 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 19.238ms
+2026-10-24 11:47:24.835 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:47:26.180 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/output.css - null null
+2026-10-24 11:47:26.195 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 11:47:26.199 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 11:47:26.271 +02:00 [INF] Executed DbCommand (36ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 11:47:26.319 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/.well-known/appspecific/com.chrome.devtools.json - null null
+2026-10-24 11:47:26.347 +02:00 [INF] Создан пустой конструктор
+2026-10-24 11:47:26.358 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/.well-known/appspecific/com.chrome.devtools.json - 404 0 null 39.3682ms
+2026-10-24 11:47:26.388 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/.well-known/appspecific/com.chrome.devtools.json, Response status code: 404
+2026-10-24 11:47:26.370 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 11:47:26.429 +02:00 [INF] Executed ViewResult - view card_produkt executed in 59.0724ms.
+2026-10-24 11:47:26.437 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 214.3824ms
+2026-10-24 11:47:26.449 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 11:47:26.465 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/output.css - 200 null text/html; charset=utf-8 284.242ms
+2026-10-24 11:47:29.754 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:47:29.758 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:47:29.765 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 10.7547ms
+2026-10-24 11:47:29.806 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:47:29.781 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 23.5641ms
+2026-10-24 11:47:29.840 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:47:34.744 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:47:34.751 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:47:34.759 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 15.0122ms
+2026-10-24 11:47:34.776 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 25.7887ms
+2026-10-24 11:47:34.802 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:47:34.821 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:47:39.741 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:47:39.746 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:47:39.752 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 10.6358ms
+2026-10-24 11:47:39.770 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 23.9577ms
+2026-10-24 11:47:39.797 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:47:39.817 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:47:44.753 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:47:44.755 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:47:44.768 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 14.5519ms
+2026-10-24 11:47:44.807 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:47:44.780 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 25.4906ms
+2026-10-24 11:47:44.847 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:47:49.760 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:47:49.765 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:47:49.772 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 12.1045ms
+2026-10-24 11:47:49.820 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:47:49.788 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 23.9845ms
+2026-10-24 11:47:49.874 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:47:54.741 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:47:54.757 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:47:54.773 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 32.442ms
+2026-10-24 11:47:54.808 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:47:54.790 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 33.3852ms
+2026-10-24 11:47:54.876 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:52:23.988 +02:00 [INF] User profile is available. Using 'C:\Users\Dog\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-10-24 11:52:31.775 +02:00 [WRN] No store type was specified for the decimal property 'Lastprise' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-24 11:52:31.783 +02:00 [WRN] No store type was specified for the decimal property 'Prise' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-24 11:52:31.783 +02:00 [WRN] No store type was specified for the decimal property 'Rating' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-24 11:52:38.550 +02:00 [INF] Executed DbCommand (177ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [MainCategoryes] AS [m]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-10-24 11:52:40.383 +02:00 [INF] Now listening on: http://localhost:5000
+2026-10-24 11:52:40.462 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-10-24 11:52:40.467 +02:00 [INF] Hosting environment: Development
+2026-10-24 11:52:40.467 +02:00 [INF] Content root path: D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net
+2026-10-24 11:53:06.387 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/ - null null
+2026-10-24 11:53:07.283 +02:00 [WRN] Failed to determine the https port for redirect.
+2026-10-24 11:53:07.384 +02:00 [INF] Executing endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-24 11:53:07.655 +02:00 [INF] Route matched with {action = "ProductsView", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ProductsView() on controller Backend_asp.net.Areas.Admin.Controllers.ProductController (DockerProjectBackend).
+2026-10-24 11:53:09.305 +02:00 [INF] Executed DbCommand (250ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[Name]
+FROM [MainCategoryes] AS [m]
+2026-10-24 11:53:11.987 +02:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-10-24 11:53:20.356 +02:00 [INF] Executed DbCommand (7,511ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id], [s].[Name], [s].[Id0], [s].[CreateKeyFeature], [s].[Name0], [m].[Name], [s0].[Id], [s0].[CategoryId], [s0].[ProductId], [s0].[Property], [s0].[Value], [s0].[Id0], [s0].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM [Products] AS [p]
+INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s] ON [p].[Id] = [s].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s0] ON [p].[Id] = [s0].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [p].[Id] = [p2].[ProductId]
+ORDER BY [p].[Id], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id0], [s0].[Id], [s0].[Id0]
+2026-10-24 11:53:26.932 +02:00 [INF] Executing ViewResult, running view ~/Areas/Admin/Views/Products/index.cshtml.
+2026-10-24 11:53:31.496 +02:00 [INF] Executed ViewResult - view ~/Areas/Admin/Views/Products/index.cshtml executed in 4587.1401ms.
+2026-10-24 11:53:31.505 +02:00 [INF] Executed action Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend) in 23846.7496ms
+2026-10-24 11:53:31.508 +02:00 [INF] Executed endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-24 11:53:31.637 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/ - 200 null text/html; charset=utf-8 25686.9391ms
+2026-10-24 11:53:33.285 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-24 11:53:33.296 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - 200 13732 application/javascript; charset=utf-8 11.1971ms
+2026-10-24 11:53:40.707 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:53:40.737 +02:00 [INF] The file /FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG was not modified
+2026-10-24 11:53:40.739 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 304 null image/jpeg 31.6078ms
+2026-10-24 11:55:15.287 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/Shoppmethod - null null
+2026-10-24 11:55:15.314 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.Shoppmethod (DockerProjectBackend)'
+2026-10-24 11:55:15.426 +02:00 [INF] Route matched with {action = "Shoppmethod", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Shoppmethod() on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 11:55:16.106 +02:00 [INF] Executed DbCommand (17ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[Name]
+FROM [MainCategoryes] AS [m]
+2026-10-24 11:55:16.994 +02:00 [INF] Executed DbCommand (579ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id], [s].[Name], [s].[Id0], [s].[CreateKeyFeature], [s].[Name0], [m].[Name], [s0].[Id], [s0].[CategoryId], [s0].[ProductId], [s0].[Property], [s0].[Value], [s0].[Id0], [s0].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM [Products] AS [p]
+INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s] ON [p].[Id] = [s].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s0] ON [p].[Id] = [s0].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [p].[Id] = [p2].[ProductId]
+ORDER BY [p].[Id], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id0], [s0].[Id], [s0].[Id0]
+2026-10-24 11:55:17.436 +02:00 [INF] Executing ViewResult, running view katalog.
+2026-10-24 11:55:18.969 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/main.js - null null
+2026-10-24 11:55:18.990 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/main.js - 404 0 null 21.0242ms
+2026-10-24 11:55:18.992 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/main.js, Response status code: 404
+2026-10-24 11:55:19.035 +02:00 [INF] Executed ViewResult - view katalog executed in 1642.6584ms.
+2026-10-24 11:55:19.059 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.Shoppmethod (DockerProjectBackend) in 3632.9044ms
+2026-10-24 11:55:19.060 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.Shoppmethod (DockerProjectBackend)'
+2026-10-24 11:55:19.062 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/Shoppmethod - 200 null text/html; charset=utf-8 3775.127ms
+2026-10-24 11:55:19.157 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-24 11:55:19.158 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - 200 13732 application/javascript; charset=utf-8 1.0409ms
+2026-10-24 11:55:19.406 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/js/validate_fields_now.js - null null
+2026-10-24 11:55:19.438 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/js/validate_fields_now.js - 404 0 null 31.7605ms
+2026-10-24 11:55:19.438 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/js/validate_fields_now.js, Response status code: 404
+2026-10-24 11:55:27.576 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/8 - null null
+2026-10-24 11:55:27.580 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 11:55:27.705 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 11:55:28.417 +02:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-10-24 11:55:29.248 +02:00 [INF] Executed DbCommand (229ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 11:55:29.560 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 11:55:29.854 +02:00 [INF] Executed ViewResult - view card_produkt executed in 348.0997ms.
+2026-10-24 11:55:29.854 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 2148.9813ms
+2026-10-24 11:55:29.855 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 11:55:29.855 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/8 - 200 null text/html; charset=utf-8 2279.6086ms
+2026-10-24 11:55:30.036 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/main.js - null null
+2026-10-24 11:55:30.037 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 11:55:30.038 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 11:55:30.069 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/output.css - null null
+2026-10-24 11:55:30.069 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 11:55:30.070 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 11:55:30.077 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/js/validate_fields_now.js - null null
+2026-10-24 11:55:30.077 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/js/validate_fields_now.js - 404 0 null 1.0054ms
+2026-10-24 11:55:30.078 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/js/validate_fields_now.js, Response status code: 404
+2026-10-24 11:55:30.349 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/assets/images/rover.png - null null
+2026-10-24 11:55:30.354 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/assets/images/rover.png - 404 0 null 5.7642ms
+2026-10-24 11:55:30.354 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/assets/images/rover.png, Response status code: 404
+2026-10-24 11:55:30.667 +02:00 [INF] Executed DbCommand (581ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 11:55:30.668 +02:00 [INF] Создан пустой конструктор
+2026-10-24 11:55:30.670 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 11:55:30.691 +02:00 [INF] Executed ViewResult - view card_produkt executed in 21.8716ms.
+2026-10-24 11:55:30.692 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 653.6035ms
+2026-10-24 11:55:30.692 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 11:55:30.692 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/main.js - 200 null text/html; charset=utf-8 655.9603ms
+2026-10-24 11:55:30.803 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-24 11:55:30.804 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - 200 13732 application/javascript; charset=utf-8 0.5256ms
+2026-10-24 11:55:31.665 +02:00 [INF] Executed DbCommand (203ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 11:55:31.666 +02:00 [INF] Создан пустой конструктор
+2026-10-24 11:55:31.667 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 11:55:31.682 +02:00 [INF] Executed ViewResult - view card_produkt executed in 15.8001ms.
+2026-10-24 11:55:31.683 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 1612.3025ms
+2026-10-24 11:55:31.683 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 11:55:31.684 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/output.css - 200 null text/html; charset=utf-8 1616.0766ms
+2026-10-24 11:55:35.061 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:55:35.062 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 1.0049ms
+2026-10-24 11:55:35.062 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:55:35.063 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:55:35.064 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 0.7622ms
+2026-10-24 11:55:35.064 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:55:35.064 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:55:35.065 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 0.7485ms
+2026-10-24 11:55:35.066 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:55:59.223 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:55:59.225 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 1.3621ms
+2026-10-24 11:55:59.226 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:55:59.226 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:55:59.227 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 1.0596ms
+2026-10-24 11:55:59.228 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:56:02.461 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:56:02.462 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 1.2192ms
+2026-10-24 11:56:02.463 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:56:04.051 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:56:04.052 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 1.3781ms
+2026-10-24 11:56:04.052 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:56:04.493 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:56:04.494 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 1.1233ms
+2026-10-24 11:56:04.494 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:56:04.557 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:56:04.560 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 2.7479ms
+2026-10-24 11:56:04.560 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:56:09.540 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:56:09.541 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 1.1963ms
+2026-10-24 11:56:09.541 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:56:14.477 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:56:14.478 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 1.4403ms
+2026-10-24 11:56:14.478 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:56:14.481 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:56:14.483 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 1.445ms
+2026-10-24 11:56:14.483 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:56:20.122 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:56:20.123 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 1.1053ms
+2026-10-24 11:56:20.123 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:56:24.493 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:56:24.494 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 499 null null 1.303ms
+2026-10-24 11:56:24.495 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 499
+2026-10-24 11:56:24.498 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:56:24.499 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 1.3058ms
+2026-10-24 11:56:24.499 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:56:29.492 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:56:29.493 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 0.7959ms
+2026-10-24 11:56:29.493 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:56:34.480 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:56:34.481 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 1.1178ms
+2026-10-24 11:56:34.481 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:56:34.556 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:56:34.557 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 0.9183ms
+2026-10-24 11:56:34.557 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:56:39.478 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:56:39.479 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 0.5927ms
+2026-10-24 11:56:39.479 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:56:44.473 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:56:44.473 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 0.8356ms
+2026-10-24 11:56:44.474 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:56:44.479 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:56:44.481 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 1.3117ms
+2026-10-24 11:56:44.481 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:56:49.487 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:56:49.489 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 1.5243ms
+2026-10-24 11:56:49.489 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:56:49.505 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:56:49.506 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 0.7927ms
+2026-10-24 11:56:49.506 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:56:54.484 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:56:54.485 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 1.2847ms
+2026-10-24 11:56:54.485 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:56:54.546 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:56:54.546 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 0.8444ms
+2026-10-24 11:56:54.547 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:57:21.561 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:57:21.562 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 1.2475ms
+2026-10-24 11:57:21.563 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:57:21.652 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:57:21.653 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 1.181ms
+2026-10-24 11:57:21.653 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:58:03.822 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:58:03.823 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 1.1044ms
+2026-10-24 11:58:03.823 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:58:04.322 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:58:04.323 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 1.4778ms
+2026-10-24 11:58:04.325 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:58:04.342 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:58:04.345 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 3.0284ms
+2026-10-24 11:58:04.346 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:58:09.325 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:58:09.326 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 1.1829ms
+2026-10-24 11:58:09.327 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:58:09.327 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:58:09.329 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 2.2667ms
+2026-10-24 11:58:09.330 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:58:14.484 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:58:14.485 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 0.8233ms
+2026-10-24 11:58:14.485 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:58:19.601 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:58:19.602 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 1.4972ms
+2026-10-24 11:58:19.603 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:58:24.480 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:58:24.482 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 2.1486ms
+2026-10-24 11:58:24.484 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:58:29.479 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:58:29.480 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 0.8668ms
+2026-10-24 11:58:29.480 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:58:29.487 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:58:29.488 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 3.7994ms
+2026-10-24 11:58:29.488 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:58:34.522 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:58:34.523 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 0.9446ms
+2026-10-24 11:58:34.523 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:58:35.658 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:58:35.670 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 12.0593ms
+2026-10-24 11:58:35.670 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:58:43.649 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:58:43.650 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 1.0613ms
+2026-10-24 11:58:43.651 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:58:44.920 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:58:44.921 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 0.7096ms
+2026-10-24 11:58:44.921 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:58:49.657 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:58:49.658 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 0.8438ms
+2026-10-24 11:58:49.658 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:58:54.477 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:58:54.478 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 0.799ms
+2026-10-24 11:58:54.478 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:58:59.484 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:58:59.484 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 0.5392ms
+2026-10-24 11:58:59.484 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 11:59:04.479 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 11:59:04.480 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 0.4427ms
+2026-10-24 11:59:04.480 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 11:59:09.507 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 11:59:09.512 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 5.2508ms
+2026-10-24 11:59:09.512 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 11:59:21.502 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 11:59:21.502 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 0.8389ms
+2026-10-24 11:59:21.503 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 12:00:22.142 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 12:00:22.148 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 6.2647ms
+2026-10-24 12:00:22.149 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 12:00:22.429 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 12:00:22.430 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 0.7434ms
+2026-10-24 12:00:22.430 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 12:00:51.051 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 12:00:51.052 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 0.8926ms
+2026-10-24 12:00:51.052 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 12:00:51.052 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 12:00:51.056 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 404 0 null 3.2869ms
+2026-10-24 12:00:51.056 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG, Response status code: 404
+2026-10-24 12:00:54.326 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 12:00:54.327 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 12:00:54.327 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 1.9104ms
+2026-10-24 12:00:54.328 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 12:00:54.328 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 404 0 null 0.4429ms
+2026-10-24 12:00:54.328 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG, Response status code: 404
+2026-10-24 12:01:00.223 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 12:01:00.224 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 404 0 null 0.7245ms
+2026-10-24 12:01:00.224 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/KartProductStart/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG, Response status code: 404
+2026-10-24 12:01:03.167 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/8 - null null
+2026-10-24 12:01:03.168 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:01:03.229 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 12:01:03.482 +02:00 [INF] Executed DbCommand (97ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 12:01:03.504 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 12:01:03.712 +02:00 [INF] Executed ViewResult - view card_produkt executed in 209.9784ms.
+2026-10-24 12:01:03.713 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 483.3433ms
+2026-10-24 12:01:03.713 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:01:03.715 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/8 - 200 null text/html; charset=utf-8 548.2777ms
+2026-10-24 12:01:03.856 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/main.js - null null
+2026-10-24 12:01:03.881 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:01:03.881 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 12:01:03.922 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/output.css - null null
+2026-10-24 12:01:03.922 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:01:03.923 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/assets/images/rover.png - null null
+2026-10-24 12:01:03.923 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 12:01:03.923 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/assets/images/rover.png - 404 0 null 0.5878ms
+2026-10-24 12:01:03.923 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/assets/images/rover.png, Response status code: 404
+2026-10-24 12:01:04.350 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-24 12:01:04.350 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - 200 13732 application/javascript; charset=utf-8 0.4336ms
+2026-10-24 12:01:04.474 +02:00 [INF] Executed DbCommand (552ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 12:01:04.476 +02:00 [INF] Создан пустой конструктор
+2026-10-24 12:01:04.476 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 12:01:04.483 +02:00 [INF] Executed ViewResult - view card_produkt executed in 6.7627ms.
+2026-10-24 12:01:04.483 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 601.7523ms
+2026-10-24 12:01:04.483 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:01:04.483 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/main.js - 200 null text/html; charset=utf-8 627.3546ms
+2026-10-24 12:01:04.745 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/js/validate_fields_now.js - null null
+2026-10-24 12:01:04.762 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/js/validate_fields_now.js - 404 0 null 17.5309ms
+2026-10-24 12:01:04.763 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/js/validate_fields_now.js, Response status code: 404
+2026-10-24 12:01:07.415 +02:00 [INF] Executed DbCommand (2,130ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 12:01:07.415 +02:00 [INF] Создан пустой конструктор
+2026-10-24 12:01:07.415 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 12:01:07.419 +02:00 [INF] Executed ViewResult - view card_produkt executed in 3.5558ms.
+2026-10-24 12:01:07.419 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 3496.263ms
+2026-10-24 12:01:07.420 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:01:07.420 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/output.css - 200 null text/html; charset=utf-8 3498.4552ms
+2026-10-24 12:01:11.197 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 12:01:11.199 +02:00 [INF] The file /FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG was not modified
+2026-10-24 12:01:11.199 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 304 null image/jpeg 2.0797ms
+2026-10-24 12:01:11.199 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 12:01:11.200 +02:00 [INF] The file /FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG was not modified
+2026-10-24 12:01:11.200 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 304 null image/jpeg 0.5101ms
+2026-10-24 12:02:43.031 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/admin - null null
+2026-10-24 12:02:43.032 +02:00 [INF] Executing endpoint 'Backend_asp.net.Areas.Admin.Controllers.DashboardController.Index (DockerProjectBackend)'
+2026-10-24 12:02:43.048 +02:00 [INF] Route matched with {action = "Index", controller = "Dashboard"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller Backend_asp.net.Areas.Admin.Controllers.DashboardController (DockerProjectBackend).
+2026-10-24 12:02:43.056 +02:00 [INF] Executing ViewResult, running view ~/Areas/Admin/Views/Dashboard/Index.cshtml.
+2026-10-24 12:02:43.377 +02:00 [INF] Executed ViewResult - view ~/Areas/Admin/Views/Dashboard/Index.cshtml executed in 324.0862ms.
+2026-10-24 12:02:43.378 +02:00 [INF] Executed action Backend_asp.net.Areas.Admin.Controllers.DashboardController.Index (DockerProjectBackend) in 329.7087ms
+2026-10-24 12:02:43.379 +02:00 [INF] Executed endpoint 'Backend_asp.net.Areas.Admin.Controllers.DashboardController.Index (DockerProjectBackend)'
+2026-10-24 12:02:43.379 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/admin - 200 null text/html; charset=utf-8 348.7175ms
+2026-10-24 12:02:43.506 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/output.css - null null
+2026-10-24 12:02:43.507 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/output.css - 404 0 null 1.0237ms
+2026-10-24 12:02:43.507 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/output.css, Response status code: 404
+2026-10-24 12:02:43.508 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/dist/main.js - null null
+2026-10-24 12:02:43.510 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/dist/main.js - 404 0 null 2.8236ms
+2026-10-24 12:02:43.511 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/dist/main.js, Response status code: 404
+2026-10-24 12:02:43.513 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-24 12:02:43.514 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - 200 13732 application/javascript; charset=utf-8 2.0839ms
+2026-10-24 12:02:47.850 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Orders/OrdersMetod - null null
+2026-10-24 12:02:47.868 +02:00 [INF] Executing endpoint 'Backend_asp.net.Areas.Admin.Controllers.OrdersController.OrdersMetod (DockerProjectBackend)'
+2026-10-24 12:02:47.873 +02:00 [INF] Route matched with {action = "OrdersMetod", controller = "Orders"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult OrdersMetod() on controller Backend_asp.net.Areas.Admin.Controllers.OrdersController (DockerProjectBackend).
+2026-10-24 12:02:47.885 +02:00 [INF] Executing ViewResult, running view ~/Areas/Admin/Views/Orders/index.cshtml.
+2026-10-24 12:02:48.095 +02:00 [INF] Executed ViewResult - view ~/Areas/Admin/Views/Orders/index.cshtml executed in 214.8017ms.
+2026-10-24 12:02:48.096 +02:00 [INF] Executed action Backend_asp.net.Areas.Admin.Controllers.OrdersController.OrdersMetod (DockerProjectBackend) in 222.7516ms
+2026-10-24 12:02:48.096 +02:00 [INF] Executed endpoint 'Backend_asp.net.Areas.Admin.Controllers.OrdersController.OrdersMetod (DockerProjectBackend)'
+2026-10-24 12:02:48.096 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Orders/OrdersMetod - 200 null text/html; charset=utf-8 246.2925ms
+2026-10-24 12:02:48.317 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Orders/output.css - null null
+2026-10-24 12:02:48.319 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Orders/output.css - 404 0 null 1.6295ms
+2026-10-24 12:02:48.319 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Orders/output.css, Response status code: 404
+2026-10-24 12:02:48.320 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/dist/main.js - null null
+2026-10-24 12:02:48.329 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/dist/main.js - 404 0 null 8.9903ms
+2026-10-24 12:02:48.330 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/dist/main.js, Response status code: 404
+2026-10-24 12:02:49.346 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-24 12:02:49.346 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - 200 13732 application/javascript; charset=utf-8 0.3345ms
+2026-10-24 12:02:56.781 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Orders/OrdersMetod - null null
+2026-10-24 12:02:56.781 +02:00 [INF] Executing endpoint 'Backend_asp.net.Areas.Admin.Controllers.OrdersController.OrdersMetod (DockerProjectBackend)'
+2026-10-24 12:02:56.782 +02:00 [INF] Route matched with {action = "OrdersMetod", controller = "Orders"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult OrdersMetod() on controller Backend_asp.net.Areas.Admin.Controllers.OrdersController (DockerProjectBackend).
+2026-10-24 12:02:56.783 +02:00 [INF] Executing ViewResult, running view ~/Areas/Admin/Views/Orders/index.cshtml.
+2026-10-24 12:02:56.797 +02:00 [INF] Executed ViewResult - view ~/Areas/Admin/Views/Orders/index.cshtml executed in 13.7384ms.
+2026-10-24 12:02:56.797 +02:00 [INF] Executed action Backend_asp.net.Areas.Admin.Controllers.OrdersController.OrdersMetod (DockerProjectBackend) in 15.1276ms
+2026-10-24 12:02:56.797 +02:00 [INF] Executed endpoint 'Backend_asp.net.Areas.Admin.Controllers.OrdersController.OrdersMetod (DockerProjectBackend)'
+2026-10-24 12:02:56.797 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Orders/OrdersMetod - 200 null text/html; charset=utf-8 16.5789ms
+2026-10-24 12:02:57.173 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-24 12:02:57.174 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - 200 13732 application/javascript; charset=utf-8 0.623ms
+2026-10-24 12:02:57.214 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Orders/output.css - null null
+2026-10-24 12:02:57.216 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Orders/output.css - 404 0 null 1.4516ms
+2026-10-24 12:02:57.219 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Orders/output.css, Response status code: 404
+2026-10-24 12:02:57.315 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/dist/main.js - null null
+2026-10-24 12:02:57.316 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/dist/main.js - 404 0 null 1.1851ms
+2026-10-24 12:02:57.316 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/dist/main.js, Response status code: 404
+2026-10-24 12:02:59.688 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/ - null null
+2026-10-24 12:02:59.688 +02:00 [INF] Executing endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-24 12:02:59.727 +02:00 [INF] Route matched with {action = "ProductsView", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ProductsView() on controller Backend_asp.net.Areas.Admin.Controllers.ProductController (DockerProjectBackend).
+2026-10-24 12:02:59.746 +02:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[Name]
+FROM [MainCategoryes] AS [m]
+2026-10-24 12:02:59.933 +02:00 [INF] Executed DbCommand (184ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id], [s].[Name], [s].[Id0], [s].[CreateKeyFeature], [s].[Name0], [m].[Name], [s0].[Id], [s0].[CategoryId], [s0].[ProductId], [s0].[Property], [s0].[Value], [s0].[Id0], [s0].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM [Products] AS [p]
+INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s] ON [p].[Id] = [s].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s0] ON [p].[Id] = [s0].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [p].[Id] = [p2].[ProductId]
+ORDER BY [p].[Id], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id0], [s0].[Id], [s0].[Id0]
+2026-10-24 12:02:59.975 +02:00 [INF] Executing ViewResult, running view ~/Areas/Admin/Views/Products/index.cshtml.
+2026-10-24 12:03:00.006 +02:00 [INF] Executed ViewResult - view ~/Areas/Admin/Views/Products/index.cshtml executed in 36.3315ms.
+2026-10-24 12:03:00.007 +02:00 [INF] Executed action Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend) in 279.6965ms
+2026-10-24 12:03:00.007 +02:00 [INF] Executed endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-24 12:03:00.007 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/ - 200 null text/html; charset=utf-8 319.6493ms
+2026-10-24 12:03:00.111 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-24 12:03:00.112 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - 200 13732 application/javascript; charset=utf-8 1.8517ms
+2026-10-24 12:15:34.824 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/Shoppmethod - null null
+2026-10-24 12:15:34.825 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.Shoppmethod (DockerProjectBackend)'
+2026-10-24 12:15:34.845 +02:00 [INF] Route matched with {action = "Shoppmethod", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Shoppmethod() on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 12:15:34.884 +02:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[Name]
+FROM [MainCategoryes] AS [m]
+2026-10-24 12:15:34.979 +02:00 [INF] Executed DbCommand (91ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id], [s].[Name], [s].[Id0], [s].[CreateKeyFeature], [s].[Name0], [m].[Name], [s0].[Id], [s0].[CategoryId], [s0].[ProductId], [s0].[Property], [s0].[Value], [s0].[Id0], [s0].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM [Products] AS [p]
+INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s] ON [p].[Id] = [s].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s0] ON [p].[Id] = [s0].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [p].[Id] = [p2].[ProductId]
+ORDER BY [p].[Id], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id0], [s0].[Id], [s0].[Id0]
+2026-10-24 12:15:35.012 +02:00 [INF] Executing ViewResult, running view katalog.
+2026-10-24 12:15:35.029 +02:00 [INF] Executed ViewResult - view katalog executed in 18.3458ms.
+2026-10-24 12:15:35.029 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.Shoppmethod (DockerProjectBackend) in 183.4024ms
+2026-10-24 12:15:35.029 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.Shoppmethod (DockerProjectBackend)'
+2026-10-24 12:15:35.031 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/Shoppmethod - 200 null text/html; charset=utf-8 207.6246ms
+2026-10-24 12:15:35.110 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/main.js - null null
+2026-10-24 12:15:35.128 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/main.js - 404 0 null 18.1968ms
+2026-10-24 12:15:35.129 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/main.js, Response status code: 404
+2026-10-24 12:15:35.182 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-24 12:15:35.182 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - 200 13732 application/javascript; charset=utf-8 0.5277ms
+2026-10-24 12:15:35.222 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/js/validate_fields_now.js - null null
+2026-10-24 12:15:35.223 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/js/validate_fields_now.js - 404 0 null 0.4962ms
+2026-10-24 12:15:35.223 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/js/validate_fields_now.js, Response status code: 404
+2026-10-24 12:15:45.060 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/8 - null null
+2026-10-24 12:15:45.060 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:15:45.061 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 12:15:45.150 +02:00 [INF] Executed DbCommand (83ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 12:15:45.365 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 12:15:45.370 +02:00 [INF] Executed ViewResult - view card_produkt executed in 5.5077ms.
+2026-10-24 12:15:45.372 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 310.7054ms
+2026-10-24 12:15:45.373 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:15:45.373 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/8 - 200 null text/html; charset=utf-8 312.6941ms
+2026-10-24 12:15:45.502 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/main.js - null null
+2026-10-24 12:15:45.502 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:15:45.503 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 12:15:45.607 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/output.css - null null
+2026-10-24 12:15:45.614 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:15:45.614 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 12:15:45.750 +02:00 [INF] Executed DbCommand (230ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 12:15:45.798 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/assets/images/rover.png - null null
+2026-10-24 12:15:45.952 +02:00 [INF] Создан пустой конструктор
+2026-10-24 12:15:45.953 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 12:15:45.953 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/assets/images/rover.png - 404 0 null 155.3142ms
+2026-10-24 12:15:45.953 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/assets/images/rover.png, Response status code: 404
+2026-10-24 12:15:45.956 +02:00 [INF] Executed ViewResult - view card_produkt executed in 3.4874ms.
+2026-10-24 12:15:45.956 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 453.7752ms
+2026-10-24 12:15:45.956 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:15:46.056 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-24 12:15:46.219 +02:00 [INF] Executed DbCommand (97ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 12:15:46.295 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/main.js - 200 null text/html; charset=utf-8 792.9411ms
+2026-10-24 12:15:46.877 +02:00 [INF] Создан пустой конструктор
+2026-10-24 12:15:46.295 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - 200 13732 application/javascript; charset=utf-8 238.9626ms
+2026-10-24 12:15:46.877 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/js/validate_fields_now.js - null null
+2026-10-24 12:15:46.877 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 12:15:46.877 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/js/validate_fields_now.js - 404 0 null 0.5132ms
+2026-10-24 12:15:46.878 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/js/validate_fields_now.js, Response status code: 404
+2026-10-24 12:15:46.885 +02:00 [INF] Executed ViewResult - view card_produkt executed in 8.2503ms.
+2026-10-24 12:15:46.885 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 1271.4314ms
+2026-10-24 12:15:47.165 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:15:47.165 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/output.css - 200 null text/html; charset=utf-8 1558.2335ms
+2026-10-24 12:16:03.774 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/.well-known/appspecific/com.chrome.devtools.json - null null
+2026-10-24 12:16:03.776 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/.well-known/appspecific/com.chrome.devtools.json - 404 0 null 2.6878ms
+2026-10-24 12:16:03.777 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/.well-known/appspecific/com.chrome.devtools.json, Response status code: 404
+2026-10-24 12:16:03.786 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/output.css - null null
+2026-10-24 12:16:03.787 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:16:03.787 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 12:16:03.860 +02:00 [INF] Executed DbCommand (53ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 12:16:03.862 +02:00 [INF] Создан пустой конструктор
+2026-10-24 12:16:03.862 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 12:16:03.868 +02:00 [INF] Executed ViewResult - view card_produkt executed in 5.7358ms.
+2026-10-24 12:16:03.868 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 80.8372ms
+2026-10-24 12:16:03.868 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:16:03.868 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/output.css - 200 null text/html; charset=utf-8 82.4365ms
+2026-10-24 12:16:04.708 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 12:16:06.789 +02:00 [INF] Sending file. Request path: '/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG'
+2026-10-24 12:16:06.789 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 200 2778868 image/jpeg 2081.3908ms
+2026-10-24 12:16:09.715 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 12:16:10.089 +02:00 [INF] Sending file. Request path: '/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG'
+2026-10-24 12:16:10.089 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 200 2619728 image/jpeg 373.6939ms
+2026-10-24 12:16:14.664 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 12:16:14.950 +02:00 [INF] Sending file. Request path: '/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG'
+2026-10-24 12:16:14.950 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 200 2031231 image/jpeg 286.6726ms
+2026-10-24 12:16:24.669 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 12:16:24.707 +02:00 [INF] Sending file. Request path: '/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG'
+2026-10-24 12:16:24.707 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 200 2619728 image/jpeg 38.2733ms
+2026-10-24 12:16:29.670 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 12:16:29.705 +02:00 [INF] Sending file. Request path: '/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG'
+2026-10-24 12:16:29.705 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 200 2031231 image/jpeg 34.9417ms
+2026-10-24 12:16:34.696 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 12:16:34.780 +02:00 [INF] Sending file. Request path: '/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG'
+2026-10-24 12:16:34.781 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 200 2778868 image/jpeg 84.53ms
+2026-10-24 12:16:39.657 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 12:16:39.699 +02:00 [INF] Sending file. Request path: '/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG'
+2026-10-24 12:16:39.700 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 200 2619728 image/jpeg 42.4599ms
+2026-10-24 12:16:44.733 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 12:16:44.772 +02:00 [INF] Sending file. Request path: '/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG'
+2026-10-24 12:16:44.772 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 200 2031231 image/jpeg 39.5238ms
+2026-10-24 12:16:49.658 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 12:16:49.927 +02:00 [INF] Sending file. Request path: '/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG'
+2026-10-24 12:16:49.928 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 200 2778868 image/jpeg 269.2958ms
+2026-10-24 12:16:54.668 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 12:16:54.909 +02:00 [INF] Sending file. Request path: '/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG'
+2026-10-24 12:16:54.909 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 200 2619728 image/jpeg 241.6506ms
+2026-10-24 12:16:59.665 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 12:16:59.915 +02:00 [INF] Sending file. Request path: '/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG'
+2026-10-24 12:16:59.915 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 200 2031231 image/jpeg 250.5241ms
+2026-10-24 12:17:09.680 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 12:17:09.724 +02:00 [INF] Sending file. Request path: '/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG'
+2026-10-24 12:17:09.724 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 200 2619728 image/jpeg 44.3187ms
+2026-10-24 12:17:14.671 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - null null
+2026-10-24 12:17:14.711 +02:00 [INF] Sending file. Request path: '/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG'
+2026-10-24 12:17:14.711 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/5e6db2dd-0017-40b5-bd0a-46fc75ced35c.JPG - 200 2031231 image/jpeg 39.9453ms
+2026-10-24 12:17:19.770 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-24 12:17:19.832 +02:00 [INF] Sending file. Request path: '/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG'
+2026-10-24 12:17:19.832 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 200 2778868 image/jpeg 62.1739ms
+2026-10-24 12:17:24.674 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-24 12:17:24.711 +02:00 [INF] Sending file. Request path: '/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG'
+2026-10-24 12:17:24.711 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 200 2619728 image/jpeg 39.0323ms
+2026-10-24 12:41:20.132 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/8 - null null
+2026-10-24 12:41:20.133 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:41:20.134 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 12:41:20.407 +02:00 [INF] Executed DbCommand (45ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 12:41:20.437 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 12:41:20.444 +02:00 [INF] Executed ViewResult - view card_produkt executed in 12.5393ms.
+2026-10-24 12:41:20.444 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 309.9709ms
+2026-10-24 12:41:20.444 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:41:20.445 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/8 - 200 null text/html; charset=utf-8 312.4092ms
+2026-10-24 12:41:20.657 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/main.js - null null
+2026-10-24 12:41:20.658 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:41:20.658 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 12:41:20.671 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/output.css - null null
+2026-10-24 12:41:20.672 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:41:20.672 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 12:41:20.804 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/assets/images/rover.png - null null
+2026-10-24 12:41:20.817 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/assets/images/rover.png - 404 0 null 12.813ms
+2026-10-24 12:41:20.817 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/assets/images/rover.png, Response status code: 404
+2026-10-24 12:41:20.994 +02:00 [INF] Executed DbCommand (327ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 12:41:20.997 +02:00 [INF] Создан пустой конструктор
+2026-10-24 12:41:20.997 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 12:41:21.001 +02:00 [INF] Executed ViewResult - view card_produkt executed in 3.631ms.
+2026-10-24 12:41:21.001 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 342.7018ms
+2026-10-24 12:41:21.001 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:41:21.001 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/main.js - 200 null text/html; charset=utf-8 343.724ms
+2026-10-24 12:41:22.173 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-24 12:41:22.173 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - 200 13732 application/javascript; charset=utf-8 0.5545ms
+2026-10-24 12:41:22.596 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/js/validate_fields_now.js - null null
+2026-10-24 12:41:22.598 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/js/validate_fields_now.js - 404 0 null 2.5767ms
+2026-10-24 12:41:22.598 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/js/validate_fields_now.js, Response status code: 404
+2026-10-24 12:41:23.528 +02:00 [INF] Executed DbCommand (123ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 12:41:23.530 +02:00 [INF] Создан пустой конструктор
+2026-10-24 12:41:23.531 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 12:41:23.540 +02:00 [INF] Executed ViewResult - view card_produkt executed in 9.3726ms.
+2026-10-24 12:41:23.541 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 2868.0415ms
+2026-10-24 12:41:23.541 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 12:41:23.541 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/output.css - 200 null text/html; charset=utf-8 2869.6184ms
+2026-10-24 13:12:05.453 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/8 - null null
+2026-10-24 13:12:05.458 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 13:12:05.489 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 13:12:06.573 +02:00 [INF] Executed DbCommand (400ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 13:12:06.662 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 13:12:06.800 +02:00 [INF] Executed ViewResult - view card_produkt executed in 143.1085ms.
+2026-10-24 13:12:06.800 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 1310.7721ms
+2026-10-24 13:12:06.800 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 13:12:06.800 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/8 - 200 null text/html; charset=utf-8 1347.9288ms
+2026-10-24 13:12:07.159 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/main.js - null null
+2026-10-24 13:12:07.173 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/output.css - null null
+2026-10-24 13:12:07.222 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 13:12:07.222 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 13:12:07.223 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 13:12:07.224 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 13:12:07.238 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/assets/images/rover.png - null null
+2026-10-24 13:12:07.239 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/assets/images/rover.png - 404 0 null 1.2702ms
+2026-10-24 13:12:07.240 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/assets/images/rover.png, Response status code: 404
+2026-10-24 13:12:07.604 +02:00 [INF] Executed DbCommand (371ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 13:12:07.604 +02:00 [INF] Создан пустой конструктор
+2026-10-24 13:12:07.605 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 13:12:07.610 +02:00 [INF] Executed ViewResult - view card_produkt executed in 5.5618ms.
+2026-10-24 13:12:07.610 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 388.1069ms
+2026-10-24 13:12:07.610 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 13:12:07.611 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/output.css - 200 null text/html; charset=utf-8 437.4793ms
+2026-10-24 13:12:07.975 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-24 13:12:07.975 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - 200 13732 application/javascript; charset=utf-8 0.4376ms
+2026-10-24 13:12:07.975 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/js/validate_fields_now.js - null null
+2026-10-24 13:12:07.991 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/js/validate_fields_now.js - 404 0 null 15.4412ms
+2026-10-24 13:12:07.991 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/js/validate_fields_now.js, Response status code: 404
+2026-10-24 13:12:09.426 +02:00 [INF] Executed DbCommand (1,072ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 13:12:09.427 +02:00 [INF] Создан пустой конструктор
+2026-10-24 13:12:09.427 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 13:12:09.433 +02:00 [INF] Executed ViewResult - view card_produkt executed in 5.9817ms.
+2026-10-24 13:12:09.433 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 2208.7819ms
+2026-10-24 13:12:09.435 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 13:12:09.435 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/main.js - 200 null text/html; charset=utf-8 2276.0229ms
+2026-10-24 13:15:01.250 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/8 - null null
+2026-10-24 13:15:01.250 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 13:15:01.266 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 13:15:01.451 +02:00 [INF] Executed DbCommand (178ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 13:15:01.588 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 13:15:01.783 +02:00 [INF] Executed ViewResult - view card_produkt executed in 197.24ms.
+2026-10-24 13:15:01.783 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 516.9741ms
+2026-10-24 13:15:01.783 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 13:15:01.783 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/8 - 200 null text/html; charset=utf-8 533.574ms
+2026-10-24 13:15:02.525 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/main.js - null null
+2026-10-24 13:15:02.526 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/output.css - null null
+2026-10-24 13:15:02.609 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 13:15:02.609 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 13:15:02.611 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 13:15:02.611 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-24 13:15:02.617 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-24 13:15:02.617 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - 200 13732 application/javascript; charset=utf-8 0.3418ms
+2026-10-24 13:15:02.830 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Shopp/assets/images/rover.png - null null
+2026-10-24 13:15:02.831 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/assets/images/rover.png - 404 0 null 0.5464ms
+2026-10-24 13:15:02.831 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/Shopp/assets/images/rover.png, Response status code: 404
+2026-10-24 13:15:02.836 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/js/validate_fields_now.js - null null
+2026-10-24 13:15:02.851 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/js/validate_fields_now.js - 404 0 null 14.9613ms
+2026-10-24 13:15:02.851 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/js/validate_fields_now.js, Response status code: 404
+2026-10-24 13:15:03.075 +02:00 [INF] Executed DbCommand (460ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 13:15:03.075 +02:00 [INF] Создан пустой конструктор
+2026-10-24 13:15:03.076 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 13:15:03.080 +02:00 [INF] Executed ViewResult - view card_produkt executed in 4.6842ms.
+2026-10-24 13:15:03.080 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 469.1605ms
+2026-10-24 13:15:03.081 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 13:15:03.081 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/output.css - 200 null text/html; charset=utf-8 555.1742ms
+2026-10-24 13:15:03.211 +02:00 [INF] Executed DbCommand (595ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-24 13:15:03.298 +02:00 [INF] Создан пустой конструктор
+2026-10-24 13:15:03.298 +02:00 [INF] Executing ViewResult, running view card_produkt.
+2026-10-24 13:15:03.301 +02:00 [INF] Executed ViewResult - view card_produkt executed in 2.5855ms.
+2026-10-24 13:15:03.301 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) in 692.2891ms
+2026-10-24 13:15:03.301 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-24 13:15:03.341 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Shopp/KartProductStart/main.js - 200 null text/html; charset=utf-8 815.6212ms

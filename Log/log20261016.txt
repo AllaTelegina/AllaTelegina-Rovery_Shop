@@ -1,0 +1,361 @@
+2026-10-16 21:00:15.928 +02:00 [INF] User profile is available. Using 'C:\Users\Dog\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-10-16 21:00:18.731 +02:00 [WRN] No store type was specified for the decimal property 'Lastprise' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-16 21:00:18.734 +02:00 [WRN] No store type was specified for the decimal property 'Prise' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-16 21:00:18.737 +02:00 [WRN] No store type was specified for the decimal property 'Rating' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-16 21:00:21.826 +02:00 [INF] Executed DbCommand (168ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [MainCategoryes] AS [m]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-10-16 21:00:22.625 +02:00 [INF] Now listening on: https://localhost:7001
+2026-10-16 21:00:22.628 +02:00 [INF] Now listening on: http://localhost:5000
+2026-10-16 21:00:22.637 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-10-16 21:00:22.641 +02:00 [INF] Hosting environment: Development
+2026-10-16 21:00:22.643 +02:00 [INF] Content root path: D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net
+2026-10-16 21:00:24.112 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/ - null null
+2026-10-16 21:00:24.347 +02:00 [WRN] Unable to contact VS to retrieve Browser Link script tag.
+2026-10-16 21:00:24.529 +02:00 [INF] Executing endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-16 21:00:24.580 +02:00 [INF] Route matched with {action = "ProductsView", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ProductsView() on controller Backend_asp.net.Areas.Admin.Controllers.ProductController (DockerProjectBackend).
+2026-10-16 21:00:24.932 +02:00 [INF] Executed DbCommand (60ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[Name]
+FROM [MainCategoryes] AS [m]
+2026-10-16 21:00:25.404 +02:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-10-16 21:00:25.752 +02:00 [INF] Executed DbCommand (211ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id], [s].[Name], [s].[Id0], [s].[CreateKeyFeature], [s].[Name0], [m].[Name], [s0].[Id], [s0].[CategoryId], [s0].[ProductId], [s0].[Property], [s0].[Value], [s0].[Id0], [s0].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM [Products] AS [p]
+INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s] ON [p].[Id] = [s].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s0] ON [p].[Id] = [s0].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [p].[Id] = [p2].[ProductId]
+ORDER BY [p].[Id], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id0], [s0].[Id], [s0].[Id0]
+2026-10-16 21:00:26.220 +02:00 [INF] Executing ViewResult, running view ~/Areas/Admin/Views/Products/index.cshtml.
+2026-10-16 21:00:26.998 +02:00 [INF] Executed ViewResult - view ~/Areas/Admin/Views/Products/index.cshtml executed in 801.3054ms.
+2026-10-16 21:00:27.041 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-16 21:00:27.048 +02:00 [INF] Executed action Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend) in 2462.6029ms
+2026-10-16 21:00:27.068 +02:00 [INF] Executed endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-16 21:00:27.084 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 41.2672ms
+2026-10-16 21:00:27.131 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/ - 200 null text/html; charset=utf-8 3028.9795ms
+2026-10-16 21:00:29.364 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/FotoProduct1/a34ab90d-0976-4cb8-98a6-1b1019f1a471.jpg - null null
+2026-10-16 21:00:29.430 +02:00 [INF] The file /FotoProduct1/a34ab90d-0976-4cb8-98a6-1b1019f1a471.jpg was not modified
+2026-10-16 21:00:29.555 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/FotoProduct1/a34ab90d-0976-4cb8-98a6-1b1019f1a471.jpg - 304 null image/jpeg 191.1252ms
+2026-10-16 21:01:21.688 +02:00 [INF] User profile is available. Using 'C:\Users\Dog\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-10-16 21:01:28.491 +02:00 [WRN] No store type was specified for the decimal property 'Lastprise' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-16 21:01:28.515 +02:00 [WRN] No store type was specified for the decimal property 'Prise' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-16 21:01:28.520 +02:00 [WRN] No store type was specified for the decimal property 'Rating' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-16 21:01:38.111 +02:00 [INF] Executed DbCommand (544ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [MainCategoryes] AS [m]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-10-16 21:01:39.659 +02:00 [INF] Now listening on: https://localhost:7001
+2026-10-16 21:01:39.677 +02:00 [INF] Now listening on: http://localhost:5000
+2026-10-16 21:01:39.700 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-10-16 21:01:39.724 +02:00 [INF] Hosting environment: Development
+2026-10-16 21:01:39.744 +02:00 [INF] Content root path: D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net
+2026-10-16 21:01:55.733 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/ - null null
+2026-10-16 21:01:57.134 +02:00 [WRN] Unable to contact VS to retrieve Browser Link script tag.
+2026-10-16 21:01:57.362 +02:00 [INF] Executing endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-16 21:01:57.464 +02:00 [INF] Route matched with {action = "ProductsView", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ProductsView() on controller Backend_asp.net.Areas.Admin.Controllers.ProductController (DockerProjectBackend).
+2026-10-16 21:01:57.996 +02:00 [INF] Executing action method Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend) - Validation state: "Valid"
+2026-10-16 21:01:58.630 +02:00 [INF] Executed DbCommand (112ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[Name]
+FROM [MainCategoryes] AS [m]
+2026-10-16 21:01:59.526 +02:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-10-16 21:01:59.815 +02:00 [INF] Executed DbCommand (99ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id], [s].[Name], [s].[Id0], [s].[CreateKeyFeature], [s].[Name0], [m].[Name], [s0].[Id], [s0].[CategoryId], [s0].[ProductId], [s0].[Property], [s0].[Value], [s0].[Id0], [s0].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM [Products] AS [p]
+INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s] ON [p].[Id] = [s].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s0] ON [p].[Id] = [s0].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [p].[Id] = [p2].[ProductId]
+ORDER BY [p].[Id], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id0], [s0].[Id], [s0].[Id0]
+2026-10-16 21:02:00.396 +02:00 [INF] Executed action method Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend), returned result Microsoft.AspNetCore.Mvc.ViewResult in 2382.8154ms.
+2026-10-16 21:02:00.459 +02:00 [INF] Executing ViewResult, running view ~/Areas/Admin/Views/Products/index.cshtml.
+2026-10-16 21:02:01.996 +02:00 [INF] Executed ViewResult - view ~/Areas/Admin/Views/Products/index.cshtml executed in 1567.9299ms.
+2026-10-16 21:02:02.010 +02:00 [INF] Executed action Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend) in 4539.0659ms
+2026-10-16 21:02:02.102 +02:00 [INF] Executed endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-16 21:02:02.546 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-16 21:02:02.716 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/css/output.css - null null
+2026-10-16 21:02:02.800 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/ - 200 null text/html; charset=utf-8 7132.3783ms
+2026-10-16 21:02:02.827 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 289.8741ms
+2026-10-16 21:02:02.870 +02:00 [INF] The file /css/output.css was not modified
+2026-10-16 21:02:02.898 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/css/output.css - 304 null text/css 182.3177ms
+2026-10-16 21:02:03.493 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/js/main.js - null null
+2026-10-16 21:02:03.614 +02:00 [INF] The file /js/main.js was not modified
+2026-10-16 21:02:03.626 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/js/main.js - 304 null text/javascript 133.4994ms
+2026-10-16 21:02:05.415 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/FotoProduct1/a34ab90d-0976-4cb8-98a6-1b1019f1a471.jpg - null null
+2026-10-16 21:02:06.209 +02:00 [INF] Sending file. Request path: '/FotoProduct1/a34ab90d-0976-4cb8-98a6-1b1019f1a471.jpg'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\a34ab90d-0976-4cb8-98a6-1b1019f1a471.jpg'
+2026-10-16 21:02:06.218 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/FotoProduct1/a34ab90d-0976-4cb8-98a6-1b1019f1a471.jpg - 200 26552 image/jpeg 804.2041ms
+2026-10-16 21:02:11.360 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/FotoProduct1/2e79c98f-0595-4e34-9b2a-09b1d811937c.jpg - null null
+2026-10-16 21:02:11.454 +02:00 [INF] Sending file. Request path: '/FotoProduct1/2e79c98f-0595-4e34-9b2a-09b1d811937c.jpg'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\2e79c98f-0595-4e34-9b2a-09b1d811937c.jpg'
+2026-10-16 21:02:11.477 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/FotoProduct1/2e79c98f-0595-4e34-9b2a-09b1d811937c.jpg - 200 17763 image/jpeg 116.0071ms
+2026-10-16 21:05:52.657 +02:00 [INF] Request starting HTTP/2 POST https://localhost:7001/Admin/Product/AddProductJS/ - multipart/form-data; boundary=----WebKitFormBoundaryHhtBr03X5Lun10ZU 863
+2026-10-16 21:05:52.665 +02:00 [INF] Executing endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.AddProductJS (DockerProjectBackend)'
+2026-10-16 21:05:52.698 +02:00 [INF] Route matched with {action = "AddProductJS", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddProductJS(System.String, System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]) on controller Backend_asp.net.Areas.Admin.Controllers.ProductController (DockerProjectBackend).
+2026-10-16 21:05:52.891 +02:00 [INF] Executing action method Backend_asp.net.Areas.Admin.Controllers.ProductController.AddProductJS (DockerProjectBackend) - Validation state: "Valid"
+2026-10-16 21:05:53.394 +02:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-10-16 21:05:54.050 +02:00 [INF] Executed DbCommand (505ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-16 21:07:18.300 +02:00 [INF] Executed DbCommand (51ms) [Parameters=[@__pkf_0='?' (Size = 4000), @__8__locals1_productDB_Id_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[IdProduct], [p].[IdKeyFeature], [p].[Id], [p].[Name]
+FROM [ProductKeyFeatures] AS [p]
+INNER JOIN [KeyFeatures] AS [k] ON [p].[IdKeyFeature] = [k].[Id]
+WHERE [k].[Name] = @__pkf_0 AND @__8__locals1_productDB_Id_1 = [p].[IdProduct]
+2026-10-16 21:07:24.431 +02:00 [INF] Executed DbCommand (61ms) [Parameters=[@__pkf_0='?' (Size = 4000), @__8__locals1_productDB_Id_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[IdProduct], [p].[IdKeyFeature], [p].[Id], [p].[Name]
+FROM [ProductKeyFeatures] AS [p]
+INNER JOIN [KeyFeatures] AS [k] ON [p].[IdKeyFeature] = [k].[Id]
+WHERE [k].[Name] = @__pkf_0 AND @__8__locals1_productDB_Id_1 = [p].[IdProduct]
+2026-10-16 21:08:54.890 +02:00 [INF] User profile is available. Using 'C:\Users\Dog\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-10-16 21:08:56.601 +02:00 [WRN] No store type was specified for the decimal property 'Lastprise' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-16 21:08:56.605 +02:00 [WRN] No store type was specified for the decimal property 'Prise' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-16 21:08:56.607 +02:00 [WRN] No store type was specified for the decimal property 'Rating' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-16 21:08:57.759 +02:00 [INF] Executed DbCommand (24ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [MainCategoryes] AS [m]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-10-16 21:08:58.131 +02:00 [INF] Now listening on: https://localhost:7001
+2026-10-16 21:08:58.135 +02:00 [INF] Now listening on: http://localhost:5000
+2026-10-16 21:08:58.141 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-10-16 21:08:58.143 +02:00 [INF] Hosting environment: Development
+2026-10-16 21:08:58.145 +02:00 [INF] Content root path: D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net
+2026-10-16 21:08:58.995 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/ - null null
+2026-10-16 21:08:59.376 +02:00 [WRN] Unable to contact VS to retrieve Browser Link script tag.
+2026-10-16 21:08:59.528 +02:00 [INF] Executing endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-16 21:08:59.564 +02:00 [INF] Route matched with {action = "ProductsView", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ProductsView() on controller Backend_asp.net.Areas.Admin.Controllers.ProductController (DockerProjectBackend).
+2026-10-16 21:08:59.844 +02:00 [INF] Executed DbCommand (36ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[Name]
+FROM [MainCategoryes] AS [m]
+2026-10-16 21:09:00.374 +02:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-10-16 21:09:00.547 +02:00 [INF] Executed DbCommand (81ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id], [s].[Name], [s].[Id0], [s].[CreateKeyFeature], [s].[Name0], [m].[Name], [s0].[Id], [s0].[CategoryId], [s0].[ProductId], [s0].[Property], [s0].[Value], [s0].[Id0], [s0].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM [Products] AS [p]
+INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s] ON [p].[Id] = [s].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s0] ON [p].[Id] = [s0].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [p].[Id] = [p2].[ProductId]
+ORDER BY [p].[Id], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id0], [s0].[Id], [s0].[Id0]
+2026-10-16 21:09:00.971 +02:00 [INF] Executing ViewResult, running view ~/Areas/Admin/Views/Products/index.cshtml.
+2026-10-16 21:09:01.526 +02:00 [INF] Executed ViewResult - view ~/Areas/Admin/Views/Products/index.cshtml executed in 570.601ms.
+2026-10-16 21:09:01.558 +02:00 [INF] Executed action Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend) in 1988.1724ms
+2026-10-16 21:09:01.579 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-16 21:09:01.604 +02:00 [INF] Executed endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-16 21:09:01.631 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 51.4668ms
+2026-10-16 21:09:01.657 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/ - 200 null text/html; charset=utf-8 2670.7809ms
+2026-10-16 21:09:18.193 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/FotoProduct1/2e79c98f-0595-4e34-9b2a-09b1d811937c.jpg - null null
+2026-10-16 21:09:18.215 +02:00 [INF] The file /FotoProduct1/2e79c98f-0595-4e34-9b2a-09b1d811937c.jpg was not modified
+2026-10-16 21:09:18.303 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/FotoProduct1/2e79c98f-0595-4e34-9b2a-09b1d811937c.jpg - 304 null image/jpeg 109.9731ms
+2026-10-16 21:15:35.251 +02:00 [INF] Request starting HTTP/2 POST https://localhost:7001/Admin/Product/AddProductJS/ - multipart/form-data; boundary=----WebKitFormBoundary8zbAUEAcdrJmcEuG 1496343
+2026-10-16 21:15:35.277 +02:00 [INF] Executing endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.AddProductJS (DockerProjectBackend)'
+2026-10-16 21:15:35.293 +02:00 [INF] Route matched with {action = "AddProductJS", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddProductJS(System.String, System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]) on controller Backend_asp.net.Areas.Admin.Controllers.ProductController (DockerProjectBackend).
+2026-10-16 21:15:35.903 +02:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-10-16 21:15:36.053 +02:00 [INF] Executed DbCommand (52ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-16 21:15:36.090 +02:00 [INF] Executed DbCommand (3ms) [Parameters=[@__pkf_0='?' (Size = 4000), @__8__locals1_productDB_Id_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[IdProduct], [p].[IdKeyFeature], [p].[Id], [p].[Name]
+FROM [ProductKeyFeatures] AS [p]
+INNER JOIN [KeyFeatures] AS [k] ON [p].[IdKeyFeature] = [k].[Id]
+WHERE [k].[Name] = @__pkf_0 AND @__8__locals1_productDB_Id_1 = [p].[IdProduct]
+2026-10-16 21:15:36.125 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__pkf_0='?' (Size = 4000), @__8__locals1_productDB_Id_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[IdProduct], [p].[IdKeyFeature], [p].[Id], [p].[Name]
+FROM [ProductKeyFeatures] AS [p]
+INNER JOIN [KeyFeatures] AS [k] ON [p].[IdKeyFeature] = [k].[Id]
+WHERE [k].[Name] = @__pkf_0 AND @__8__locals1_productDB_Id_1 = [p].[IdProduct]
+2026-10-16 21:15:36.143 +02:00 [INF] Executed DbCommand (3ms) [Parameters=[@__prodkeyfeat_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [k].[Id], [k].[CreateKeyFeature], [k].[Name]
+FROM [KeyFeatures] AS [k]
+WHERE [k].[Name] = @__prodkeyfeat_0
+2026-10-16 21:15:36.171 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__prodkeyfeat_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [k].[Id], [k].[CreateKeyFeature], [k].[Name]
+FROM [KeyFeatures] AS [k]
+WHERE [k].[Name] = @__prodkeyfeat_0
+2026-10-16 21:15:36.178 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__prodkeyfeat_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [k].[Id], [k].[CreateKeyFeature], [k].[Name]
+FROM [KeyFeatures] AS [k]
+WHERE [k].[Name] = @__prodkeyfeat_0
+2026-10-16 21:15:36.184 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__prodkeyfeat_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [k].[Id], [k].[CreateKeyFeature], [k].[Name]
+FROM [KeyFeatures] AS [k]
+WHERE [k].[Name] = @__prodkeyfeat_0
+2026-10-16 21:15:36.510 +02:00 [INF] Executed DbCommand (85ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (DbType = DateTime2), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (Size = 4000), @p8='?' (DbType = Int32), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p22='?' (DbType = Int32), @p12='?' (Size = 4000), @p13='?' (Size = 4000), @p14='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p15='?' (DbType = Int32), @p16='?' (Size = 4000), @p17='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p18='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p19='?' (Size = 4000), @p20='?' (DbType = Int32), @p21='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+MERGE [KeyFeatures] USING (
+VALUES (@p0, @p1, 0),
+(@p2, @p3, 1),
+(@p4, @p5, 2),
+(@p6, @p7, 3)) AS i ([CreateKeyFeature], [Name], _Position) ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([CreateKeyFeature], [Name])
+VALUES (i.[CreateKeyFeature], i.[Name])
+OUTPUT INSERTED.[Id], i._Position;
+DELETE FROM [ProductKeyFeatures]
+OUTPUT 1
+WHERE [IdKeyFeature] = @p8 AND [IdProduct] = @p9;
+DELETE FROM [ProductKeyFeatures]
+OUTPUT 1
+WHERE [IdKeyFeature] = @p10 AND [IdProduct] = @p11;
+UPDATE [Products] SET [BriefDiscription] = @p12, [FullDiscription] = @p13, [Lastprise] = @p14, [MainCategoryId] = @p15, [Name] = @p16, [Prise] = @p17, [Rating] = @p18, [SkuNumber] = @p19, [Status] = @p20, [Time_of_chenge] = @p21
+OUTPUT 1
+WHERE [Id] = @p22;
+2026-10-16 21:15:36.562 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__prodkeyfeat_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [k].[Id], [k].[CreateKeyFeature], [k].[Name]
+FROM [KeyFeatures] AS [k]
+WHERE [k].[Name] = @__prodkeyfeat_0
+2026-10-16 21:15:36.571 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__prodkeyfeat_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [k].[Id], [k].[CreateKeyFeature], [k].[Name]
+FROM [KeyFeatures] AS [k]
+WHERE [k].[Name] = @__prodkeyfeat_0
+2026-10-16 21:15:36.578 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__prodkeyfeat_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [k].[Id], [k].[CreateKeyFeature], [k].[Name]
+FROM [KeyFeatures] AS [k]
+WHERE [k].[Name] = @__prodkeyfeat_0
+2026-10-16 21:15:36.583 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__prodkeyfeat_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [k].[Id], [k].[CreateKeyFeature], [k].[Name]
+FROM [KeyFeatures] AS [k]
+WHERE [k].[Name] = @__prodkeyfeat_0
+2026-10-16 21:15:36.611 +02:00 [INF] Executed DbCommand (19ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (Size = 4000), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?' (Size = 4000), @p8='?' (DbType = Int32), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?' (Size = 4000), @p12='?' (DbType = Int32), @p13='?' (DbType = Int32), @p14='?' (DbType = Int32), @p15='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [ProductKeyFeatures] ([IdKeyFeature], [IdProduct], [Id], [Name])
+VALUES (@p0, @p1, @p2, @p3),
+(@p4, @p5, @p6, @p7),
+(@p8, @p9, @p10, @p11),
+(@p12, @p13, @p14, @p15);
+2026-10-16 21:15:36.709 +02:00 [INF] Executed DbCommand (14ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Boolean), @p3='?' (Size = 4000), @p4='?' (DbType = Int32), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2), @p7='?' (DbType = Boolean), @p8='?' (Size = 4000), @p9='?' (DbType = Int32), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (DbType = Boolean), @p13='?' (Size = 4000), @p14='?' (DbType = Int32), @p15='?' (Size = 4000), @p16='?' (DbType = DateTime2), @p17='?' (DbType = Boolean), @p18='?' (Size = 4000), @p19='?' (DbType = Int32), @p20='?' (Size = 4000), @p21='?' (DbType = DateTime2), @p22='?' (DbType = Boolean), @p23='?' (Size = 4000), @p24='?' (DbType = Int32), @p25='?' (Size = 4000), @p26='?' (DbType = DateTime2), @p27='?' (DbType = Boolean), @p28='?' (Size = 4000), @p29='?' (DbType = Int32), @p30='?' (Size = 4000), @p31='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+DELETE FROM [Photoproducts]
+OUTPUT 1
+WHERE [Id] = @p0;
+DELETE FROM [Photoproducts]
+OUTPUT 1
+WHERE [Id] = @p1;
+MERGE [Photoproducts] USING (
+VALUES (@p2, @p3, @p4, @p5, @p6, 0),
+(@p7, @p8, @p9, @p10, @p11, 1),
+(@p12, @p13, @p14, @p15, @p16, 2),
+(@p17, @p18, @p19, @p20, @p21, 3),
+(@p22, @p23, @p24, @p25, @p26, 4),
+(@p27, @p28, @p29, @p30, @p31, 5)) AS i ([MainPhoto], [NamePicture], [ProductId], [Putch], [TimeEditFile], _Position) ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([MainPhoto], [NamePicture], [ProductId], [Putch], [TimeEditFile])
+VALUES (i.[MainPhoto], i.[NamePicture], i.[ProductId], i.[Putch], i.[TimeEditFile])
+OUTPUT INSERTED.[Id], i._Position;
+2026-10-16 21:15:36.725 +02:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2026-10-16 21:15:36.727 +02:00 [INF] Executed action Backend_asp.net.Areas.Admin.Controllers.ProductController.AddProductJS (DockerProjectBackend) in 1430.0698ms
+2026-10-16 21:15:36.729 +02:00 [INF] Executed endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.AddProductJS (DockerProjectBackend)'
+2026-10-16 21:15:36.734 +02:00 [INF] Request finished HTTP/2 POST https://localhost:7001/Admin/Product/AddProductJS/ - 200 0 null 1483.6491ms
+2026-10-16 21:15:36.759 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/ - null null
+2026-10-16 21:15:36.843 +02:00 [WRN] Unable to contact VS to retrieve Browser Link script tag.
+2026-10-16 21:15:36.846 +02:00 [INF] Executing endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-16 21:15:36.848 +02:00 [INF] Route matched with {action = "ProductsView", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ProductsView() on controller Backend_asp.net.Areas.Admin.Controllers.ProductController (DockerProjectBackend).
+2026-10-16 21:15:36.867 +02:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[Name]
+FROM [MainCategoryes] AS [m]
+2026-10-16 21:15:36.907 +02:00 [INF] Executed DbCommand (30ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id], [s].[Name], [s].[Id0], [s].[CreateKeyFeature], [s].[Name0], [m].[Name], [s0].[Id], [s0].[CategoryId], [s0].[ProductId], [s0].[Property], [s0].[Value], [s0].[Id0], [s0].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM [Products] AS [p]
+INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s] ON [p].[Id] = [s].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s0] ON [p].[Id] = [s0].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [p].[Id] = [p2].[ProductId]
+ORDER BY [p].[Id], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id0], [s0].[Id], [s0].[Id0]
+2026-10-16 21:15:36.932 +02:00 [INF] Executing ViewResult, running view ~/Areas/Admin/Views/Products/index.cshtml.
+2026-10-16 21:15:36.952 +02:00 [INF] Executed ViewResult - view ~/Areas/Admin/Views/Products/index.cshtml executed in 19.8807ms.
+2026-10-16 21:15:36.995 +02:00 [INF] Executed action Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend) in 142.1817ms
+2026-10-16 21:15:37.003 +02:00 [INF] Executed endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-16 21:15:37.023 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-16 21:15:37.030 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/ - 200 null text/html; charset=utf-8 268.7336ms
+2026-10-16 21:15:37.032 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 8.6032ms
+2026-10-16 21:15:37.803 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/FotoProduct1/27a35fe3-aa29-4962-a8e1-44d37567881b.jpg - null null
+2026-10-16 21:15:37.929 +02:00 [INF] Sending file. Request path: '/FotoProduct1/27a35fe3-aa29-4962-a8e1-44d37567881b.jpg'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\27a35fe3-aa29-4962-a8e1-44d37567881b.jpg'
+2026-10-16 21:15:37.945 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/FotoProduct1/27a35fe3-aa29-4962-a8e1-44d37567881b.jpg - 200 263391 image/jpeg 141.9166ms
+2026-10-16 21:15:57.625 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/FotoProduct1/69cc1996-4c06-4ed0-8fe8-21585606957a.jpg - null null
+2026-10-16 21:15:57.626 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/FotoProduct1/fc89072d-2475-4dc7-99ad-bab8f0d01877.jpg - null null
+2026-10-16 21:15:57.628 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/FotoProduct1/9ad128dc-06c0-4784-b912-14d331b8cdc7.jpg - null null
+2026-10-16 21:15:57.628 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/FotoProduct1/d9e8500b-7f93-4cb5-a671-6f2076b8e9a0.jpg - null null
+2026-10-16 21:15:57.628 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/FotoProduct1/54441ead-986e-4e17-b8b4-24b2426f5e27.jpg - null null
+2026-10-16 21:15:57.655 +02:00 [INF] Sending file. Request path: '/FotoProduct1/fc89072d-2475-4dc7-99ad-bab8f0d01877.jpg'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\fc89072d-2475-4dc7-99ad-bab8f0d01877.jpg'
+2026-10-16 21:15:57.717 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/FotoProduct1/fc89072d-2475-4dc7-99ad-bab8f0d01877.jpg - 200 214351 image/jpeg 90.8489ms
+2026-10-16 21:15:57.673 +02:00 [INF] Sending file. Request path: '/FotoProduct1/9ad128dc-06c0-4784-b912-14d331b8cdc7.jpg'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\9ad128dc-06c0-4784-b912-14d331b8cdc7.jpg'
+2026-10-16 21:15:57.683 +02:00 [INF] Sending file. Request path: '/FotoProduct1/d9e8500b-7f93-4cb5-a671-6f2076b8e9a0.jpg'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\d9e8500b-7f93-4cb5-a671-6f2076b8e9a0.jpg'
+2026-10-16 21:15:57.665 +02:00 [INF] Sending file. Request path: '/FotoProduct1/69cc1996-4c06-4ed0-8fe8-21585606957a.jpg'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\69cc1996-4c06-4ed0-8fe8-21585606957a.jpg'
+2026-10-16 21:15:57.730 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/FotoProduct1/9ad128dc-06c0-4784-b912-14d331b8cdc7.jpg - 200 242315 image/jpeg 102.5564ms
+2026-10-16 21:15:57.751 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/FotoProduct1/d9e8500b-7f93-4cb5-a671-6f2076b8e9a0.jpg - 200 226199 image/jpeg 122.6528ms
+2026-10-16 21:15:57.755 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/FotoProduct1/69cc1996-4c06-4ed0-8fe8-21585606957a.jpg - 200 279628 image/jpeg 130.2927ms
+2026-10-16 21:15:57.763 +02:00 [INF] Sending file. Request path: '/FotoProduct1/54441ead-986e-4e17-b8b4-24b2426f5e27.jpg'. Physical path: 'D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net\wwwroot\FotoProduct1\54441ead-986e-4e17-b8b4-24b2426f5e27.jpg'
+2026-10-16 21:15:57.816 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/FotoProduct1/54441ead-986e-4e17-b8b4-24b2426f5e27.jpg - 200 267873 image/jpeg 187.0879ms

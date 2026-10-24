@@ -8,16 +8,27 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-// Строка для того, чтоб можно было еще подгрузить appsettings.Development.json
+
+//RU: поключения и создание serilog;
+Serilog.Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File(Path.Combine("Log", "log.txt"), rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true)
+    .CreateLogger();
+
+//RU: тут подключаем иньекцию к Asp.NetCore;
+builder.Host.UseSerilog();
+
+//RU: Строка для того, чтоб можно было еще подгрузить appsettings.Development.json
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
-// получение строки подключения для Bd;
+//RU: получение строки подключения для Bd;
 var connectionstring = builder.Configuration.GetConnectionString("Defaultconnection");
-// регистрирую DbContext в DB;
+//RU: регистрирую DbContext в DB;
 builder.Services.AddDbContext<AplicationContext>(options=>options.UseSqlServer(connectionstring));
 
 // Automatics create IRepository and ProductRepository. This is DI

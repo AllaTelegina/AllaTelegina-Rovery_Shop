@@ -1,0 +1,194 @@
+2026-10-21 22:54:10.679 +02:00 [INF] User profile is available. Using 'C:\Users\Dog\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-10-21 22:54:19.485 +02:00 [WRN] No store type was specified for the decimal property 'Lastprise' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-21 22:54:19.494 +02:00 [WRN] No store type was specified for the decimal property 'Prise' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-21 22:54:19.501 +02:00 [WRN] No store type was specified for the decimal property 'Rating' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-21 22:54:29.822 +02:00 [INF] Executed DbCommand (369ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [MainCategoryes] AS [m]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-10-21 22:54:36.480 +02:00 [INF] Now listening on: https://localhost:7001
+2026-10-21 22:54:37.133 +02:00 [INF] Now listening on: http://localhost:5000
+2026-10-21 22:54:37.159 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-10-21 22:54:37.168 +02:00 [INF] Hosting environment: Development
+2026-10-21 22:54:37.419 +02:00 [INF] Content root path: D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net
+2026-10-21 22:55:23.321 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/ - null null
+2026-10-21 22:55:24.930 +02:00 [WRN] Unable to contact VS to retrieve Browser Link script tag.
+2026-10-21 22:55:26.033 +02:00 [INF] Executing endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-21 22:55:26.401 +02:00 [INF] Route matched with {action = "ProductsView", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ProductsView() on controller Backend_asp.net.Areas.Admin.Controllers.ProductController (DockerProjectBackend).
+2026-10-21 22:55:27.005 +02:00 [INF] Executing action method Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend) - Validation state: "Valid"
+2026-10-21 22:55:27.600 +02:00 [INF] Executed DbCommand (110ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[Name]
+FROM [MainCategoryes] AS [m]
+2026-10-21 22:55:28.853 +02:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-10-21 22:55:29.494 +02:00 [INF] Executed DbCommand (183ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id], [s].[Name], [s].[Id0], [s].[CreateKeyFeature], [s].[Name0], [m].[Name], [s0].[Id], [s0].[CategoryId], [s0].[ProductId], [s0].[Property], [s0].[Value], [s0].[Id0], [s0].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM [Products] AS [p]
+INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s] ON [p].[Id] = [s].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s0] ON [p].[Id] = [s0].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [p].[Id] = [p2].[ProductId]
+ORDER BY [p].[Id], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id0], [s0].[Id], [s0].[Id0]
+2026-10-21 22:55:30.507 +02:00 [INF] Executed action method Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend), returned result Microsoft.AspNetCore.Mvc.ViewResult in 3481.9442ms.
+2026-10-21 22:55:30.579 +02:00 [INF] Executing ViewResult, running view ~/Areas/Admin/Views/Products/index.cshtml.
+2026-10-21 22:55:33.400 +02:00 [INF] Executed ViewResult - view ~/Areas/Admin/Views/Products/index.cshtml executed in 2808.6198ms.
+2026-10-21 22:55:33.400 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-21 22:55:33.422 +02:00 [INF] Executed action Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend) in 7003.92ms
+2026-10-21 22:55:33.441 +02:00 [INF] Executed endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-21 22:55:33.452 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 48.4044ms
+2026-10-21 22:55:33.489 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/ - 200 null text/html; charset=utf-8 10515.4445ms
+2026-10-21 22:55:36.317 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - null null
+2026-10-21 22:55:36.672 +02:00 [INF] The file /FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG was not modified
+2026-10-21 22:55:36.686 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/FotoProduct1/8430efe8-d2b8-419d-b8ee-3abdaa288005.JPG - 304 null image/jpeg 370.0324ms
+2026-10-21 22:56:52.887 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/shoppmethod - null null
+2026-10-21 22:56:53.296 +02:00 [WRN] Unable to contact VS to retrieve Browser Link script tag.
+2026-10-21 22:56:53.331 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.Shoppmethod (DockerProjectBackend)'
+2026-10-21 22:56:53.357 +02:00 [INF] Route matched with {action = "Shoppmethod", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Shoppmethod() on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-21 22:56:53.540 +02:00 [INF] Executing action method Backend_asp.net.Controllers.ShoppController.Shoppmethod (DockerProjectBackend) - Validation state: "Valid"
+2026-10-21 22:56:53.809 +02:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[Name]
+FROM [MainCategoryes] AS [m]
+2026-10-21 22:56:54.251 +02:00 [INF] Executed DbCommand (42ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id], [s].[Name], [s].[Id0], [s].[CreateKeyFeature], [s].[Name0], [m].[Name], [s0].[Id], [s0].[CategoryId], [s0].[ProductId], [s0].[Property], [s0].[Value], [s0].[Id0], [s0].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM [Products] AS [p]
+INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s] ON [p].[Id] = [s].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s0] ON [p].[Id] = [s0].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [p].[Id] = [p2].[ProductId]
+ORDER BY [p].[Id], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id0], [s0].[Id], [s0].[Id0]
+2026-10-21 22:56:54.314 +02:00 [INF] Executed action method Backend_asp.net.Controllers.ShoppController.Shoppmethod (DockerProjectBackend), returned result Microsoft.AspNetCore.Mvc.ViewResult in 759.5005ms.
+2026-10-21 22:56:54.341 +02:00 [INF] Executing ViewResult, running view katalog.
+2026-10-21 22:56:55.121 +02:00 [INF] Executed ViewResult - view katalog executed in 801.1874ms.
+2026-10-21 22:56:55.125 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/shopp/main.js - null null
+2026-10-21 22:56:55.329 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/js/validate_fields_now.js - null null
+2026-10-21 22:56:55.360 +02:00 [INF] Executed action Backend_asp.net.Controllers.ShoppController.Shoppmethod (DockerProjectBackend) in 1994.0394ms
+2026-10-21 22:56:55.421 +02:00 [INF] Executed endpoint 'Backend_asp.net.Controllers.ShoppController.Shoppmethod (DockerProjectBackend)'
+2026-10-21 22:56:55.406 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/main.js - 404 0 null 281.9045ms
+2026-10-21 22:56:55.424 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/js/validate_fields_now.js - 404 0 null 95.6462ms
+2026-10-21 22:56:55.426 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/shopp/shoppmethod - 200 null text/html; charset=utf-8 2539.6677ms
+2026-10-21 22:56:55.453 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/shopp/main.js, Response status code: 404
+2026-10-21 22:56:55.469 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7001/js/validate_fields_now.js, Response status code: 404
+2026-10-21 22:56:56.704 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-21 22:56:57.169 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 465.1974ms
+2026-10-21 22:57:02.437 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7001/Shopp/KartProductStart/8 - null null
+2026-10-21 22:57:02.767 +02:00 [WRN] Unable to contact VS to retrieve Browser Link script tag.
+2026-10-21 22:57:02.770 +02:00 [INF] Executing endpoint 'Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend)'
+2026-10-21 22:57:02.814 +02:00 [INF] Route matched with {action = "KartProductStart", controller = "Shopp"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] KartProductStart(Int32) on controller Backend_asp.net.Controllers.ShoppController (DockerProjectBackend).
+2026-10-21 22:57:03.112 +02:00 [INF] Executing action method Backend_asp.net.Controllers.ShoppController.KartProductStart (DockerProjectBackend) - Validation state: "Valid"
+2026-10-21 22:57:03.318 +02:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-10-21 22:57:03.996 +02:00 [INF] Executed DbCommand (401ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[BriefDiscription], [s].[Color], [s].[CreateRoverMechTime], [s].[FullDiscription], [s].[Images], [s].[Lastprise], [s].[MainCategoryId], [s].[Name], [s].[Prise], [s].[Quantity], [s].[Rating], [s].[SkuNumber], [s].[Status], [s].[Time_of_chenge], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id], [s0].[Name], [s0].[Id0], [s0].[CreateKeyFeature], [s0].[Name0], [s].[Name0], [s1].[Id], [s1].[CategoryId], [s1].[ProductId], [s1].[Property], [s1].[Value], [s1].[Id0], [s1].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM (
+    SELECT TOP(1) [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id] AS [Id0], [m].[Name] AS [Name0]
+    FROM [Products] AS [p]
+    INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+    WHERE [p].[Id] = @__id_0
+) AS [s]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s0] ON [s].[Id] = [s0].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s1] ON [s].[Id] = [s1].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [s].[Id] = [p2].[ProductId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[IdProduct], [s0].[IdKeyFeature], [s0].[Id0], [s1].[Id], [s1].[Id0]
+2026-10-21 23:05:04.121 +02:00 [INF] User profile is available. Using 'C:\Users\Dog\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-10-21 23:05:08.363 +02:00 [WRN] No store type was specified for the decimal property 'Lastprise' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-21 23:05:08.365 +02:00 [WRN] No store type was specified for the decimal property 'Prise' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-21 23:05:08.366 +02:00 [WRN] No store type was specified for the decimal property 'Rating' on entity type 'Product'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-10-21 23:05:12.277 +02:00 [INF] Executed DbCommand (126ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [MainCategoryes] AS [m]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-10-21 23:05:13.185 +02:00 [INF] Now listening on: http://localhost:5000
+2026-10-21 23:05:13.194 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-10-21 23:05:13.195 +02:00 [INF] Hosting environment: Development
+2026-10-21 23:05:13.196 +02:00 [INF] Content root path: D:\Работа над интернет магазином\Sell bicycle\Rovery_Shop\Backend_asp.net
+2026-10-21 23:05:16.741 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/ - null null
+2026-10-21 23:05:17.784 +02:00 [WRN] Failed to determine the https port for redirect.
+2026-10-21 23:05:17.791 +02:00 [INF] Executing endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-21 23:05:17.944 +02:00 [INF] Route matched with {action = "ProductsView", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ProductsView() on controller Backend_asp.net.Areas.Admin.Controllers.ProductController (DockerProjectBackend).
+2026-10-21 23:05:19.775 +02:00 [INF] Executed DbCommand (230ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[Name]
+FROM [MainCategoryes] AS [m]
+2026-10-21 23:05:21.843 +02:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-10-21 23:05:23.061 +02:00 [INF] Executed DbCommand (471ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id], [s].[Name], [s].[Id0], [s].[CreateKeyFeature], [s].[Name0], [m].[Name], [s0].[Id], [s0].[CategoryId], [s0].[ProductId], [s0].[Property], [s0].[Value], [s0].[Id0], [s0].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM [Products] AS [p]
+INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s] ON [p].[Id] = [s].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s0] ON [p].[Id] = [s0].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [p].[Id] = [p2].[ProductId]
+ORDER BY [p].[Id], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id0], [s0].[Id], [s0].[Id0]
+2026-10-21 23:05:25.960 +02:00 [INF] Executing ViewResult, running view ~/Areas/Admin/Views/Products/index.cshtml.
+2026-10-21 23:05:27.442 +02:00 [INF] Executed ViewResult - view ~/Areas/Admin/Views/Products/index.cshtml executed in 1558.891ms.
+2026-10-21 23:05:27.447 +02:00 [INF] Executed action Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend) in 9500.6708ms
+2026-10-21 23:05:27.448 +02:00 [INF] Executed endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-21 23:05:27.482 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/ - 200 null text/html; charset=utf-8 10753.079ms
+2026-10-21 23:05:27.873 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-21 23:05:27.890 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - 200 13732 application/javascript; charset=utf-8 17.1948ms
+2026-10-21 23:05:32.887 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - null null
+2026-10-21 23:05:32.919 +02:00 [INF] The file /FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG was not modified
+2026-10-21 23:05:32.921 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/FotoProduct1/9eb3d3ba-8619-4573-94a0-bdd45ec628d3.JPG - 304 null image/jpeg 34.0707ms
+2026-10-21 23:08:40.914 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/ - null null
+2026-10-21 23:08:40.960 +02:00 [INF] Executing endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-21 23:08:40.989 +02:00 [INF] Route matched with {action = "ProductsView", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ProductsView() on controller Backend_asp.net.Areas.Admin.Controllers.ProductController (DockerProjectBackend).
+2026-10-21 23:08:43.387 +02:00 [INF] Executed DbCommand (294ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[Name]
+FROM [MainCategoryes] AS [m]
+2026-10-21 23:08:47.182 +02:00 [INF] Executed DbCommand (3,749ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[BriefDiscription], [p].[Color], [p].[CreateRoverMechTime], [p].[FullDiscription], [p].[Images], [p].[Lastprise], [p].[MainCategoryId], [p].[Name], [p].[Prise], [p].[Quantity], [p].[Rating], [p].[SkuNumber], [p].[Status], [p].[Time_of_chenge], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id], [s].[Name], [s].[Id0], [s].[CreateKeyFeature], [s].[Name0], [m].[Name], [s0].[Id], [s0].[CategoryId], [s0].[ProductId], [s0].[Property], [s0].[Value], [s0].[Id0], [s0].[Name], [p2].[Id], [p2].[MainPhoto], [p2].[NamePicture], [p2].[ProductId], [p2].[Putch], [p2].[TimeEditFile]
+FROM [Products] AS [p]
+INNER JOIN [MainCategoryes] AS [m] ON [p].[MainCategoryId] = [m].[Id]
+LEFT JOIN (
+    SELECT [p0].[IdProduct], [p0].[IdKeyFeature], [p0].[Id], [p0].[Name], [k].[Id] AS [Id0], [k].[CreateKeyFeature], [k].[Name] AS [Name0]
+    FROM [ProductKeyFeatures] AS [p0]
+    INNER JOIN [KeyFeatures] AS [k] ON [p0].[IdKeyFeature] = [k].[Id]
+) AS [s] ON [p].[Id] = [s].[IdProduct]
+LEFT JOIN (
+    SELECT [p1].[Id], [p1].[CategoryId], [p1].[ProductId], [p1].[Property], [p1].[Value], [c].[Id] AS [Id0], [c].[Name]
+    FROM [PropertyValues] AS [p1]
+    INNER JOIN [Categorys] AS [c] ON [p1].[CategoryId] = [c].[Id]
+) AS [s0] ON [p].[Id] = [s0].[ProductId]
+LEFT JOIN [Photoproducts] AS [p2] ON [p].[Id] = [p2].[ProductId]
+ORDER BY [p].[Id], [m].[Id], [s].[IdProduct], [s].[IdKeyFeature], [s].[Id0], [s0].[Id], [s0].[Id0]
+2026-10-21 23:08:48.498 +02:00 [INF] Executing ViewResult, running view ~/Areas/Admin/Views/Products/index.cshtml.
+2026-10-21 23:08:48.708 +02:00 [INF] Executed ViewResult - view ~/Areas/Admin/Views/Products/index.cshtml executed in 219.2138ms.
+2026-10-21 23:08:48.738 +02:00 [INF] Executed action Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend) in 7747.9556ms
+2026-10-21 23:08:48.738 +02:00 [INF] Executed endpoint 'Backend_asp.net.Areas.Admin.Controllers.ProductController.ProductsView (DockerProjectBackend)'
+2026-10-21 23:08:48.740 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/ - 200 null text/html; charset=utf-8 7826.0092ms
+2026-10-21 23:08:51.519 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - null null
+2026-10-21 23:08:51.520 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js - 200 13732 application/javascript; charset=utf-8 1.0334ms

@@ -12,5 +12,8 @@ namespace Backend_asp.net.Interface
         public Task AddNewProduct(string Json, List<IFormFile> imagesFiles);
         public Task ChengeModel(ModelJsAlpine<Object> jsmodel, List<IFormFile> imagesFiles);
         public Task ProductDelete(int id);
+
+        // RU: метод, который будет по id возвращать модель для отображения в card_product.cshtml;
+        public Task<ProductsGeneral> GetProductById(int id);
     }
 }

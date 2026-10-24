@@ -8,6 +8,7 @@ using Backend_asp.net.Models.Intermediate_class;
 using Backend_asp.net.Models.Static_classes;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Backend_asp.net.Models.Service
@@ -18,11 +19,14 @@ namespace Backend_asp.net.Models.Service
         private readonly AplicationContext _contextServices;
         private readonly IWebHostEnvironment _inv;
         private readonly string _namefolder = "FotoProduct1"; //The name folder, where will be saved pictures;
-        public ProductService(IRepository repo, AplicationContext context, IWebHostEnvironment inv)
+        private readonly ILogger<ProductService> _logger;
+        public ProductService(IRepository repo, AplicationContext context, IWebHostEnvironment inv,
+            ILogger<ProductService>logger )
         {
             _repo = repo;
             _contextServices = context;
             _inv = inv;
+            _logger = logger;
         }
 
         //The method prepares the model for download page, where the catalog a product;
@@ -63,7 +67,7 @@ namespace Backend_asp.net.Models.Service
                     }
                 }
 
-                // TODO: RU: Добовление свойств товара для передачи в представлении;
+                // RU: Добовление свойств товара для передачи в представлении;
                 // Addit propertes the goods for transfing in views;
                 var sortByCategory = product.PropertyValues.GroupBy(t => t.Category);
                 foreach (var category in sortByCategory)
@@ -190,170 +194,224 @@ namespace Backend_asp.net.Models.Service
             await _contextServices.SaveChangesAsync();
         }
 
-        // TODO: RU: Метод, который будет изменять; 
+        // RU: Метод, который будет изменять; 
         // The method for chenges a model on the page;
         public async Task ChengeModel(ModelJsAlpine<Object> jsmodel, List<IFormFile> imagesFiles)
-        {
-            var productDB = await _contextServices.Products
-                .Include(t => t.ProductKeyFeatures)
-                .ThenInclude(feat => feat.KeyFeature)
-                .Include(pict => pict.ProductPicturees)
-                .Include(maincat => maincat.MainCategory)
-                .Include(cat=>cat.PropertyValues)
-                .ThenInclude(catg=>catg.Category)
-                .FirstOrDefaultAsync(t => t.Id == jsmodel.id);
-
-
-
-            if (productDB == null)
-                return;
-            // Chenging the model here;
-            productDB.Name = jsmodel.title;
-            productDB.SkuNumber = jsmodel.sku;
-            productDB.Prise = jsmodel.price;
-            productDB.Lastprise = jsmodel.oldPrice;
-            productDB.Time_of_chenge = DateTime.Now;
-            productDB.Status = StatusProduct.Name.First(a => a.Value == jsmodel.status).Key;
-            productDB.BriefDiscription = jsmodel.shortDesc;
-            productDB.FullDiscription = jsmodel.fullDesc;
-            productDB.Rating = (decimal)jsmodel.rating;
-            productDB.MainCategoryId = jsmodel.mainCategory;
-            // Changing the connectors many to many of tables ProductKeys feature and Key Feature;
-            var keyfeaturesDB = productDB.ProductKeyFeatures.Select(t => t.KeyFeature?.Name).ToList();
-
-            var keyfeatNew = jsmodel.keyFeatures.Except(keyfeaturesDB).ToList();
-            var keyfeatDelete = keyfeaturesDB.Except(jsmodel.keyFeatures).ToList();
-
-            if (keyfeatNew.Any() || keyfeatDelete.Any())
+        {   
+            if(jsmodel.id == null)
             {
-                // Removing associations for ProductKeyFeature;
-                foreach (var pkf in keyfeatDelete)
+                _logger.LogError("RU: Ошибка в сериализации, не передан id товара для изменения.");
+                Exception ex = new Exception("Ошибка в сериализации, не передан id товара для изменения.");
+                throw ex;
+            }
+            var productDB=await _repo.GetProductById((int)jsmodel.id);
+            // Chenging the model here;
+            if (productDB != null)
+            {
+                productDB.Name = jsmodel.title;
+                productDB.SkuNumber = jsmodel.sku;
+                productDB.Prise = jsmodel.price;
+                productDB.Lastprise = jsmodel.oldPrice;
+                productDB.Time_of_chenge = DateTime.Now;
+                productDB.Status = StatusProduct.Name.First(a => a.Value == jsmodel.status).Key;
+                productDB.BriefDiscription = jsmodel.shortDesc;
+                productDB.FullDiscription = jsmodel.fullDesc;
+                productDB.Rating = (decimal)jsmodel.rating;
+                productDB.MainCategoryId = jsmodel.mainCategory;
+                // Changing the connectors many to many of tables ProductKeys feature and Key Feature;
+                var keyfeaturesDB = productDB.ProductKeyFeatures.Select(t => t.KeyFeature?.Name).ToList();
+
+                var keyfeatNew = jsmodel.keyFeatures.Except(keyfeaturesDB).ToList();
+                var keyfeatDelete = keyfeaturesDB.Except(jsmodel.keyFeatures).ToList();
+
+                if (keyfeatNew.Any() || keyfeatDelete.Any())
                 {
-                    var prod = await _contextServices.ProductKeyFeatures
-                        .FirstOrDefaultAsync(t => t.KeyFeature!.Name == pkf && productDB.Id == t.IdProduct);
-                    if (prod != null)
-                        _contextServices.ProductKeyFeatures.Remove(prod);
-                }
-                // Adding relations for ProductKeyFeature;
-                foreach (var prodkeyfeat in keyfeatNew)
-                {
-                    // RU: проверяю есть ли совподение уже в BD
-                    if (prodkeyfeat != null)
+                    // Removing associations for ProductKeyFeature;
+                    foreach (var pkf in keyfeatDelete)
                     {
-                        var keyfeatFromDB = await _contextServices.KeyFeatures
-                            .FirstOrDefaultAsync(t => t.Name == prodkeyfeat);
-                        if (keyfeatFromDB == null)
+                        var prod = await _contextServices.ProductKeyFeatures
+                            .FirstOrDefaultAsync(t => t.KeyFeature!.Name == pkf && productDB.Id == t.IdProduct);
+                        if (prod != null)
+                            _contextServices.ProductKeyFeatures.Remove(prod);
+                    }
+                    // Adding relations for ProductKeyFeature;
+                    foreach (var prodkeyfeat in keyfeatNew)
+                    {
+                        // RU: проверяю есть ли совподение уже в BD
+                        if (prodkeyfeat != null)
                         {
-                            keyfeatFromDB = new KeyFeature { Name = prodkeyfeat };
-                            _contextServices.KeyFeatures.Add(keyfeatFromDB);
+                            var keyfeatFromDB = await _contextServices.KeyFeatures
+                                .FirstOrDefaultAsync(t => t.Name == prodkeyfeat);
+                            if (keyfeatFromDB == null)
+                            {
+                                keyfeatFromDB = new KeyFeature { Name = prodkeyfeat };
+                                _contextServices.KeyFeatures.Add(keyfeatFromDB);
+                            }
                         }
                     }
-                }
-                await _contextServices.SaveChangesAsync();
-                foreach (var prodkeyfeat in keyfeatNew)
-                {
-                    var keyfeatFromDB = await _contextServices.KeyFeatures
-                            .FirstOrDefaultAsync(t => t.Name == prodkeyfeat);
-                    if (keyfeatFromDB != null)
+                    await _contextServices.SaveChangesAsync();
+                    foreach (var prodkeyfeat in keyfeatNew)
                     {
-                        var addProdkeyfeat = new ProductKeyFeature
+                        var keyfeatFromDB = await _contextServices.KeyFeatures
+                                .FirstOrDefaultAsync(t => t.Name == prodkeyfeat);
+                        if (keyfeatFromDB != null)
                         {
-                            IdProduct = productDB.Id,
-                            IdKeyFeature = keyfeatFromDB.Id
-                        };
-                        _contextServices.ProductKeyFeatures.Add(addProdkeyfeat);
-                    }
-                }
-                await _contextServices.SaveChangesAsync();
-            }
-
-            // RU: проверка и замена кортинок;
-            var picture = productDB.ProductPicturees.Select(pict => pict.Putch).ToList();
-            // RU: проверка пришли ли вообще изминения;
-            var deletePictureFromDB = picture.Except(jsmodel.images).ToList();
-            if (!jsmodel.images.SequenceEqual(picture) || imagesFiles != null)
-            {
-                bool flag = true;   // Использование flag, чтоб один раз сработало условие ниже;
-                var pictures = productDB.ProductPicturees?.ToList();
-                int index = 0;
-                for (int a = 0; a < jsmodel.images.Count; a++)
-                {
-                    if (pictures == null)
-                        continue;
-                    // RU: проверим одинаковый ли первый элемент, если да, то сразу меняем flag;
-                    if (pictures[0].Putch == jsmodel.images[0])
-                    {
-                        flag = false;
-                        continue;
-                    }
-                    // RU: если будет строка начинатся на "bloom" это значит пошли файлы, нужно сохронять в проект;
-                    if (jsmodel.images[a].StartsWith("blob"))
-                    {
-                        // RU: Создаю поток файла;
-                        var files = imagesFiles.ToList();
-                        if (index < files.Count)
-                        {
-                            // RU: буду увеличивать по index;
-                            // RU: Идет задвоение файлов, т.к. встречает два раза bloob и два раза гонит по массиву;
-                            var fileName = Guid.NewGuid() + Path.GetExtension(files[index].FileName);
-                            var fileAdresInServer = Path.Combine(_namefolder, fileName);
-                            var fileFullAdress = Path.Combine(_inv.WebRootPath, fileAdresInServer);
-                            using (var stream = new FileStream(fileFullAdress, FileMode.Create))
+                            var addProdkeyfeat = new ProductKeyFeature
                             {
-                                await files[index].CopyToAsync(stream);
+                                IdProduct = productDB.Id,
+                                IdKeyFeature = keyfeatFromDB.Id
                             };
-                            var photoproduct = new Photoproduct()
-                            {
-                                NamePicture = fileName,
-                                Product = productDB,
-                                ProductId = productDB.Id,
-                                Putch = fileAdresInServer
-                            };
-                            if (flag)
-                            {
-                                photoproduct.MainPhoto = true;
-                                flag = false;
-                            }
-                            await _contextServices.Photoproducts.AddAsync(photoproduct);
-                            index++;
-                        };
+                            _contextServices.ProductKeyFeatures.Add(addProdkeyfeat);
+                        }
                     }
-
-                    // TODO:
-                    // RU: проверка имеется ли уже такие файлы и с какими они flags;
-                    if (picture.Contains(jsmodel.images[a]))
-                    {
-                        foreach (var photoproduct in pictures)
-                        {
-                            if (photoproduct.Putch == jsmodel.images[a] && flag)
-                            {
-                                var oldMain = pictures.FirstOrDefault(t => t.MainPhoto == true);
-                                if (oldMain != null)
-                                    oldMain.MainPhoto = false;
-                                photoproduct.MainPhoto = true;
-                                await _contextServices.SaveChangesAsync();
-                                flag = false;
-                            }
-                        };
-                    }
+                    await _contextServices.SaveChangesAsync();
                 }
-                index = 0;
-                // RU: Удаляю файлы и записи в DB картинок, которые нужно удалить;
-                if (productDB.ProductPicturees != null)
+
+                // RU: проверка и замена кортинок;
+                var picture = productDB.ProductPicturees.Select(pict => pict.Putch).ToList();
+                var deletePictureFromDB = picture.Except(jsmodel.images).ToList();
+                if (!jsmodel.images.SequenceEqual(picture) || imagesFiles != null)
                 {
-                    foreach (var photoProduct in productDB.ProductPicturees)
+                    bool flag = true;   // Использование flag, чтоб один раз сработало условие ниже;
+                    var pictures = productDB.ProductPicturees?.ToList();
+                    int index = 0;
+                    for (int a = 0; a < jsmodel.images.Count; a++)
                     {
-                        if (deletePictureFromDB.Contains(photoProduct.Putch))
+                        if (pictures == null)
+                            continue;
+                        // RU: проверим одинаковый ли первый элемент, если да, то сразу меняем flag;
+                        if (pictures[0].Putch == jsmodel.images[0])
                         {
-                            _contextServices.Photoproducts.Remove(photoProduct);
-                            // Удаляем файлы из папки с этими именами;
-                            var patch = Path.Combine(_inv.WebRootPath, photoProduct.Putch);
-                            if (File.Exists(patch))
-                                File.Delete(patch);
+                            flag = false;
+                            continue;
+                        }
+                        // RU: если будет строка начинатся на "bloom" это значит пошли файлы, нужно сохронять в проект;
+                        if (jsmodel.images[a].StartsWith("blob"))
+                        {
+                            // RU: Создаю поток файла;
+                            var files = imagesFiles.ToList();
+                            if (index < files.Count)
+                            {
+                                // RU: буду увеличивать по index;
+                                // RU: Идет задвоение файлов, т.к. встречает два раза bloob и два раза гонит по массиву;
+                                var fileName = Guid.NewGuid() + Path.GetExtension(files[index].FileName);
+                                var fileAdresInServer = Path.Combine(_namefolder, fileName);
+                                var fileFullAdress = Path.Combine(_inv.WebRootPath, fileAdresInServer);
+                                using (var stream = new FileStream(fileFullAdress, FileMode.Create))
+                                {
+                                    await files[index].CopyToAsync(stream);
+                                };
+                                var photoproduct = new Photoproduct()
+                                {
+                                    NamePicture = fileName,
+                                    Product = productDB,
+                                    ProductId = productDB.Id,
+                                    Putch = fileAdresInServer
+                                };
+                                if (flag)
+                                {
+                                    photoproduct.MainPhoto = true;
+                                    flag = false;
+                                }
+                                await _contextServices.Photoproducts.AddAsync(photoproduct);
+                                index++;
+                            };
+                        }
+
+                        // TODO:
+                        // RU: проверка имеется ли уже такие файлы и с какими они flags;
+                        if (picture.Contains(jsmodel.images[a]))
+                        {
+                            foreach (var photoproduct in pictures)
+                            {
+                                if (photoproduct.Putch == jsmodel.images[a] && flag)
+                                {
+                                    var oldMain = pictures.FirstOrDefault(t => t.MainPhoto == true);
+                                    if (oldMain != null)
+                                        oldMain.MainPhoto = false;
+                                    photoproduct.MainPhoto = true;
+                                    await _contextServices.SaveChangesAsync();
+                                    flag = false;
+                                }
+                            };
+                        }
+                    }
+                    index = 0;
+                    // RU: Удаляю файлы и записи в DB картинок, которые нужно удалить;
+                    if (productDB.ProductPicturees != null)
+                    {
+                        foreach (var photoProduct in productDB.ProductPicturees)
+                        {
+                            if (deletePictureFromDB.Contains(photoProduct.Putch))
+                            {
+                                _contextServices.Photoproducts.Remove(photoProduct);
+                                // Удаляем файлы из папки с этими именами;
+                                var patch = Path.Combine(_inv.WebRootPath, photoProduct.Putch);
+                                if (File.Exists(patch))
+                                    File.Delete(patch);
+                            };
+                        };
+                    }
+                    await _contextServices.SaveChangesAsync();
+                }
+
+                // RU: Добовление свойств товара в базу данных;
+                if (jsmodel.specs != null)
+                {
+                    var categoryFromDB = productDB.PropertyValues.ToList();
+                    //RU: переборка уже из модели jsmodel.specs, которые пришли от клиента;
+                    foreach (var spec in jsmodel.specs)
+                    {
+                        //RU: переборка категорий, которые пришли от клиента: List<Features> features;
+                        foreach ( var feat in spec.features)
+                        {
+                            bool categoryExistinDB= categoryFromDB.Any(t => t.Property == feat.key && t.Value == feat.value);
+                            {
+                                if (!categoryExistinDB)
+                                {
+                                    var property = new PropertyValue()
+                                    {
+                                        Property = feat.key,
+                                        Value = feat.value,
+                                        Product= productDB
+                                    };
+                                    var categorysFromDBAsync = await _repo.GetCategorysFromDB();
+                                    var categoryResultFound = categorysFromDBAsync.FirstOrDefault(t => t.Name == spec.name);
+                                    if (categoryResultFound != null)
+                                    {
+                                        property.Category= categoryResultFound;
+                                        _contextServices.PropertyValues.Add(property);
+                                    }
+                                    else
+                                    {
+                                        var categoryWriteDB = new Category()
+                                        {
+                                            Name = spec.name
+                                        };
+                                        categoryWriteDB.PropertyValues.Add(property);
+                                        _contextServices.Categorys.Add(categoryWriteDB);
+                                        await _contextServices.SaveChangesAsync();
+                                    }
+
+                                };
+                            };
                         };
                     };
+                    //RU: переборка категорий, которые уже есть в базе данных, если их нету в модели jsmodel.specs, то нужно удалить;
+                    foreach (var categoryDB in categoryFromDB)
+                    {
+                        bool categoryExistinModel = jsmodel.specs.Any(t => t.name == categoryDB.Category?.Name && t.features.Any(f => f.key == categoryDB.Property && f.value == categoryDB.Value));
+                        if (!categoryExistinModel)
+                        {
+                            _contextServices.PropertyValues.Remove(categoryDB);
+                        }
+                    }
+                    await _contextServices.SaveChangesAsync();
                 }
-                await _contextServices.SaveChangesAsync();
+            }
+            else
+            {
+                _logger.LogInformation("RU: Не найден товар в базе данных для изменения.");
             }
         }
 
@@ -388,5 +446,33 @@ namespace Backend_asp.net.Models.Service
             _contextServices.Products.Remove(product);
             await _contextServices.SaveChangesAsync();
         }
+
+        // RU: Метод который передает, объект из базы данные по id;
+        public async Task<ProductsGeneral> GetProductById(int id)
+        {
+            var productGeneral = new ProductsGeneral();
+            var productFromDB = await _repo.GetProductById(id);
+
+            //TODO: RU: подготовка модели Product() для того, чтоб можно было передать в карточку продукта; 
+            productGeneral.ProductFromAdmin=productFromDB;
+            productGeneral.ProductFromAdmin.Images = productFromDB.ProductPicturees
+                .OrderByDescending(a => a.MainPhoto == true)
+                .Select(a => a.Putch).ToList();
+
+            //RU: делаю нормальный путь, для того, чтоб можно б
+            var listNormalPath = new List<string>();
+            foreach (var normalPath in productGeneral.ProductFromAdmin.Images)
+            {
+                var fixpatch = normalPath.Replace("\\", "/");
+                fixpatch = "/" + fixpatch;
+                listNormalPath.Add(fixpatch);
+            }
+            productGeneral.ProductFromAdmin.Images = listNormalPath;
+            return productGeneral;
+        }
     }
 }
+
+
+
+

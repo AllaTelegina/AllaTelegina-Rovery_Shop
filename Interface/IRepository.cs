@@ -13,5 +13,7 @@ namespace Backend_asp.net.Interface
         //public Task<List<Category>> GetListCategoryForPage();
         // Returning the model at the Id;
         public Task<Product> GetProductById(int id);
+
+        public Task<List<Category>> GetCategorysFromDB();
     }
 }

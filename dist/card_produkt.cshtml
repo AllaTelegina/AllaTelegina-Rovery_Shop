@@ -1250,7 +1250,7 @@
             function imageModal() {
                 // Приобразуем модель c# в json;
                 console.log("модель которая приобразована из json");
-                var modelJson = @Html.Raw(Json.Serialize(Model.ProductFromAdmin.Images));
+                var modelJson = @Html.Raw(Json.Serialize(Model.ProductFromAdmin.Images));                
                 console.log(modelJson);
                 return {
                     images: modelJson,

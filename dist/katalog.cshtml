@@ -1059,19 +1059,26 @@
             // Модель которую получаю из контроллера dotnet;
             var modeljs=@Html.Raw(JsonConvert.SerializeObject(Model.modelJsAlpines));
             console.log(modeljs);
-            var products=modeljs.map(p=>( 
-                {
+            var products = modeljs.map(p => {
+                const images = Array.isArray(p.images) ? p.images : [p.images];
+
+                return {
                     id: p.id,
                     name: p.title,
                     category: p.category,
                     price: p.price,
                     rating: p.rating,
                     color: "Синий",
-                    images: p.images,
+                    images: images.map(x => {
+                        if (!x) return "/images/no-image.jpg";
+                        const clean = x.replace(/\\/g, '/');
+                        if (clean.startsWith('/')) return clean;
+                        return '/' + clean;
+                    }),
                     sku: p.sku,
-                    quantity:1
-                })
-            );
+                    quantity: 1
+                };
+            });
             console.log("Преобразованные продукты для представления, смотрю images:", products);
 
                   return {
