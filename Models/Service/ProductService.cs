@@ -453,13 +453,13 @@ namespace Backend_asp.net.Models.Service
             var productGeneral = new ProductsGeneral();
             var productFromDB = await _repo.GetProductById(id);
 
-            //TODO: RU: подготовка модели Product() для того, чтоб можно было передать в карточку продукта; 
+            //RU: подготовка модели Product() для того, чтоб можно было передать в карточку продукта; 
             productGeneral.ProductFromAdmin=productFromDB;
             productGeneral.ProductFromAdmin.Images = productFromDB.ProductPicturees
                 .OrderByDescending(a => a.MainPhoto == true)
                 .Select(a => a.Putch).ToList();
 
-            //RU: делаю нормальный путь, для того, чтоб можно б
+            //RU: делаю готовый путь для передачи картинок;
             var listNormalPath = new List<string>();
             foreach (var normalPath in productGeneral.ProductFromAdmin.Images)
             {
@@ -468,6 +468,17 @@ namespace Backend_asp.net.Models.Service
                 listNormalPath.Add(fixpatch);
             }
             productGeneral.ProductFromAdmin.Images = listNormalPath;
+            var Specs = productFromDB.PropertyValues.GroupBy(t => t.Category)
+                .Select(spec => new Specs
+                {
+                    name = spec.Key.Name,
+                    features = spec.Select(feat => new Features
+                    {
+                        key = feat.Property,
+                        value = feat.Value
+                    }).ToList()
+                }).ToList();
+            productGeneral.Specs = Specs;
             return productGeneral;
         }
     }

@@ -9,5 +9,8 @@ namespace Backend_asp.net.Models.Class_for_views
         public List<ModelJsAlpine<Product>> modelJsAlpines { get; set; } =new List<ModelJsAlpine<Product>>();
         public List<string> Text { get; set; } = new List<string>(); // for send list;
         public  List<MainCategory> MainCategories { get; set; }=new List<MainCategory>();
+
+        //RU: вспомогательное свойство для передачи  List() свойств;
+        public List<Specs> Specs { get; set; } = new List<Specs>();
     }
 }

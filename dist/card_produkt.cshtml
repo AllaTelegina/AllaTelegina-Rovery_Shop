@@ -625,35 +625,32 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            @for (int i = 0; i < Model.modelJsAlpines.Count; i++)
+                                            @for (int j = 0; j < Model.Specs.Count; j++)
                                             {
-                                                for (int j = 0; j < Model.modelJsAlpines[i].specs.Count; j++)
-                                                {
-                                                    var spec = Model.modelJsAlpines[i].specs[j];
+                                            var spec = Model.Specs[j];
 
-                                                    <table class="min-w-full mt-10 mb-10">
-                                                        <thead>
-                                                            <tr>
-                                                                <th colspan="2" class="px-6 py-3 text-left text-lg font-medium text-teal-800 uppercase tracking-wider">
-                                                                    @spec.name
-                                                                </th>
-                                                            </tr>
-                                                        </thead>
+                                            <table class="min-w-full mt-10 mb-10">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="2" class="px-6 py-3 text-left text-lg font-medium text-teal-800 uppercase tracking-wider">
+                                                            @spec.name
+                                                        </th>
+                                                    </tr>
+                                                </thead>
 
-                                                        <tbody class="bg-white divide-y divide-gray-200">
-                                                            @foreach (var row in spec.features.Select((x, index) => new { x, index }))
-                                                            {
-                                                                var rowClass = row.index % 2 == 0 ? "bg-teal-50" : "";
+                                                <tbody class="bg-white divide-y divide-gray-200">
+                                                    @foreach (var row in spec.features.Select((x, index) => new { x, index }))
+                                                    {
+                                                        var rowClass = row.index % 2 == 0 ? "bg-teal-50" : "";
 
-                                                                <tr class="@rowClass grid grid-cols-[250px_1fr] gap-x-80">
-                                                                    <td class="px-6 py-4">@row.x.key</td>
-                                                                    <td class="px-6 py-4">@row.x.value</td>
-                                                                </tr>
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                }
-                                            }
+                                                        <tr class="@rowClass grid grid-cols-[250px_1fr] gap-x-80">
+                                                            <td class="px-6 py-4">@row.x.key</td>
+                                                            <td class="px-6 py-4">@row.x.value</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        }
                                         </div>
                                     </div>
                                 </div>

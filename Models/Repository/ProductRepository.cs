@@ -56,7 +56,7 @@ namespace Backend_asp.net.Models.Repository
                 .FirstOrDefaultAsync(prod => prod.Id == id);
             if (productId == null)
             {
-                _logger.LogInformation("Создан пустой конструктор");
+                _logger.LogInformation("Создан пустой конструктор (ProductRepository.cs)");
                 return new Product { Name = "no information" };
             }
             else
