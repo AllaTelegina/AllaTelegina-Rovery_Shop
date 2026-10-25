@@ -138,7 +138,7 @@ namespace Backend_asp.net.Models.Service
             }
             //filling the "Status"
             product.Status = StatusProduct.Name.First(t => t.Value == modeljs.status).Key;
-            //TODO: RU: Добовляю свойства товара в базу данных;
+            //RU: Добовляю свойства товара в базу данных;
             //filling the "categorys"
             if (modeljs.specs != null)
             {
@@ -267,6 +267,7 @@ namespace Backend_asp.net.Models.Service
                     await _contextServices.SaveChangesAsync();
                 }
 
+                //TODO: RU: Нужно после замены удалять картинки из папки, а также настроить и при удалении товара;
                 // RU: проверка и замена кортинок;
                 var picture = productDB.ProductPicturees.Select(pict => pict.Putch).ToList();
                 var deletePictureFromDB = picture.Except(jsmodel.images).ToList();
@@ -306,7 +307,7 @@ namespace Backend_asp.net.Models.Service
                                     NamePicture = fileName,
                                     Product = productDB,
                                     ProductId = productDB.Id,
-                                    Putch = fileAdresInServer
+                                    Putch = $"/{fileAdresInServer}"
                                 };
                                 if (flag)
                                 {
@@ -318,7 +319,6 @@ namespace Backend_asp.net.Models.Service
                             };
                         }
 
-                        // TODO:
                         // RU: проверка имеется ли уже такие файлы и с какими они flags;
                         if (picture.Contains(jsmodel.images[a]))
                         {
@@ -460,14 +460,15 @@ namespace Backend_asp.net.Models.Service
                 .Select(a => a.Putch).ToList();
 
             //RU: делаю готовый путь для передачи картинок;
-            var listNormalPath = new List<string>();
-            foreach (var normalPath in productGeneral.ProductFromAdmin.Images)
-            {
-                var fixpatch = normalPath.Replace("\\", "/");
-                fixpatch = "/" + fixpatch;
-                listNormalPath.Add(fixpatch);
-            }
-            productGeneral.ProductFromAdmin.Images = listNormalPath;
+            //var listNormalPath = new List<string>();
+            //foreach (var normalPath in productGeneral.ProductFromAdmin.Images)
+            //{
+            //    var fixpatch = normalPath.Replace("\\", "/");
+            //    listNormalPath.Add(fixpatch);
+            //}
+
+            //RU: добавление свойств товара;
+            productGeneral.ProductFromAdmin.Images = productFromDB.ProductPicturees.Select(t => t.Putch).ToList();
             var Specs = productFromDB.PropertyValues.GroupBy(t => t.Category)
                 .Select(spec => new Specs
                 {
